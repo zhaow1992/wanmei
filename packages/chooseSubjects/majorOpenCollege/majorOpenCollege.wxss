@@ -1,0 +1,82 @@
+page {
+    background: #F8F5F4;
+}
+
+.yxppl {
+    width: 214rpx;
+    height: 56rpx;
+    border-radius: 56rpx;
+    background: #fff;
+    justify-content: space-around;
+}
+
+.item-wrapper {
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 20rpx;
+}
+
+.item {
+    padding: 4.3vw;
+    justify-content: space-between;
+    border-radius: 8px;
+    box-shadow: 0 0 5px 2px rgba(0,0,0,0.03);
+    line-height: 1.7;
+    position: relative;
+    overflow: hidden;
+}
+
+.matchStyle {
+    width: 80rpx;
+    height: 28rpx;
+    position: absolute;
+    border-radius: 8px 0 4px 0;
+    color: #fff;
+    line-height: 28rpx;
+    top: 0;
+    left: 0;
+    background: #E9302D;
+    text-align: center;
+}
+
+.biaoStyle {
+    background: #e9e9e9;
+    line-height: 3;
+    margin-top: 20rpx;
+}
+
+.biao-wrapper>view {
+    padding-left: 30rpx;
+    width: 309rpx;
+}
+
+.majorUp-wrapper {
+    background: none;
+}
+
+.content-wrapper {
+    padding: 20rpx 0;
+}
+
+.no-data {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 220rpx;
+    height: 130rpx;
+    z-index: 99;
+    text-align: center;
+    font-size: 28rpx;
+    color: #9B9B9B;
+}
+
+.no-data>image {
+    width: 220rpx;
+    height: 196rpx;
+}
+
+.LoadImgWH {
+    width: 28.06vw;
+    height: 25.14vw;
+}

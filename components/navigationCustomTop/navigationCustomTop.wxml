@@ -1,0 +1,15 @@
+<view style="height:{{navStatusHeight+navCapsuleHeight}}px"></view>
+<view class="navigationCustomTopAll">
+    <view style="height:{{navStatusHeight}}px;"></view>
+    <view class="navigationCustomTopMain" style="height:{{navCapsuleHeight}}px;line-height:{{navCapsuleHeight}}px">
+        <view class="navigationAllIconButton" style="display:flex;height:{{navCapsuleHeight}}px" wx:if="{{navigationHome}}">
+            <view bindtap="backIconButtonTap" class="backIconButton" wx:if="{{share==false}}">
+                <image mode="widthFix" src="../../image/returnBtn.png" style="max-height:20px"></image>
+            </view>
+            <view bindtap="homeIconButtonTap" class="homeIconButton" style="{{share==false?'border-left: 1px solid #666;':''}}">
+                <image mode="widthFix" src="../../image/return-Home.png" style="max-height:20px"></image>
+            </view>
+        </view>
+        <view class="navigationText title-font" style="line-height:{{navCapsuleHeight}}px"> {{navigationText}} </view>
+    </view>
+</view>

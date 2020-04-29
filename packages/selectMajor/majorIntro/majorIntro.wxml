@@ -1,0 +1,107 @@
+<navigationcustomtop id="navigationcustom" navigationText="-"></navigationcustomtop>
+<view class="container">
+    <view wx:if="{{isBOrZ==0}}">
+        <view class="whiteColor majorContent-wrapper">
+            <view style="padding:4vw 0;">
+                <view class="listPadding fourFontSize oneFontColor bold">专业介绍</view>
+                <view class="no-data textAlign twoFontColor" wx:if="{{introduction==null||introduction=='null'||introduction==''}}">
+                    <image src="/image/part-no-data.png"></image>
+                    <view class="threeFontColor twoFontSize">暂无数据</view>
+                </view>
+                <view class="listPadding fourFontColor twoFontSize" style="margin-top:4vw;" wx:else>{{introduction}}</view>
+            </view>
+        </view>
+        <view class="whiteColor majorContent-wrapper">
+            <view style="padding:4vw 0;">
+                <view class="listPadding fourFontSize oneFontColor bold">培养目标</view>
+                <view class="no-data textAlign twoFontColor" wx:if="{{objective==null||objective=='null'||objective==''}}">
+                    <image src="/image/part-no-data.png"></image>
+                    <view class="threeFontColor twoFontSize">暂无数据</view>
+                </view>
+                <view class="listPadding fourFontColor twoFontSize" style="margin-top:4vw;" wx:else>{{objective}}</view>
+            </view>
+        </view>
+        <view class="whiteColor majorContent-wrapper">
+            <view style="padding:4vw 0;">
+                <view class="listPadding fourFontSize oneFontColor bold">培养要求</view>
+                <view class="no-data textAlign twoFontColor" wx:if="{{requirement==null||requirement=='null'||requirement==''}}">
+                    <image src="/image/part-no-data.png"></image>
+                    <view class="threeFontColor twoFontSize">暂无数据</view>
+                </view>
+                <view class="listPadding fourFontColor twoFontSize" style="margin-top:4vw;" wx:else>{{requirement}}</view>
+            </view>
+        </view>
+        <view class="whiteColor majorContent-wrapper">
+            <view style="padding:4vw 0;">
+                <view class="listPadding fourFontSize oneFontColor bold">学科要求</view>
+                <view class="no-data textAlign twoFontColor" wx:if="{{subjectRequirement==null||subjectRequirement=='null'||subjectRequirement==''}}">
+                    <image src="/image/part-no-data.png"></image>
+                    <view class="threeFontColor twoFontSize">暂无数据</view>
+                </view>
+                <view class="listPadding fourFontColor twoFontSize" style="margin-top:4vw;" wx:else>{{subjectRequirement}}</view>
+            </view>
+        </view>
+        <view class="whiteColor majorContent-wrapper">
+            <view style="padding:4vw 0;">
+                <view class="listPadding fourFontSize oneFontColor bold">知识与能力</view>
+                <view class="no-data textAlign twoFontColor" wx:if="{{loreAndAbility==null||loreAndAbility=='null'||loreAndAbility==''}}">
+                    <image src="/image/part-no-data.png"></image>
+                    <view class="threeFontColor twoFontSize">暂无数据</view>
+                </view>
+                <text class="listPadding fourFontColor twoFontSize" style="margin-top:4vw;display:inline-block;" wx:else>{{loreAndAbility}}</text>
+            </view>
+        </view>
+        <view class="whiteColor majorContent-wrapper">
+            <view style="padding:4vw 0;">
+                <view class="listPadding fourFontSize oneFontColor bold">社会名人</view>
+                <view class="no-data textAlign twoFontColor" wx:if="{{famousScholar==null||famousScholar=='null'||famousScholar==''}}">
+                    <image src="/image/part-no-data.png"></image>
+                    <view class="threeFontColor twoFontSize">暂无数据</view>
+                </view>
+                <text class="listPadding fourFontColor twoFontSize" style="margin-top:4vw;display:inline-block;" wx:else>{{famousScholar}}</text>
+            </view>
+        </view>
+    </view>
+    <view wx:else>
+        <view class="whiteColor majorContent-wrapper">
+            <view style="padding:4vw 0;">
+                <view class="listPadding fourFontSize oneFontColor bold">培养目标</view>
+                <view class="no-data textAlign twoFontColor" wx:if="{{objective==null||objective=='null'||objective==''}}">
+                    <image src="/image/part-no-data.png"></image>
+                    <view class="threeFontColor twoFontSize">暂无数据</view>
+                </view>
+                <view class="listPadding fourFontColor twoFontSize" style="margin-top:4vw;" wx:else>{{objective}}</view>
+            </view>
+        </view>
+        <view class="whiteColor majorContent-wrapper">
+            <view style="padding:4vw 0;">
+                <view class="listPadding fourFontSize oneFontColor bold">主要职业能力</view>
+                <view class="no-data textAlign twoFontColor" wx:if="{{loreAndAbility==null||loreAndAbility=='null'||loreAndAbility==''}}">
+                    <image src="/image/part-no-data.png"></image>
+                    <view class="threeFontColor twoFontSize">暂无数据</view>
+                </view>
+                <text class="listPadding fourFontColor twoFontSize" style="margin-top:4vw;display:inline-block;" wx:else>{{loreAndAbility}}</text>
+            </view>
+        </view>
+        <view class="whiteColor majorContent-wrapper">
+            <view style="padding:4vw 0;">
+                <view class="listPadding fourFontSize oneFontColor bold">实习实训</view>
+                <view class="no-data textAlign twoFontColor" wx:if="{{internship==null||internship=='null'||internship==''}}">
+                    <image src="/image/part-no-data.png"></image>
+                    <view class="threeFontColor twoFontSize">暂无数据</view>
+                </view>
+                <view class="listPadding fourFontColor twoFontSize" style="margin-top:4vw;" wx:else>{{internship}}</view>
+            </view>
+        </view>
+        <view class="whiteColor majorContent-wrapper">
+            <view style="padding:4vw 0;">
+                <view class="listPadding fourFontSize oneFontColor bold">职业资格证书举例</view>
+                <view class="no-data textAlign twoFontColor" wx:if="{{careerCredentials==null||careerCredentials=='null'||careerCredentials==''}}">
+                    <image src="/image/part-no-data.png"></image>
+                    <view class="threeFontColor twoFontSize">暂无数据</view>
+                </view>
+                <view class="listPadding fourFontColor twoFontSize" style="margin-top:4vw;" wx:else>{{careerCredentials}}</view>
+            </view>
+        </view>
+    </view>
+</view>

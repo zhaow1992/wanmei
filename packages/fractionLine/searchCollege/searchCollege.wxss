@@ -1,0 +1,19 @@
+.LoadImgWH {
+    width: 28.06vw;
+    height: 25.14vw;
+}
+
+.lishijilu {
+    border-bottom: 1px solid #dedddb;
+    line-height: 3;
+}
+
+.history {
+    padding: 12rpx 24rpx;
+    background: #F7F7F7;
+    border-radius: 30rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 185rpx;
+}

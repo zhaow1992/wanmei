@@ -1,0 +1,7 @@
+<view class="fc ac jc" style="margin-top:200rpx;">
+    <image src="/image/VIPpower.png" style="width:250rpx;height:250rpx;"></image>
+    <view class="oneFontColor oneFontSize">你没有权限查看该数据</view>
+    <view class="threeFontColor threeFontSize" style="margin-top:15rpx;">请登录VIP账户</view>
+    <view bindtap="toVIP" class="btn whiteFontColor oneFontSize fr ac jc" style="margin-top:30rpx;" wx:if="{{!isIOS}}">开通VIP</view>
+    <view class="dis oneFontSize fr ac jc" style="opacity:0.6;width:91.4vw;margin-top:30rpx" wx:if="{{isIOS}}">由于ios相关规定，ios功能暂不可用</view>
+</view>

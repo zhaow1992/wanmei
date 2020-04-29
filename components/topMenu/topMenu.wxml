@@ -1,0 +1,8 @@
+<view wx:if="{{flag}}">
+    <view class="wrap {{wrapAnimate}}" style="background:rgba(0,0,0,{{bgOpacity}});"></view>
+    <view catchtap="_hideEvent" class="menu-wrapper {{menuAnimate}}" data-type="{{type}}">
+        <view catchtap="catchNone" class="menu" style="top:{{top}}px;">
+            <slot></slot>
+        </view>
+    </view>
+</view>

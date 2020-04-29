@@ -1,0 +1,43 @@
+<loading wx:if="{{showLoad}}"></loading>
+<view class="container" style="min-height:100vh;">
+    <view class="content-wrapper title-font">{{scoreLine[0].Year==0?'':scoreLine[0].Year}}专业分数线</view>
+    <view wx:for="{{scoreLine}}">
+        <view class="content-wrapper zhejiang-info-color" style="line-height:4;">选科：{{item.ChooseCns}}</view>
+        <scroll-view scrollX style="width:100%;">
+            <view class="flex biao-wrapper zhejiangBorderTop zhejiangBorderBottom" style="align-items:stretch;{{cityId==842?'width:100vw;':''}}">
+                <view class="flex" style="flex-direction:column;">
+                    <text style="line-height:1.5">专业</text>
+                    <text style="line-height:1.5">代码</text>
+                </view>
+                <view style="{{cityId==842?'width:26.5vw':'width:26vw'}}">
+                    <text style="line-height:1.5">{{cityId==842?'院校专业组':'专业名称'}}</text>
+                </view>
+                <view style="width:21vw;">录取数</view>
+                <view>最低分</view>
+                <view wx:if="{{cityId==843}}">平均分</view>
+                <view class="flex" style="flex-direction:column;">
+                    <text style="line-height:1.5">最低</text>
+                    <text style="line-height:1.5">位次</text>
+                </view>
+                <view class="flex" style="flex-direction:column;" wx:if="{{cityId==843}}">
+                    <text style="line-height:1.5">平均</text>
+                    <text style="line-height:1.5">位次</text>
+                </view>
+                <view>学制</view>
+                <view style="border-right:none">学费</view>
+            </view>
+            <view class="flex biao-wrapper zhejiangBorderBottom" style="background:#fff;align-items: stretch;{{cityId==842?'width:100vw;':''}}" wx:for="{{item.ListData}}" wx:for-item="ListData">
+                <view>{{ListData.ProfessionCode}}</view>
+                <view style="width:24vw;line-height:1.5;padding:1vw;justify-content:flex-start;display:block;text-align:left;">{{ListData.ProfessionName}}</view>
+                <view style="width:21vw;" wx:if="{{cityId==843}}">{{ListData.EnterNum1==0?'-':ListData.EnterNum1}}/{{ListData.EnterNum2==0?'-':ListData.EnterNum2}}/{{ListData.EnterNum3==0?'-':ListData.EnterNum3}}</view>
+                <view style="width:21vw;" wx:else>{{ListData.EnterNum==0?'-':ListData.EnterNum}}</view>
+                <view>{{ListData.MinScore==0?'-':ListData.MinScore}}</view>
+                <view wx:if="{{cityId==843}}">{{ListData.AvgScore==0?'-':ListData.AvgScore}}</view>
+                <view>{{ListData.MinSort==0?'-':ListData.MinSort}}</view>
+                <view wx:if="{{cityId==843}}">{{ListData.AvgMinSort==0?'-':ListData.AvgMinSort}}</view>
+                <view>{{ListData.LearnYear}}</view>
+                <view style="border-right:none">{{ListData.Cost}}</view>
+            </view>
+        </scroll-view>
+    </view>
+</view>

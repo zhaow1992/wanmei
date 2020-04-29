@@ -1,0 +1,83 @@
+<view style="height:{{statusBarHeight}}px;background:#fff;display:fixed;"></view>
+<view class="flex" style="height:{{barHeight}}px;width:100vw;border-bottom:1px solid #eee;position:fixed;top:{{statusBarHeight}}px;background:#fff;">
+    <view bindtap="navigateBack" style="padding:4vw 10vw 4vw 4vw;position:absolute;">
+        <image mode="widthFix" src="../image/upper_icon.png" style="width:3.2vw;"></image>
+    </view>
+    <view style="margin-left:50%;transform:translateX(-50%);font-size: 4.44vw">第1步：专业定位测评</view>
+</view>
+<loading wx:if="{{showLoad}}"></loading>
+<block wx:else>
+    <view style="position:fixed;width:64vw;text-align:center;left:14vw;font-size:4.6vw;">{{title}}</view>
+    <view hidden="true" style="display:{{isShare==true?'none':'block'}};background:#fff;padding-top:64px;">
+        <view class="title" style="height:60px;padding:0 32rpx">
+            <view class="flex upper-wrapper textAlign">
+                <view class="oneFontSize twoFontColor" style="width:100%">
+                    <text>{{questionId}}</text>/ {{answersList.length}}</view>
+            </view>
+            <view class="flex bottom-wrapper">
+                <view class="progress-wrapper progress" style="width:{{progressWidth}}px;">
+                    <view class="active-wrapper progress" style="width:{{progressCheckedWidth}}px;"></view>
+                </view>
+            </view>
+        </view>
+        <swiper current="{{currentTab}}" duration="500" easingFunction="easeInCubic" id="content" style="height:{{screenHeight-160}}px">
+            <swiper-item catchBindTap="noBindTap" catchtouchmove="noTouchMove" class="{{questionId==idx+1&&questionId!==0?opacityIn:'opacityOut'}}" wx:for="{{answersList.length}}" wx:for-index="idx" wx:for-item="items" wx:key="{{idx}}">
+                <view class="wrapper">
+                    <view>
+                        <view class="flex title-wrapper">
+                            <view>{{answersList[idx].question}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="answersList" id="answersList{{idx}}" style="background:#f8f5f4;padding:40rpx 32rpx;">
+                    <view bindtouchend="animationend" bindtouchstart="animationstart" class="answer-wrapper flex relativeStyle" data-answerid="{{answersList[idx].id}}" data-id="{{item.value}}" data-idx="{{idx}}" style="opacity:1" wx:if="{{item.option}}" wx:for="{{answersList[idx].answer}}" wx:key="{{index}}">
+                        <view class="decorate absoluteStyle"></view>
+                        <view class="mask absoluteStyle {{questionId==idx+1&&checkedStyle==true&&item.value==currentId?'on':''}}" data-answerid="{{answersList[idx].id}}" data-id="{{item.value}}"></view>
+                        <view class="relativeStyle" style="color:{{checkedStyle==true&&item.value==currentId?'#fff':'#000'}}">
+                            <text style="padding:0 40rpx 0 30rpx;">{{answerNumber[index]}}</text>{{item.option}}</view>
+                    </view>
+                </view>
+            </swiper-item>
+        </swiper>
+        <view wx:if="{{completePopup.completeFlag}}">
+            <view class="wrap {{completePopup.wrapAnimate}}" style="background:rgba(0,0,0,{{completePopup.bgOpacity}});"></view>
+            <view class="{{completePopup.popupAnimate}} popup-wrapper">
+                <view class="titlePopup">答题完毕</view>
+                <view class="contentPopup">是否登录账户查看报告</view>
+                <view class="flex chooseSex-wrapper">
+                    <view bindtap="complete" data-checked="0">再想想</view>
+                    <view bindtap="complete" data-checked="1">登录</view>
+                </view>
+            </view>
+        </view>
+        <view wx:if="{{upperProblem.upperProblemFlag}}">
+            <view class="wrap {{upperProblem.wrapAnimate}}" style="background:rgba(0,0,0,{{upperProblem.bgOpacity}});"></view>
+            <view class="{{upperProblem.popupAnimate}} popup-wrapper">
+                <view class="titlePopup">温馨提示</view>
+                <view class="contentPopup">已到第一题</view>
+                <view bindtap="hideUpperProblem" class="flex" style="color: #E9302D;text-align:center;font-size:4.6vw;line-height:3;">
+                    <view style="margin:auto;">明白</view>
+                </view>
+            </view>
+        </view>
+        <view wx:if="{{quitPopup.quitFlag}}">
+            <view class="wrap {{quitPopup.wrapAnimate}}" style="background:rgba(0,0,0,{{quitPopup.bgOpacity}});"></view>
+            <view class="{{quitPopup.popupAnimate}} popup-wrapper">
+                <view class="titlePopup">是否放弃测评</view>
+                <view class="contentPopup"></view>
+                <view class="flex chooseSex-wrapper">
+                    <view bindtap="quit" data-checked="0">继续测评</view>
+                    <view bindtap="quit" data-checked="1">确认放弃</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view hidden="true" style="display:{{isShare==true?'block':'none'}};height:100vh;background:#F8f5f4;overflow:hidden">
+        <view class="shareBox itemBackColor">
+            <image class="share" src="/image/ceping/share.png"></image>
+            <view class="tips textAlign fourFontColor oneFontSize">分享查看报告</view>
+        </view>
+        <button class="shareBtn oneFontSize" openType="share">立即分享</button>
+    </view>
+</block>
+<view hidden="{{!wrap}}" style="position:fixed;width:100vw;height:100vh;top:0;left:0;background:rgba(0,0,0,0);"></view>

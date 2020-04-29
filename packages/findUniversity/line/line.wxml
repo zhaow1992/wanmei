@@ -1,0 +1,17 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<scroll-view scrollY class="city-container" scrollIntoView="{{cityType}}" scrollWithAnimation="true" style="{{type=='checkbox'?'height: 90vh;':''}}">
+    <view class="city-wrapper" wx:for="{{cityList}}">
+        <view class="indexType" id="{{item.type}}">{{item.type}}</view>
+        <view style="padding:0 4vw;">
+            <view bindtap="chooseCity" class="title-font {{cityName.checked?'onchecked':''}}" data-index="{{cityIndex}}" data-typeindex="{{index}}" style="{{cityIndex==item.cityArr.length-1?'':'border-bottom: 1px solid #f0eff5;'}}" wx:for="{{item.cityArr}}" wx:for-index="cityIndex" wx:for-item="cityName">{{cityName.name}}</view>
+        </view>
+    </view>
+</scroll-view>
+<view class="nav-wrapper flex">
+    <view bindtap="chooseType" data-type="{{item.type}}" wx:for="{{cityList}}">{{item.type}}</view>
+</view>
+<view style="height:14vw;"></view>
+<view class="flex bottomBtn-wrapper" wx:if="{{type=='checkbox'}}">
+    <view>可多选</view>
+    <button bindtap="confirmPrivinceTap">确定</button>
+</view>

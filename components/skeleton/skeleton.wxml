@@ -1,0 +1,4 @@
+<view style="width: {{systemInfo.width}}px; height: {{systemInfo.height}}px; background-color: {{bgcolor}}; position: absolute; left:0; top:0; z-index:9998; overflow: hidden;">
+    <view class="loading" style="width: {{item.width}}px; height: {{item.height}}px;  position: absolute; left: {{item.left}}px; top: {{item.top}}px" wx:for="{{skeletonRectLists}}" wx:key="{{index}}"></view>
+    <view class="loading" style="width: {{item.width}}px; height: {{item.height}}px;  border-radius: {{item.width}}px; position: absolute; left: {{item.left}}px; top: {{item.top}}px" wx:for="{{skeletonCircleLists}}" wx:key="{{index}}"></view>
+</view>

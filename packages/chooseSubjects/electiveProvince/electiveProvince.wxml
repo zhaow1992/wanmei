@@ -1,0 +1,10 @@
+<navigationcustomtop navigationText="选科省份" share="{{share}}"></navigationcustomtop>
+<loading wx:if="{{showLoad}}"></loading>
+<view class="con" hidden="{{showLoad}}">
+    <view bindtap="goSelectGaoKaoYear" class="province-box flex flexjsbetween itemBackColor oneFontSize oneFontColor" data-id="{{item.provinceId}}" data-type="{{item.type}}" data-year="{{item.openedYears}}" hoverClass="listHover" wx:for="{{provinceList}}" wx:key="{{index}}">
+        <view class="province-name">{{item.fLetter}} {{item.provinceName}}</view>
+        <view class="isNew" wx:if="{{item.isNew}}">
+            <image src="../image/new.png"></image>
+        </view>
+    </view>
+</view>

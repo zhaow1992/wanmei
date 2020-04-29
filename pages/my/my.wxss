@@ -1,0 +1,120 @@
+page {
+    background: #f8f5f4;
+}
+
+.container {
+    min-height: 100vh;
+}
+
+.header-wrapper {
+    width: 100vw;
+    height: 60.53vw;
+    background-image: linear-gradient(-31deg,#E9302D 50%,#FE3B39 100%);
+    position: relative;
+}
+
+.vip-wrapper {
+    line-height: 1;
+    bottom: 0;
+    left: 4.25vw;
+    background-image: linear-gradient(90deg,#191919 11%,#363636 94%);
+    height: 16vw;
+    box-shadow: 0 0 1.07vw 0 rgba(0,0,0,0.03);
+    border-radius: 2.67vw 2.67vw 0 0;
+}
+
+.searchBtn {
+    color: #FFDE68;
+    border: 1px solid #FFDE68;
+    width: 17.6vw;
+    height: 6.4vw;
+    text-align: center;
+    line-height: 6.4vw;
+    border-radius: 6.4vw;
+    position: absolute;
+    right: 4.27vw;
+}
+
+.vip-logo {
+    flex-direction: column;
+    justify-content: space-around;
+    height: 12vw;
+}
+
+.vip-content {
+    flex-direction: column;
+    justify-content: space-around;
+    height: 12vw;
+    padding-left: 5.87vw;
+}
+
+.vip-logo>image {
+    width: 5.3vw;
+}
+
+.vip-logo>view {
+    color: #FFE3DE;
+}
+
+.vip-content>view:first-of-type {
+    color: #FFF3DE;
+}
+
+.userInfo text {
+    margin-right: 1vw;
+}
+
+.userInfo>image {
+    width: 3.73vw;
+    margin-left: 2.13vw;
+}
+
+.userInfo-wrapper {
+    position: absolute;
+    top: 12.8vw;
+    left: 4.3vw;
+    width: 91.5vw;
+    color: #fff;
+    height: 13.3vw;
+}
+
+.userInfo-header {
+    width: 13.3vw;
+    height: 13.3vw;
+    border-radius: 100%!important;
+    background: #fff;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.userInfo-header>image {
+    width: 6.4vw;
+}
+
+.userInfo-wrapper>view:last-of-type {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 4.5vw;
+}
+
+.body-wrapper {
+    margin-top: 2.67vw;
+}
+
+.body-item {
+    padding: 3.47vw 4.3vw;
+    position: relative;
+}
+
+.body-item>image:first-of-type {
+    width: 4.3vw;
+    margin-right: 4.8vw;
+}
+
+.body-item>image:last-of-type {
+    width: 1.87vw;
+    position: absolute;
+    right: 4vw;
+}

@@ -1,0 +1,222 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/cepingIndex/cepingIndex",
+        "pages/bindMobile/index",
+        "pages/ImproveGKInformation/index",
+        "pages/commonWebPage/commonWebPage",
+        "pages/cepingReady/cepingReady",
+        "pages/batchList/batchList",
+        "pages/ZYTableCommonDetail/ZYTableCommonDetail",
+        "pages/YJTBzyTable/YJTBzyTable",
+        "pages/YJTBRecommend/YJTBRecommend",
+        "pages/VIPpower/VIPpower",
+        "pages/error/error",
+        "pages/card/card",
+        "pages/quickNews/quickNews",
+        "pages/my/my",
+        "pages/ceping/ceping",
+        "pages/cepingQuestion/cepingQuestion",
+        "pages/webPage/webPage",
+        "pages/search/search",
+        "pages/classRoomList/classRoomList",
+        "pages/classRoomDetail/classRoomDetail",
+        "pages/classRoom/classRoom",
+        "pages/selectMajor/index",
+        "pages/changeAchievement/changeAchievement",
+        "pages/myChooseSubject/myChooseSubject",
+        "pages/globalSearch/globalSearch",
+        "pages/appointSearch/appointSearch",
+        "pages/evaluationResult/evaluationResult",
+        "pages/commentSearch/commentSearch"
+    ],
+    "window": {
+        "navigationStyle": "custom",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+        "selectedColor": "#ff5053",
+        "backgroundColor": "#fff",
+        "color": "#7b7b7b",
+        "position": "bottom",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "填志愿",
+                "iconPath": "image/footer_icon1_no.png",
+                "selectedIconPath": "image/footer_icon1.png"
+            },
+            {
+                "pagePath": "pages/cepingIndex/cepingIndex",
+                "text": "测评",
+                "iconPath": "image/footer_icon4_no.png",
+                "selectedIconPath": "image/footer_icon4.png"
+            },
+            {
+                "pagePath": "pages/classRoom/classRoom",
+                "text": "课堂",
+                "iconPath": "image/footer_icon3_no.png",
+                "selectedIconPath": "image/footer_icon3.png"
+            },
+            {
+                "pagePath": "pages/my/my",
+                "text": "我的",
+                "iconPath": "image/footer_icon2_no.png",
+                "selectedIconPath": "image/footer_icon2.png"
+            }
+        ]
+    },
+    "networkTimeout": {
+        "request": 10000,
+        "downloadFile": 10000,
+        "connectSocket": 10000,
+        "uploadFile": 10000
+    },
+    "subPackages": [
+        {
+            "root": "packages/ImproveGKScore/",
+            "pages": [
+                "index/index"
+            ]
+        },
+        {
+            "root": "packages/evaluation/",
+            "pages": [
+                "evaluationStart/evaluationStart",
+                "parentComplete/parentComplete"
+            ]
+        },
+        {
+            "root": "packages/paySystem/",
+            "pages": [
+                "memberCardDetail/memberCardDetail",
+                "payFail/payFail",
+                "payStatus/payStatus",
+                "paySuccess/paySuccess",
+                "payInfo/payInfo",
+                "index/index"
+            ]
+        },
+        {
+            "root": "packages/userSystem/",
+            "pages": [
+                "evaluationReport/evaluationReport",
+                "testResult/testResult",
+                "questionFeedBack/questionFeedBack",
+                "learnHistory/learnHistory",
+                "probabilityReport/probabilityReport",
+                "ZYTableReport/ZYTableReport"
+            ]
+        },
+        {
+            "root": "packages/testEnterPercent/",
+            "pages": [
+                "index/index",
+                "testResult/testResult"
+            ]
+        },
+        {
+            "root": "packages/fractionLine/",
+            "pages": [
+                "index/index",
+                "scoreLineSearch/scoreLineSearch",
+                "searchCollege/searchCollege"
+            ]
+        },
+        {
+            "root": "packages/common/",
+            "pages": [
+                "publicSearch/publicSearch",
+                "search/search",
+                "commonSearch/commonSearch",
+                "searchZixuan/searchZixuan",
+                "batchList/batchList",
+                "publicSearchResult/publicSearchResult"
+            ]
+        },
+        {
+            "root": "packages/findUniversity/",
+            "pages": [
+                "index/index",
+                "line/line",
+                "collegeSight/collegeSight",
+                "collegeDetail/collegeDetail",
+                "collegeMajor/collegeMajor",
+                "allCollege/allCollege",
+                "myCollege/myCollege",
+                "collgeAdmissionsGuide/collgeAdmissionsGuide",
+                "guideDetail/guideDetail",
+                "specialMajor/specialMajor",
+                "collegeRank/collegeRank",
+                "collegeCompare/collegeCompare",
+                "collegeCompareDetail/collegeCompareDetail",
+                "collegeIntroduction/collegeIntroduction"
+            ]
+        },
+        {
+            "root": "packages/recommend/",
+            "pages": [
+                "jiangsuRecommend/jiangsuRecommend",
+                "shanghaiRecommend/shanghaiRecommend",
+                "collegeRecommend/collegeRecommend",
+                "zhejiangScore/zhejiangScore",
+                "cityList/cityList",
+                "collegeType/collegeType"
+            ]
+        },
+        {
+            "root": "packages/selectMajor/",
+            "pages": [
+                "hotMajorList/hotMajorList",
+                "majorDetail/majorDetail",
+                "jobProspects/jobProspects",
+                "middleMajorDetail/middleMajorDetail",
+                "profession/profession",
+                "professionDesc/professionDesc",
+                "majorIntro/majorIntro"
+            ]
+        },
+        {
+            "root": "packages/chooseSubjects/",
+            "pages": [
+                "electiveProvince/electiveProvince",
+                "GaoKaoYear/GaoKaoYear",
+                "index/index",
+                "mySubjects/mySubjects",
+                "loading/loading",
+                "chooseMajor/chooseMajor",
+                "chooseSubPlan/chooseSubPlan",
+                "subjectForCollege/subjectForCollege",
+                "search/search",
+                "collegeResult/collegeResult",
+                "subjectForMajor/subjectForMajor",
+                "evaluation/evaluation",
+                "evaluationDesc/evaluationDesc",
+                "majorResult/majorResult",
+                "matchMajor/matchMajor",
+                "matchCollege/matchCollege",
+                "majorOpenCollege/majorOpenCollege",
+                "newLoading/newLoading"
+            ]
+        },
+        {
+            "root": "packages/advanceBatch/",
+            "pages": [
+                "index/index"
+            ]
+        },
+        {
+            "root": "packages/queryRank/",
+            "pages": [
+                "index/index"
+            ]
+        },
+        {
+            "root": "packages/collegePlan/",
+            "pages": [
+                "index/index"
+            ]
+        }
+    ]
+}

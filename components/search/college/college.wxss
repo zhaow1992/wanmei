@@ -1,0 +1,15 @@
+@import "../collegeList/collegeList.wxss";
+
+.logo {
+    width: 68rpx;
+    height: 68rpx;
+    border-radius: 50%;
+}
+
+.lab {
+    height: 28rpx;
+    padding: 0 10rpx;
+    border: 1rpx solid #ccc;
+    border-radius: 15rpx;
+    margin-right: 8rpx;
+}

@@ -1,0 +1,8 @@
+<view class="circle_box" style="width:{{size}}rpx;height:{{size}}rpx">
+    <canvas canvasId="circle" class="circle_draw" style="width:{{size}}rpx;height:{{size}}rpx"></canvas>
+    <view class="description textAlign absoluteStyle">
+        <view class="number oneFontColor oneFontSize">
+            <text class="sixFontSize">{{progressNum==null||progressNum==0?'-':progressNum}}</text>%</view>
+        <view class="threeFontSize threeFontColor">综合匹配率</view>
+    </view>
+</view>

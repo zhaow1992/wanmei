@@ -1,0 +1,17 @@
+<view class="whiteColor" style="padding-top:30rpx;" wx:if="{{question.length>0}}">
+    <view hoverClass="listHover" style="border-bottom:2rpx solid #E9E9E9" wx:for="{{question}}">
+        <view class="fr ac">
+            <image src="{{item.sex==1?'/image/majorMen.png':'/image/majorWomen.png'}}" style="width:50rpx;height:50rpx;"></image>
+            <view class="fc jsb">
+                <view>{{item.username}}</view>
+                <view>{{item.creationTimeFormat}} {{item.userProvinceName}} {{item.gkYear}}届</view>
+            </view>
+        </view>
+        <view>
+            <rich-text nodes="{{item.title}}"></rich-text>
+        </view>
+        <view class="fr ac">
+            评论{{item.totalOfAnswer}} 点赞{{item.qOrA}} 浏览:{{item.hits}}
+        </view>
+    </view>
+</view>

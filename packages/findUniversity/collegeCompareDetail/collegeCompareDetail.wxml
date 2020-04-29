@@ -1,0 +1,63 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="loading" wx:if="{{showLoad}}">
+    <image src="/image/loading_icon1.gif"></image>
+    <view style="margin-top:5.56vw">加载中...</view>
+</view>
+<view style="display:flex" wx:else>
+    <view class="zhejiang-info-color compare-left content-font">
+        <view style="height:14vw;padding:2vw">院校</view>
+        <view>综合排名</view>
+        <view>所属地区</view>
+        <view>创办时间</view>
+        <view>办学性质</view>
+        <view>隶属于</view>
+        <view>学科层次</view>
+        <view>院校类型</view>
+        <view>985</view>
+        <view>211</view>
+        <view>双一流</view>
+        <view>院系数</view>
+        <view>专业数</view>
+        <view>博士点</view>
+        <view>硕士点</view>
+        <view>男生占比</view>
+        <view>女生占比</view>
+    </view>
+    <scroll-view scrollX style="width:75vw;height:100%;overflow:hidden;white-space:nowrap;display:flex;position:relative">
+        <view class="compare-left content-font" wx:for="{{compareInfo}}">
+            <view style="height:14vw;white-space: pre-wrap;padding:2vw;position:relative;overflow:hidden">
+                <view class="zhejiang-info-color">{{item.collegeName}}</view>
+                <view bindtap="compareClose" data-index="{{index}}" style="position:absolute;top:-4.9vw;right:-4.9vw;width:10vw;height:10vw;transform:rotate(45deg);background:#d7d7d7"></view>
+                <view bindtap="compareClose" data-index="{{index}}" style="position:absolute;top:0;right:1vw;color:#fff">x</view>
+            </view>
+            <view>{{item.rankOfCn}}</view>
+            <view>{{item.provinceName}}</view>
+            <view>{{item.creation}}</view>
+            <view>{{item.collegeType}}</view>
+            <view>{{item.belong==''?'-':item.belong}}</view>
+            <view>{{item.educationDesc}}</view>
+            <view>{{item.classify}}</view>
+            <view wx:if="{{item.is985=='1'}}">
+                <image src="/image/compare-dui.png"></image>
+            </view>
+            <view wx:else>-</view>
+            <view wx:if="{{item.is211=='1'}}">
+                <image src="/image/compare-dui.png"></image>
+            </view>
+            <view wx:else>-</view>
+            <view wx:if="{{item.firstClass!=''}}">
+                <image src="/image/compare-dui.png"></image>
+            </view>
+            <view wx:else>-</view>
+            <view>{{item.departmentCount=='0'?'-':item.departmentCount}}</view>
+            <view>{{item.majorNum}}</view>
+            <view>{{item.pointsOfBo=='0'?'-':item.pointsOfBo}}</view>
+            <view>{{item.pointsOfShuo=='0'?'-':item.pointsOfShuo}}</view>
+            <view>{{item.maleRate=='0%'?'-':item.maleRate}}</view>
+            <view>{{item.femaleRate=='0%'?'-':item.femaleRate}}</view>
+        </view>
+        <view bindtap="addCompare" class="compare-left content-font" style="position:absolute">
+            <view class="borderBottom" style="font-size:15vw;color:#f0eff5;height:14vw;padding:2vw">+</view>
+        </view>
+    </scroll-view>
+</view>

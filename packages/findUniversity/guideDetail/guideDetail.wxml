@@ -1,0 +1,12 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="cutLineWH allPageBGcolor"></view>
+<view style="padding:4.27vw;">
+    <view class="oneFontColor fourFontSize" style="line-height:1.56;">{{title}}</view>
+    <view class="twoFontSize twoFontColor flex" style="padding-top:4.27vw;">
+        <image mode="widthFix" src="/image/chapterTime.png" style="height:3.73vw;width:3.73vw;margin-right:1.6vw;"></image>
+    {{time}}
+  </view>
+    <view class="threeFontSize fourFontColor itemBackColor" style="padding-top:9.6vw;line-height:1.86;">
+        <rich-text nodes="{{detailText}}"></rich-text>
+    </view>
+</view>

@@ -1,0 +1,57 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<loading wx:if="{{showLoad}}"></loading>
+<block wx:else>
+    <view hidden="true" style="display:{{isShare==true?'block':'none'}};height:80vh;background:#F8f5f4;overflow:hidden">
+        <view class="shareBox itemBackColor">
+            <image class="share" src="/image/ceping/share.png"></image>
+            <view class="tips textAlign fourFontColor oneFontSize">分享查看报告</view>
+        </view>
+        <button class="shareBtn oneFontSize" openType="share">立即分享</button>
+    </view>
+    <view style="display:flex;flex-direction:column;justify-content:space-between;min-height:80vh" wx:if="{{!isShare}}">
+        <view class="container" style="background:#fff;">
+            <swiper bindanimationfinish="bindanimationfinish" current="{{currentTab}}" duration="500" easingFunction="easeInCubic" id="swiperHeight" style="height:88vh;padding-top:12.5vw;box-sizing:border-box">
+                <swiper-item catchBindTap="noBindTap" catchtouchmove="noTouchMove" class="{{currentTab==index?'opacityIn':'opacityOut'}}" style="display:flex;flex-direction:column;justify-content:space-between;" wx:for="{{questionList.questions}}" wx:key="unique">
+                    <view class="title-font" style="padding:15vw 5vw 0;">{{item.title}}</view>
+                    <view class="flex content-wrapper" style="justify-content:space-around;" wx:if="{{cepingType==7}}">
+                        <view catchtap="nextAnswers" class="answersBtn" data-id="{{QuestionAnswers.Id}}" data-score="{{answers.Score}}" style="width:41.67vw;{{chooseChecked==true&&anwersScore==answers.Score?'background: #e9302d;color: #fff;':''}}" wx:for="{{QuestionAnswers.QuestionAnswers}}" wx:for-item="answers" wx:key="unique">{{answers.Answer}}</view>
+                    </view>
+                    <view class="content-wrapper" style="justify-content:space-around;" wx:elif="{{cepingType==8}}">
+                        <view catchtap="nextAnswers" class="answersBtn" data-id="{{QuestionAnswers.Id}}" data-score="{{answers.Score}}" style="margin-top:3vw;width:90vw;{{chooseChecked==true&&anwersScore==answers.Score?'background: #e9302d;color: #fff;':''}}" wx:for="{{QuestionAnswers.QuestionAnswers}}" wx:for-item="answers" wx:key="unique">{{answers.Answer}}</view>
+                    </view>
+                    <view class="flex content-wrapper" style="justify-content:space-around;flex-wrap:wrap" wx:elif="{{cepingType==9||cepingType==10||cepingType==11}}">
+                        <view bindtap="nextAnswers" class="answersBtn" data-id="{{QuestionAnswers.Id}}" data-score="{{answers.Score}}" style="margin-top:3vw;width:41.67vw;{{chooseChecked==true&&anwersScore==answers.Score?'background: #e9302d;color: #fff;':''}}" wx:for="{{QuestionAnswers.QuestionAnswers}}" wx:for-item="answers">{{answers.Answer}}</view>
+                    </view>
+                    <view class="content-wrapper" style="justify-content:space-around;" wx:elif="{{cepingType==6}}">
+                        <view class="newClassTitle video-title-color content-font">{{parents}}</view>
+                        <view bindtouchend="fathernextEnd" bindtouchstart="fathernextAnswers" class="answersBtn relativeStyle {{chooseChecked==true&&anwersScore==answers.score?'active':''}}" data-id="{{QuestionAnswers.id}}" data-score="{{answers.score}}" style="margin-top:3vw;width:90vw;" wx:if="{{parents=='父亲方面'}}" wx:for="{{QuestionAnswers.answers}}" wx:for-item="answers" wx:key="unique">
+                            <view class="decorate absoluteStyle"></view>
+                            <text style="padding:0 40rpx 0 40rpx;">{{answerNumber[index]}}</text>
+                            <text>{{answers.answer}}</text>
+                        </view>
+                        <view bindtouchend="nextAnswersMain" bindtouchstart="nextAnswers" class="answersBtn relativeStyle {{chooseChecked==true&&anwersScore==answers.score?'active':''}}" data-id="{{QuestionAnswers.id}}" data-score="{{answers.score}}" style="margin-top:3vw;width:90vw;{{chooseChecked==true&&anwersScore==answers.score?'background: #e9302d;color: #fff;':''}}" wx:if="{{parents=='母亲方面'}}" wx:for="{{QuestionAnswers.answers}}" wx:for-item="answers" wx:key="unique">
+                            <view class="decorate absoluteStyle"></view>
+                            <text style="padding:0 40rpx 0 40rpx;">{{answerNumber[index]}}</text>
+                            <text>{{answers.answer}}</text>
+                        </view>
+                    </view>
+                    <view class="content-wrapper" style="justify-content:space-around;" wx:else>
+                        <view bindtouchend="nextAnswersMain" bindtouchstart="nextAnswers" class="answersBtn relativeStyle {{chooseChecked==true&&anwersScore==answers.score?'active':''}}" data-id="{{QuestionAnswers.id}}" data-score="{{answers.score}}" style="margin-top:3vw;width:90vw;" wx:if="{{answers.answer}}" wx:for="{{QuestionAnswers.answers}}" wx:for-item="answers" wx:key="unique">
+                            <view class="decorate absoluteStyle"></view>
+                            <text style="padding:0 40rpx 0 40rpx;">{{answerNumber[index]}}</text>
+                            <text>{{answers.answer}}</text>
+                        </view>
+                    </view>
+                </swiper-item>
+            </swiper>
+            <view class="title-font" style="position:fixed;top:24vw;left:50%;transform:translateX(-50%)">
+                <text class="oneFontColor sevenFontSize">{{currentTab+1}}</text>
+                <text class="oneFontSize twoFontColor">/{{questionList.questions.length}}</text>
+            </view>
+            <view class="progress-wrapper progress" style="width:{{progressWidth}}px;position:fixed;top:35vw;left:50%;transform:translateX(-50%)">
+                <view class="active-wrapper progress" style="width:{{progressCheckedWidth}}px;"></view>
+            </view>
+        </view>
+    </view>
+    <view hidden="{{!wrap}}" style="position:fixed;width:100vw;height:100vh;top:0;left:0;background:rgba(0,0,0,0);"></view>
+</block>

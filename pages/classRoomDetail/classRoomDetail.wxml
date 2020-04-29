@@ -1,0 +1,55 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} " share="{{share}}" sharePageBack="{{sharePageBack}}"></navigationcustomtop>
+<view class="loading" wx:if="{{showLoad}}">
+    <image src="../../image/loading_icon1.gif"></image>
+    <view style="margin-top:5.56vw">加载中...</view>
+</view>
+<view class="container" wx:else>
+    <video direction="0" id="videoId" src="{{setctionUrl}}" wx:if="{{userInfo[0].UserType==14&&packType==2||packType==1}}">
+        <cover-view bindtap="openSpeed" class="fiveFontSize speed-btn">{{speed==1?'原速':'x'+speed}}</cover-view>
+        <cover-view class="flex video-wrapper {{speedAnimate}}">
+            <cover-view>播放速度</cover-view>
+            <cover-view bindtap="chooseSpeed" class="{{speed==0.5?'checkedColor':''}}" data-speed="0.5">0.5倍</cover-view>
+            <cover-view bindtap="chooseSpeed" class="{{speed==0.8?'checkedColor':''}}" data-speed="0.8">0.8倍</cover-view>
+            <cover-view bindtap="chooseSpeed" class="{{speed==1?'checkedColor':''}}" data-speed="1">原速</cover-view>
+            <cover-view bindtap="chooseSpeed" class="{{speed==1.25?'checkedColor':''}}" data-speed="1.25">1.25倍</cover-view>
+            <cover-view bindtap="chooseSpeed" class="{{speed==1.5?'checkedColor':''}}" data-speed="1.5">1.5倍</cover-view>
+            <cover-view bindtap="chooseSpeed" class="{{speed==2?'checkedColor':''}}" data-speed="2">2倍</cover-view>
+        </cover-view>
+    </video>
+    <view class="payShengxue-wrapper title-font" wx:else>
+        <block wx:if="{{!isIos}}">
+            <view>学习课程,仅供升学卡观看</view>
+            <view>开通升学卡所有课程免费看</view>
+            <view bindtap="goPay" class="payShengxue content-font">开通升学卡</view>
+        </block>
+        <view wx:else>学习课程,仅供升学卡用户观看</view>
+    </view>
+    <scroll-view scrollY style="height:55vh;background:#fff">
+        <view class="packInfo-wrapper">
+            <view class="title-font content-wrapper">{{packDetail.title}}</view>
+            <view class="packTeacher-wrapper content-wrapper">
+                <image src="{{packDetail.imgUrl}}"></image>
+                <view>{{packDetail.teacherName}}</view>
+            </view>
+            <view class="content-wrapper video-content-color packIntro {{open==false?'open':''}}">{{packDetail.introduction}}</view>
+        </view>
+        <view class="sections-wrapper">
+            <view class="pack-title content-wrapper sectionsList-wrapper">
+                <view>课程列表</view>
+                <view>{{packDetail.sectionCount}}课时</view>
+            </view>
+            <block wx:for="{{packDetail.chapters}}" wx:for-index="chaptersIndex" wx:for-item="Chapters">
+                <view bindtap="chaptersTitle" class="content-wrapper Chapters-title flex" data-index="{{chaptersIndex}}" wx:if="{{Chapters.name!=null}}">
+                    <view>{{Chapters.name}}</view>
+                    <image src="../../image/right_logo.png" style="width:2.22vw;height:4.03vw;" wx:if="{{chaptersIndex!=chooseChaptersIndex}}"></image>
+                    <image src="../../image/down_logo.png" style="width:4.03vw;height:2.22vw;" wx:if="{{chaptersIndex==chooseChaptersIndex}}"></image>
+                </view>
+                <view bindtap="sectionsList" class="sectionsList-wrapper video-content-color content-wrapper {{current==item.sectionId?'info':''}}" data-id="{{item.sectionId}}" data-url="{{item.setctionUrl}}" wx:if="{{chaptersIndex==chooseChaptersIndex}}" wx:for="{{Chapters.sections}}">
+                    <image src="{{current==item.sectionId?'../../image/play.png':''}}"></image>
+                    <view class="sectionsList-title">{{item.sectionTitle}}</view>
+                    <view style="width:15vw;text-align:right">{{item.sectionTime}}</view>
+                </view>
+            </block>
+        </view>
+    </scroll-view>
+</view>

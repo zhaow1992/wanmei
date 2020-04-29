@@ -1,0 +1,9 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="allPageBGcolor cutLineWH"></view>
+<view class="textAlign">
+    <image mode="widthFix" src="./../image/payFail.png" style="height:20px;width:17.07vw;margin:9.33vw auto 2.93vw"></image>
+    <view class="oneFontColor bottomBorder" style="font-size:5.33vw;padding-bottom:9.33vw;">订购失败！</view>
+    <view class="twoFontColor twoFontSize" style="margin-top:4.27vw;">如支付遇到困难或有任何疑问欢迎咨询小美</view>
+    <view bindtap="continuePay" class="oneFontSize borderThree whiteFontColor flex flexjscenter" style="background-image: linear-gradient(-52deg, #E9302D 1%, #FF5053 100%);width:46.67vw;box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);height:10.67vw;margin:6.93vw auto 0;">继续支付</view>
+    <view bindtap="goBeforePage" class="oneFontSize borderThree whiteFontColor flex flexjscenter checkedColor buttonBorder borderBox" style="width:46.67vw;height:10.67vw;margin:4.27vw auto 0;">关闭支付</view>
+</view>

@@ -1,0 +1,23 @@
+@import "../collegeIntroduction/collegeIntroduction.wxss";
+
+.peopleIconWH {
+    height: 6.4vw;
+    width: 4.27vw;
+}
+
+.proportionLine {
+    width: 30.67vw;
+    background: #66a6ff;
+    border-radius: 0.93vw;
+}
+
+.womanLine {
+    position: absolute;
+    right: 0;
+    border-radius: 0.93vw;
+    top: 0;
+}
+
+.lineHeight {
+    height: 0.8vw;
+}

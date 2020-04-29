@@ -1,0 +1,41 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{testInfo.name}}"></navigationcustomtop>
+<view wx:if="{{showLoad}}">
+    <loading></loading>
+</view>
+<view wx:else>
+    <navigator class="myReport itemBackColor" hoverClass="btnHover" url="/packages/userSystem/evaluationReport/evaluationReport?type={{cepingtype}}&typesOf=1&isHide=true">
+        <text class="twoFontSize twoFontColor">我的报告</text>
+        <text class="num textAlign absoluteStyle fiveFontSize whiteFontColor" wx:if="{{testInfo.reportNum!==0}}">{{testInfo.reportNum}}</text>
+    </navigator>
+    <view class="imgbox relativeStyle " style="height:420rpx">
+        <image src="{{testInfo.picUrl}}" style="width:100%;height:420rpx;position:absolute"></image>
+        <view class="mask absoluteStyle flex flexjsbetween twoFontSize twoFontSize whiteFontColor">
+            <view class="">{{testInfo.evaluationCycle}}</view>
+            <view class="">测评题目：{{testInfo.topicNum}}</view>
+        </view>
+    </view>
+    <view class="content-font content-wrapper">
+        <view class="oneFontColor fourFontSize" style="margin:40rpx 0;">试题说明</view>
+        <view class="twoFontSize fourFontColor" style="line-height:2;margin-top:4vw">{{testInfo.intro}}</view>
+    </view>
+    <view class="flex" style="justify-content:space-around;position:fixed;bottom:0;width:100vw">
+        <button bindtap="cepingBtn" class="recommend-btn oneFontSize" hoverClass="btnHover" style="width:91.4vw;margin-bottom:5vw;">开始测评</button>
+    </view>
+</view>
+<view wx:if="{{sexPopup.sexFlag}}">
+    <view catchtap="hideSexPopup" class="wrap {{sexPopup.wrapAnimate}}" style="background:rgba(0,0,0,{{sexPopup.bgOpacity}});"></view>
+    <view class="{{sexPopup.popupAnimate}} popup-wrapper">
+        <view class="oneFontSize oneFontColor bold" style="line-height: 3;margin-top: 2vw">请选择您的性别</view>
+        <view class="flex flexjsbetween oneFontColor twoFontSize" style="padding:0 100rpx;margin-top:30rpx;">
+            <view bindtap="chooseSex" class="student" data-sex="1">
+                <image src="/image/ceping/boy.png"></image>
+                <view class="">我是男生</view>
+            </view>
+            <view bindtap="chooseSex" class="parent" data-sex="0">
+                <image src="/image/ceping/girl.png"></image>
+                <view class="">我是女生</view>
+            </view>
+        </view>
+        <image catchtap="hideSexPopup" class="closepopup" src="/image/ceping/closepopup.png"></image>
+    </view>
+</view>

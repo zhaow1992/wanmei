@@ -1,0 +1,42 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="container" style="background:#fff;">
+    <view style="padding:4vw 0;background:#faf7fe;">
+        <view class="pageItemWidth searchView-viewH flex searchBorder" style="background:#E8E8E8;border:none;">
+            <view class="twoFontSize searchView twoFontColor flex">
+                <image src="/image/search_icon.png"></image>
+                <input focus bindconfirm="search" bindinput="collegeSearch" placeholder="输入大学名称" style="width:70vw;"></input>
+            </view>
+        </view>
+    </view>
+    <view class="whiteColor" style="margin-top:20rpx;" wx:if="{{hitSearch.length>0&&!isSearch}}">
+        <view class="content-color content-wrapper fr ac lishijilu" style="border:none;margin-top:20rpx;">
+            <view class="twoFontSize oneFontColor">热门搜索</view>
+        </view>
+        <view class="fr ac" style="flex-wrap:wrap;margin-top:28rpx;">
+            <view style="padding-bottom:24rpx;" wx:for="{{hitSearch}}">
+                <view bindtap="searchHit" class="history threeFontSize twoFontColor" data-value="{{item.keywords}}" hoverClass="listHover" style="margin:0 20rpx;">
+					{{item.keywords}}
+				</view>
+            </view>
+        </view>
+    </view>
+    <view class="textAlign" style="margin-top:20vw;" wx:if="{{showLoad}}">
+        <image class="LoadImgWH" mode="widthFix" src="/image/loading_icon1.gif"></image>
+        <view>正在加载中...</view>
+    </view>
+    <block wx:else>
+        <scroll-view scrollY style="height:80vh;" wx:if="{{collegeList.length>0}}">
+            <navigator bindtap="chooseCity" class="flex" data-collegeid="{{item.numId}}" data-index="{{index}}" style="padding:0 4.3vw;justify-content:space-between;border-bottom:1px solid #e9e9e9;" url="../index/index?current={{type}}&title={{isNewGK?item.collegeName:item.cnName}}&collegeId={{isNewGK?item.collegeId:item.numId}}" wx:for="{{collegeList}}">
+                <view style="line-height:3.5;">{{isNewGK?item.collegeName:item.cnName}}</view>
+                <image mode="widthFix" src="/image/right_logo.png" style="width:2.22vw;height:2.22vw;"></image>
+            </navigator>
+        </scroll-view>
+        <view class="flex" style="justify-content:space-around;height:50vh;" wx:if="{{collegeList.length==0&&isSearch}}">
+            <view class="flex" style="flex-direction:column;">
+                <image mode="widthFix" src="/image/recommend_noFount.png" style="width:20vw;height:20vw;"></image>
+                <view class="oneFontSize twoFontColor">没有找到内容</view>
+                <view class="twoFontColor">请换其他条件试试吧</view>
+            </view>
+        </view>
+    </block>
+</view>

@@ -1,0 +1,20 @@
+{
+    "usingComponents": {
+        "loading": "/components/loading/loading",
+        "college": "/components/search/college/college",
+        "major": "/components/search/major/major",
+        "classRoom": "/components/search/video/video",
+        "jobs": "/components/search/jobs/jobs",
+        "news": "/components/search/news/news",
+        "collegeList": "/components/search/collegeList/collegeList",
+        "majorList": "/components/search/majorList/majorList",
+        "intelligenceMajor": "/components/search/intelligenceMajor/intelligenceMajor",
+        "intelligenceCollege": "/components/search/intelligenceCollege/intelligenceCollege",
+        "serverfail": "/components/serverFail/serverFail",
+        "bottomFrame": "../../components/bottomFrame/bottomFrame",
+        "topMenu": "../../components/topMenu/topMenu",
+        "rightdrawermenu": "../../components/rightDrawerMenu/rightDrawerMenu",
+        "dropDownMenu": "../../components/dropDownMenu/dropDownMenu",
+        "navigationcustomtop": "../../components/navigationCustomTop/navigationCustomTop"
+    }
+}

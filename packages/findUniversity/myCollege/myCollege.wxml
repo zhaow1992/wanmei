@@ -1,0 +1,31 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="flex" style="justify-content:space-around;height:50vh;" wx:if="{{showLoad}}">
+    <view class="flex" style="flex-direction:column;">
+        <image mode="widthFix" src="/image/recommend_noFount.png" style="width:20vw;height:20vw;"></image>
+        <view class="title-font threeFontColor" style="margin-top:5.56vw;">暂无收藏院校</view>
+    </view>
+</view>
+<scroll-view scrollY style="height:88vh;" wx:else>
+    <view class="allPageBGcolor cutLineWH" style=""></view>
+    <view class="itemBackColor" style="margin:0 0 2.13vw 0;" wx:for="{{collegeList}}" wx:for-item="collegeListSingle" wx:key="unique">
+        <view class="collegeListCardSingle pageItemWidth flex cardBorder textPadding threeFontSize">
+            <image class="collegeLogo" src="{{collegeListSingle.collegeIcon}}"></image>
+            <view bindtap="goCollegeDetail" class="" data-id="{{index}}">
+                <view class="">
+                    <view class="oneFontSize oneFontWidth" style="">{{collegeListSingle.name}}
+              <text class="terraceBorderText fiveFontSize checkedColor" style="vertical-align:middle;" wx:for="{{collegeTerrace}}" wx:key="unique">{{item}}</text>
+                    </view>
+                </view>
+                <view class="twoFontColor threeFontSize flex flexjsbetween" style="margin:1.33vw 0 0 0;">
+                    <view>{{collegeListSingle.collegeTag}}</view>
+                    <view class="flex">
+                        <image mode="widthFix" src="/image/city.png" style="height:2.93vw;width:2.4vw;margin-right:1.07vw;"></image>
+                        <view style="">
+                {{collegeListSingle.city}}
+              </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</scroll-view>

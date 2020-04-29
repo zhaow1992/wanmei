@@ -1,0 +1,21 @@
+@import "../collegeIntroduction/collegeIntroduction.wxss";
+
+.clearfix:after {
+    clear: both;
+}
+
+.main {
+    position: relative;
+}
+
+.box {
+    float: left;
+    padding: 4.27vw 0 0 4.27vw;
+}
+
+.box .pic {
+    height: auto;
+}
+
+.box .pic image {
+}

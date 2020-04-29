@@ -1,0 +1,77 @@
+.item-wrapper {
+    background: #fff;
+    border-radius: 8px;
+    line-height: 1.5;
+    margin-bottom: 4.3vw;
+}
+
+.item {
+    padding: 4.3vw;
+    justify-content: space-between;
+    border-radius: 8px;
+}
+
+.majorUp-wrapper {
+    background: none;
+}
+
+.marjorRate {
+    position: relative;
+    padding: 0 60rpx 0 30rpx;
+    border-radius: 35rpx;
+    line-height: 2.5;
+}
+
+.marjorRate .up {
+    position: absolute;
+    right: 32rpx;
+    top: 12rpx;
+    border: 8rpx solid transparent;
+    border-bottom: 8rpx solid #9b9b9b;
+}
+
+.marjorRate .down1 {
+    position: absolute;
+    right: 32rpx;
+    top: 34rpx;
+    border: 8rpx solid transparent;
+    border-top: 8rpx solid #9b9b9b;
+}
+
+.tag {
+    margin-left: 10rpx;
+    padding: 3rpx 10rpx;
+    border: 1rpx solid #9b9b9b;
+    line-height: 28rpx;
+    border-radius: 8rpx;
+}
+
+.tips {
+    margin-bottom: 20rpx;
+    text-align: right;
+}
+
+.majorTitle {
+    background: #e9e9e9;
+    height: 84rpx;
+    line-height: 84rpx;
+}
+
+.majorTitle>view,.majorList>view {
+    display: inline-block;
+    width: 50%;
+    padding: 0 30rpx;
+    box-sizing: border-box;
+}
+
+.majorList {
+    display: flex;
+    justify-content: stretch;
+    align-items: center;
+    padding: 20rpx 0;
+    line-height: 40rpx;
+}
+
+.majorList:nth-child(2n) {
+    background-color: #fafafa;
+}

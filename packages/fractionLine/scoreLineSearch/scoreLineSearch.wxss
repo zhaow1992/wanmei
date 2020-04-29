@@ -1,0 +1,7 @@
+.lishijilu {
+    border-bottom: 1px solid #dedddb;
+    line-height: 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

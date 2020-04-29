@@ -1,0 +1,9 @@
+<navigationcustomtop navigationText="高考年份"></navigationcustomtop>
+<view class="con">
+    <view bindtap="goElectiveIndex" class="year-box flex flexjsbetween itemBackColor oneFontSize oneFontColor" data-year="{{item}}" hoverClass="listHover" wx:for="{{yearList}}" wx:key="{{index}}">
+        <view class="year-name">{{item}}年选科</view>
+        <view class="openlist">
+            <image src="/image/openList.png"></image>
+        </view>
+    </view>
+</view>

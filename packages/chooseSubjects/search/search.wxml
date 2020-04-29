@@ -1,0 +1,60 @@
+<navigationcustomtop navigationText="搜索"></navigationcustomtop>
+<loading wx:if="{{showLoad}}"></loading>
+<view hidden="{{showLoad}}">
+    <view class="fr ac whiteColor" style="padding-bottom:10rpx;position:fixed;width:750rpx;">
+        <view class="search-box fr ac">
+            <image src="/image/search_icon.png" style="width:28rpx;height:28rpx;margin-left:40rpx"></image>
+            <input focus bindconfirm="search" bindinput="input" class="twoFontSize twoFontColor" confirmType="搜索" placeholder="{{placeholder}}" placeholderClass="twoFontSize twoFontColor" style="margin-left:30rpx;width:440rpx" value="{{keyword}}"></input>
+            <image bindtap="clearInput" src="/image/icon_close_alt2.png" style="width:30rpx;height:30rpx;margin-left:10rpx" wx:if="{{keyword}}"></image>
+        </view>
+        <view bindtap="cancel" class="twoFontSize checkedColor" style="margin-left:30rpx;">取消</view>
+    </view>
+    <view class="whiteColor" wx:if="{{searchList.length==0&&!isSearch}}">
+        <view style="padding-top:88rpx;margin-left:32rpx;" wx:if="{{historyList.length>0}}">
+            <view class="twoFontSize oneFontColor fr ac jsb">
+                <view class="twoFontSize oneFontColor" style="padding-top:20rpx;">最近查询</view>
+                <image bindtap="clearCollegeHistory" src="/image/laji_icon.png" style="width:28rpx;height:28rpx;margin-right:30rpx;"></image>
+            </view>
+            <view class="fr ac" style="flex-wrap:wrap;margin-top:28rpx;" wx:if="{{historyList.length>0}}">
+                <view wx:for="{{historyList}}">
+                    <view bindtap="historySearch" class="history threeFontSize twoFontColor" data-value="{{item}}" hoverClass="listHover" style="margin:12rpx 15rpx;">{{item}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="flex" style="justify-content:space-around;height:40vh;" wx:if="{{searchList.length==0&&isSearch}}">
+        <view class="flex" style="flex-direction:column;">
+            <image mode="widthFix" src="/image/recommend_noFount.png" style="width:20vw;height:20vw;"></image>
+            <view class="title-font threeFontColor" style="margin-top:5.56vw;">未查询到相关结果</view>
+        </view>
+    </view>
+    <view class="fc" style="padding-top:100rpx;" wx:if="{{searchList.length>0}}">
+        <view bindtap="clickItem" class="fc ac" data-index="{{index}}" wx:for="{{searchList}}">
+            <view class="fr ac jsb borderBottom whiteColor" hoverClass="listHover" style="height:90rpx;width:750rpx" wx:if="{{type=='1'}}">
+                <view class="oneFontSize oneFontColor" style="margin-left:30rpx;">
+                    <rich-text nodes="{{item.collegeName}}"></rich-text>
+                </view>
+            </view>
+            <view class="fc jc whiteColor borderBottom" hoverClass="listHover" style="height:90rpx;width:750rpx;" wx:if="{{type=='2'}}">
+                <view class="fr ac jsb" style="margin-left:32rpx;">
+                    <view class="oneFontSize oneFontColor">
+                        <rich-text nodes="{{item.majorName}}"></rich-text>
+                    </view>
+                    <image src="/image/openList.png" style="width:14rpx;height:24rpx;margin-right:30rpx;"></image>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="whiteColor" style="margin-top:20rpx;" wx:if="{{hitSearch.length>0&&!isSearch}}">
+    <view class="content-color content-wrapper fr ac lishijilu" style="border:none;margin-top:20rpx;">
+        <view class="twoFontSize oneFontColor">热门搜索</view>
+    </view>
+    <view class="fr ac" style="flex-wrap:wrap;margin-top:28rpx;">
+        <view style="padding-bottom:24rpx;" wx:for="{{hitSearch}}">
+            <view bindtap="historySearch" class="historyHit threeFontSize twoFontColor" data-value="{{item.keywords}}" hoverClass="listHover" style="margin:0 20rpx;">
+                {{item.keywords}}
+            </view>
+        </view>
+    </view>
+</view>

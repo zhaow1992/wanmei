@@ -1,0 +1,27 @@
+<view class="container" style="background:#fff;">
+    <view style="position:relative;">
+        <image mode="widthFix" src="../image/scoreLine_banner.jpg" style="width:100vw;height:50vw;"></image>
+        <image bindtap="returnTap" class="absoluteStyle" src="/image/return.png" style="width:2.67vw;height:4.8vw;padding:35px 7vw;top:0;left:0;"></image>
+    </view>
+    <view bindtap="goSearch" class="pageItemWidth searchView-viewH flex" style="background:#fff;border:none;box-shadow: 0 0 5px 4px rgba(64,64,64,0.05);height:13.3vw;border-radius:8px;position:relative;top:-9vw;">
+        <view class="twoFontSize searchView twoFontColor">
+            <image src="/image/search_icon.png"></image>搜索院校...
+			</view>
+    </view>
+    <view class="content-color content-wrapper lishijilu" style="border:none;margin-top:-5vw;">
+        <text>最近查询</text>
+        <image bindtap="clearjilu" src="/image/laji_icon.png" style="width:3.73vw;height:3.73vw"></image>
+    </view>
+    <scroll-view scrollY style="height:80vh;" wx:if="{{collegeList.length>0}}">
+        <navigator bindtap="chooseCity" class="flex" data-collegeid="{{item.numId||item.collegeId}}" data-index="{{index}}" style="padding:0 4.3vw;justify-content:space-between;border-bottom:1px solid #e9e9e9;background:#fff;" url="../index/index?current=score&title={{item.cnName||item.collegeName}}&collegeId={{item.numId||item.collegeId}}" wx:for="{{collegeList}}">
+            <view style="line-height:3.5;">{{item.cnName||item.collegeName}}</view>
+            <image mode="widthFix" src="/image/right_logo.png" style="width:2.22vw;height:2.22vw;"></image>
+        </navigator>
+    </scroll-view>
+    <view class="flex" style="justify-content:space-around;height:40vh;" wx:else>
+        <view class="flex" style="flex-direction:column;">
+            <image mode="widthFix" src="/image/recommend_noFount.png" style="width:20vw;height:20vw;"></image>
+            <view class="title-font threeFontColor" style="margin-top:5.56vw;">暂无搜索记录</view>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,10 @@
+<view class="localLoading" wx:if="{{loadingType=='local'}}">
+    <view>
+        <image src="../../image/loading_icon1.gif"></image>
+    </view>
+</view>
+<view class="loadingComponents" wx:if="{{loadingType=='all'}}">
+    <view>
+        <image src="../../image/loading_icon1.gif"></image>
+    </view>
+</view>

@@ -1,0 +1,8 @@
+<view bindtap="choseMajor" class="fr jsb ac whiteColor" data-index="{{index}}" data-item="{{item}}" hoverClass="listHover" style="height:120rpx;padding:0 4.3vw;border-bottom:1px solid #e9e9e9;" wx:if="{{majorList.length>0}}" wx:for="{{majorList}}">
+    <view class="oneFontSize onFontColor">{{item.majorName||item.name}}</view>
+    <image mode="widthFix" src="/image/moreArrow.png" style="width:2.22vw;height:2.22vw;"></image>
+</view>
+<view class="fc ac" style="margin-top:50rpx;" wx:if="{{majorList.length==0}}">
+    <image src="/image/recommend_noFount.png" style="width:214rpx;height:214rpx;"></image>
+    <view class="threeFontColor twoFontSize" style="margin-top:20rpx;">抱歉，未找到相关内容</view>
+</view>

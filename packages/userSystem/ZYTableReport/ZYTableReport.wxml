@@ -1,0 +1,32 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<loading wx:if="{{showLoad}}"></loading>
+<view class="container" wx:else>
+    <block wx:if="{{tableList.length>0}}">
+        <navigator class="flex" style="position:relative;padding:4vw 4.3vw;background:#fff;margin-bottom:1.5vw;height:11vw;line-height:1;border-bottom:1px solid #e9e9e9;" url="/pages/ZYTableCommonDetail/ZYTableCommonDetail?id={{item.numId}}" wx:for="{{tableList}}">
+            <view class="flex" style="flex-direction:column;height:11vw;">
+                <image mode="widthFix" src="../image/ZYTable_icon.png" style="width:6vw;height:6vw;"></image>
+            </view>
+            <view class="flex" style="flex-direction:column;margin-left:4vw;align-items:flex-start;justify-content:space-between;height:11vw;">
+                <view class="oneFontSize">志愿表{{tableList.length-index}}</view>
+                <view class="threeFontSize fourFontColor">
+                    <text style="margin-right:2vw;">{{item.courseType=='0'?'理科':'文科'}}</text>
+                    <text style="margin-right:2vw;">{{item.totalScore}}分</text>
+                    <text style="margin-right:2vw;">{{item.ranking==0?'-':item.ranking}}位</text>
+                </view>
+            </view>
+            <view class="flex" style="flex-direction:column;position:absolute;right:9.9vw;height:11vw;justify-content:space-between;">
+                <view class="checkedColor">
+                    <text style="font-size:5.3vw;">{{item.reliableRate}}</text>%</view>
+                <view class="threeFontSize threeFontColor">录取概率</view>
+            </view>
+            <image mode="widthFix" src="/image/right_logo.png" style="width:2.22vw;position:absolute;right:4.3vw;"></image>
+        </navigator>
+        <view class="threeFontColor" style="text-align:center;margin-top:4vw;">- 已显示全部内容 -</view>
+    </block>
+    <view class="flex null-wrapper relativeStyle flexjscenter" style="top:16.19vh;" wx:else>
+        <view class="flex">
+            <image mode="widthFix" src="../image/null_logo.png" style=""></image>
+            <view class="twoFontSize threeFontColor">暂无生成的志愿表记录</view>
+        </view>
+    </view>
+</view>

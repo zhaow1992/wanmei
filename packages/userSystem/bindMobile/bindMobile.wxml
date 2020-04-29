@@ -1,0 +1,12 @@
+<block wx:if="showLoad"></block>
+<view class="container" wx:else>
+    <view style="padding-top:5vw;">
+        <input bindinput="getMobile" class="oneFontSize" maxlength="11" placeholder="请输入手机号" style="padding:4vw;width:83.5vw;margin:auto;border-radius:8px;background:#fff;" type="number"></input>
+        <view class="flex oneFontSize" style="padding:4vw;width:83.5vw;margin:auto;border-radius:8px;background:#fff;margin-top:2.67vw;">
+            <input bindinput="getCode" maxlength="4" placeholder="请输入验证码" type="number"></input>
+            <view bindtap="sendCode" class="twoFontSize" style="color:#E9302D;" wx:if="showyanzheng">{{sendCodeText}}</view>
+            <view class="twoFontSize threeFontColor" wx:else>{{time}} 后重试</view>
+        </view>
+        <view bindtap="bindMobileBtn" class="bindMobileBtn">绑定手机</view>
+    </view>
+</view>

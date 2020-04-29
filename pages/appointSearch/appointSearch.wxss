@@ -1,0 +1,13 @@
+.search-box {
+    width: 600rpx;
+    height: 68rpx;
+    border-radius: 36rpx;
+    background: #E8E8E8;
+    margin-top: 10rpx;
+    margin-left: 32rpx;
+}
+
+.item {
+    height: 100rpx;
+    margin-left: 30rpx;
+}

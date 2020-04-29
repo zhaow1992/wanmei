@@ -1,0 +1,241 @@
+<navigationcustomtop id="navigationcustom" navigationText="{{navigationText}}"></navigationcustomtop>
+<view style="height:100vh;overflow:hidden;" wx:if="{{comeLoadPage==true}}">
+    <image mode="widthFix" src="../../image/start-up-page.png" style="width:100vw"></image>
+</view>
+<block wx:else>
+    <loading wx:if="{{showLoad}}"></loading>
+    <block wx:else>
+        <serverfail bind:confirmEvent="_confirmEvent" id="serverfail" wx:if="{{serverfail==true}}"></serverfail>
+        <view class="wrapper" wx:else>
+            <view style="overflow:hidden;background:#f8f5f4;padding-bottom:3vw;">
+                <view class="wrapper-top" style="background:#fff;">
+                    <form reportSubmit bindsubmit="goActivityBargain" wx:if="{{bargainGetStatus==true}}">
+                        <button formType="submit" style="padding:0;margin:0;border-radius:0">
+                            <image class="header_bg" src="../../image/activityBargain.png"></image>
+                        </button>
+                    </form>
+                    <view bindtap="goDetail" data-type="pay" style="background:#f8f5f4" wx:else>
+                        <image class="header_bg" src="{{bannerImage[bgImage].PictureUrl}}"></image>
+                    </view>
+                </view>
+                <view class="tuijian" style="z-index:5;position:relative;">
+                    <view class="zanTishi {{tishiFlag==true?'zanTishiAnimate':''}}" wx:if="{{tishiFlag==true}}">{{tishiContent}}</view>
+                    <view class="tuijian-top title-font">
+                        <view class="section title-font index-chooseCity flex" style="align-items:flex-end;">
+                            <view class="twoFontSize twoFontColor" style="margin-right:20rpx">省份</view>
+                            <view class="picker oneFontSize" wx:if="{{cityFlag==true}}">{{cityName}}</view>
+                            <picker bindchange="cityPickerChange" range="{{chooseCity}}" value="{{chooseCityIndex}}" wx:else>
+                                <view class="picker oneFontSize flex">
+                                    <view>{{chooseCity[chooseCityIndex]}}</view>
+                                    <image src="/image/openList.png" style="transform:rotate(90deg);width: 1.87vw;height: 3.2vw;margin-left:2vw;margin-right:0;"></image>
+                                </view>
+                            </picker>
+                        </view>
+                        <block wx:if="{{!shangHaiShow&&!zheJiangShow}}">
+                            <view class="wl-choose-wrapper" wx:if="{{courseFlag==true}}">
+                                <view class="wl-choose" data-value="1" wx:if="{{checkedValue==1}}">
+                                    <image class="wl-choose-icon" src="../../image/major_selected.png"></image>文科</view>
+                                <view class="wl-choose {{checkedValue==1?'wl-choose-col':''}}" data-value="1" wx:else>
+                                    <image class="wl-choose-icon" src="../../image/course_no_Checked.png"></image>文科</view>
+                                <view class="wl-choose" data-value="0" wx:if="{{checkedValue==0}}">
+                                    <image class="wl-choose-icon" src="../../image/major_selected.png"></image>理科</view>
+                                <view class="wl-choose {{checkedValue==0?'wl-choose-col':''}}" data-value="0" wx:else>
+                                    <image class="wl-choose-icon" src="../../image/course_no_Checked.png"></image>理科</view>
+                            </view>
+                            <view class="wl-choose-wrapper" wx:else>
+                                <view bindtap="radioChange" class="wl-choose" data-value="1" id="1" wx:if="{{checkedValue==1}}">
+                                    <image class="wl-choose-icon" src="../../image/major_selected.png"></image>文科</view>
+                                <view bindtap="radioChange" class="wl-choose {{checkedValue==1?'wl-choose-col':''}}" data-value="1" id="2" wx:else>
+                                    <image class="wl-choose-icon" src="../../image/course_no_Checked.png"></image>文科</view>
+                                <view bindtap="radioChange" class="wl-choose" data-value="0" id="3" wx:if="{{checkedValue==0}}">
+                                    <image class="wl-choose-icon" src="../../image/major_selected.png"></image>理科</view>
+                                <view bindtap="radioChange" class="wl-choose {{checkedValue==0?'wl-choose-col':''}}" data-value="0" id="4" wx:else>
+                                    <image class="wl-choose-icon" src="../../image/course_no_Checked.png"></image>理科</view>
+                            </view>
+                        </block>
+                    </view>
+                    <block wx:if="{{!shangHaiShow&&!zheJiangShow}}">
+                        <view class="tuijian-center content-font" style="{{isGaokaoFlag==true?'padding-top:0vw':''}}">
+                            <block wx:if="{{isGaokaoFlag==false}}"></block>
+                            <block wx:if="{{isGaokaoFlag==false}}">
+                                <view class="enterFen" wx:if="{{fenClass}}">
+                                    <input bindinput="enterInput" class="enter fen-font" confirmType="done" data-type="getFen" maxlength="3" placeholder="在此输入高考/模考总分" placeholderClass="placeholder" type="number" value="{{getFen==0?'':getFen}}"></input>分
+                  </view>
+                            </block>
+                            <view class="flex" wx:else>
+                                <view class="enterFen" style="margin-right:2vw;" wx:if="{{fenClass}}">
+                                    <input bindinput="enterInput" class="enter fen-font" confirmType="done" data-type="getFen" disabled="{{changeGKScoreFlag}}" maxlength="3" placeholder="输入高考分" placeholderClass="placeholder" type="number" value="{{getFen==0?'-':getFen}}"></input>分
+                    </view>
+                                <view class="enterFen" wx:if="{{fenClass}}">
+                                    <input bindinput="enterWeici" class="enter fen-font" confirmType="done" disabled="{{changeGKScoreFlag}}" maxlength="6" placeholder="输入高考位次" placeholderClass="placeholder" type="number" value="{{userScore.Total!=0&&weiFen==0?'-':weiFen}}"></input>位
+                    </view>
+                            </view>
+                            <view class="xiancha-wrapper" wx:if="{{!fenClass}}">
+                                <view class="xiancha">
+                                    <view class="xiancha-left">
+                                        <picker bindchange="bindRegionXianCha" mode="selector" range="{{xianCha}}" value="{{xianChaIndex}}">
+                                            <view style="">
+                                                <text style="padding:0 2.1vw;">{{xianCha[xianChaIndex]}}</text>
+                                                <image src="../../image/down_icon.png"></image>
+                                            </view>
+                                        </picker>
+                                    </view>
+                                    <view class="xiancha-right">
+                                        <input bindinput="enterInput" class="fen-font" data-type="xianChaFen" maxlength="3" placeholder="请输入线差" type="number" value="{{xianChaFen}}"></input>分</view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="tuijian-bottom content-font" style="height:5vw;margin-bottom:45rpx" wx:if="{{jiangSuShow}}">
+                            <view class="section">
+                                <picker bindchange="bindRegionHistory" disabled="{{changeGKScoreFlag}}" mode="selector" range="{{history}}" value="{{historyIndex}}">
+                                    <view class="picker oneFontSize fourFontColor">
+                      {{historyKemu}}
+                      <text class="font">{{history[historyIndex]}}</text>
+                                        <image src="../../image/down_icon.png"></image>
+                                    </view>
+                                </picker>
+                                <view style="display:flex">
+                                    <picker bindchange="bindRegionKemu" disabled="{{changeGKScoreFlag}}" mode="multiSelector" range="{{kemu}}" value="{{kemuIndex}}">
+                                        <view class="picker oneFontSize fourFontColor">
+                                            <text>{{kemu[0][ kemuIndex[0] ]}}</text>
+                                            <text class="font">{{kemu[1][ kemuIndex[1] ]}}</text>
+                                            <image src="../../image/down_icon.png"></image>
+                                        </view>
+                                    </picker>
+                                </view>
+                            </view>
+                        </view>
+                    </block>
+                    <view class="content-font" wx:if="{{shangHaiShow}}">
+                        <view class="shangHaiTop">
+                            <view>
+                                <input bindinput="enterInput" class="fen2-font" data-type="getFen" disabled="{{changeGKScoreFlag}}" maxlength="3" placeholder="{{isGaokaoFlag==true?'输入高考分':'输入分数'}}" type="number" value="{{getFen==0?'':getFen}}"></input>分</view>
+                            <view>
+                                <input bindinput="enterInput" class="fen2-font" data-type="weiFen" disabled="{{changeGKScoreFlag}}" maxlength="6" placeholder="{{isGaokaoFlag==true?'输入高考位次':'输入位次'}}" type="number" value="{{weiFen==0?'':weiFen}}"></input>位</view>
+                        </view>
+                        <view class="shangHaiBottom">
+                            <view bindtap="{{changeGKScoreFlag==true?'':'chooseShangHaiSubject'}}" class="{{item.st==true?'shangHaiBottom-items-checked':'shangHaiBottom-items'}} zhejiang-content-color" data-name="{{item.name}}" wx:for="{{shangHaiSubject}}">{{item.name}}
+                    <image src="../../image/subject_checked_icon.png" wx:if="{{item.st==true}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="content-font" wx:if="{{zheJiangShow}}">
+                        <view class="shangHaiTop">
+                            <view>
+                                <input bindinput="enterInput" class="fen2-font" data-type="getFen" disabled="{{changeGKScoreFlag}}" maxlength="3" placeholder="{{isGaokaoFlag==true?'输入高考分':'输入分数'}}" type="number" value="{{getFen==0?'':getFen}}"></input>分</view>
+                            <view>
+                                <input bindinput="enterInput" class="fen2-font" data-type="weiFen" disabled="{{changeGKScoreFlag}}" maxlength="6" placeholder="{{isGaokaoFlag==true?'输入高考位次':'输入位次'}}" type="number" value="{{weiFen==0?'':weiFen}}"></input>位</view>
+                        </view>
+                        <view class="shangHaiBottom">
+                            <view bindtap="{{changeGKScoreFlag==true?'':'chooseZheJiangSubject'}}" class="{{item.st==true?'zheJiangBottom-items-checked':'zheJiangBottom-items'}} zhejiang-content-color {{cityId==843?'zjItem':''}}" data-name="{{item.name}}" wx:for="{{zheJiangSubject}}">{{item.name}}
+                    <image src="../../image/subject_checked_icon.png" wx:if="{{item.st==true}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="report flex textAlign whiteFontColor oneFontSize {{cityId==842||cityId==843?'noOneReport':''}}" wx:if="{{cityId==842||cityId==843}}">
+                        <view bindtap="commonTuijian" class="recommendBtn" data-ZNTBorYJTB="0" hoverClass="btnHover">
+                            <image class="recommend-icon" src="../../image/recommend-icon.png"></image> 智能推荐</view>
+                    </view>
+                    <view class="report flex textAlign whiteFontColor oneFontSize" wx:else>
+                        <view bindtap="commonTuijian" class="recommendBtn" data-ZNTBorYJTB="0" hoverClass="recommendHover">
+                            <image class="recommend-icon" src="../../image/recommend-icon.png"></image> 智能推荐</view>
+                        <view bindtap="commonTuijian" class="oneReport" data-ZNTBorYJTB="1" hoverClass="recommendHover">一键填报</view>
+                    </view>
+                    <view class="nav content-font" style="margin-top:20rpx;">
+                        <view bindtap="goDetail" data-type="findUniversity" hoverClass="btnHover" openType="navigate">
+                            <view class="nav-li flex" style="flex-direction:column;">
+                                <image src="../../image/nav_logo1.png"></image>
+                                <view class="oneFontColor twoFontSize">找大学</view>
+                            </view>
+                        </view>
+                        <view bindtap="goDetail" data-type="selectMajor" hoverClass="btnHover" openType="navigate">
+                            <view class="nav-li flex" style="flex-direction:column;">
+                                <image src="../../image/nav_logo2.png"></image>
+                                <view class="oneFontColor twoFontSize">查专业</view>
+                            </view>
+                        </view>
+                        <view bindtap="goDetail" data-type="career" hoverClass="btnHover">
+                            <view class="nav-li flex" style="flex-direction:column;">
+                                <image src="../../image/nav_logo3.png"></image>
+                                <view class="oneFontColor twoFontSize">看职业</view>
+                            </view>
+                        </view>
+                        <view bindtap="goDetail" data-type="advanceBatch" hoverClass="btnHover">
+                            <view class="nav-li flex" style="flex-direction:column;">
+                                <image src="../../image/nav_logo4.png"></image>
+                                <view class="oneFontColor twoFontSize">提前批</view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="nav content-font">
+                        <view bindtap="goDetail" class="nav-li flex" data-type="scoreLine" hoverClass="btnHover" style="flex-direction:column;">
+                            <image src="../../image/nav_logo5.png"></image>
+                            <view class="oneFontColor twoFontSize">分数线</view>
+                        </view>
+                        <view bindtap="goDetail" data-type="plan" hoverClass="btnHover">
+                            <view class="nav-li flex" style="flex-direction:column;">
+                                <image src="../../image/nav_logo6.png"></image>
+                                <view class="oneFontColor twoFontSize">招生计划</view>
+                            </view>
+                        </view>
+                        <view bindtap="goDetail" class="nav-li flex" data-type="piciPlan" hoverClass="btnHover" style="flex-direction:column;">
+                            <image src="../../image/nav_logo7.png"></image>
+                            <view class="oneFontColor twoFontSize">批次线</view>
+                        </view>
+                        <view bindtap="goDetail" data-type="weici" hoverClass="btnHover" openType="navigate">
+                            <view class="nav-li flex" style="border:none;flex-direction:column;">
+                                <image src="../../image/nav_logo8.png"></image>
+                                <view class="oneFontColor twoFontSize">位次查询</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view style="padding:0 22rpx">
+                    <view class="menu flex {{cityId==842||cityId==843?'noAdmission':''}}">
+                        <view bindtap="goDetail" class="flex flexjsbetween itemBackColor" data-type="pability" hoverClass="itemHover" openType="navigate" wx:if="{{!(cityId==842||cityId==843)}}">
+                            <view>
+                                <view class="twoFontSize oneFontColor bold">测录取概率</view>
+                                <view class="fiveFontSize twoFontColor" style="margin-top:8rpx">{{numberNum.pability}}人使用</view>
+                            </view>
+                            <image class="menu-icon" src="../../image/luqugailv.png"></image>
+                        </view>
+                        <view bindtap="goDetail" class="flex flexjsbetween itemBackColor" data-type="chooseSub" hoverClass="itemHover">
+                            <view>
+                                <view class="twoFontSize oneFontColor bold">新高考选科</view>
+                                <view class="fiveFontSize twoFontColor" style="margin-top:8rpx">{{numberNum.chooseSub}}人使用</view>
+                            </view>
+                            <image class="menu-icon" src="../../image/chooseSubject.png"></image>
+                        </view>
+                        <view bindtap="goDetail" class="flex flexjsbetween itemBackColor" data-type="ceping" hoverClass="itemHover" style="padding-right:30rpx">
+                            <view>
+                                <view class="twoFontSize oneFontColor bold">专业定位测评</view>
+                                <view class="fiveFontSize twoFontColor" style="margin-top:8rpx">{{numberNum.ceping}}人使用</view>
+                            </view>
+                            <image class="menu-icon" src="../../image/majorPositionTest.png"></image>
+                        </view>
+                    </view>
+                </view>
+                <view bindtap="goQuickNews" class="wmkx flex" wx:if="{{quickNewsFlag.length>0}}">
+                    <image class="wmkx-bg" src="/image/wmkx-bg.png"></image>
+                    <view class="">
+                        <image class="wmkx-tx" src="/image/wmkx-tx.png"></image>
+                        <text class="word threeFontSize">{{quickNewsFlag[0].updateContent}}</text>
+                    </view>
+                    <image class="more" src="/image/more.png"></image>
+                </view>
+            </view>
+        </view>
+    </block>
+</block>
+<view wx:if="{{isGaokao.Flag}}">
+    <view catchtap="hideIsGaokaoPopup" class="wrap {{isGaokao.wrapAnimate}}" style="background:rgba(0,0,0,{{isGaokao.bgOpacity}});"></view>
+    <view class="{{isGaokao.popupAnimate}} popup-wrapper threeFontSize fourFontColor" style="line-height:2;">
+        <view class="twoFontSize">温馨提示</view>
+        <view style="margin-top:4vw;">目前已进入高考填报期，为更好的服务高考考生，非高三用户即日起至 8月15日 部分功能服务暂不可用。给您带来不便，敬请谅解！</view>
+        <view>客服热线：
+      <text bindtap="callMobile" style="color:#E9302D;">800-767-8888</text>
+        </view>
+        <view bindtap="hideIsGaokaoPopup" class="recommend-btn oneFontSize" style="width:30vw;height:9.6vw;line-height:9.6vw;margin:8vw auto 0;">我已知晓</view>
+    </view>
+</view>
+<loginPopup id="loginPopup"></loginPopup>

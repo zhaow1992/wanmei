@@ -1,0 +1,43 @@
+.circle_box,.circle_draw {
+    position: relative;
+}
+
+.description {
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%,-50%);
+    line-height: 1.5;
+}
+
+.number {
+    line-height: 1.2;
+}
+
+.textAlign {
+    text-align: center;
+}
+
+.absoluteStyle {
+    position: absolute;
+}
+
+.oneFontColor {
+    color: #212121;
+}
+
+.oneFontSize {
+    font-size: 4.27vw;
+}
+
+.sixFontSize {
+    font-size: 6.93vw;
+}
+
+.threeFontSize {
+    font-size: 3.2vw;
+}
+
+.threeFontColor {
+    color: #9b9b9b;
+}

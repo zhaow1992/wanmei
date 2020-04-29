@@ -1,0 +1,11 @@
+@import "../collegeList/collegeList.wxss";
+
+.chooseStyle {
+    width: 15vw;
+    background: #e9302d;
+    height: 7vw;
+    border-radius: 5px;
+    color: #fff;
+    line-height: 7vw;
+    text-align: center;
+}

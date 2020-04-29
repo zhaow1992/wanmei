@@ -1,0 +1,11 @@
+@import "../collegeIntroduction/collegeIntroduction.wxss";
+
+page {
+    background: #f8f5f4;
+}
+
+.collegeLogo {
+    width: 9.07vw;
+    height: 9.07vw;
+    margin-right: 3.2vw;
+}

@@ -1,0 +1,100 @@
+page {
+    background: #f8f5f4;
+}
+
+.collegeMomentPicture {
+    width: 100vw;
+    height: 29.39vh;
+    position: relative;
+}
+
+.collegeIcon {
+    height: 17.07vw;
+    width: 17.07vw;
+    margin: 0 4.27vw;
+    position: absolute;
+    bottom: -5.6vw;
+    left: 0;
+    border-radius: 2.13vw;
+    background: #fff;
+}
+
+.abovePicture {
+    bottom: 1.6vw;
+    left: 23.73vw;
+    position: absolute;
+    justify-content: space-between;
+    width: 76.27vw;
+    display: flex;
+    height: 12.8vw;
+    align-items: flex-end;
+}
+
+.collegeRank {
+    color: #fff;
+    line-height: 4.27vw;
+    padding: 0 0.8vw;
+}
+
+.collegeStrength image {
+    width: 5.87vw;
+    margin-right: 1.07vw;
+    height: 5.87vw;
+}
+
+.collegeStrength {
+    width: 22.86vw;
+}
+
+.collegeStrengthTittle {
+}
+
+.noline {
+    line-height: 1;
+}
+
+.collegeTitleFlex {
+    justify-content: space-between;
+}
+
+.operationItemBtn {
+    width: 100%;
+    text-align: center;
+}
+
+.peopleIconWH {
+    height: 6.4vw;
+    width: 4.27vw;
+}
+
+.proportionLine {
+    width: 30.67vw;
+    background: #66a6ff;
+    border-radius: 0.93vw;
+}
+
+.womanLine {
+    position: absolute;
+    right: 0;
+    border-radius: 0.93vw;
+    top: 0;
+}
+
+.lineHeight {
+    height: 0.8vw;
+}
+
+.schoolImageWH {
+    height: 23.47vw;
+    width: 28.8vw;
+}
+
+.rankBlockWH {
+    width: 17.07vw;
+    height: 17.07vw;
+}
+
+.famousManImgWH {
+    width: 11.73vw;
+    height: 11.73vw;
+}

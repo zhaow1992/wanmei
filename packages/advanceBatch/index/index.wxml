@@ -1,0 +1,91 @@
+<navigationcustomtop navigationText="{{navigationText}}"></navigationcustomtop>
+<view wx:if="{{isVIP}}">
+    <loading loadingType="all" wx:if="{{allLoading}}"></loading>
+    <view wx:if="{{!allLoading}}">
+        <view id="head">
+            <view class="fr ac whiteColor" style="padding-bottom:10rpx;width:750rpx;">
+                <view class="search-box fr ac">
+                    <image src="/image/search_icon.png" style="width:28rpx;height:28rpx;margin-left:40rpx"></image>
+                    <input bindconfirm="queryByCollegeOrKeyWord" bindinput="input" class="twoFontSize twoFontColor" confirmType="搜索" placeholder="搜索院校..." placeholderClass="twoFontSize twoFontColor" style="margin-left:30rpx;width:440rpx" value="{{keyword}}"></input>
+                    <image bindtap="clearInput" src="/image/icon_close_alt2.png" style="width:30rpx;height:30rpx;margin-left:60rpx" wx:if="{{keyword}}"></image>
+                </view>
+            </view>
+            <view wx:if="{{!isSearch}}">
+                <view class="whiteColor" wx:if="{{queryFilterData.length!=0}}">
+                    <scroll-view scrollX class="whiteColor fr ac bottomBorder" style="height:100rpx;line-height:100rpx;white-space:nowrap;padding:0 4.27vw;width:686rpx">
+                        <view bindtap="chkTab" class="twoFontSize fr ac jc {{index==current?'whiteFontColor checkedBackColor active':'oneFontColor'}}" data-index="{{index}}" data-type="0" style="display:inline-block;margin-right:30rpx" wx:for="{{queryFilterData}}">{{item.type}}</view>
+                    </scroll-view>
+                </view>
+                <view class="whiteColor" wx:if="{{queryFilterData.length!=0}}">
+                    <scroll-view scrollX class="bottomBorder" style="height:100rpx;line-height:100rpx;white-space:nowrap;padding:0 32rpx;width:686rpx;background-image: linear-gradient(270deg, #FFFFFF 0%, rgba(255,255,255,0.00) 100%);">
+                        <view bindtap="chkTab" class="twoFontSize fr ac jc {{index==firstCurrent?'whiteFontColor checkedBackColor active':'oneFontColor'}}" data-index="{{index}}" data-type="1" style="display:inline-block;margin-right:30rpx" wx:for="{{queryFilterData[current].subset}}">{{item.name}}</view>
+                    </scroll-view>
+                    <scroll-view scrollX style="height:100rpx;line-height:100rpx;white-space: nowrap;padding-left:32rpx;width:686rpx;" wx:if="{{queryFilterData[current].subset[firstCurrent].subset.length>0}}">
+                        <view bindtap="chkTab" class="twoFontSize fr ac jc {{index==secondCurrent?'whiteFontColor checkedBackColor active':'oneFontColor'}}" data-index="{{index}}" data-type="2" style="display:inline-block;margin-right:30rpx" wx:for="{{queryFilterData[current].subset[firstCurrent].subset}}">{{item.name}}</view>
+                    </scroll-view>
+                </view>
+            </view>
+            <view class="tab-head fr ac threeFontSize fourFontColor">
+                <view class="br fr ac jc boxs" style="width:12vw;">代码</view>
+                <view class="br fr ac jc boxs" style="width:58vw;">院校/专业名称</view>
+                <view class="br fr ac jc boxs" style="width:10vw">计划</view>
+                <view class="br fr ac jc boxs" style="width:10vw;">学费</view>
+                <view class="br fr ac jc boxs" style="width:10vw;">学制</view>
+            </view>
+        </view>
+        <scroll-view scrollY bindscrolltolower="getMore" scrollIntoView="{{intoView}}" style="height:{{scrollH}}px">
+            <loading loadingType="local" wx:if="{{showLoading}}"></loading>
+            <view wx:if="{{!showLoading}}">
+                <view wx:if="{{advanceData.length>0}}">
+                    <view class="whiteColor fiveFontSize fourFontColor bottomBorder" style="padding:20rpx 32rpx;line-height:32rpx;">
+            【备注】在以下公布的军事院校招生计划中，一类院校执行本科一批录取控制分数线，二类院校执行本科二批录取控制分数线。军队院校招生计划按专业体检合格标准，区分指挥、非指挥专业，分成若干个专业类，考生可根据自身条件，选择一个或多个专业类中的院校填报，最多可填报10个院校(专业类)志愿。部分学校有两个以上校区(有些可能在不同城市)，学校名称后面公布的校址为校本部所在城市，其他校区办学地点请咨询相关高校。
+          </view>
+                    <view id="view{{index}}" wx:for="{{advanceData}}">
+                        <view>
+                            <view class="fc">
+                                <view class="fr ac whiteColor oneFontColor twoFontSize" style="padding-left:32rpx;height:74rpx;" wx:if="{{item.types.length>0&&item.colleges.length>0}}" wx:for="{{item.types}}" wx:for-item="type">{{type.name}}</view>
+                            </view>
+                            <view class="fc" wx:for="{{item.colleges}}" wx:for-item="college">
+                                <view class="college fr threeFontSize fourFontColor bottomBorder" style="align-items:stretch;">
+                                    <view class="br fr ac jc boxs" style="width:12vw;">{{college.admissCode}}</view>
+                                    <view bindtap="toCollegeDetail" class="br fr ac boxs" data-id="{{college.collegeId}}" style="width:58vw;">
+                                        <text style="margin:10rpx;">{{college.collegeName}}<text class="threeFontColor">{{college.remarks?'(注：'+college.remarks+')':''}}</text>
+                                        </text>
+                                    </view>
+                                    <view class="br fr ac jc boxs" style="width:10vw;">{{college.planNum==0?'-':college.planNum}}</view>
+                                    <view class="fr ac jc br boxs" style="width:20vw;">
+                                        <image src="../image/icon_lnfsx.png" style="width:36rpx;;height:28rpx;"></image>
+                                    </view>
+                                </view>
+                                <view wx:for="{{college.majors}}" wx:for-index="idx" wx:for-item="major">
+                                    <view class="major fr threeFontSize fourFontColor bottomBorder" style="align-items:stretch;">
+                                        <view class="br fr ac jc boxs" style="width:12vw;">{{idx+1}}</view>
+                                        <view class="br fr ac boxs" data-majorcode="{{major.majorCode}}" style="width:58vw;">
+                                            <text style="margin:10rpx;">{{major.professionName}}<text class="threeFontColor" style="margin-left:10rpx;" wx:if="{{major.professionDesc}}">(注:{{major.professionDesc}})</text>
+                                                <text class="threeFontColor" style="margin-left:10rpx;" wx:if="{{major.remarks}}">(注:{{major.remarks}})</text>
+                                            </text>
+                                        </view>
+                                        <view class="br fr ac jc boxs" style="width:10vw;">{{major.planNum==0?'-':major.planNum}}</view>
+                                        <view class="br fr ac jc boxs" style="width:10vw;">{{major.cost==0?'-':major.cost}}</view>
+                                        <view class="br fr ac jc boxs" style="width:10vw;">{{major.learnYear}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view wx:if="{{showMore}}">
+                        <view class="twoFontColor twoFontSize textAlign" style="line-height:2" wx:if="{{noData}}">- 已加载全部 -</view>
+                        <view class="twoFontColor twoFontSize textAlign" style="line-height:2" wx:else>正在加载中...</view>
+                    </view>
+                </view>
+                <view class="fc jc ac" style="height:40vh;" wx:else>
+                    <image mode="widthFix" src="/image/recommend_noFount.png" style="width:20vw;height:20vw;margin-bottom: 20rpx;"></image>
+                    <view class="twoFontColor twoFontSize">没有找到内容</view>
+                </view>
+            </view>
+        </scroll-view>
+    </view>
+</view>
+<view wx:else>
+    <loginVIP></loginVIP>
+</view>

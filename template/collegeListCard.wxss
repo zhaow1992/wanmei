@@ -1,0 +1,22 @@
+.collegeListCardSingle {
+    justify-content: space-between;
+}
+
+.iconMargin {
+    margin-right: 1.33vw;
+}
+
+.collegeLogo {
+    width: 9.07vw;
+    height: 9.07vw;
+    margin-right: 3.2vw;
+}
+
+.terraceBorder {
+    min-width: 9.07vw;
+    margin-right: 1.07vw;
+    box-sizing: border-box;
+    text-align: center;
+    border: 1px solid #f66666;
+    border-radius: 1.07vw;
+}

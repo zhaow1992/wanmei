@@ -1,0 +1,8 @@
+<view class="service-wrapper">
+    <view>
+        <image mode="widthFix" src="../../image/error_icon1.png"></image>
+        <view class="textBiao">出错啦</view>
+        <view class="textContent">请检查网络或联系我们</view>
+        <view catchtap="_confirmEvent" class="again" hoverClass="itemChecked">点击重试</view>
+    </view>
+</view>

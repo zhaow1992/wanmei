@@ -1,0 +1,54 @@
+page {
+    background: #F8F5F4;
+}
+
+.search-box {
+    width: 600rpx;
+    height: 68rpx;
+    border-radius: 36rpx;
+    background: #EFEFF4;
+    margin-top: 10rpx;
+    margin-left: 32rpx;
+}
+
+.lishijilu {
+    border-bottom: 1px solid #dedddb;
+    line-height: 3;
+}
+
+.history {
+    padding: 12rpx 24rpx;
+    border: 1px solid #EFEFF4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 185rpx;
+}
+
+.tab-item {
+    display: inline-block;
+    width: 150rpx;
+    height: 100rpx;
+    line-height: 100rpx;
+    text-align: center;
+}
+
+.logo {
+    width: 68rpx;
+    height: 68rpx;
+    border-radius: 50%;
+}
+
+.more {
+    height: 80rpx;
+    background: #FAFAFA;
+    margin: 0 30rpx;
+}
+
+.lab {
+    height: 28rpx;
+    padding: 0 10rpx;
+    border: 1rpx solid #ccc;
+    border-radius: 15rpx;
+    margin-right: 8rpx;
+}

@@ -1,0 +1,25 @@
+@import "../collegeResult/collegeResult.wxss";
+
+.item {
+    width: 686rpx;
+    border-radius: 16rpx;
+    margin-bottom: 20rpx;
+}
+
+.lab {
+    line-height: 28rpx;
+    height: 28rpx;
+    padding: 0 12rpx;
+    border: 1rpx solid #9B9B9B;
+    border-radius: 8rpx;
+}
+
+.lab:not(:first-child) {
+    margin-left: 8rpx;
+}
+
+.tableHead {
+    width: 678rpx;
+    height: 84rpx;
+    background: #e9e9e9;
+}

@@ -1,0 +1,379 @@
+<navigationcustomtop id="navigationcustom" navigationText="-" share="{{share}}"></navigationcustomtop>
+<loading wx:if="{{showLoad}}"></loading>
+<view hidden="{{showLoad}}">
+    <view class="container">
+        <view class="flex flexjsaround twoFontSize threeFontColor whiteColor" id="nav" style="height:12.8vw;line-height:1;">
+            <view bindtap="swiperNav" class="{{currentTab==item.value?'oneFontSize fourFontColor':''}} relativeStyle" data-current="{{index}}" wx:for="{{tab}}">
+                <view>{{item.name}}</view>
+                <view class="absoluteStyle" style="left:50%;transform:translate(-50%);margin-top:2.4vw;">
+                    <view class="checkedBackColor {{currentTab==item.value?'selectLineWH':''}}"></view>
+                </view>
+            </view>
+        </view>
+        <swiper bindchange="changeSwiper" current="{{currentTab}}" style="background:#F8F5F4;height:{{swiperH}}px;">
+            <swiper-item>
+                <scroll-view scrollY style="height:{{swiperH}}px;">
+                    <view class="whiteColor" style="box-shadow: 0 0 5px 2px rgba(0,0,0,0.03);border-radius: 8px;width:83.5vw;margin:2.13vw auto;padding:4vw;">
+                        <view class="fourFontSize oneFontColor bold">专业概览</view>
+                        <view class="threeFontSize twoFontColor">{{majorDetail.largeClassName}} > {{majorDetail.middleClassName}}</view>
+                        <view class="flex info-wrapper">
+                            <view class="flex item-wrapper">
+                                <view class="icon-wrapper flex" style="background-image: linear-gradient(180deg, #7FDF15 10%, #7ED321 100%);">
+                                    <image mode="widthFix" src="../image/icon1.png"></image>
+                                </view>
+                                <view class="text-wrapper flex">
+                                    <view class="oneFontSize oneFontColor">{{majorDetail.typeId==0?'本科':'专科'}}</view>
+                                    <view class="threeFontSize threeFontColor">学历层次</view>
+                                </view>
+                            </view>
+                            <view class="flex item-wrapper">
+                                <view class="icon-wrapper flex" style="background-image: linear-gradient(180deg, #9988FF 10%, #7D47FE 100%);">
+                                    <image mode="widthFix" src="../image/icon2.png"></image>
+                                </view>
+                                <view class="text-wrapper flex">
+                                    <view class="oneFontSize oneFontColor">{{majorDetail.learnYear==0?'-':majorDetail.learnYear}}</view>
+                                    <view class="threeFontSize threeFontColor">修业年限</view>
+                                </view>
+                            </view>
+                            <view class="flex item-wrapper" wx:if="{{majorDetail.typeId==0}}">
+                                <view class="icon-wrapper flex" style="background-image: linear-gradient(-13deg, #2EC893 15%, #8BE39A 99%);">
+                                    <image mode="widthFix" src="../image/icon3.png"></image>
+                                </view>
+                                <view class="text-wrapper flex">
+                                    <view class="oneFontSize oneFontColor">{{majorDetail.degree}}</view>
+                                    <view class="threeFontSize threeFontColor">授予学位</view>
+                                </view>
+                            </view>
+                            <view class="flex item-wrapper">
+                                <view class="icon-wrapper flex" style="background-image: linear-gradient(-22deg, #FEA12C 0%, #FFDE4F 92%);">
+                                    <image mode="widthFix" src="../image/icon4.png"></image>
+                                </view>
+                                <view class="text-wrapper flex">
+                                    <view class="oneFontSize oneFontColor">{{majorDetail.male==0||majorDetail.male==100?'-':majorDetail.male}}：{{majorDetail.female==0||majorDetail.female==100?'-':majorDetail.female}}</view>
+                                    <view class="threeFontSize threeFontColor">男女比例</view>
+                                </view>
+                            </view>
+                            <view class="flex item-wrapper">
+                                <view class="icon-wrapper flex" style="background-image: linear-gradient(180deg, #66A6FF 10%, #018AFE 100%);">
+                                    <image mode="widthFix" src="../image/icon4.png"></image>
+                                </view>
+                                <view class="text-wrapper flex">
+                                    <view class="oneFontSize oneFontColor">{{majorDetail.wkRatio==0||majorDetail.wkRatio==100?'-':majorDetail.wkRatio}}：{{majorDetail.lkRatio==0||majorDetail.lkRatio==100?'-':majorDetail.lkRatio}}</view>
+                                    <view class="threeFontSize threeFontColor">文理比例</view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <block wx:if="{{majorDetail.typeId==0}}">
+                        <view class="majorContent-wrapper" style="background:#FAFAFA;">
+                            <view class="whiteColor" style="padding:4vw 0;">
+                                <view class="listPadding fourFontSize oneFontColor bold">专业介绍
+                  <text class="threeFontSize twoFontColor" style="font-weight:normal;margin-left:2.7vw;">(培养目标、培养要求、学科要求）</text>
+                                </view>
+                                <view class="no-data textAlign twoFontColor" wx:if="{{majorDetail.introduction==null||majorDetail.introduction==''}}">
+                                    <image src="/image/part-no-data.png"></image>
+                                    <view class="threeFontColor twoFontSize">暂无数据</view>
+                                </view>
+                                <view class="listPadding fourFontColor twoFontSize moreRowsOmit" style="margin-top:4vw;" wx:else>{{majorDetail.introduction}}</view>
+                            </view>
+                            <navigator class="more flex threeFontSize twoFontColor" hoverClass="listHover" url="../majorIntro/majorIntro?isborz={{majorDetail.typeId}}&introduction={{majorDetail.introduction}}&objective={{majorDetail.objective}}&requirement={{majorDetail.requirement}}&subjectRequirement={{majorDetail.subjectRequirement}}&loreAndAbility={{majorDetail.loreAndAbility}}&famousScholar={{majorDetail.famousScholar}}" wx:if="{{majorDetail.introduction!=null&&majorDetail.introduction!=''}}">
+                                <view class="flex">
+                                    <view>查看更多</view>
+                                    <image class="moreIcon" src="/image/moreArrow.png"></image>
+                                </view>
+                            </navigator>
+                        </view>
+                        <view class="whiteColor majorContent-wrapper">
+                            <view style="padding:4vw 0;">
+                                <view class="listPadding fourFontSize oneFontColor bold">考研方向</view>
+                                <view class="no-data textAlign twoFontColor" wx:if="{{majorDetail.progressions==null||majorDetail.progressions==''}}">
+                                    <image src="/image/part-no-data.png"></image>
+                                    <view class="threeFontColor twoFontSize">暂无数据</view>
+                                </view>
+                                <view class="listPadding fourFontColor twoFontSize" style="margin-top:4vw;" wx:else>{{majorDetail.progressions}}</view>
+                            </view>
+                        </view>
+                        <view class="whiteColor majorContent-wrapper">
+                            <view style="padding:4vw 0;">
+                                <view class="listPadding fourFontSize oneFontColor bold">主要课程</view>
+                                <view class="no-data textAlign twoFontColor" wx:if="{{majorDetail.majorCourse==null||majorDetail.majorCourse==''}}">
+                                    <image src="/image/part-no-data.png"></image>
+                                    <view class="threeFontColor twoFontSize">暂无数据</view>
+                                </view>
+                                <view class="listPadding fourFontColor twoFontSize" style="margin-top:4vw;" wx:else>{{majorDetail.majorCourse}}</view>
+                            </view>
+                        </view>
+                    </block>
+                    <block wx:else>
+                        <view class="majorContent-wrapper" style="background:#FAFAFA;">
+                            <view class="whiteColor" style="padding:4vw 0;">
+                                <view class="listPadding fourFontSize oneFontColor bold">培养目标
+                  <text class="threeFontSize twoFontColor" style="font-weight:normal;margin-left:2.7vw;">(职业能力、实习实训、职业证书）</text>
+                                </view>
+                                <view class="no-data textAlign twoFontColor" wx:if="{{majorDetail.objective==null||majorDetail.objective==''}}">
+                                    <image src="/image/part-no-data.png"></image>
+                                    <view class="threeFontColor twoFontSize">暂无数据</view>
+                                </view>
+                                <view class="listPadding fourFontColor twoFontSize moreRowsOmit" style="margin-top:4vw;" wx:else>{{majorDetail.objective}}</view>
+                            </view>
+                            <navigator class="more flex threeFontSize twoFontColor" hoverClass="listHover" url="../majorIntro/majorIntro?isborz={{majorDetail.typeId}}&objective={{majorDetail.objective}}&loreAndAbility={{majorDetail.loreAndAbility}}&internship={{majorDetail.internship}}&careerCredentials={{majorDetail.careerCredentials}}">
+                                <view class="flex">
+                                    <view>查看更多</view>
+                                    <image class="moreIcon" src="/image/moreArrow.png"></image>
+                                </view>
+                            </navigator>
+                        </view>
+                        <view class="whiteColor majorContent-wrapper">
+                            <view style="padding:4vw 0;">
+                                <view class="listPadding fourFontSize oneFontColor bold">核心课程</view>
+                                <view class="no-data textAlign twoFontColor" wx:if="{{majorDetail.majorCourse==null||majorDetail.majorCourse==''}}">
+                                    <image src="/image/part-no-data.png"></image>
+                                    <view class="threeFontColor twoFontSize">暂无数据</view>
+                                </view>
+                                <view class="listPadding fourFontColor twoFontSize" style="margin-top:4vw;" wx:else>{{majorDetail.majorCourse}}</view>
+                            </view>
+                        </view>
+                        <view class="whiteColor majorContent-wrapper">
+                            <view style="padding:4vw 0;">
+                                <view class="listPadding fourFontSize oneFontColor bold">专升本方向</view>
+                                <view class="no-data textAlign twoFontColor" wx:if="{{majorDetail.zsbDirection==null||majorDetail.zsbDirection==''}}">
+                                    <image src="/image/part-no-data.png"></image>
+                                    <view class="threeFontColor twoFontSize">暂无数据</view>
+                                </view>
+                                <view class="listPadding fourFontColor twoFontSize" style="margin-top:4vw;" wx:else>{{majorDetail.zsbDirection}}</view>
+                            </view>
+                        </view>
+                    </block>
+                    <view class="majorContent-wrapper" style="background:#FAFAFA;">
+                        <view class="whiteColor" style="padding:4vw 0;">
+                            <view class="listPadding fourFontSize oneFontColor bold flex" style="justify-content:space-between;">
+                                <view>就业方向</view>
+                                <view bindtap="showPopup" class="flex" hoverClass="btnHover" wx:if="{{careerProspects.description.lenght!=0&&careerProspects.description!=[]&&careerProspects.description!=null&&careerProspects.description!=''}}">
+                                    <image class="questionIcon" src="/image/question.png" style="margin-right:2vw;"></image>
+                                    <view class="threeFontSize twoFontColor" style="font-weight:normal;">使用说明</view>
+                                </view>
+                            </view>
+                            <block wx:if="{{careerList.employment.careerDct!=null&&careerList.employment.careerDct!=''&&careerList.employment.careerDct!=0||careerList.employment.averageSalary!=null&&careerList.employment.averageSalary!=''&&careerList.employment.averageSalary!=0||careerList.employment.industryDct!=null&&careerList.employment.industryDct!=''&&careerList.employment.industryDct!=0||careerList.employment.jobRecommend!=null&&careerList.employment.jobRecommend!=''}}">
+                                <view class="listPadding fourFontColor twoFontSize" style="margin-top:4vw;" wx:if="{{careerList.employment.jobRecommend!=null&&careerList.employment.jobRecommend!=''}}">{{careerList.employment.jobRecommend}}</view>
+                                <view style="margin-top:4vw;">
+                                    <view class="flex majorInfo-wrappper" wx:if="{{careerList.employment.careerDct!=null&&careerList.employment.careerDct!=''&&careerList.employment.careerDct!=0}}">
+                                        <view class="flex">
+                                            <view class="flex icon-wrapper" style="background-image: linear-gradient(154deg, #66A6FF 0%, #018AFE 99%);margin-right:2.7vw;">
+                                                <image src="../image/icon7.png"></image>
+                                            </view>
+                                            <view class="threeFontSize twoFontColor">主要职业去向</view>
+                                        </view>
+                                        <view class="twoFontSize oneFontColor">{{careerList.employment.careerDct}}({{careerList.employment.careerDctRatio}}%)</view>
+                                    </view>
+                                    <view class="flex majorInfo-wrappper" wx:if="{{careerList.employment.averageSalary!=null&&careerList.employment.averageSalary!=''&&careerList.employment.averageSalary!=0}}">
+                                        <view class="flex">
+                                            <view class="flex icon-wrapper" style="background-image: linear-gradient(154deg, #66A6FF 0%, #018AFE 99%);margin-right:2.7vw;">
+                                                <image src="../image/icon8.png"></image>
+                                            </view>
+                                            <view class="threeFontSize twoFontColor">平均薪资</view>
+                                        </view>
+                                        <view class="twoFontSize oneFontColor">{{careerList.employment.averageSalary}}</view>
+                                    </view>
+                                    <view class="flex majorInfo-wrappper" wx:if="{{careerList.employment.industryDct!=null&&careerList.employment.industryDct!=''&&careerList.employment.industryDct!=0}}">
+                                        <view class="flex">
+                                            <view class="flex icon-wrapper" style="background-image: linear-gradient(154deg, #66A6FF 0%, #018AFE 99%);margin-right:2.7vw;">
+                                                <image src="../image/icon9.png"></image>
+                                            </view>
+                                            <view class="threeFontSize twoFontColor">主要行业去向</view>
+                                        </view>
+                                        <view class="twoFontSize oneFontColor">{{careerList.employment.industryDct}} ({{careerList.employment.industryDctRatio}}%)</view>
+                                    </view>
+                                </view>
+                            </block>
+                            <view class="no-data textAlign twoFontColor" wx:else>
+                                <image src="/image/part-no-data.png"></image>
+                                <view class="threeFontColor twoFontSize">暂无数据</view>
+                            </view>
+                        </view>
+                        <view bindtap="selectMore" class="more flex threeFontSize twoFontColor" hoverClass="listHover" wx:if="{{careerList.employment.careerDct!=null&&careerList.employment.careerDct!=''&&careerList.employment.careerDct!=0||careerList.employment.averageSalary!=null&&careerList.employment.averageSalary!=''&&careerList.employment.averageSalary!=0||careerList.employment.industryDct!=null&&careerList.employment.industryDct!=''&&careerList.employment.industryDct!=0||careerList.employment.jobRecommend!=null&&careerList.employment.jobRecommend!=''}}">
+                            <view class="flex">
+                                <view>查看更多</view>
+                                <image class="moreIcon" src="/image/moreArrow.png"></image>
+                            </view>
+                        </view>
+                    </view>
+                </scroll-view>
+            </swiper-item>
+            <swiper-item>
+                <scroll-view scrollY style="height:{{swiperH}}px;">
+                    <view class="whiteColor majorContent-wrapper">
+                        <view style="padding:4vw 0;">
+                            <view class="listPadding fourFontSize oneFontColor bold">职业分布</view>
+                            <view class="no-data textAlign twoFontColor" wx:if="{{careerProspects.careerDistribution.length==0||careerProspects.careerDistribution==null}}">
+                                <image src="/image/part-no-data.png"></image>
+                                <view class="threeFontColor twoFontSize">暂无数据</view>
+                            </view>
+                            <block wx:else>
+                                <view bindtap="openJobInfo" class="listPadding oneFontColor" data-index="{{index}}" hoverClass="btnHover" wx:for="{{careerProspects.careerDistribution}}">
+                                    <view class="flex">
+                                        <view style="width:3.6vw;">
+                                            <image class="{{item.st?'openJobAnimate':''}}" src="/image/moreArrow.png" style="width: 1.3vw;height: 2.6vw;"></image>
+                                        </view>
+                                        <view class="twoFontSize">{{item.name}}</view>
+                                    </view>
+                                    <view class="flex progress-wrapper" wx:if="{{item.value!=0&&item.value!=null&&item.value!=''}}">
+                                        <view>
+                                            <view style="width:{{72/100*item.value}}vw;"></view>
+                                        </view>
+                                        <view class="threeFontSize fourFontColor">{{item.value}}%</view>
+                                    </view>
+                                    <view hidden="{{!item.st}}" style="padding:4vw;background:#FAFAFA;border-radius:8px;margin-top:2vw;">具体岗位：{{item.expands==''||item.expands==null?'暂无数据':item.expands}}</view>
+                                </view>
+                            </block>
+                        </view>
+                    </view>
+                    <view class="whiteColor majorContent-wrapper" wx:if="{{false}}">
+                        <view style="padding:4vw 0;">
+                            <view class="listPadding fourFontSize oneFontColor bold">岗位薪资</view>
+                            <view class="flex flexjsaround twoFontSize threeFontColor whiteColor tab-wrapper">
+                                <view bindtap="moneySwiperNav" class="{{moneyCurrentTab==index?'oneFontSize fourFontColor':''}} relativeStyle" data-current="{{index}}" wx:for="{{moneyTab}}">
+                                    <view>{{item}}</view>
+                                    <view class="absoluteStyle" style="left:50%;transform:translate(-50%);margin-top:3.4vw;">
+                                        <view class="checkedBackColor {{moneyCurrentTab==index?'selectLineWH':''}}"></view>
+                                    </view>
+                                </view>
+                            </view>
+                            <swiper bindchange="changeMoneySwiper" current="{{moneyCurrentTab}}" style="height:65vw;">
+                                <swiper-item wx:for="{{moneyTab}}">
+                                    <view bindtap="openJobInfo" class="listPadding oneFontColor" data-index="{{index}}" hoverClass="btnHover" wx:for="{{moneyList}}">
+                                        <view class="flex">
+                                            <view style="width:3.6vw;"></view>
+                                            <view class="twoFontSize">{{item.name}}</view>
+                                        </view>
+                                        <view class="flex progress-wrapper">
+                                            <view>
+                                                <view style="width:{{72/moneyList[0].pro*item.pro}}vw;"></view>
+                                            </view>
+                                            <view class="threeFontSize fourFontColor">￥{{item.pro}}</view>
+                                        </view>
+                                    </view>
+                                </swiper-item>
+                            </swiper>
+                        </view>
+                    </view>
+                    <view class="whiteColor majorContent-wrapper">
+                        <view style="padding:4vw 0;">
+                            <view class="listPadding fourFontSize oneFontColor bold">行业分布</view>
+                            <view class="no-data textAlign twoFontColor" wx:if="{{careerProspects.industrialDistribution.length==0||careerProspects.industrialDistribution==null}}">
+                                <image src="/image/part-no-data.png"></image>
+                                <view class="threeFontColor twoFontSize">暂无数据</view>
+                            </view>
+                            <block wx:else>
+                                <view class="listPadding oneFontColor" hoverClass="btnHover" wx:if="{{item.value!=0&&item.value!=null&&item.value!=''}}" wx:for="{{careerProspects.industrialDistribution}}">
+                                    <view class="flex">
+                                        <view style="width:3.6vw;"></view>
+                                        <view class="twoFontSize">{{item.name}}</view>
+                                    </view>
+                                    <view class="flex progress-wrapper">
+                                        <view>
+                                            <view style="width:{{72/100*item.value}}vw;"></view>
+                                        </view>
+                                        <view class="threeFontSize fourFontColor">{{item.value}}%</view>
+                                    </view>
+                                </view>
+                            </block>
+                        </view>
+                    </view>
+                    <view class="whiteColor majorContent-wrapper">
+                        <view style="padding:4vw 0;">
+                            <view class="listPadding fourFontSize oneFontColor bold">地区分布</view>
+                            <view class="no-data textAlign twoFontColor" wx:if="{{careerProspects.areaDistribution.length==0||careerProspects.areaDistribution.length==null}}">
+                                <image src="/image/part-no-data.png"></image>
+                                <view class="threeFontColor twoFontSize">暂无数据</view>
+                            </view>
+                            <block wx:else>
+                                <view class="listPadding oneFontColor" hoverClass="btnHover" wx:if="{{item.value!=0&&item.value!=null&&item.value!=''}}" wx:for="{{careerProspects.areaDistribution}}">
+                                    <view class="flex">
+                                        <view style="width:3.6vw;"></view>
+                                        <view class="twoFontSize">{{item.name}}</view>
+                                    </view>
+                                    <view class="flex progress-wrapper">
+                                        <view>
+                                            <view style="width:{{72/100*item.value}}vw;"></view>
+                                        </view>
+                                        <view class="threeFontSize fourFontColor">{{item.value}}%</view>
+                                    </view>
+                                </view>
+                            </block>
+                        </view>
+                    </view>
+                    <view class="bottomInfo-wrapper" wx:if="{{careerProspects.description.lenght!=0&&careerProspects.description!=[]&&careerProspects.description!=null&&careerProspects.description!=''}}">
+                        <view class="twoFontSize oneFontColor flex" style="padding-left:4vw;">
+                            <image mode="widthFix" src="/image/light.png" style="width:4vw;height:5vw;margin-right:2.7vw;"></image>
+                            <view>数据来源说明：</view>
+                        </view>
+                        <view class="infoText-wrapper">
+                            <view class="flex threeFontSize fourFontColor">
+                                <view class="dian"></view>
+                                <view style="line-height:1.5;width:79vw;">以上数据来自于中国教育在线(gkcx.eol.cn)，仅供参考。</view>
+                            </view>
+                            <view class="flex threeFontSize fourFontColor">
+                                <view class="dian"></view>
+                                <view style="line-height:1.5;width:79vw;">留学人员、公务员、及高校医院国企等事业编制单位的薪酬样本较少。毕业超过五年的薪酬样本偏少，可能有偏差。</view>
+                            </view>
+                        </view>
+                    </view>
+                </scroll-view>
+            </swiper-item>
+            <swiper-item wx:if="{{majorDetail.typeId==0}}">
+                <scroll-view scrollY bindscrolltolower="getNextPage" style="height:{{swiperH}}px;">
+                    <block wx:if="{{openCollege.openCollegeList.length>0}}">
+                        <view class="listPadding threeFontSize twoFontColor" style="line-height:3">共 {{openCollege.openCollegeNum}} 所</view>
+                        <navigator class="itemBackColor" hoverClass="listHover" style="margin:0 0 5px 0;line-height:1.5;" url="/packages/findUniversity/collegeDetail/collegeDetail?numId={{item.collegeId}}" wx:for="{{openCollege.openCollegeList}}">
+                            <view class="pageItemWidth flex cardBorder textPadding threeFontSize">
+                                <image class="collegeLogo" src="{{item.logoUrl}}"></image>
+                                <view>
+                                    <view>
+                                        <view class="oneFontSize oneFontWidth bold flex" style="flex-wrap:wrap;">
+                                            <text style="max-weight:50vw;margin-right:2vw;">{{item.collegeName}}</text>
+                                            <text class="terraceBorderText fiveFontSize sign" wx:for="{{item.tags}}">{{item}}</text>
+                                        </view>
+                                    </view>
+                                    <view class="twoFontColor threeFontSize flex flexjsbetween" style="margin:1.33vw 0 0 0;">
+                                        <view>{{item.classify}} / {{item.belong}} / {{item.collegeType}}</view>
+                                        <view class="flex">
+                                            <image mode="widthFix" src="/image/city.png" style="height:2.93vw;width:2.4vw;margin-right:1.07vw;"></image>
+                                            <view>{{item.provinceName}}</view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </navigator>
+                        <view class="flex twoFontColor" style="line-height:3;text-align:center;justify-content:space-around;" wx:if="{{openCollege.showMore}}">
+                            <view class="flex">
+                                <image src="/image/loading.gif" style="width:4vw;height:4vw;margin-right:2vw;"></image>
+                                <view>加载数据中</view>
+                            </view>
+                        </view>
+                        <view class="twoFontColor" style="line-height:3;text-align:center;" wx:else>- 我也是有底线的 -</view>
+                    </block>
+                    <view class="all-no-data" wx:else>
+                        <image src="/image/no-data.png"></image>
+                        <view>暂无数据</view>
+                    </view>
+                </scroll-view>
+            </swiper-item>
+        </swiper>
+    </view>
+    <view wx:if="{{popup.popupFlag}}">
+        <view catchtap="hidePopup" class="wrap {{popup.wrapAnimate}}" style="background:rgba(0,0,0,{{popup.bgOpacity}});"></view>
+        <view class="{{popup.popupAnimate}} popup-wrapper threeFontSize fourFontColor">
+            <view class="twoFontSize bold">使用说明</view>
+            <view>
+                <view class="flex threeFontSize fourFontColor" style="margin-top:4vw;">
+                    <view style="line-height:1.5;width:79vw;">1.以上数据来自于职友集(jobui.com)，仅供参考。</view>
+                </view>
+                <view class="flex threeFontSize fourFontColor" style="margin-top:4vw;">
+                    <view style="line-height:1.5;width:79vw;">2.留学人员、公务员、及高校医院国企等事业编制单位的薪酬样本较少。毕业超过五年的薪酬样本偏少，可能有偏差。</view>
+                </view>
+            </view>
+            <view class="closeLine"></view>
+            <image catchtap="hidePopup" class="closeBtn" src="/image/windowClose.png"></image>
+        </view>
+    </view>
+</view>

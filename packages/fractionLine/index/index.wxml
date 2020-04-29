@@ -1,0 +1,476 @@
+<navigationcustomtop id="navigationcustom" navigationText="{{navigationText}} " share="{{share}}"></navigationcustomtop>
+<loading wx:if="{{showLoad=='true'}}"></loading>
+<block wx:elif="{{showLoad=='false'}}">
+    <view>
+        <view class="whiteColor">
+            <view class="flex flexjsaround pageItemWidth twoFontSize threeFontColor " style="height:12.8vw;">
+                <block wx:if="{{cityId=='843'}}">
+                    <view bindtap="swiperNav" class="{{currentTab==index?'oneFontSize fourFontColor':''}} relativeStyle" data-current="{{index}}" wx:for="{{zheJiangTabList}}">
+                        <view>{{item}}</view>
+                        <view class="absoluteStyle" style="left:50%;transform:translate(-50%);margin-top:2.4vw;">
+                            <view class="checkedBackColor {{currentTab==index?'selectLineWH':''}} "></view>
+                        </view>
+                    </view>
+                </block>
+                <block wx:else>
+                    <view bindtap="swiperNav" class="{{currentTab==index?'oneFontSize fourFontColor':''}} relativeStyle" data-current="{{index}}" wx:for="{{scorceTabList}}">
+                        <view>{{item}}</view>
+                        <view class="absoluteStyle" style="left:50%;transform:translate(-50%);margin-top:2.4vw;">
+                            <view class="checkedBackColor {{currentTab==index?'selectLineWH':''}} "></view>
+                        </view>
+                    </view>
+                </block>
+            </view>
+        </view>
+        <view>
+            <swiper bindchange="change" current="{{currentTab}}" duration="400" easingFunction="default" style="height:{{swiperHeight}}px;">
+                <swiper-item class="whiteColor" wx:if="{{cityId!='843'}}">
+                    <view class="graySeparate">
+                        <view class="threeFontSize flex flexjsbetween pageItemWidth" style="height:12.8vw;">
+                            <view class="flex">
+                                <view class="flex" wx:if="{{cityId!='842'&&cityId!='843'}}">
+                                    <view bindtap="chooseArtsAndSciences" class="changeBlockWH whiteColor relativeStyle flex flexjscenter" data-itemtype="college" style="border:1px solid #F8F5F4;border-radius:3.73vw;width:12.27vw;padding:0 3.47vw;">
+                                        <view class="fourFontColor">{{artsAndSciences}}</view>
+                                        <dropdown bind:chooseEvent="chooseCourseItem" id="collegeCourseDrop" items="{{courseItem}}" top="7.47vw" value="{{artsAndSciences=='文科'?1:0}}" wx:if="{{!GKStatus}}"></dropdown>
+                                        <image class="tabDownWH {{showCourse?'transReverse':''}}" src="/image/tabDown.png" style="margin-left:1.07vw" wx:if="{{!GKStatus}}"></image>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="flex">
+                                <image src="/image/question.png" style="width: 2.93vw;height: 2.93vw;"></image>
+                                <view bindtap="dataInfo" class="twoFontColor" style="margin-left:1.07vw;">数据说明</view>
+                            </view>
+                        </view>
+                    </view>
+                    <view style="border-bottom: 1px solid #E9E9E9;">
+                        <view class="twoFontColor threeFontSize flex pageItemWidth" style="height:12vw">
+                            <view class="collegeLineWidth-first">招生批次</view>
+                            <view class="collegeLineWidth-second textAlign">{{listThreeName}}</view>
+                            <view class="collegeLineWidth-third">最低分/最低位次</view>
+                            <view class="collegeLineWidth-fourth textAlign">录取数</view>
+                        </view>
+                    </view>
+                    <view wx:if="{{collegeData=='true'}}">
+                        <scroll-view scrollY style="height:{{scrollViewHeight}}px">
+                            <view>
+                                <view class=" twoFontSize fourFontColor {{index%2>0?'listSecondColor':''}}" wx:for="{{collegeLineList}}" wx:key="unique">
+                                    <view class="pageItemWidth flex listHeight" style="padding:3.2vw 0;">
+                                        <view class="collegeLineWidth-first">
+                                            <view>{{item.year}}</view>
+                                            <view>{{item.batch}}</view>
+                                        </view>
+                                        <view class="collegeLineWidth-second textAlign">
+                                            <view>{{item.heighScore}}</view>
+                                            <view wx:if="{{cityId!=842}}">{{item.averageScore}}</view>
+                                        </view>
+                                        <view class="collegeLineWidth-third textAlign">
+                                            <view>{{item.lowScore}}</view>
+                                            <view>{{item.lowOrder}}</view>
+                                        </view>
+                                        <view class="collegeLineWidth-fourth textAlign">{{item.count}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                        </scroll-view>
+                    </view>
+                    <view wx:elif="{{collegeData==false}}">
+                        <view class="textAlign" style="margin-top:20vw;">
+                            <image class="LoadImgWH" src="/image/loading_icon1.gif"></image>
+                            <view>正在加载中...</view>
+                        </view>
+                    </view>
+                    <view wx:elif="{{collegeData=='no'}}">
+                        <view class="textAlign" style="margin-top:20vw;line-height:1.7;color:#9b9b9b;">
+                            <image class="LoadImgWH" src="/image/error_icon2.png" style="margin-left:9vw;"></image>
+                            <view>该院校在{{provinceName}}</view>
+                            <view class="twoFontSize">{{artsAndSciences}}普通批次不招生</view>
+                        </view>
+                    </view>
+                    <view class="operationItemWH pageItemWidth flexjsbetween whiteColor flex" style="position: fixed;bottom: 1vw;left: 50%;transform: translate(-50%);" wx:if="{{manyDirect}}">
+                        <view bindtap="showDirectTap" class="flex" style="width:91.47vw;height:10.67vw;border-radius:26.67vw;border: 1px solid #F66666;">
+                            <view class="twoFontColor flex textAlign" style="width:14.67vw;font-size:2.67vw;">
+                                <view style="margin:0 2.67vw 0 4vw">招生方向</view>
+                            </view>
+                            <view style="height:5.07vw;border: 0.5px solid #F66666;"></view>
+                            <view class="flex flexjscenter checkedColor twoFontSize" style="width:76.53vw;">{{direct}}
+                  <image class="tabDownWH" src="/image/tabDown.png" style="margin-left:1.87vw;transform: rotate(180deg)"></image>
+                            </view>
+                        </view>
+                    </view>
+                </swiper-item>
+                <swiper-item class="whiteColor">
+                    <view class="graySeparate">
+                        <view class="threeFontSize flex flexjsbetween pageItemWidth" style="height:12.8vw;">
+                            <view class="flex">
+                                <view class="flex" wx:if="{{cityId!='842'&&cityId!='843'}}">
+                                    <view bindtap="chooseArtsAndSciences" class="changeBlockWH whiteColor relativeStyle flex flexjscenter" data-itemtype="major" style="border:1px solid #F8F5F4;border-radius:3.73vw;width:12.27vw;padding:0 3.47vw;margin-right:2.67vw">
+                                        <view class="fourFontColor">{{artsAndSciences}}</view>
+                                        <dropdown bind:chooseEvent="chooseCourseItem" id="majorCourseDrop" items="{{courseItem}}" top="7.47vw" value="{{artsAndSciences=='文科'?1:0}}" wx:if="{{!GKStatus}}"></dropdown>
+                                        <image class="tabDownWH" src="/image/tabDown.png" style="margin-left:1.07vw" wx:if="{{!GKStatus}}"></image>
+                                    </view>
+                                </view>
+                                <view bindtap="chooseMajorYear" class="changeBlockWH whiteColor relativeStyle flex flexjscenter" data-itemtype="major" style="border:1px solid #F8F5F4;border-radius:3.73vw;width:auto;padding:0 3.47vw;margin-right:2.67vw" wx:if="{{majorYear}}">
+                                    <view class="fourFontColor">{{majorYear}}</view>
+                                    <dropdown bind:chooseEvent="chooseYearItem" id="majorYearDrop" items="{{yearList}}" top="7.47vw"></dropdown>
+                                    <image class="tabDownWH" src="/image/tabDown.png" style="margin-left:1.07vw" wx:if="{{yearList.length>1}}"></image>
+                                </view>
+                                <view bindtap="chooseBatch" class="changeBlockWH whiteColor relativeStyle flex flexjscenter" data-itemtype="major" style="border:1px solid #F8F5F4;border-radius:3.73vw;width:auto;padding:0 3.47vw;margin-right:2.67vw" wx:if="{{batchName&&cityId!=843}}">
+                                    <view class="fourFontColor" style="white-space: nowrap;">{{batchName}}</view>
+                                    <dropdown bind:chooseEvent="chooseBatchItem" id="majorBatchDrop" items="{{batchItem}}" top="7.47vw"></dropdown>
+                                    <image class="tabDownWH" src="/image/tabDown.png" style="margin-left:1.07vw" wx:if="{{batchItem.length>1}}"></image>
+                                </view>
+                                <view bindtap="showSubjects" class="changeBlockWH whiteColor flex flexjscenter" data-itemtype="major" style="border:1px solid #F8F5F4;border-radius:3.73vw;padding:0 3.47vw;position:relative;;width:auto;" wx:if="{{cityId==842}}">
+                                    <view class="fourFontColor" wx:if="{{batch!='collegeGraduated'}}">{{subjectName}}</view>
+                                    <dropdown bind:chooseEvent="chooseSubject" id="majorSubjectDrop" items="{{subjectItem}}" top="7.47vw"></dropdown>
+                                    <image class="tabDownWH" src="/image/tabDown.png" style="margin-left:1.07vw" wx:if="{{subjectItem.length>1}}"></image>
+                                </view>
+                            </view>
+                            <view class="flex">
+                                <image src="/image/question.png" style="width: 2.93vw;height: 2.93vw;"></image>
+                                <view bindtap="dataInfo" class="twoFontColor" style="margin-left:1.07vw;">数据说明</view>
+                            </view>
+                        </view>
+                    </view>
+                    <view style="border-bottom:1px solid #E9E9E9;">
+                        <view class="twoFontColor threeFontSize flex pageItemWidth" style="height:12vw" wx:if="{{cityId=='843'}}">
+                            <view class="planWidth-major" style="width:25.06vw;">专业名称</view>
+                            <view class="textAlign" style="width:23.6vw">选科</view>
+                            <view bindtap="orderScoreTap" class="textAlign flex" data-type="zhejiangmajor" style="width:25vw;height:12vw;">
+                                <view>最低位次/分</view>
+                                <view class="flex" style="width:4vw;flex-direction:column;">
+                                    <image bindtap="upOrderTap" class="tabDownWH transReverse" src="{{upOrderIcon}}" style="padding:0.53vw 1.07vw 0 1.07vw"></image>
+                                    <image bindtap="downOrderTap" class="tabDownWH" src="{{downOrderIcon}}" style="padding:0 1.07vw;margin:0.53vw 0 0 0;"></image>
+                                </view>
+                            </view>
+                            <view class="textAlign" style="width:23.5vw;margin-left:2vw">录取段</view>
+                        </view>
+                        <view class="twoFontColor threeFontSize flex pageItemWidth" style="height:12vw" wx:elif="{{cityId=='842'}}">
+                            <view style="{{batch!='collegeGraduated'?'width:41.06vw':'width:53.07vw'}}">专业名称</view>
+                            <view class="textAlign" style="width:18.67vw" wx:if="{{batch!='collegeGraduated'}}">科目</view>
+                            <view bindtap="orderScoreTap" class="textAlign flex" data-type="shanghaimajor" style="{{batch!='collegeGraduated'?'width:16.27vw;':'width:28vw'}};height:12vw;">
+                最低位次/分
+                <view class="flex" style="width:4vw;flex-direction:column;">
+                                    <image bindtap="upOrderTap" class="tabDownWH transReverse" src="{{upOrderIcon}}" style="padding:0.53vw 1.07vw 0 1.07vw"></image>
+                                    <image bindtap="downOrderTap" class="tabDownWH" src="{{downOrderIcon}}" style="padding:0 1.07vw;margin:0.53vw 0 0 0;"></image>
+                                </view>
+                            </view>
+                            <view class="textAlign" style="width:15vw;">录取数</view>
+                        </view>
+                        <view class="twoFontColor threeFontSize flex pageItemWidth" style="height:12vw" wx:else>
+                            <view style="width:49.6vw;">专业名称</view>
+                            <view class="textAlign" style="width:17.6vw" wx:if="{{cityId=='843'}}">选科</view>
+                            <view bindtap="orderScoreTap" class="textAlign flex" data-type="traditionalmajor" style="width:32.27vw;">
+                                <view>{{majorListScore}}</view>
+                                <view class="flex" style="width:4vw;flex-direction:column;">
+                                    <image bindtap="upOrderTap" class="tabDownWH transReverse" src="{{upOrderIcon}}"></image>
+                                    <image bindtap="downOrderTap" class="tabDownWH" src="{{downOrderIcon}}" style="margin-top:0.53vw;"></image>
+                                </view>
+                            </view>
+                            <view class="textAlign">录取数</view>
+                        </view>
+                    </view>
+                    <view wx:if="{{majorData==true}}">
+                        <scroll-view scrollY style="height:{{scrollViewHeight}}px" wx:if="{{usertype>1}}">
+                            <view class="twoFontSize fourFontColor {{index%2>0?'listSecondColor':''}}" id="{{index}}" wx:if="{{cityId!='842'&&cityId!='843'}}" wx:for="{{majorListTraditional}}" wx:key="unique">
+                                <view class="pageItemWidth flex listHeight" style="padding:3.2vw 0;">
+                                    <view style="width:43.73vw;margin-right:5.87vw">
+                                        <view>{{item.major}}</view>
+                                    </view>
+                                    <view class="textAlign" style="width:42.27vw;margin-right:5vw;" wx:if="{{majorHighType}}">
+                                        <view>{{item.highScore}}</view>
+                                        <view>{{item.highOrder}}</view>
+                                    </view>
+                                    <view class="textAlign" style="width:42.27vw;margin-right:5vw;" wx:else>
+                                        <view>{{item.lowScore}}</view>
+                                        <view>{{item.lowOrder}}</view>
+                                    </view>
+                                    <view class="textAlign" style="width:12.6vw;">
+                                        <view>{{item.enterNum}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="twoFontSize fourFontColor {{index%2>0?'listSecondColor':''}}" id="9999" wx:if="{{cityId=='843'}}" wx:for="{{majorListzhejiang}}" wx:key="unique">
+                                <view class="pageItemWidth flex listHeight" style="padding:3.2vw 0;">
+                                    <view style="width:25.06vw;">
+                                        <view>{{item.major}}</view>
+                                    </view>
+                                    <view class="textAlign" style="width:18.7vw;">
+                                        <view> {{item.selectSubjects}} </view>
+                                    </view>
+                                    <view class="textAlign" style="width:26vw;" wx:if="{{majorHighType}}">
+                                        <view>{{item.highScore}}</view>
+                                        <view>{{item.highOrder}}</view>
+                                    </view>
+                                    <view class="textAlign" style="width:26vw;" wx:else>
+                                        <view>{{item.lowScore}}</view>
+                                        <view>{{item.lowOrder}}</view>
+                                    </view>
+                                    <view class="textAlign" style="width:23.4vw;margin-left:2vw">
+                                        <view>{{item.enterOrder}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="twoFontSize fourFontColor {{index%2>0?'listSecondColor':''}}" id="{{index}}" wx:if="{{cityId=='842'}}" wx:for="{{majorListGraduated}}" wx:key="unique">
+                                <view class="pageItemWidth flex listHeight" style="padding:3.2vw 0;">
+                                    <view style="{{batch!='collegeGraduated'?'width:41.06vw':'width:53.07vw'}}">
+                                        <view>{{item.major}}</view>
+                                    </view>
+                                    <view class="textAlign" style="width:18.67vw" wx:if="{{batch!='collegeGraduated'}}">
+                                        <view> {{item.subjectCode}} </view>
+                                        <view> {{item.subjects}} </view>
+                                    </view>
+                                    <view class="textAlign" style="width:16.27vw;margin-right:5vw;">
+                                        <view>{{item.lowOrder}}</view>
+                                        <view>{{item.lowScore}}</view>
+                                    </view>
+                                    <view class="textAlign" style="width:12.6vw;">
+                                        <view>{{item.enterNum}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                        </scroll-view>
+                        <view class="flex" style="justify-content:space-around;height:60vh;line-height:2;" wx:else>
+                            <view class="threeFontColor" style="text-align:center;">
+                                <image mode="widthFix" src="/image/VIPpower.png" style="width:35vw;height:35vw;"></image>
+                                <view>您没有权限查看数据</view>
+                                <view bindtap="goPay" class="recommend-btn oneFontSize" style="margin-top:4vw;" wx:if="{{system!='ios'}}">开通VIP</view>
+                                <view class="recommend-btn oneFontSize" style="margin-top:4vw;opacity:0.6;" wx:else>{{payBtnText}}</view>
+                            </view>
+                        </view>
+                    </view>
+                    <view wx:elif="{{majorData==false}}">
+                        <view class="textAlign" style="margin-top:20vw;">
+                            <image class="LoadImgWH" src="/image/loading_icon1.gif"></image>
+                            <view>正在加载中...</view>
+                        </view>
+                    </view>
+                    <view wx:elif="{{majorData=='no'}}">
+                        <view class="textAlign" style="margin-top:20vw;line-height:1.7;color:#9b9b9b;">
+                            <image class="LoadImgWH" src="/image/error_icon2.png" style="margin-left:9vw;"></image>
+                            <view>该院校在{{provinceName}}</view>
+                            <view class="twoFontSize">{{artsAndSciences}}普通批次不招生</view>
+                        </view>
+                    </view>
+                    <view class="operationItemWH pageItemWidth flexjsbetween whiteColor flex" style="position: fixed;bottom: 1vw;left: 50%;transform: translate(-50%);" wx:if="{{manyDirect}}">
+                        <view bindtap="showDirectTap" class="flex" style="width:91.47vw;height:10.67vw;border-radius:26.67vw;border: 1px solid #F66666;">
+                            <view class="twoFontColor flex textAlign" style="width:14.67vw;font-size:2.67vw;">
+                                <view style="margin:0 2.67vw 0 4vw">招生方向</view>
+                            </view>
+                            <view style="height:5.07vw;border: 0.5px solid #F66666;"></view>
+                            <view class="flex flexjscenter checkedColor twoFontSize" style="width:76.53vw;">{{direct}}
+                <image class="tabDownWH" src="/image/tabDown.png" style="margin-left:1.87vw;transform: rotate(180deg)"></image>
+                            </view>
+                        </view>
+                    </view>
+                </swiper-item>
+                <swiper-item class="whiteColor">
+                    <view class="graySeparate">
+                        <view class="threeFontSize flex flexjsbetween pageItemWidth" style="height:12.8vw;">
+                            <view class="flex">
+                                <view class="flex" wx:if="{{cityId!='842'&&cityId!='843'}}">
+                                    <view bindtap="chooseArtsAndSciences" class="changeBlockWH whiteColor relativeStyle flex flexjscenter" data-itemtype="plan" style="border:1px solid #F8F5F4;border-radius:3.73vw;width:12.27vw;padding:0 3.47vw;margin-right:2.67vw">
+                                        <view class="fourFontColor">{{artsAndSciences}}</view>
+                                        <dropdown bind:chooseEvent="chooseCourseItem" id="planCourseDrop" items="{{courseItem}}" top="7.47vw" value="{{artsAndSciences=='文科'?1:0}}" wx:if="{{!GKStatus}}"></dropdown>
+                                        <image class="tabDownWH" src="/image/tabDown.png" style="margin-left:1.07vw" wx:if="{{!GKStatus}}"></image>
+                                    </view>
+                                </view>
+                                <view style="border:1px solid #F8F5F4;border-radius:3.73vw;padding:0 3.47vw;position:relative;width:auto;margin-right:2.67vw;height:7.47vw;background:#fff;display:flex;align-items:center;">{{planYear}}</view>
+                                <view bindtap="chooseBatch" class="changeBlockWH whiteColor relativeStyle flex flexjscenter" data-itemtype="plan" style="border:1px solid #F8F5F4;border-radius:3.73vw;width:auto;padding:0 3.47vw;margin-right:2.67vw" wx:if="{{batchItem.length>0&&cityId!=843}}">
+                                    <view class="fourFontColor" style="white-space: nowrap;">{{batchName}}</view>
+                                    <dropdown bind:chooseEvent="chooseBatchItem" id="planBatchDrop" items="{{batchItem}}" top="7.47vw"></dropdown>
+                                    <image class="tabDownWH" src="/image/tabDown.png" style="margin-left:1.07vw" wx:if="{{batchItem.length>1}}"></image>
+                                </view>
+                                <view bindtap="showSubjects" class="changeBlockWH whiteColor flex flexjscenter" data-itemtype="plan" style="border:1px solid #F8F5F4;border-radius:3.73vw;padding:0 3.47vw;position:relative;;width:auto;margin-right:2.67vw;" wx:if="{{cityId=='842'}}">
+                                    <view class="fourFontColor" wx:if="{{batch!='collegeGraduated'}}">{{subjectName}}</view>
+                                    <dropdown bind:chooseEvent="chooseSubject" id="planSubjectDrop" items="{{subjectItem}}" top="7.47vw"></dropdown>
+                                    <image class="tabDownWH" src="/image/tabDown.png" style="margin-left:1.07vw" wx:if="{{subjectItem.length>1}}"></image>
+                                </view>
+                                <view class="flex" wx:if="{{cityId=='1'}}">
+                                    <view class="twoFontColor" style="margin-left:1.07vw;white-space: nowrap;">选测:{{artsAndSciences=='理科'?planConfigs.batchs[0].chooseLevelL:planConfigs.batchs[0].chooseLevelW}}</view>
+                                </view>
+                            </view>
+                            <view class="flex">
+                                <image src="/image/question.png" style="width: 2.93vw;height: 2.93vw;"></image>
+                                <view bindtap="dataInfo" class="twoFontColor" style="margin-left:1.07vw;white-space: nowrap;">数据说明</view>
+                            </view>
+                        </view>
+                    </view>
+                    <view style="border-bottom:1px solid #E9E9E9;">
+                        <view class="twoFontColor threeFontSize flex pageItemWidth" style="height:12vw" wx:if="{{cityId!='843'&&cityId!='842'}}">
+                            <view class="planWidth-major" style="{{cityId=='843'?'width:36vw':'width:55.8vw;'}}">专业名称</view>
+                            <view bindtap="planNumTap" class="textAlign flex" data-type="traditionalplan" style="width:16.27vw;">
+                计划数
+                <view class="flex" style="width:4vw;flex-direction:column;">
+                                    <image bindtap="upOrderTap" class="tabDownWH transReverse" src="{{shanghaiUpIcon}}" style="padding:0.53vw 1.07vw 0 1.07vw"></image>
+                                    <image bindtap="downOrderTap" class="tabDownWH" src="{{shanghaiDownIcon}}" style="padding:0 1.07vw;margin:0.53vw 0 0 0;"></image>
+                                </view>
+                            </view>
+                            <view class="textAlign">学制/学费</view>
+                        </view>
+                        <view class="twoFontColor threeFontSize flex pageItemWidth" style="height:12vw" wx:elif="{{cityId=='843'}}">
+                            <view class="planWidth-major" style="width:36vw">专业名称</view>
+                            <view class="textAlign" style="width:17.6vw">选科</view>
+                            <view class="textAlign" style="width:17.6vw;margin-right:2.67vw">计划段</view>
+                            <view class="textAlign">学制/学费</view>
+                        </view>
+                        <view class="twoFontColor threeFontSize flex pageItemWidth" style="height:12vw" wx:elif="{{cityId=='842'}}">
+                            <view style="{{batch!='collegeGraduated'?'width:41.06vw':'width:53.07vw'}}">专业名称/代码</view>
+                            <view class="textAlign" style="width:18.67vw" wx:if="{{batch!='collegeGraduated'}}">科目</view>
+                            <view bindtap="planNumTap" class="textAlign flex" data-type="shanghaiplan" style="{{batch!='collegeGraduated'?'width:16.27vw;':'width:24vw'}}">计划数
+                <view class="flex" style="width:4vw;flex-direction:column;">
+                                    <image class="tabDownWH transReverse" src="{{shanghaiUpIcon}}" style="padding:0.53vw 1.07vw 0 1.07vw"></image>
+                                    <image class="tabDownWH " src="{{shanghaiDownIcon}}" style="padding:0 1.07vw;margin:0.53vw 0 0 0;"></image>
+                                </view>
+                            </view>
+                            <view class="textAlign">学制/学费</view>
+                        </view>
+                    </view>
+                    <view wx:if="{{planData==true}}">
+                        <scroll-view scrollY style="height:{{scrollViewHeight}}px" wx:if="{{usertype>1}}">
+                            <view class="twoFontSize fourFontColor {{index%2>0?'listSecondColor':''}}" id="{{index}}" wx:if="{{cityId!='842'&&cityId!='843'}}" wx:for="{{planListTraditional}}" wx:key="unique">
+                                <view class="pageItemWidth flex listHeight" style="padding:3.2vw 0;">
+                                    <view class="planWidth-major" style="width:55.8vw;">
+                                        <view>{{item.major}}</view>
+                                    </view>
+                                    <view class="textAlign" style="width:10.6vw;margin-right:6.67vw">
+                                        <view>{{item.planCount}}</view>
+                                    </view>
+                                    <view class="textAlign">
+                                        <view>{{item.year}}/{{item.money}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="twoFontSize fourFontColor {{index%2>0?'listSecondColor':''}}" id="{{index}}" wx:if="{{cityId=='843'}}" wx:for="{{planListzhejiang}}" wx:key="unique">
+                                <view class="pageItemWidth flex listHeight" style="padding:3.2vw 0;">
+                                    <view style="width:36vw;">
+                                        <view>{{item.major}}</view>
+                                    </view>
+                                    <view class="textAlign" style="width:17.6vw;">{{item.selectSubjects}}</view>
+                                    <view class="textAlign" style="width:17.6vw;margin-right:2.67vw">
+                                        <view>{{item.planSection}}</view>
+                                    </view>
+                                    <view class="textAlign" style="width:14.4vw;">
+                                        <view>{{item.year}}/{{item.money}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="twoFontSize fourFontColor {{index%2>0?'listSecondColor':''}}" id="{{index}}" wx:if="{{cityId=='842'}}" wx:for="{{planListshanghai}}" wx:key="unique">
+                                <view class="pageItemWidth flex listHeight" style="padding:3.2vw 0;">
+                                    <view style="{{batch!='collegeGraduated'?'width:41.06vw':'width:53.07vw'}}">
+                                        <view>{{item.major}}</view>
+                                        <view>{{item.code}}</view>
+                                    </view>
+                                    <view class="textAlign" style="width:18.67vw" wx:if="{{batch!='collegeGraduated'}}">
+                                        <view>{{item.chooseNums}}</view>
+                                        <view>{{item.subjects}}</view>
+                                    </view>
+                                    <view class="textAlign" style="margin-right:6.67vw;{{batch!='collegeGraduated'?'width:9.6vw':'width:27vw'}}">
+                                        <view>{{item.planCount}}</view>
+                                    </view>
+                                    <view class="textAlign" style="width:18.4vw;">
+                                        <view>{{item.year}}/{{item.money}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                        </scroll-view>
+                        <view class="flex" style="justify-content:space-around;height:60vh;line-height:2;" wx:else>
+                            <view class="threeFontColor" style="text-align:center;">
+                                <image mode="widthFix" src="/image/VIPpower.png" style="width:35vw;height:35vw;"></image>
+                                <view>您没有权限查看数据</view>
+                                <view bindtap="goPay" class="recommend-btn oneFontSize" style="margin-top:4vw;" wx:if="{{system!='ios'}}">开通VIP</view>
+                                <view class="recommend-btn oneFontSize" style="margin-top:4vw;opacity:0.6;" wx:else>{{payBtnText}}</view>
+                            </view>
+                        </view>
+                    </view>
+                    <view wx:elif="{{planData==false}}">
+                        <view class="textAlign" style="margin-top:20vw;">
+                            <image class="LoadImgWH" src="/image/loading_icon1.gif"></image>
+                            <view>正在加载中...</view>
+                        </view>
+                    </view>
+                    <view wx:elif="{{planData=='no'}}">
+                        <view class="textAlign" style="margin-top:20vw;line-height:1.7;color:#9b9b9b;">
+                            <image class="LoadImgWH" src="/image/error_icon2.png" style="margin-left:9vw;"></image>
+                            <view>该院校在{{provinceName}}</view>
+                            <view class="twoFontSize">{{artsAndSciences}}普通批次不招生</view>
+                        </view>
+                    </view>
+                    <view class="operationItemWH pageItemWidth flexjsbetween whiteColor flex" style="position: fixed;bottom: 1vw;left: 50%;transform: translate(-50%);" wx:if="{{manyDirect}}">
+                        <view bindtap="showDirectTap" class="flex" style="width:91.47vw;height:10.67vw;border-radius:26.67vw;border: 1px solid #F66666;">
+                            <view class="twoFontColor flex textAlign" style="width:14.67vw;font-size:2.67vw;">
+                                <view style="margin:0 2.67vw 0 4vw">招生方向</view>
+                            </view>
+                            <view style="height:5.07vw;border: 0.5px solid #F66666;"></view>
+                            <view class="flex flexjscenter checkedColor twoFontSize" style="width:76.53vw;">{{direct}}
+                <image class="tabDownWH" src="/image/tabDown.png" style="margin-left:1.87vw;transform: rotate(180deg)"></image>
+                            </view>
+                        </view>
+                    </view>
+                </swiper-item>
+            </swiper>
+        </view>
+        <view></view>
+    </view>
+    <view class="fourFontColor" wx:if="{{showDirect}}">
+        <bottomFrame bind:hideEvent="hideDirectFrame" catch:touchmove="catchMove" frameTitle="{{frameTitle}}" id="framedirect">
+            <view style="margin-top:4vw;">
+                <view bindtap="directTap" class="flex {{index+1<directList.length?'bottomBorder':''}}" hoverClass="itemHover" id="{{index}}" style="padding:4vw 0;" wx:for="{{directList}}" wx:key="unique">
+                    <view class="oneFontSize textOmit " style="width:83.73vw;">{{item}}</view>
+                </view>
+            </view>
+        </bottomFrame>
+    </view>
+</block>
+<view class="textAlign" style="margin-top:20vw;line-height:1.7;color:#9b9b9b;" wx:elif="{{showLoad=='error'}}">
+    <image class="LoadImgWH" src="/image/error_icon2.png" style="margin-left:9vw;"></image>
+    <view>该院校在本省不招生</view>
+</view>
+<view wx:if="{{popup.popupFlag}}">
+    <view catchtap="hidePopup" class="wrap {{popup.wrapAnimate}}" style="background:rgba(0,0,0,{{popup.bgOpacity}});"></view>
+    <view class="{{popup.popupAnimate}} popup-wrapper">
+        <image catchtap="hidePopup" src="/image/icon_close_alt2.png" style="width:4vw;height:4vw;position:absolute;top:2vw;right:2vw;padding:4vw;margin:0;"></image>
+        <view style="border-bottom: 1px solid #eee;line-height: 3;font-size: 4.5vw;margin-top: 2vw;">数据说明</view>
+        <view style="text-align:left;padding:4.3vw;line-height:2;font-size:2.7vw">
+            <block wx:if="{{cityId==843}}">
+                <block wx:if="{{currentTab==0}}">
+                    <view>1、{{yearList[0].name}}年计划数已根据6月份出版的《{{provinceName}}省招生计划》更新；</view>
+                    <view>2、{{yearList[0].name}}年专业录取相关数据将在考试院公布后即时更新；</view>
+                    <view>3、2012-{{yearList[0].name}}各院校录取数据，参考各省市出版的填报指南以及各本专科院校的官网历年录取数据；</view>
+                    <view>4、我们的数据与各省考试院发布的数据一致，由于各省市加分政策，院校官网对征集志愿数据的显示等原因，会与院校官网存在不一致情况，建议以各省考试院发布的数据为准。</view>
+                </block>
+                <block wx:else>
+                    <view>1、{{planYear}}年计划数已根据6月份出版的《{{provinceName}}省招生计划》更新；</view>
+                    <view>2、{{planYear}}年专业录取相关数据将在考试院公布后即时更新；</view>
+                    <view>3、2012-{{planYear}}各院校录取数据，参考各省市出版的填报指南以及各本专科院校的官网历年录取数据；</view>
+                    <view>4、我们的数据与各省考试院发布的数据一致，由于各省市加分政策，院校官网对征集志愿数据的显示等原因，会与院校官网存在不一致情况，建议以各省考试院发布的数据为准；</view>
+                    <view>5、专业标签所对应的"国家一级、国家二级、国家特色、国家重点、省市一级、省市二级、省市特色、省市重点"仅提供和普通专业的区分，只做参考，不作推荐；</view>
+                    <view>6、因部分院校个别专业发生过征集，故专业录取分数线比院校分数线低属于正常情况，请知悉。</view>
+                </block>
+            </block>
+            <block wx:else>
+                <block wx:if="{{cityId==842}}">
+                    <block wx:if="{{currentTab==2}}">
+                        <view>1、{{planYear}}年招生计划已更新；</view>
+                        <view>2、2012-{{planYear}}各院校录取数据，参考各省市出版的填报指南以及各本专科院校的官网历年录取数据。</view>
+                    </block>
+                    <block wx:else>
+                        <view>1、2012-{{yearList[0].name}}各院校录取数据，参考各省市出版的填报指南以及各本专科院校的官网历年录取数据；</view>
+                        <view>2、我们的数据与各省考试院发布的数据一致，由于各省市加分政策，院校官网对征集志愿数据的显示等原因，会与院校官网存在不一致的情况，建议以各省考试院发布的数据为准。</view>
+                    </block>
+                </block>
+                <block wx:else>
+                    <block wx:if="{{currentTab==2}}">
+                        <view>1、{{planYear}}年计划数已根据6月份出版的《{{provinceName}}省招生计划》更新；</view>
+                        <view>2、{{yearList[0].name}}-{{planYear}}各院校录取数据，参考各省市出版的填报指南以及各本专科院校的官网历年录取数据。</view>
+                    </block>
+                    <block wx:else>
+                        <view>1、{{planYear}}年计划数已根据6月份出版的《{{provinceName}}省招生计划》更新；</view>
+                        <view>2、{{yearList[yearList.length-1].name}}年专业录取相关数据将在考试院公布后即时更新；</view>
+                        <view>3、{{yearList[0].name}}-{{yearList[yearList.length-1].name}}各院校录取数据，参考各省市出版的填报指南以及各本专科院校的官网历年录取数据；</view>
+                        <view>4、我们的数据与各省考试院发布的数据一致，由于各省市加分政策，院校官网对征集志愿数据的显示等原因，会与院校官网存在不一致情况，建议以各省考试院发布的数据为准。</view>
+                    </block>
+                </block>
+            </block>
+        </view>
+    </view>
+</view>

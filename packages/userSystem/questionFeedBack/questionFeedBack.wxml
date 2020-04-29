@@ -1,0 +1,29 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="pageItemWidth twoFontSize">
+    <view>
+        <view class="twoFontColor twoFontSize" style="padding:3.2vw 0;">问题类型</view>
+        <view bindtap="showQuestion" class="flex itemBackColor borderTwo itemPaddingLR flexjsbetween" style="height:13.87vw;">
+            <view class="oneFontSize oneFontColor">{{question}}</view>
+            <image class="rightIconWH" mode="widthFix" src="/image/moreArrow.png"></image>
+        </view>
+    </view>
+    <view>
+        <view class="twoFontColor twoFontSize" style="padding:5.33vw 0 3.2vw 0;">问题描述</view>
+        <textarea bindinput="inputText" class="borderTwo oneFontColor itemPaddingLR itemPaddingTB itemBackColor" maxlength="100" placeholder="请在这里输入问题内容（100字以内）" style="height:18.14vh;" value="{{description}}"></textarea>
+    </view>
+    <view class="flex flexwrap" style="padding-top:5.33vw;">
+        <view bindtap="deletePicture" class="relativeStyle" id="{{index}}" style="margin-right:2.67vw;" wx:for="{{pictureList}}" wx:key="unique">
+            <image class="pictureWH" src="{{item}}"></image>
+            <image class="closeIconWH allPageBGcolor absoluteStyle" mode="widthFix" src="../image/close.png" style="border-radius:100%;top:1.6vw;right:1.6vw;background:gray;"></image>
+        </view>
+        <view bindtap="addPicture" class="pictureWH itemBackColor flex flexjscenter" style="" wx:if="{{addStatus}}">
+            <image src="../image/addPicture.png" style="width:6.13vw;height:6.13vw;"></image>
+        </view>
+    </view>
+    <view bindtap="insertTap" class="absoluteStyle pageItemWidth flex flexjscenter oneFontSize buttonHeight gradientThree borderFour whiteFontColor" style="bottom:6.67vw;">提交</view>
+</view>
+<bottomFrame bind:hideEvent="hideMediumFrame" frameTitle="请选择反馈类型" id="framequestion">
+    <view bindtap="questionTap" class="flex {{index+1<questionList.length?'bottomBorder':''}}" hoverClass="itemHover" id="{{index}}" style="padding:4vw 0;" wx:for="{{questionList}}" wx:key="unique">
+        <view class="oneFontSize textOmit" style="width:83.73vw;">{{item}}</view>
+    </view>
+</bottomFrame>

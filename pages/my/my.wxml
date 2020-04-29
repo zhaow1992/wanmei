@@ -1,0 +1,107 @@
+<loading wx:if="{{showLoad}}"></loading>
+<block wx:else>
+    <view class="header-wrapper">
+        <view class="userInfo-wrapper flex">
+            <view class="flex userInfo-header">
+                <open-data style="width:13.33vw;height:13.33vw" type="userAvatarUrl" wx:if="{{loginFlag}}"></open-data>
+                <image bindtap="loginPopup" src="/image/noLogin.png" style="width:13.33vw;height:13.33vw" wx:else></image>
+            </view>
+            <view class="flex" wx:if="{{loginFlag}}">
+                <view class="fourFontSize textOmit" style="width:69.07vw;" wx:if="{{nickName}}">{{nickName}}</view>
+                <open-data class="fourFontSize textOmit" style="width:69.07vw;" type="userNickName" wx:else></open-data>
+                <view class="flex threeFontSize userInfo" style="margin-top:1.07vw;">
+                    <view class="threeFontSize flex">
+                        <view wx:if="{{city}}">{{city}}</view>
+                        <view class="flex" wx:if="{{examYear}}">
+                            <view style="padding:0 4px;">/</view>{{examYear}}</view>
+                        <view class="flex" wx:if="{{course&&cityId!=842&&cityId!=843}}">
+                            <view style="padding:0 4px;">/</view>{{course}}</view>
+                    </view>
+                    <image mode="widthFix" src="{{sexIcon}}" style="height:10px" wx:if="{{sexIcon}}"></image>
+                </view>
+            </view>
+            <view bindtap="loginPopup" class="fourFontSize" wx:else>点击登录用户</view>
+        </view>
+        <view class="flex absoluteStyle textAlign flexjsaround whiteFontColor pageItemWidth threeFontSize" style="top:30.4vw;left:4.27vw;line-height:1.42;" wx:if="{{loginFlag}}">
+            <view bindtap="goNavi" hoverClass="btnHover" id="0">
+                <view>{{cepingCount}}</view>
+                <view style="color: #FFC2C2;margin-top:1.07vw;">测评</view>
+            </view>
+            <view bindtap="goNavi" hoverClass="btnHover" id="1">
+                <view>{{reportCount}}</view>
+                <view style="color: #FFC2C2;margin-top:1.07vw;">报告</view>
+            </view>
+            <view bindtap="goNavi" hoverClass="btnHover" id="2">
+                <view>{{studyCount}}</view>
+                <view style="color: #FFC2C2;margin-top:1.07vw;">学习</view>
+            </view>
+        </view>
+        <view class="threeFontSize flex vip-wrapper pageItemWidth absoluteStyle">
+            <view class="flex itemPaddingLR" style="heigth:10.67vw;width:83.47vw;">
+                <view class="flex vip-logo">
+                    <image mode="widthFix" src="{{vipIcon}}" style="width:11.2vw;height:11.2vw;"></image>
+                </view>
+                <view class="flex vip-content" style="align-items: flex-start;">
+                    <view class="twoFontSize">{{permission}}</view>
+                    <view style="color:#989588;" wx:if="{{overTime.length>0}}">{{overTime}}</view>
+                </view>
+                <view bindtap="goDetail" class="searchBtn" data-type="vip" hoverClass="btnHover" wx:if="{{isIOS==false}}">{{naviText}}</view>
+            </view>
+        </view>
+    </view>
+    <view bindtap="createScoreTap" class="pageItemWidth itemBackColor borderTwo flex" style="margin-top:2.67vw;box-shadow: 1px 2px 4px 1px rgba(0,0,0,0.03);height:18.67vw;" wx:if="{{isGaoKao&&examYear==2020}}">
+        <view class="itemPaddingLR flex flexjsbetween fourFontColor twoFontSize" style="width:83.47vw" wx:if="{{lockScore}}">
+            <view class=" flex">
+                <view class="" style="width:8vw;">高考成绩</view>
+                <view style="width:1px;height:9.07vw;margin:0 4.27vw;background:#e9e9e9"></view>
+                <view>{{score}} {{rank}} {{courseInfo}}</view>
+            </view>
+            <image mode="widthFix" src="./../../image/lockScore.png" style="width:2.93vw;height:3.73vw;"></image>
+        </view>
+        <view class="itemPaddingLR flex flexjsbetween fourFontColor twoFontSize" style="width:83.47vw" wx:else>
+            <view>设置你的成绩，即刻使用各项功能</view>
+            <view class="buttonBorder flex checkedColor flexjscenter" style="border-radius: 14px;width:17.6vw;height:6.4vw;">
+                <image mode="widthFix" src="/image/tianjia.png" style="width:2.13vw;height:2.13vw;padding-right:1.33vw;"></image>
+                <view>成绩</view>
+            </view>
+        </view>
+    </view>
+    <view class="oneFontSize oneFontColor body-wrapper pageItemWidth borderTwo itemBackColor" style="overflow:hidden;">
+        <view bindtap="goDetail" class="flex body-item bottomBorder" data-type="card" hoverClass="listHover">
+            <image mode="widthFix" src="/image/bindCard_icon.png" style="height:10px"></image>
+            <view>会员卡绑定</view>
+            <image mode="widthFix" src="./../../image/moreArrow.png" style="height:10px"></image>
+        </view>
+        <view bindtap="goDetail" class="flex body-item bottomBorder" data-type="myVish" hoverClass="listHover" wx:if="{{cityId!=842&&cityId!=843}}">
+            <image mode="widthFix" src="/image/syjc.png" style="height:10px"></image>
+            <view>我的志愿</view>
+            <image mode="widthFix" src="./../../image/moreArrow.png" style="height:10px"></image>
+        </view>
+        <view bindtap="goDetail" class="flex body-item bottomBorder" data-type="myChooseSub" hoverClass="listHover">
+            <image mode="widthFix" src="/image/syjc.png" style="height:10px"></image>
+            <view>我的选科</view>
+            <image mode="widthFix" src="./../../image/moreArrow.png" style="height:10px"></image>
+        </view>
+        <view bindtap="goDetail" class="flex body-item" data-type="myPro" hoverClass="listHover">
+            <image mode="widthFix" src="/image/wtfk.png" style="height:10px"></image>
+            <view>问题反馈</view>
+            <image mode="widthFix" src="./../../image/moreArrow.png" style="height:10px"></image>
+        </view>
+    </view>
+    <view class="oneFontSize oneFontColor body-wrapper pageItemWidth borderTwo itemBackColor" style="overflow:hidden;">
+        <navigator class="flex body-item bottomBorder" hoverClass="listHover" url="/pages/commonWebPage/commonWebPage?typePage=2">
+            <image mode="widthFix" src="/image/aboutwmzy.png" style="height:10px"></image>
+            <view>关于完美志愿</view>
+            <image mode="widthFix" src="/image/moreArrow.png" style="height:10px"></image>
+        </navigator>
+        <navigator class="flex body-item" hoverClass="listHover" url="/pages/commonWebPage/commonWebPage?typePage=1">
+            <image mode="widthFix" src="/image/fwtk.png" style="height:10px"></image>
+            <view>服务条款及免责声明</view>
+            <image mode="widthFix" src="/image/moreArrow.png" style="height:10px"></image>
+        </navigator>
+    </view>
+    <view class="threeFontSize oneFontColor textAlign" hoverClass="btnHover" style="padding:10vw 0 4vw 0;bottom:0;width:100%;">客服热线
+    <text bindtap="callMobile">800-767-8888</text>
+    </view>
+    <loginPopup id="loginPopup"></loginPopup>
+</block>

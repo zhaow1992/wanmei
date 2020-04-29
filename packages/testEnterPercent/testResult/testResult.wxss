@@ -1,0 +1,15 @@
+.collegeIcon {
+    height: 11.73vw;
+    width: 11.73vw;
+}
+
+.tipText {
+    margin-left: 2.67vw;
+    width: 78.93vw;
+}
+
+.batchPintWH {
+    height: 2.67vw;
+    width: 2.67vw;
+    border-radius: 100%;
+}

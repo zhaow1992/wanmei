@@ -1,0 +1,585 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="loading" wx:if="{{showLoad}}">
+    <image src="/image/loading_icon1.gif"></image>
+    <view style="margin-top:5.56vw">加载中...</view>
+</view>
+<block wx:else>
+    <view class="swiper-tab title-font" style="width:65vw">
+        <view bindtap="swichNav" class="swiper-tab-list {{currentTab==0?'chong chong-border':''}}" data-current="0">冲</view>
+        <view bindtap="swichNav" class="swiper-tab-list {{currentTab==1?'shou shou-border':''}}" data-current="1">守</view>
+        <view bindtap="swichNav" class="swiper-tab-list {{currentTab==2?'bao bao-border':''}}" data-current="2">保</view>
+    </view>
+    <swiper bindchange="change" current="{{currentTab}}" style="height:80vh">
+        <swiper-item>
+            <scroll-view bindscrolltolower="scrollChongToLower" class="container" scrollY="{{share}}" style="height:80vh;padding-bottom:4.8vw">
+                <view class="flex container" style="justify-content:space-between;padding:0 4.8vw;line-height:3">
+                    <view class="flex">
+                        <view bindtap="changeScore" class="flex">
+                            <view class="zhejiang-content-color">{{userScore.total}} 分</view>
+                            <image mode="widthFix" src="../image/choose_score_icon.png" style="width:4vw;height:3vw;margin-left:2vw"></image>
+                        </view>
+                        <view class="zhejiang-info-color" style="margin-left:6vw" wx:if="{{shanghaiChongList.length>0}}">
+                            <text class="chong">{{chongSuo}}</text> 所
+                </view>
+                    </view>
+                    <view bindtap="shaixuan" class="flex">
+                        <view class="zhejiang-content-color">筛选</view>
+                        <image src="../image/shaixuan.png" style="width:4vw;height:4vw;margin-left:2.78vw"></image>
+                    </view>
+                </view>
+                <block wx:if="{{shanghaiChongList.length>0}}">
+                    <block wx:if="{{userInfo[0].UserType>1}}">
+                        <view class="recommendList zhejiang-content-color collegeChongName" style="margin-bottom:2vw;position:relative;" wx:for="{{shanghaiChongList}}">
+                            <view style="position:absolute;top:2.8vw;right:2.8vw;background:rgba(255,255,255,0.5);text-align:center;">
+                                <image src="{{item.logoUrl}}" style="width:14vw;height:14vw;opacity:0.2"></image>
+                            </view>
+                            <navigator style="padding:4.8vw" url="/packages/findUniversity/collegeDetail/collegeDetail?numId={{item.collegeId}}">
+                                <view class="title-font chong" style="line-height:1.5;width:62vw">{{item.collegeName}}
+                  <text class="point-font zhejiang-info-color"> {{item.levels}}</text>
+                                </view>
+                                <view class="point-font zhejiang-info-color">{{item.collegeType}} {{item.area}} 排名:{{item.rankOfCn}}</view>
+                                <view class="flex zhejiang-info-color" style="margin-top:2vw">
+                                    <view style="width:35vw">{{item.planYear}}招生计划:
+                    <text>{{item.planNum}}</text>
+                                    </view>
+                                    <view>代码:{{item.collegeCode}}</view>
+                                </view>
+                            </navigator>
+                            <view class="borderTop" id="major{{index}}{{majorindex}}" style="padding:4.8vw" wx:for="{{item.professions}}" wx:for-index="majorindex" wx:for-item="professions">
+                                <view class="flex" style="justify-content:space-between">
+                                    <view class="video-title-color title-font" data-collegeCode="{{professions.collegeCode}}" data-majorCode="{{professions.majorCode}}" data-uCode="{{item.uCode}}" style="line-height:1.5;width:62vw">{{professions.professionName}}</view>
+                                    <view bindtap="beizhu" class="beizhu zhejiang-info-color" data-majorname="{{professions.professionName}}" data-remark="{{professions.remark}}" wx:if="{{professions.remark.length>0}}">备注</view>
+                                </view>
+                                <view class="flex zhejiang-info-color point-font">
+                                    <view style="width:16.67vw">学费：{{professions.cost.length>0?professions.cost:'-'}}</view>
+                                    <view>学制：{{professions.learnYear}}年</view>
+                                </view>
+                                <view class="flex" style="justify-content:space-between;margin-top:2vw;">
+                                    <view class="flex">
+                                        <view style="width:35vw">{{professions.planYear}}招生计划
+                      <text class="video-title-color">{{professions.planNum}}</text>
+                                        </view>
+                                        <view class="zhejiang-info-color" style="display:flex">
+                                            <block wx:if="{{professions.noLimit=='1'}}">
+                        999(
+                        <view class="chong">不限</view> )
+                      </block>
+                                            <block wx:else>
+                        {{professions.newLevelNum}} (
+                        <block wx:for="{{professions.newChooseLevel}}" wx:for-item="chooseLevelItem">
+                                                    <text class="{{chooseLevel[0]==chooseLevelItem||chooseLevel[1]==chooseLevelItem||chooseLevel[2]==chooseLevelItem?'chong':''}}">{{chooseLevelItem}}</text>
+                                                    <text wx:if="{{index<professions.newChooseLevel.length-1}}">/</text>
+                                                </block>)
+                      </block>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </block>
+                    <block wx:else>
+                        <scroll-view scrollY style="height:50vh">
+                            <view class="recommendList zhejiang-content-color collegeChongName" style="margin-bottom:2vw;position:relative;" wx:if="{{index<3}}" wx:for="{{shanghaiChongList}}">
+                                <view style="position:absolute;top:2.8vw;right:2.8vw;background:rgba(255,255,255,0.5);text-align:center;">
+                                    <image src="{{item.logoUrl}}" style="width:14vw;height:14vw;opacity:0.2"></image>
+                                </view>
+                                <navigator style="padding:4.8vw" url="/packages/findUniversity/collegeDetail/collegeDetail?numId={{item.collegeId}}">
+                                    <view class="title-font chong" style="line-height:1.5;width:62vw">{{item.collegeName}}
+                      <text class="point-font zhejiang-info-color"> {{item.levels}}</text>
+                                    </view>
+                                    <view class="point-font zhejiang-info-color">{{item.collegeType}} {{item.area}} 排名:{{item.rankOfCn}}</view>
+                                    <view class="flex zhejiang-info-color" style="margin-top:2vw">
+                                        <view style="width:35vw">{{item.planYear}}招生计划:
+                        <text>{{item.planNum}}</text>
+                                        </view>
+                                        <view>代码:{{item.collegeCode}}</view>
+                                    </view>
+                                </navigator>
+                                <view class="borderTop" id="major{{index}}{{majorindex}}" style="padding:4.8vw" wx:for="{{item.professions}}" wx:for-index="majorindex" wx:for-item="professions">
+                                    <view class="flex" style="justify-content:space-between">
+                                        <view class="video-title-color title-font" data-collegeCode="{{professions.collegeCode}}" data-majorCode="{{professions.majorCode}}" data-uCode="{{item.uCode}}" style="line-height:1.5;width:62vw">{{professions.professionName}}</view>
+                                        <view bindtap="beizhu" class="beizhu zhejiang-info-color" data-majorname="{{professions.professionName}}" data-remark="{{professions.remark}}" wx:if="{{professions.remark.length>0}}">备注</view>
+                                    </view>
+                                    <view class="flex zhejiang-info-color point-font">
+                                        <view style="width:16.67vw">学费：{{professions.cost.length>0?professions.cost:'-'}}</view>
+                                        <view>学制：{{professions.learnYear}}年</view>
+                                    </view>
+                                    <view class="flex" style="justify-content:space-between;margin-top:2vw;">
+                                        <view class="flex">
+                                            <view style="width:35vw">{{professions.planYear}}招生计划
+                          <text class="video-title-color">{{professions.planNum}}</text>
+                                            </view>
+                                            <view class="zhejiang-info-color" style="display:flex">
+                                                <block wx:if="{{professions.noLimit=='1'}}">
+                            999(
+                            <view class="chong">不限</view> )
+                          </block>
+                                                <block wx:else>
+                            {{professions.newLevelNum}} (
+                            <block wx:for="{{professions.newChooseLevel}}" wx:for-item="chooseLevelItem">
+                                                        <text class="{{chooseLevel[0]==chooseLevelItem||chooseLevel[1]==chooseLevelItem||chooseLevel[2]==chooseLevelItem?'chong':''}}">{{chooseLevelItem}}</text>
+                                                        <text wx:if="{{index<professions.newChooseLevel.length-1}}">/</text>
+                                                    </block>)
+                          </block>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </scroll-view>
+                        <view>
+                            <block wx:if="{{!isIos}}">
+                                <view class="btn-font" style="margin-top:4vw;text-align:center;font-size:5vw">开通VIP,查看完整推荐</view>
+                                <view class="zhejiang-info-color" style="text-align:center">各大VIP特权功能等你发现</view>
+                                <view bindtap="commonTuijian" class="recommend-btn oneFontSize" style="margin:5vw auto 0;width:90vw;color:#fff;background:#{{color}};box-shadow:none;">开通VIP</view>
+                            </block>
+                            <block wx:else>
+                                <view class="btn-font" style="margin-top:4vw;text-align:center;font-size:5vw">您还不是VIP,无法查看完整推荐</view>
+                                <view class="zhejiang-info-color" style="text-align:center">各大VIP特权功能等你发现</view>
+                                <button bindtap="noPay" class="recommend-btn oneFontSize" style="margin-top:5vw;width:90vw;color:#fff;opacity:0.6;background:#{{color}};box-shadow:none;">{{payBtnText}}</button>
+                            </block>
+                        </view>
+                    </block>
+                </block>
+                <view class="loading search-loading" wx:else>
+                    <image mode="widthFix" src="/image/recommend_noFount.png" style="width:20vw;height:20vw;"></image>
+                    <view class="title-font zhejiang-content-color" style="width:50vw;margin-top:5.56vw;text-align:left;margin-left:-10vw">暂无匹配的院校专业组</view>
+                    <view class="zhejiang-info-color" style="width:50vw;margin-left:-14vw">请更改合适的成绩或筛选条件</view>
+                </view>
+            </scroll-view>
+        </swiper-item>
+        <swiper-item>
+            <scroll-view scrollY bindscrolltolower="scrollShouToLower" class="container" style="height:80vh;padding-bottom:4.8vw">
+                <view class="flex container" style="justify-content:space-between;padding:0 4.8vw;line-height:3">
+                    <view class="flex">
+                        <view bindtap="changeScore" class="flex">
+                            <view class="zhejiang-content-color">{{userScore.total}} 分</view>
+                            <image mode="widthFix" src="../image/choose_score_icon.png" style="width:4vw;height:3vw;margin-left:2vw"></image>
+                        </view>
+                        <view class="zhejiang-info-color" style="margin-left:6vw" wx:if="{{shanghaiShouList.length>0}}">
+                            <text class="shou">{{shouSuo}}</text> 所
+                </view>
+                    </view>
+                    <view bindtap="shaixuan" class="flex">
+                        <view class="zhejiang-content-color">筛选</view>
+                        <image src="../image/shaixuan.png" style="width:4vw;height:4vw;margin-left:2.78vw"></image>
+                    </view>
+                </view>
+                <block wx:if="{{shanghaiShouList.length>0}}">
+                    <block wx:if="{{userInfo[0].UserType>1}}">
+                        <view class="recommendList zhejiang-content-color collegeShouName" style="margin-bottom:2vw;position:relative;" wx:for="{{shanghaiShouList}}">
+                            <view style="position:absolute;top:2.8vw;right:2.8vw;background:rgba(255,255,255,0.5);text-align:center;">
+                                <image src="{{item.logoUrl}}" style="width:14vw;height:14vw;opacity:0.2"></image>
+                            </view>
+                            <navigator style="padding:4.8vw" url="/packages/findUniversity/collegeDetail/collegeDetail?numId={{item.collegeId}}">
+                                <view class="title-font shou" style="line-height:1.5;width:62vw">{{item.collegeName}}
+                  <text class="point-font zhejiang-info-color"> {{item.levels}}</text>
+                                </view>
+                                <view class="point-font zhejiang-info-color">{{item.collegeType}} {{item.area}} 排名:{{item.rankOfCn}}</view>
+                                <view class="flex zhejiang-info-color" style="margin-top:2vw">
+                                    <view style="width:35vw">{{item.planYear}}招生计划:
+                    <text>{{item.planNum}}</text>
+                                    </view>
+                                    <view>代码:{{item.collegeCode}}</view>
+                                </view>
+                            </navigator>
+                            <view class="borderTop" id="major{{index}}{{majorindex}}" style="padding:4.8vw" wx:for="{{item.professions}}" wx:for-index="majorindex" wx:for-item="professions">
+                                <view class="flex" style="justify-content:space-between">
+                                    <view class="video-title-color title-font" data-collegeCode="{{professions.collegeCode}}" data-majorCode="{{professions.majorCode}}" data-uCode="{{item.uCode}}" style="line-height:1.5;width:62vw">{{professions.professionName}}</view>
+                                    <view bindtap="beizhu" class="beizhu zhejiang-info-color" data-majorname="{{professions.professionName}}" data-remark="{{professions.remark}}" wx:if="{{professions.remark.length>0}}">备注</view>
+                                </view>
+                                <view class="flex zhejiang-info-color point-font">
+                                    <view style="width:16.67vw">学费：{{professions.cost.length>0?professions.cost:'-'}}</view>
+                                    <view>学制：{{professions.learnYear}}年</view>
+                                </view>
+                                <view class="flex" style="justify-content:space-between;margin-top:2vw;">
+                                    <view class="flex">
+                                        <view style="width:35vw">{{professions.planYear}}招生计划
+                      <text class="video-title-color">{{professions.planNum}}</text>
+                                        </view>
+                                        <view class="zhejiang-info-color" style="display:flex">
+                                            <block wx:if="{{professions.noLimit=='1'}}">
+                        999(
+                        <view class="shou">不限</view> )
+                      </block>
+                                            <block wx:else>
+                        {{professions.newLevelNum}} (
+                        <block wx:for="{{professions.newChooseLevel}}" wx:for-item="chooseLevelItem">
+                                                    <text class="{{chooseLevel[0]==chooseLevelItem||chooseLevel[1]==chooseLevelItem||chooseLevel[2]==chooseLevelItem?'shou':''}}">{{chooseLevelItem}}</text>
+                                                    <text wx:if="{{index<professions.newChooseLevel.length-1}}">/</text>
+                                                </block>)
+                      </block>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </block>
+                    <block wx:else>
+                        <scroll-view scrollY style="height:50vh">
+                            <view class="recommendList zhejiang-content-color collegeShouName" style="margin-bottom:2vw;position:relative;" wx:if="{{index<3}}" wx:for="{{shanghaiShouList}}">
+                                <view style="position:absolute;top:2.8vw;right:2.8vw;background:rgba(255,255,255,0.5);text-align:center;">
+                                    <image src="{{item.logoUrl}}" style="width:14vw;height:14vw;opacity:0.2"></image>
+                                </view>
+                                <navigator style="padding:4.8vw" url="/packages/findUniversity/collegeDetail/collegeDetail?numId={{item.collegeId}}">
+                                    <view class="title-font shou" style="line-height:1.5;width:62vw">{{item.collegeName}}
+                      <text class="point-font zhejiang-info-color"> {{item.levels}}</text>
+                                    </view>
+                                    <view class="point-font zhejiang-info-color">{{item.collegeType}} {{item.area}} 排名:{{item.rankOfCn}}</view>
+                                    <view class="flex zhejiang-info-color" style="margin-top:2vw">
+                                        <view style="width:35vw">{{item.planYear}}招生计划:
+                        <text>{{item.planNum}}</text>
+                                        </view>
+                                        <view>代码:{{item.collegeCode}}</view>
+                                    </view>
+                                </navigator>
+                                <view class="borderTop" id="major{{index}}{{majorindex}}" style="padding:4.8vw" wx:for="{{item.professions}}" wx:for-index="majorindex" wx:for-item="professions">
+                                    <view class="flex" style="justify-content:space-between">
+                                        <view class="video-title-color title-font" data-collegeCode="{{professions.collegeCode}}" data-majorCode="{{professions.majorCode}}" data-uCode="{{item.uCode}}" style="line-height:1.5;width:62vw">{{professions.professionName}}</view>
+                                        <view bindtap="beizhu" class="beizhu zhejiang-info-color" data-majorname="{{professions.professionName}}" data-remark="{{professions.remark}}" wx:if="{{professions.remark.length>0}}">备注</view>
+                                    </view>
+                                    <view class="flex zhejiang-info-color point-font">
+                                        <view style="width:16.67vw">学费：{{professions.cost.length>0?professions.cost:'-'}}</view>
+                                        <view>学制：{{professions.learnYear}}年</view>
+                                    </view>
+                                    <view class="flex" style="justify-content:space-between;margin-top:2vw;">
+                                        <view class="flex">
+                                            <view style="width:35vw">{{professions.planYear}}招生计划
+                          <text class="video-title-color">{{professions.planNum}}</text>
+                                            </view>
+                                            <view class="zhejiang-info-color" style="display:flex">
+                                                <block wx:if="{{professions.noLimit=='1'}}">
+                            999(
+                            <view class="shou">不限</view> )
+                          </block>
+                                                <block wx:else>
+                            {{professions.newLevelNum}} (
+                            <block wx:for="{{professions.newChooseLevel}}" wx:for-item="chooseLevelItem">
+                                                        <text class="{{chooseLevel[0]==chooseLevelItem||chooseLevel[1]==chooseLevelItem||chooseLevel[2]==chooseLevelItem?'shou':''}}">{{chooseLevelItem}}</text>
+                                                        <text wx:if="{{index<professions.newChooseLevel.length-1}}">/</text>
+                                                    </block>)
+                          </block>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </scroll-view>
+                        <view>
+                            <block wx:if="{{!isIos}}">
+                                <view class="btn-font" style="margin-top:4vw;text-align:center;font-size:5vw">开通VIP,查看完整推荐</view>
+                                <view class="zhejiang-info-color" style="text-align:center">各大VIP特权功能等你发现</view>
+                                <view bindtap="commonTuijian" class="recommend-btn oneFontSize" style="margin:5vw auto 0;width:90vw;color:#fff;background:#{{color}};box-shadow:none;">开通VIP</view>
+                            </block>
+                            <block wx:else>
+                                <view class="btn-font" style="margin-top:4vw;text-align:center;font-size:5vw">您还不是VIP,无法查看完整推荐</view>
+                                <view class="zhejiang-info-color" style="text-align:center">各大VIP特权功能等你发现</view>
+                                <button bindtap="noPay" class="recommend-btn oneFontSize" style="margin-top:5vw;width:90vw;color:#fff;opacity:0.6;background:#{{color}};box-shadow:none;">{{payBtnText}}</button>
+                            </block>
+                        </view>
+                    </block>
+                </block>
+                <view class="loading search-loading" wx:else>
+                    <image mode="widthFix" src="/image/recommend_noFount.png" style="width:20vw;height:20vw;"></image>
+                    <view class="title-font zhejiang-content-color" style="width:50vw;margin-top:5.56vw;text-align:left;margin-left:-10vw">暂无匹配的院校专业组</view>
+                    <view class="zhejiang-info-color" style="width:50vw;margin-left:-14vw">请更改合适的成绩或筛选条件</view>
+                </view>
+            </scroll-view>
+        </swiper-item>
+        <swiper-item>
+            <scroll-view scrollY bindscrolltolower="scrollBaoToLower" class="container" style="height:80vh;padding-bottom:4.8vw">
+                <view class="flex container" style="justify-content:space-between;padding:0 4.8vw;line-height:3">
+                    <view class="flex">
+                        <view bindtap="changeScore" class="flex">
+                            <view class="zhejiang-content-color">{{userScore.total}} 分</view>
+                            <image mode="widthFix" src="../image/choose_score_icon.png" style="width:4vw;height:3vw;margin-left:2vw"></image>
+                        </view>
+                        <view class="zhejiang-info-color" style="margin-left:6vw" wx:if="{{shanghaiBaoList.length>0}}">
+                            <text class="bao">{{baoSuo}}</text> 所
+                </view>
+                    </view>
+                    <view bindtap="shaixuan" class="flex">
+                        <view class="zhejiang-content-color">筛选</view>
+                        <image src="../image/shaixuan.png" style="width:4vw;height:4vw;margin-left:2.78vw"></image>
+                    </view>
+                </view>
+                <block wx:if="{{shanghaiBaoList.length>0}}">
+                    <block wx:if="{{userInfo[0].UserType>1}}">
+                        <view class="recommendList zhejiang-content-color" style="margin-bottom:2vw;position:relative;" wx:for="{{shanghaiBaoList}}">
+                            <view style="position:absolute;top:2.8vw;right:2.8vw;background:rgba(255,255,255,0.5);text-align:center;">
+                                <image src="{{item.logoUrl}}" style="width:14vw;height:14vw;opacity:0.2"></image>
+                            </view>
+                            <navigator style="padding:4.8vw" url="/packages/findUniversity/collegeDetail/collegeDetail?numId={{item.collegeId}}">
+                                <view class="title-font bao" style="line-height:1.5;width:62vw">{{item.collegeName}}
+                  <text class="point-font zhejiang-info-color"> {{item.levels}}</text>
+                                </view>
+                                <view class="point-font zhejiang-info-color">{{item.collegeType}} {{item.area}} 排名:{{item.rankOfCn}}</view>
+                                <view class="flex zhejiang-info-color" style="margin-top:2vw">
+                                    <view style="width:35vw">{{item.planYear}}招生计划:
+                    <text>{{item.planNum}}</text>
+                                    </view>
+                                    <view>代码:{{item.collegeCode}}</view>
+                                </view>
+                            </navigator>
+                            <view class="borderTop" id="major{{index}}{{majorindex}}" style="padding:4.8vw" wx:for="{{item.professions}}" wx:for-index="majorindex" wx:for-item="professions">
+                                <view class="flex" style="justify-content:space-between">
+                                    <view class="video-title-color title-font" data-collegeCode="{{professions.collegeCode}}" data-majorCode="{{professions.majorCode}}" data-uCode="{{item.uCode}}" style="line-height:1.5;width:62vw">{{professions.professionName}}</view>
+                                    <view bindtap="beizhu" class="beizhu zhejiang-info-color" data-majorname="{{professions.professionName}}" data-remark="{{professions.remark}}" wx:if="{{professions.remark.length>0}}">备注</view>
+                                </view>
+                                <view class="flex zhejiang-info-color point-font">
+                                    <view style="width:16.67vw">学费：{{professions.cost.length>0?professions.cost:'-'}}</view>
+                                    <view>学制：{{professions.learnYear}}年</view>
+                                </view>
+                                <view class="flex" style="justify-content:space-between;margin-top:2vw;">
+                                    <view class="flex">
+                                        <view style="width:35vw">{{professions.planYear}}招生计划
+                      <text class="video-title-color">{{professions.planNum}}</text>
+                                        </view>
+                                        <view class="zhejiang-info-color" style="display:flex">
+                                            <block wx:if="{{professions.noLimit=='1'}}">
+                        999(
+                        <view class="bao">不限</view> )
+                      </block>
+                                            <block wx:else>
+                        {{professions.newLevelNum}} (
+                        <block wx:for="{{professions.newChooseLevel}}" wx:for-item="chooseLevelItem">
+                                                    <text class="{{chooseLevel[0]==chooseLevelItem||chooseLevel[1]==chooseLevelItem||chooseLevel[2]==chooseLevelItem?'bao':''}}">{{chooseLevelItem}}</text>
+                                                    <text wx:if="{{index<professions.newChooseLevel.length-1}}">/</text>
+                                                </block>)
+                      </block>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </block>
+                    <block wx:else>
+                        <scroll-view scrollY style="height:50vh">
+                            <view class="recommendList zhejiang-content-color" style="margin-bottom:2vw;position:relative;" wx:if="{{index<3}}" wx:for="{{shanghaiBaoList}}">
+                                <view style="position:absolute;top:2.8vw;right:2.8vw;background:rgba(255,255,255,0.5);text-align:center;">
+                                    <image src="{{item.logoUrl}}" style="width:14vw;height:14vw;opacity:0.2"></image>
+                                </view>
+                                <navigator style="padding:4.8vw" url="/packages/findUniversity/collegeDetail/collegeDetail?numId={{item.collegeId}}">
+                                    <view class="title-font bao" style="line-height:1.5;width:62vw">{{item.collegeName}}
+                      <text class="point-font zhejiang-info-color"> {{item.levels}}</text>
+                                    </view>
+                                    <view class="point-font zhejiang-info-color">{{item.collegeType}} {{item.area}} 排名:{{item.rankOfCn}}</view>
+                                    <view class="flex zhejiang-info-color" style="margin-top:2vw">
+                                        <view style="width:35vw">{{item.planYear}}招生计划:
+                        <text>{{item.planNum}}</text>
+                                        </view>
+                                        <view>代码:{{item.collegeCode}}</view>
+                                    </view>
+                                </navigator>
+                                <view class="borderTop" id="major{{index}}{{majorindex}}" style="padding:4.8vw" wx:for="{{item.professions}}" wx:for-index="majorindex" wx:for-item="professions">
+                                    <view class="flex" style="justify-content:space-between">
+                                        <view class="video-title-color title-font" data-collegeCode="{{professions.collegeCode}}" data-majorCode="{{professions.majorCode}}" data-uCode="{{item.uCode}}" style="line-height:1.5;width:62vw">{{professions.professionName}}</view>
+                                        <view bindtap="beizhu" class="beizhu zhejiang-info-color" data-majorname="{{professions.professionName}}" data-remark="{{professions.remark}}" wx:if="{{professions.remark.length>0}}">备注</view>
+                                    </view>
+                                    <view class="flex zhejiang-info-color point-font">
+                                        <view style="width:16.67vw">学费：{{professions.cost.length>0?professions.cost:'-'}}</view>
+                                        <view>学制：{{professions.learnYear}}年</view>
+                                    </view>
+                                    <view class="flex" style="justify-content:space-between;margin-top:2vw;">
+                                        <view class="flex">
+                                            <view style="width:35vw">{{professions.planYear}}招生计划
+                          <text class="video-title-color">{{professions.planNum}}</text>
+                                            </view>
+                                            <view class="zhejiang-info-color" style="display:flex">
+                                                <block wx:if="{{professions.noLimit=='1'}}">
+                            999(
+                            <view class="bao">不限</view> )
+                          </block>
+                                                <block wx:else>
+                            {{professions.newLevelNum}} (
+                            <block wx:for="{{professions.newChooseLevel}}" wx:for-item="chooseLevelItem">
+                                                        <text class="{{chooseLevel[0]==chooseLevelItem||chooseLevel[1]==chooseLevelItem||chooseLevel[2]==chooseLevelItem?'bao':''}}">{{chooseLevelItem}}</text>
+                                                        <text wx:if="{{index<professions.newChooseLevel.length-1}}">/</text>
+                                                    </block>)
+                          </block>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </scroll-view>
+                        <view>
+                            <block wx:if="{{!isIos}}">
+                                <view class="btn-font" style="margin-top:4vw;text-align:center;font-size:5vw">开通VIP,查看完整推荐</view>
+                                <view class="zhejiang-info-color" style="text-align:center">各大VIP特权功能等你发现</view>
+                                <view bindtap="commonTuijian" class="recommend-btn oneFontSize" style="margin:5vw auto 0;width:90vw;color:#fff;background:#{{color}};box-shadow:none;">开通VIP</view>
+                            </block>
+                            <block wx:else>
+                                <view class="btn-font" style="margin-top:4vw;text-align:center;font-size:5vw">您还不是VIP,无法查看完整推荐</view>
+                                <view class="zhejiang-info-color" style="text-align:center">各大VIP特权功能等你发现</view>
+                                <button bindtap="noPay" class="recommend-btn oneFontSize" style="margin-top:5vw;width:90vw;color:#fff;opacity:0.6;background:#{{color}};box-shadow:none;">{{payBtnText}}</button>
+                            </block>
+                        </view>
+                    </block>
+                </block>
+                <view class="loading search-loading" wx:else>
+                    <image mode="widthFix" src="/image/recommend_noFount.png" style="width:20vw;height:20vw;"></image>
+                    <view class="title-font zhejiang-content-color" style="width:50vw;margin-top:5.56vw;text-align:left;margin-left:-10vw">暂无匹配的院校专业组</view>
+                    <view class="zhejiang-info-color" style="width:50vw;margin-left:-14vw">请更改合适的成绩或筛选条件</view>
+                </view>
+            </scroll-view>
+        </swiper-item>
+    </swiper>
+    <view style="width:100vw;height:100vh;background:rgba(0,0,0,0.3);position:fixed;top:0;left:0;" wx:if="{{flag}}"></view>
+    <view class="shaixuan-container content-font {{shaixuan}}" wx:if="{{flag}}">
+        <view bindtap="shaixuanClose" class="shaixuan-wrap"></view>
+        <view class="shaixuan-content" style="top:{{navHeight}}px;height:{{scrollViewHeight}}px;padding:0;">
+            <scroll-view scrollY style="height:{{scrollViewHeight-80}}px;padding:2.7vw;">
+                <view class="pro-wrapper">
+                    <view class="flex" style="justify-content:space-between;">
+                        <view>省份
+              <text class="zhejiang-info-color point-font">（多选）</text>
+                        </view>
+                        <view bindtap="down" class="flex">全部
+              <image src="/image/down_icon.png" style="width:4vw;height:1.5vw;margin-left:1vw" wx:if="{{down}}"></image>
+                            <image src="/image/up_icon.png" style="width:4vw;height:1.5vw;margin-left:1vw" wx:else></image>
+                        </view>
+                    </view>
+                    <view class="flex cityList {{cityListDown}}">
+                        <view bindtap="chooseCityArr" class="city-wrapper" data-id="{{item.cityId}}" style="{{item.st?'color:#fff;background:#'+color+'':''}}" wx:for="{{cityList}}">{{item.cityName}}</view>
+                    </view>
+                </view>
+                <view class="classtype-wrapper" style="margin-top:2vw">
+                    <view class="flex" style="justify-content:space-between">
+                        <view>类型
+              <text class="zhejiang-info-color point-font">（多选）</text>
+                        </view>
+                    </view>
+                    <view class="flex classtypeList">
+                        <view bindtap="collegeTypeArr" class="city-wrapper" data-name="{{item.name}}" style="{{item.st?'color:#fff;background:#'+color+'':''}}" wx:for="{{batchList}}">{{item.name}}</view>
+                    </view>
+                </view>
+                <view class="rank-wrapper content-font zhejiang-info-color" style="position:relative;margin-bottom:4vw">
+                    <view class="zhejiang-content-font" style="margin-top:2vw">位次区间</view>
+                    <view class="btn-color" style="width:{{ballRightRight-ballRightLeft-17}}px;left:{{ballRightLeft+17}}px;position:absolute;height:10px;top:37px"></view>
+                    <view style="position:absolute;top:34px;">{{zhejiangRanks.MaxRanking}}</view>
+                    <view style="position:absolute;width:160px;height:10px;left:50%;margin-left:-80px;top:37px;border-radius:10px;border:1px solid #f0eff5"></view>
+                    <view style="position:absolute;top:34px;right:0">{{zhejiangRanks.MinRanking}}</view>
+                    <text class="point-font info" style="position:absolute;left:{{ballRightLeft-1}}px;">{{rankLeft}}</text>
+                    <view catchtouchmove="ballMoveEventLeft" style="position:absolute;width:15px;height:15px;top:33px;border-radius:100%;border:2px solid #{{color}};background:#fff;left:{{ballRightLeft}}px"></view>
+                    <text class="point-font info" style="position:absolute;left:{{ballRightRight-1}}px;">{{rankRight}}</text>
+                    <view catchtouchmove="ballMoveEventRight" style="position:absolute;width:15px;height:15px;top:33px;border-radius:100%;border:2px solid #{{color}};background:#fff;left:{{ballRightRight}}px"></view>
+                </view>
+            </scroll-view>
+            <view class="shaixuan-btn-wrapper flex twoFontSize" id="shaixuan-btn-wrapper" style="width:50.6vw;right:2.4vw;bottom:2.4vw;">
+                <view bindtap="chongzhi" class="chongzhi" style="box-sizing: border-box;color:#{{color}};border: 1px solid #{{color}};">重置</view>
+                <view bindtap="queren" class="queren" style="box-sizing: border-box;background:#{{color}};">确定</view>
+            </view>
+        </view>
+    </view>
+    <view class=" majorUp-wrapper {{majorUp}}">
+        <view bindtap="majorClose" style="width:100%;height:100%"></view>
+        <view class="content-font zhejiang-info-color major-bottom" wx:if="{{majorLoad}}">
+            <view class="loading" style="position:absolute">
+                <image src="/image/loading_icon1.gif"></image>
+            </view>
+        </view>
+        <view class="content-font zhejiang-info-color major-bottom" wx:else>
+            <image bindtap="majorClose" src="/image/icon_close_alt2.png" style="position:absolute;top:3.8vw;right:4.8vw;width:4vw;height:4vw"></image>
+            <view class="title-font zhejiang-content-color" style="line-height:1.5">{{majorDetail[0].professionName}}</view>
+            <view class="flex major-bottom-wrapper">
+                <view>{{majorDetail[0].ChooseLevel}}</view>
+                <view>代码:{{majorDetail[0].ProfessionCode}}</view>
+                <view>{{majorDetail[0].collegeName}}</view>
+            </view>
+            <view class="zhejiang-content-color" style="line-height:3">1.基本信息</view>
+            <view class="flex biaoBorderBottom biaoBorderTop">
+                <view class="major-biao-left biaoBorderLeft biaoBorderRight">学制：</view>
+                <view class="major-biao-right">{{majorDetail[0].LearYear}}年</view>
+                <view class="major-biao-left biaoBorderLeft biaoBorderRight">学费：</view>
+                <view class="biaoBorderRight major-biao-right">{{majorDetail[0].cost}}</view>
+            </view>
+            <view class="flex biaoBorderBottom">
+                <view class="major-biao-left biaoBorderLeft biaoBorderRight">原批次：</view>
+                <view class="major-biao-right">{{majorDetail[0].OrgbatchName}}</view>
+                <view class="major-biao-left biaoBorderLeft biaoBorderRight">科目：</view>
+                <view class="biaoBorderRight major-biao-right flex" style="justify-content:center;">{{majorDetail[0].ChooseLevel=='()'?'-':majorDetail[0].ChooseLevel}}</view>
+            </view>
+            <view class="flex biaoBorderBottom" style="align-items:stretch">
+                <view class="major-biao-left  biaoBorderLeft biaoBorderRight" style="display:flex;align-items:center;justify-content:space-around;">备注：</view>
+                <view class="biaoBorderRight" style="width:71vw;padding:2vw">{{majorDetail[0].remark==''?'-':majorDetail[0].remark}}</view>
+            </view>
+            <view class="zhejiang-content-color" style="line-height:3">2.专业分数线</view>
+            <view class="flex biaoBorderTop zhuanye-fenshuxian">
+                <view class="biaoBorderLeft" style="width:13.33vw;background:#f2f2f2;text-align:center">年份</view>
+                <view class="major-biao-left">批次</view>
+                <view class="major-biao-left">科目</view>
+                <view style="width:24vw;background:#f2f2f2;text-align:center">最低位次</view>
+                <view class="major-biao-left">最低分</view>
+            </view>
+            <view class="flex biaoBorderTop biaoBorderBottom zhuanye-fenshuxian">
+                <view class="biaoBorderLeft" style="width:13.33vw;text-align:center">{{majorDetail[0].ShangHaiRecommendprofessionscoreLineModel[0].scoreLineYear}}</view>
+                <view style="width:18.67vw;text-align:center">{{majorDetail[0].ShangHaiRecommendprofessionscoreLineModel[0].batchName}}</view>
+                <view style="width:18.67vw;text-align:center">{{majorDetail[0].ShangHaiRecommendprofessionscoreLineModel[0].ChooseLevel==''?'-':majorDetail[0].ShangHaiRecommendprofessionscoreLineModel[0].ChooseLevel}}</view>
+                <view style="width:24vw;text-align:center">{{majorDetail[0].ShangHaiRecommendprofessionscoreLineModel[0].MinSort==0?'-':majorDetail[0].ShangHaiRecommendprofessionscoreLineModel[0].MinSort}}</view>
+                <view style="width:18.67vw;text-align:center">{{majorDetail[0].ShangHaiRecommendprofessionscoreLineModel[0].MinScore==0?'-':majorDetail[0].ShangHaiRecommendprofessionscoreLineModel[0].MinScore}}</view>
+            </view>
+            <view style="display:flex;justify-content:flex-end">
+                <view bindtap="goMajorDetail" class="xiangqingBtn">查看完整专业详情</view>
+            </view>
+        </view>
+    </view>
+    <view class=" majorUp-wrapper {{collegeUp}}">
+        <view bindtap="collegeClose" style="width:100%;height:100%;background:rgba(0,0,0,0.3)"></view>
+        <view class="content-font zhejiang-info-color major-bottom" wx:if="{{collegeLoad}}">
+            <view class="loading" style="position:absolute">
+                <image src="/image/loading_icon1.gif"></image>
+            </view>
+        </view>
+        <view class="content-font zhejiang-info-color major-bottom" wx:else>
+            <image bindtap="collegeClose" src="/image/icon_close_alt2.png" style="position:absolute;top:3.8vw;right:4.8vw;width:4vw;height:4vw"></image>
+            <view class="title-font zhejiang-content-color" style="line-height:1.5">{{collegeDetail[0].collegeName}}
+          <text class="zhejiang-info-color point-font">{{collegeDetail[0].levels}}</text>
+            </view>
+            <view class="flex major-bottom-wrapper point-font">
+                <view style="width:15vw">代码：{{collegeDetail[0].CollegCode}}</view>
+                <view>排名：{{collegeDetail[0].rankOfCn}}</view>
+            </view>
+            <view class="zhejiang-content-color flex" style="line-height:3;justify-content:space-between">
+                <view>1.专业录取分({{collegeDetail[0].ProfessionEnterYear}})</view>
+                <view class="flex">
+                    <picker disabled="true" mode="selector" range="{{paixu}}" value="{{paixuIndex}}">
+                        <view class="picker flex">
+                            <view>{{paixu[paixuIndex]}}</view>
+                            <view class="image" style="margin-right:2vw">
+                                <image src="/image/down_icon.png" style="width:3.5vw;height:1.7vw;margin-bottom:0.5vw"></image>
+                            </view>
+                        </view>
+                    </picker>
+                    <view>从低到高</view>
+                </view>
+            </view>
+            <scroll-view scrollX style="width:100%;white-space:nowrap;margin-top:3vw">
+                <view style="width:30vw;display:inline-block;text-align:center;" wx:for="{{collegeDetail[0].CollegeDetialProfessionModel}}" wx:for-item="profression">
+                    <view class="biaoBorderTop biaoBorderLeft {{index==collegeDetail[0].CollegeDetialProfessionModel.length-1?'biaoBorderRight':''}}" style="background:#f2f2f2;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;width:29.6vw">{{profression.professionName}}</view>
+                    <view class="biaoBorderTop biaoBorderLeft biaoBorderBottom {{index==collegeDetail[0].CollegeDetialProfessionModel.length-1?'biaoBorderRight':''}}">{{profression.MinScore==0?'-':profression.MinScore}}</view>
+                </view>
+            </scroll-view>
+            <view class="zhejiang-content-color" style="line-height:3;margin-top:3vw">2.院校分数线</view>
+            <view class="flex biaoBorderTop zhuanye-fenshuxian" style="margin-top:3vw">
+                <view class="biaoBorderLeft" style="width:18.67vw;background:#f2f2f2;text-align:center">年份</view>
+                <view class="major-biao-left" style="width:24vw">批次</view>
+                <view style="width:24vw;background:#f2f2f2;text-align:center">最低位次</view>
+                <view class="major-biao-left" style="width:24vw">最低分</view>
+            </view>
+            <view class="flex biaoBorderTop biaoBorderBottom zhuanye-fenshuxian">
+                <view class="biaoBorderLeft" style="width:18.67vw;text-align:center">{{collegeDetail[0].CollegeModel[0].scoreLineYear}}</view>
+                <view style="width:24vw;text-align:center">{{collegeDetail[0].CollegeModel[0].OrgbatchName}}</view>
+                <view style="width:24vw;text-align:center">{{collegeDetail[0].CollegeModel[0].MinSort==0?'-':collegeDetail[0].CollegeModel[0].MinSort}}</view>
+                <view style="width:24vw;text-align:center">{{collegeDetail[0].CollegeModel[0].MinScore==0?'-':collegeDetail[0].CollegeModel[0].MinScore}}</view>
+            </view>
+            <view style="display:flex;justify-content:flex-end">
+                <view bindtap="goCollegeDetail" class="xiangqingBtn">查看完整院校详情</view>
+            </view>
+        </view>
+    </view>
+    <view class="beizhuTankuang content-font {{beizhuShow}}">
+        <view class="title-font" style="font-weight:bold;margin-bottom:3vw">{{majorname}}</view>
+        <view>{{remark}}</view>
+    </view>
+</block>

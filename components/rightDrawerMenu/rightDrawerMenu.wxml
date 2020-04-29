@@ -1,0 +1,4 @@
+<view class="shaixuan-container content-font {{shaixuan}}" wx:if="{{flag}}">
+    <view bindtap="maskClose" catchtouchmove="catchMaskMove" class="shaixuan-wrap"></view>
+    <slot></slot>
+</view>

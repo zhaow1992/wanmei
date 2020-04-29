@@ -1,0 +1,43 @@
+page {
+    background: #fff;
+}
+
+.container {
+    background: #fff;
+}
+
+.null-wrapper>view {
+    flex-direction: column;
+}
+
+.null-wrapper>view>image {
+    width: 21vw;
+    margin-bottom: 3.2vw;
+}
+
+.cepingBtn {
+    margin-top: 9vw;
+    width: 29.1vw;
+    height: 9.6vw;
+    text-align: center;
+    line-height: 9.6vw;
+    border-radius: 9.6vw;
+    background: linear-gradient(to left,#E9302D,#FF5053);
+    color: #fff;
+}
+
+.student {
+    display: inline-block;
+    background: rgba(245,103,103,0.10);
+    border-radius: 18rpx;
+    color: #F56767;
+    padding: 8rpx 12rpx;
+}
+
+.parent {
+    display: inline-block;
+    background: rgba(255,178,114,0.10);
+    border-radius: 18rpx;
+    color: #FFB272;
+    padding: 8rpx 12rpx;
+}

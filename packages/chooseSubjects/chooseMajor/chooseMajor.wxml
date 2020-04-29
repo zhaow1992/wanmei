@@ -1,0 +1,111 @@
+<navigationcustomtop navigationText="第2步：选择意向专业"></navigationcustomtop>
+<loading wx:if="{{showLoad}}"></loading>
+<view class="con" wx:else>
+    <view class="header">
+        <view class="evaluation twoFontSize oneFontColor flex flexjsbetween" wx:if="{{isCeping}}">
+        15分钟完成测评，专业推荐更精准
+        <navigator class="startEvaluation threeFontSize buttonBorder checkedColor" url="../evaluation/evaluation">开始测评</navigator>
+        </view>
+        <view class="tips threeFontSize threeFontColor itemBackColor" wx:else>
+            <view class="t-header">
+                <image src="/image/light.png"></image>
+                <text class="twoFontSize oneFontColor">说明: </text>
+            </view>
+            <text class="fourFontColor threeFontSize" style="line-height:40rpx;">以下推荐均为本科专业，推荐规则依据兴趣、性格、能力、职业价值观、学科优劣五个维度并结合男女性别综合计算后排序。分值越高，排序越靠前说明该专业越适合自己，同等匹配度的专业排序无优劣之分。选择匹配度低的专业可能增加将来学习的难度，需要付出更多的努力。 </text>
+            <view class="flex jfe" style="margin-top:20rpx;">
+                <navigator class="readReport threeFontSize twoFontColor" url="/pages/evaluationResult/evaluationResult?id={{evaluationId}}&isHide=true">报告解读</navigator>
+                <navigator class="resetCeping threeFontSize twoFontColor" openType="redirect" url="../evaluation/evaluation?again=true">重新测评</navigator>
+            </view>
+        </view>
+    </view>
+    <view bindtap="showMajorDetail" class="cardList itemBackColor" data-code="{{item.majorCode}}" wx:for="{{majorList}}" wx:for-index="idx" wx:key="{{index}}">
+        <view class="l-title oneFontColor oneFontSize">{{item.majorName}}</view>
+        <view class="l-con flex flexjsbetween">
+            <view class="c-left relativeStyle">
+                <view class="description textAlign absoluteStyle">
+                    <view class="number fourFontColor twoFontSize">
+                        <view class="threeFontSize threeFontColor">推荐指数 <text class="">{{item.degree>0?item.degree:'-'}}</text>%</view>
+                    </view>
+                </view>
+            </view>
+            <view catchtap="addSubject" class="relativeStyle checkbox" data-code="{{item.majorCode}}" data-index="{{idx}}" data-rate="{{item.degree}}">
+                <image class="nochecked absoluteStyle" src="/image/course_no_Checked.png"></image>
+                <image class="checked absoluteStyle" src="/image/major_selected.png" wx:if="{{item.isSelect}}"></image>
+            </view>
+        </view>
+    </view>
+    <view class="confirme oneFontSize whiteFontColor textAlign gradientOne" wx:if="{{selectNumber<=0}}">生成选科方案
+    <text>（{{selectNumber}}）</text>
+    </view>
+    <view bindtap="confirme" class="confirme oneFontSize whiteFontColor textAlign gradientThree" hoverClass="btnHover" wx:else>生成选科方案
+    <text>（{{selectNumber}}）</text>
+    </view>
+    <view catchtap="closeMajorDetail" class="mark {{majorDetailFlag?'active':''}}"></view>
+    <view catchtouchmove="move" class="majorDetail itemBackColor {{majorDetailFlag?'active':closeMajorAnimation}}" style="height:{{majorDetailHeight}}vh">
+        <view class="itemBackColor" wx:if="{{majorDetailLoad}}">
+            <image class="loading_icon" src="/image/loading_icon1.gif"></image>
+        </view>
+        <block wx:else>
+            <view class="no-data" wx:if="{{noDataFlag}}">
+                <view class="textAlign">
+                    <image class="no-data" src="/image/no-data.png" style="margin-top:260rpx"></image>
+                    <view class="threeFontColor twoFontSize">暂无数据</view>
+                </view>
+            </view>
+            <block wx:else>
+                <view class="header flex flexjsbetween">
+                    <view class="fourFontSize fourFontColor">{{majorDetail.majorName}}</view>
+                    <image bindtap="closeMajorDetail" src="/image/icon_close_alt2.png"></image>
+                </view>
+                <view class="m-con">
+                    <text class="title twoFontSize fourFontColor">相关专业共 {{majorDetail.majorChild.length}} 个</text>
+                    <view class="no-data" wx:if="{{(majorDetail.biologyRate==-1||majorDetail.biologyRate==0)&&(majorDetail.chemistryRate==-1||majorDetail.chemistryRate==0)&&(majorDetail.geographyRate==-1||majorDetail.geographyRate==0)&&(majorDetail.historyRate==-1||majorDetail.historyRate==0)&&(majorDetail.physicalRate==-1||majorDetail.physicalRate==0)&&(majorDetail.politicsRate==-1||majorDetail.politicsRate==0)&&(majorDetail.technologyRate==-1||majorDetail.technologyRate==0)}}">
+                        <view class="textAlign">
+                            <image class="no-data" src="/image/no-data.png"></image>
+                            <view class="threeFontColor twoFontSize">暂无数据</view>
+                        </view>
+                    </view>
+                    <scroll-view class="scrollBox" scrollY="true" style="height:{{scrolHeight}}vh" wx:else>
+                        <view class="c-right" wx:if="{{provinceType==3}}">
+                            <view class="title threeFontSize threeFontColor">首选科目</view>
+                            <view class="descInfo" wx:for="{{majorList1}}" wx:key="{{index}}">
+                                <block wx:if="{{!(item.scale==0||item.scale==-1)}}">
+                                    <text class="s-name fourFontColor threeFontSize textOmit">{{item.name}}</text>
+                                    <view class="sacle">
+                                        <view class="frontBg" style="width:{{item.scale}}%"></view>
+                                        <view class="afterBg"></view>
+                                    </view>
+                                    <text class="threeFontColor threeFontSize s-num">{{item.scale}}%</text>
+                                </block>
+                            </view>
+                            <view class="title threeFontSize threeFontColor">再选科目</view>
+                            <view class="descInfo" wx:for="{{majorList2}}" wx:key="{{index}}">
+                                <block wx:if="{{!(item.scale==0||item.scale==-1)}}">
+                                    <text class="s-name fourFontColor threeFontSize textOmit">{{item.name}}</text>
+                                    <view class="sacle">
+                                        <view class="frontBg" style="width:{{item.scale}}%"></view>
+                                        <view class="afterBg"></view>
+                                    </view>
+                                    <text class="threeFontColor threeFontSize s-num">{{item.scale}}%</text>
+                                </block>
+                            </view>
+                        </view>
+                        <view class="c-right" wx:else>
+                            <view class="descInfo" style="margin-top:18rpx" wx:for="{{subjectItem}}" wx:key="{{index}}">
+                                <block wx:if="{{!(item.scale==0||item.scale==-1)}}">
+                                    <text class="s-name fourFontColor threeFontSize textOmit" style="width:{{provinceId==842?'15%':'12%'}}">{{item.name}}</text>
+                                    <view class="sacle">
+                                        <view class="frontBg" style="width:{{item.scale}}%"></view>
+                                        <view class="afterBg"></view>
+                                    </view>
+                                    <text class="threeFontColor threeFontSize s-num">{{item.scale}}%</text>
+                                </block>
+                            </view>
+                        </view>
+                    </scroll-view>
+                    <navigator bindtap="closeMajorDetail" class="goMajorDetail whiteFontColor gradientThree twoFontSize textAlign" hoverClass="btnHover" url="/packages/selectMajor/middleMajorDetail/middleMajorDetail?majorcode={{majorDetail.majorCode}}">查看专业详情</navigator>
+                </view>
+            </block>
+        </block>
+    </view>
+</view>

@@ -1,0 +1,12 @@
+<view wx:if="{{flag}}">
+    <view class="wrap {{wrapAnimate}}" style="background:rgba(0,0,0,{{bgOpacity}});" wx:if="{{wrapAnimate}}"></view>
+    <view catchtap="hideFrame" class="frame-wrapper {{frameAnimate}}">
+        <view catchtap="catchNone" catchtouchmove="catchMove" class="frame">
+            <view class="title-wrapper flex">
+                <view>{{frameTitle}}</view>
+                <image catchtap="hideFrame" mode="widthFix" src="/image/icon_close_alt2.png" style=" width: 3.2vw;height: 3.2vw;padding: 0 5vw;margin-right: -5vw;"></image>
+            </view>
+            <slot></slot>
+        </view>
+    </view>
+</view>

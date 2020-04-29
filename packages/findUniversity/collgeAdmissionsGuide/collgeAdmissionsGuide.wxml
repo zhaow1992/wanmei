@@ -1,0 +1,7 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<scroll-view scrollY bindscrolltolower="scrolltolower" style="height:100vh;width:91.4vw;margin:auto;">
+    <view bindtap="recruitChapterTap" class="flex bottomBorder" hoverClass="itemHover" id="{{index}}" style="justify-content:space-between;padding:4vw 0" wx:for="{{recruitChapter}}" wx:key="unique">
+        <view class="oneFontSize textOmit" style="width:83.73vw;">{{item.name}}</view>
+        <image class="rightIconWH " src="/image/right_logo.png "></image>
+    </view>
+</scroll-view>

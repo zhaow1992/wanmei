@@ -1,0 +1,13 @@
+.biao-wrapper>view {
+    width: 16vw;
+    text-align: center;
+    border-right: 1px solid #e4e4e4;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.biao-wrapper {
+    line-height: 2.5;
+    width: 145vw;
+}

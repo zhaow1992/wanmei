@@ -1,0 +1,123 @@
+<navigationcustomtop navigationText="选科方案" share="{{share}}"></navigationcustomtop>
+<loading wx:if="{{showLoad}}"></loading>
+<view hidden="{{showLoad}}">
+    <view class="content-wrapper content-font VIPpower" style="min-height: 70vh;padding-top: 20vh;" wx:if="{{!vip}}">
+        <image src="/image/VIPpower.png"></image>
+        <view>您没有权限查看数据</view>
+        <button bindtap="noPay" class="tuijian-btn btn-font payBtn btn-bg-color" wx:if="{{system=='ios'}}">{{payBtnText}}</button>
+        <button bindtap="payBtn" class="tuijian-btn btn-font payBtn" hoverClass="btnHover" style="box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);background:linear-gradient(to left, #E9302D, #FF5053);" wx:else>开通VIP</button>
+    </view>
+    <view hidden="{{!vip}}">
+        <canvas canvasId="radar" style="width:320px;height:220px;position:fixed;top:-100vh;left:-100vw;"></canvas>
+        <view class="container">
+            <swiper bindchange="swiperNav" current="{{currentTab}}" style="margin-top:20rpx;height:372rpx;">
+                <swiper-item>
+                    <view class="subTab flex" style="flex-direction:column;height:340rpx;justify-content: space-between;">
+                        <view class="flex" style="margin-bottom:50rpx;">
+                            <view style="width:188rpx;height:188rpx;position:relative;">
+                                <ringProgress borderWidth="4" progress="{{matchDetail.compositeMatchRate==null?0:matchDetail.compositeMatchRate}}" size="188" wx:if="{{matchDetail.compositeMatchRate!=null}}"></ringProgress>
+                            </view>
+                            <view style="margin-left:4vw;">
+                                <view bindtap="{{share==false?'chooseMajor':''}}" class="flex" hoverClass="btnHover">
+                                    <view class="oneFontSize bold" wx:if="{{isHide==0}}">{{matchDetail.majorCount==null?'-':matchDetail.majorCount}}个意向专业</view>
+                                    <image src="../image/pen.png" style="width:32rpx;height:28rpx;margin-left:16rpx;" wx:if="{{isHide==0&&share==false}}"></image>
+                                </view>
+                                <view class="flex" style="margin-top:4vw;width:53vw;justify-content:space-between;position:relative;">
+                                    <view bindtap="chooseSub" class="subItem flex" data-index="{{index}}" hoverClass="btnHover" wx:for="{{matchDetail.subject}}">
+                                        <view class="flex">
+                                            <view style="white-space: nowrap;">{{item}}</view>
+                                            <image class="moreIcon" src="../image/chooseSub_icon.png"></image>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                        <view style="border-bottom:1px solid #e9e9e9;width:100%;"></view>
+                        <view class="threeFontSize fourFontColor" style="line-height:3.5;width:100%;">综合匹配率越高，代表更多的意向专业和院校可填报</view>
+                    </view>
+                </swiper-item>
+                <swiper-item>
+                    <view class="subTab flex" style="flex-direction:column;height:340rpx;justify-content: space-between;">
+                        <view class="flex" style="justify-content:space-between;width:100%;margin-bottom:50rpx;">
+                            <image mode="widthFix" src="{{radarPath}}" style="width:300rpx;height:200rpx;"></image>
+                            <view class="flex" style="flex-direction:column;position:relative;margin-right:48rpx;">
+                                <view class="oneFontSize bold">学科关联性</view>
+                                <view class="flex" style="font-size:72rpx;color:#E9302D;line-height:1;">
+                                    <view>“</view>
+                                    <view style="font-size:48rpx;margin: 4vw 2vw;">{{matchDetail.subjectRelated}}</view>
+                                    <view style="position: relative;top: 45rpx;">”</view>
+                                </view>
+                            </view>
+                        </view>
+                        <view style="border-bottom:1px solid #e9e9e9;width:100%;"></view>
+                        <view class="threeFontSize fourFontColor" style="line-height:3.5;width:100%;">关联性分为强、中、弱三个等级，关联性越高越利于学习</view>
+                    </view>
+                </swiper-item>
+            </swiper>
+            <view class="flex" style="justify-content:space-around;margin-top:20rpx;">
+                <view class="flex">
+                    <view class="chooseItem {{currentTab==0?'checked':''}}" style="margin-right:8rpx;"></view>
+                    <view class="chooseItem {{currentTab==1?'checked':''}}"></view>
+                </view>
+            </view>
+            <view style="padding:4.3vw;">
+                <view class="item-wrapper">
+                    <navigator class="flex item" hoverClass="listHover" url="../matchMajor/matchMajor?rate={{matchDetail.majorMatchRate}}">
+                        <view class="flex">
+                            <image class="itemLogo" src="../image/matchMajor_icon.png"></image>
+                            <view class="oneFontSize oneFontColor" style="margin:0 20rpx 0 30rpx;">专业匹配</view>
+                            <view class="oneFontColor" style="font-size:48rpx;">{{matchDetail.majorMatchRate==null?'-':matchDetail.majorMatchRate}}
+                <text class="oneFontSize">%</text>
+                            </view>
+                        </view>
+                        <view class="twoFontColor" style="width:30vw;line-height:2;">
+                            <view wx:if="{{isHide==0}}">{{matchDetail.majorCount==null?'-':matchDetail.majorCount}} 个意向专业</view>
+                            <view>{{matchDetail.majorMatchCount==null?'-':matchDetail.majorMatchCount}} 个匹配</view>
+                        </view>
+                    </navigator>
+                </view>
+                <view class="item-wrapper">
+                    <view bindtap="careerDetail" class="flex item" hoverClass="listHover">
+                        <view class="flex">
+                            <image class="itemLogo" src="../image/matchCareer_no_icon.png"></image>
+                            <view class="oneFontSize threeFontColor" style="margin:0 20rpx 0 30rpx;">职业匹配</view>
+                            <view class="threeFontColor" style="font-size:48rpx;">-
+                <text class="oneFontSize">%</text>
+                            </view>
+                        </view>
+                        <view class="threeFontColor" style="width:30vw;line-height:2;">
+                            <view>- 个意向职业</view>
+                            <view>- 个匹配</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="item-wrapper">
+                    <navigator class="flex item" hoverClass="listHover" url="../matchCollege/matchCollege?rate={{matchDetail.collegeMatchRate}}">
+                        <view class="flex">
+                            <image class="itemLogo" src="../image/matchCollege_icon.png"></image>
+                            <view class="oneFontSize oneFontColor" style="margin:0 20rpx 0 30rpx;">院校匹配</view>
+                            <view class="oneFontColor" style="font-size:48rpx;">{{matchDetail.collegeMatchRate==null?'-':matchDetail.collegeMatchRate}}
+                <text class="oneFontSize">%</text>
+                            </view>
+                        </view>
+                        <view class="twoFontColor" style="width:30vw;line-height:2;">
+                            <view>{{matchDetail.collegeCount==null?'-':matchDetail.collegeCount}} 个院校</view>
+                            <view>{{matchDetail.matchCollegeCount==null?'-':matchDetail.matchCollegeCount}} 个匹配</view>
+                        </view>
+                    </navigator>
+                </view>
+            </view>
+            <button bindtap="saveChooseSubPlan" class="recommend-btn oneFontSize" hoverClass="btnHover" wx:if="{{share==false&&isshowSave==1}}">保存方案</button>
+        </view>
+        <view wx:if="{{popup.popupFlag}}">
+            <view catchtap="hidePopup" class="wrap {{popup.wrapAnimate}}" style="background:rgba(0,0,0,{{popup.bgOpacity}});"></view>
+            <view class="{{popup.popupAnimate}} popup-wrapper">
+                <view class="titlePopup">选科组合已保存</view>
+                <view class="flex chooseSex-wrapper">
+                    <view bindtap="hidePopup" data-sex="0">再看看</view>
+                    <view bindtap="goChooseSubIndex" data-sex="1">选科首页</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

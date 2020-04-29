@@ -1,0 +1,12 @@
+{
+    "usingComponents": {
+        "loading": "/components/loading/loading",
+        "loginVIP": "/components/loginVIP/loginVIP",
+        "serverfail": "/components/serverFail/serverFail",
+        "bottomFrame": "../../../components/bottomFrame/bottomFrame",
+        "topMenu": "../../../components/topMenu/topMenu",
+        "rightdrawermenu": "../../../components/rightDrawerMenu/rightDrawerMenu",
+        "dropDownMenu": "../../../components/dropDownMenu/dropDownMenu",
+        "navigationcustomtop": "../../../components/navigationCustomTop/navigationCustomTop"
+    }
+}

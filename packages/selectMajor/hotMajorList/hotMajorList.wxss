@@ -1,0 +1,100 @@
+.popup-wrapper {
+    width: 70vw;
+    background: #fff;
+    position: fixed;
+    top: 60vh;
+    opacity: 0;
+    left: 10vw;
+    border-radius: 12px;
+    z-index: 12;
+    padding: 5vw;
+    line-height: 1.8;
+}
+
+.popupAnimate {
+    animation: popupAnimate 0.5s ease-in-out forwards;
+}
+
+@-webkit-keyframes popupAnimate {
+    0% {
+    }
+
+    60% {
+        top: 30vh;
+        opacity: 0.5;
+    }
+
+    80% {
+        top: 32vh;
+        opacity: 1;
+    }
+
+    100% {
+        top: 30vh;
+        opacity: 1;
+    }
+}
+
+@keyframes popupAnimate {
+    0% {
+    }
+
+    60% {
+        top: 30vh;
+        opacity: 0.5;
+    }
+
+    80% {
+        top: 32vh;
+        opacity: 1;
+    }
+
+    100% {
+        top: 30vh;
+        opacity: 1;
+    }
+}
+
+.popupAnimateOut {
+    animation: popupAnimateOut 0.2s ease-in-out forwards;
+}
+
+@-webkit-keyframes popupAnimateOut {
+    0% {
+        top: 30vh;
+    }
+
+    100% {
+        top: 100vh;
+    }
+}
+
+@keyframes popupAnimateOut {
+    0% {
+        top: 30vh;
+    }
+
+    100% {
+        top: 100vh;
+    }
+}
+
+.closeLine {
+    position: absolute;
+    width: 2px;
+    height: 5vw;
+    background: #fff;
+    left: 50%;
+    margin-left: -1px;
+    bottom: -5vw;
+}
+
+.closeBtn {
+    position: absolute;
+    width: 8.5vw;
+    height: 8.5vw;
+    left: 50%;
+    margin-left: -4.25vw;
+    bottom: -13vw;
+    font-size: 5vw;
+}

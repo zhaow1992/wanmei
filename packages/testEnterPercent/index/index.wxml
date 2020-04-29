@@ -1,0 +1,85 @@
+<view style="width:100vw;height:56vw">
+    <image bindtap="returnTap" class="absoluteStyle" src="/image/return.png" style="width:2.67vw;height:4.8vw;padding:35px 7vw;"></image>
+    <image src="../image/testEnterIndex.jpg" style="width:100vw;height:56vw"></image>
+</view>
+<view>
+    <view class="itemBackColor relativeStyle" style="width:78.67vw;padding:5.33vw;margin: 0 5.33vw;border-radius:3.2vw;box-shadow: 0 2px 5px 4px rgba(3,3,3,0.05);top:-6.13vw;">
+        <view bindtap="batchTap" class="flex bottomBorder flexjsbetween" style="padding:4.93vw 0;">
+            <view class="twoFontColor twoFontSize">分数</view>
+            <view bindtap="goCreateScore" class="fourFontColor oneFontSize flex flexjsbetween" style="width:63.2vw;">
+                <view class="flex">
+                    <view style="margin-right:2vw;" wx:if="{{cityId!=842&&cityId!=843}}">{{course==0?'理科':'文科'}}</view>
+                    <view class="threeFontColor" wx:if="{{score==null}}">创建成绩</view>
+                    <view wx:else>{{score}}</view>
+                </view>
+                <image class="moreArrowWH" src="/image/right_logo.png"></image>
+            </view>
+        </view>
+        <view bindtap="batchTap" class="flex bottomBorder flexjsbetween" style="padding:4.93vw 0;" wx:if="{{cityId!=842&&cityId!=843}}">
+            <view class="twoFontColor twoFontSize">批次</view>
+            <view bindtap="showFrame" class="fourFontColor oneFontSize flex flexjsbetween" style="width:63.2vw;">
+                <block wx:for="{{scoreLine[course]}}">
+                    <block wx:if="{{batchFlag}}">
+                        <view wx:if="{{item.batch==batch}}">{{item.batchName}}</view>
+                    </block>
+                    <block wx:else>
+                        <view wx:if="{{item.batch==scoreBatch}}">{{item.batchName}}</view>
+                    </block>
+                </block>
+                <image class="moreArrowWH" src="/image/right_logo.png"></image>
+            </view>
+        </view>
+        <view bindtap="goSearchCollege" class="flex flexjsbetween" style="padding-top:4.93vw">
+            <view class="twoFontColor twoFontSize">院校</view>
+            <view class="fourFontColor oneFontSize flex flexjsbetween" style="width:63.2vw;">
+                <view>{{college}}</view>
+            </view>
+        </view>
+    </view>
+    <view>
+        <block wx:if="{{xianzhi==false}}">
+            <view class="absoluteStyle pageItemWidth" style="bottom:0;left:50%;transform:translate(-50%);" wx:if="{{CountFlag}}">
+                <view class="twoFontSize threeFontColor" style="text-align:center;margin-bottom:5vw;">今日还可测试 {{count}} 次</view>
+                <view bindtap="showToast" class="whiteFontColor oneFontSize flex flexjscenter" style="height:11.73vw;background: #E9302D;border-radius: 23px;opacity:0.6;" wx:if="{{score==null||college=='输入目标大学…'}}">
+                    <view>开始测评</view>
+                </view>
+                <view bindtap="testStart" class="whiteFontColor oneFontSize flex flexjscenter" style="height:11.73vw;background-image: linear-gradient(-61deg, #E9302D 6%, #FF5053 100%);border-radius: 23px;" wx:else>
+                    <view>开始测评</view>
+                </view>
+                <view class="fourFontColor twoFontSize textAlign" style="padding:6.67vw 0;"></view>
+            </view>
+            <view class="absoluteStyle pageItemWidth" style="bottom:0;left:50%;transform:translate(-50%);" wx:else>
+                <view class="twoFontSize threeFontColor" style="text-align:center;margin-bottom:5vw;">今日还可测试 {{count}} 次</view>
+                <view bindtap="goPay" class="whiteFontColor oneFontSize flex flexjscenter" style="height:11.73vw;background: #E9302D;border-radius: 23px;opacity:0.6" wx:if="{{system!='ios'}}">
+                    <view>开通VIP会员 每日可使用50次</view>
+                </view>
+                <view class="whiteFontColor oneFontSize flex flexjscenter" style="height:11.73vw;background: #E9302D;border-radius: 23px;opacity:0.6" wx:else>
+                    <view>{{payBtnText}}</view>
+                </view>
+                <view class="fourFontColor twoFontSize textAlign" style="padding:6.67vw 0;"></view>
+            </view>
+        </block>
+        <view class="absoluteStyle pageItemWidth" style="bottom:0;left:50%;transform:translate(-50%);" wx:else>
+            <view bindtap="toast" class="whiteFontColor oneFontSize flex flexjscenter" style="height:11.73vw;background: #E9302D;border-radius: 23px;opacity:0.6;">
+                <view>政策原因，新高考省份暂不支持此功能</view>
+            </view>
+            <view class="fourFontColor twoFontSize textAlign" style="padding:6.67vw 0;"></view>
+        </view>
+    </view>
+</view>
+<view wx:if="{{flag}}">
+    <view class="wrap {{wrapAnimate}}" style="background:rgba(0,0,0,{{bgOpacity}});" wx:if="{{wrapAnimate}}"></view>
+    <view catchtap="hideFrame" class="frame-wrapper {{frameAnimate}}">
+        <view catchtap="catchNone" catchtouchmove="catchMove" class="frame">
+            <view class="title-wrapper flex">
+                <view>请选择批次</view>
+                <image catchtap="hideFrame" src="../../../image/icon_close_alt2.png"></image>
+            </view>
+            <view class="content-wrapper fourFontColor">
+                <view bindtap="chooseBatch" data-batch="{{item.batch}}" data-id="{{index}}" data-name="{{item.batchName}}" wx:for="{{scoreLine[course]}}">
+                    <view class="batch-wrapper" wx:if="{{item.batch==scoreBatch||item.batch==scoreBatch+1}}">{{item.batchName}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

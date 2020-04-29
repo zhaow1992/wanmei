@@ -1,0 +1,20 @@
+<navigationcustomtop navigationText="选考科目专业推荐"></navigationcustomtop>
+<view class="con">
+    <view class="subjectBox flex flexwrap textAlign " style="margin-top:20rpx">
+        <view bindtap="chooseOneSubject" class="s-list" data-name="{{item.name}}" wx:for="{{oneChooseSubject}}" wx:key="{{key}}">
+            <view class="bgBox flex flexjscenter {{item.isSelect?'active':''}}">
+                <image src="{{item.src}}"></image>
+                <image class="isSelect" src="/image/major_selected.png" wx:if="{{item.isSelect}}"></image>
+            </view>
+            <view class="name twoFontSize fourFontColor">{{item.name}}</view>
+        </view>
+        <view bindtap="chooseTwoSubject" class="s-list" data-name="{{item.name}}" wx:for="{{chooseSubjectList}}" wx:key="{{key}}">
+            <view class="bgBox flex flexjscenter {{item.isSelect?'active':''}}">
+                <image src="{{item.src}}"></image>
+                <image class="isSelect" src="/image/major_selected.png" wx:if="{{item.isSelect}}"></image>
+            </view>
+            <view class="name twoFontSize fourFontColor">{{item.name}}</view>
+        </view>
+    </view>
+    <view bindtap="confirme" class="confirme oneFontSize whiteFontColor textAlign gradientThree {{disabled==true?'disabled':''}}" hoverClass="btnHover">已选完，查看报考专业</view>
+</view>

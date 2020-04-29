@@ -1,0 +1,12 @@
+{
+    "navigationBarTitleText": "智能填报",
+    "usingComponents": {
+        "serverfail": "/components/serverFail/serverFail",
+        "bottomFrame": "../../../components/bottomFrame/bottomFrame",
+        "topMenu": "../../../components/topMenu/topMenu",
+        "loading": "../../../components/loading/loading",
+        "rightdrawermenu": "../../../components/rightDrawerMenu/rightDrawerMenu",
+        "dropDownMenu": "../../../components/dropDownMenu/dropDownMenu",
+        "navigationcustomtop": "../../../components/navigationCustomTop/navigationCustomTop"
+    }
+}

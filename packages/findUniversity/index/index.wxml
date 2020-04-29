@@ -1,0 +1,168 @@
+<navigationcustomtop id="navigationcustom" navigationText="{{navigationText}}" share="{{share}}"></navigationcustomtop>
+<loading wx:if="{{showLoad}}"></loading>
+<block wx:else>
+    <view class="allPageBGcolor">
+        <view class="itemBackColor relativeStyle" id="topmenu" style="height:43.2vw;">
+            <view class="pageItemWidth">
+                <view class="searchWrapper flex">
+                    <view bindtap="goSearch" class="pageItemWidth searchView-viewH flex searchBorder" style="background:#E8E8E8;border:none;">
+                        <view class="twoFontSize searchView twoFontColor">
+                            <image src="/image/search_icon.png"></image>输入大学名称
+            </view>
+                    </view>
+                </view>
+                <view>
+                    <view class="flex flexjsaround twoFontSize oneFontColor" style="padding:5.87vw 0;">
+                        <view bindtap="goDetail" data-type="myCollege" hoverClass="btnHover">
+                            <image class="collegeSearchIconWH" mode="widthFix" src="../image/myCollege.png"></image>
+                            <view>我的院校</view>
+                        </view>
+                        <view bindtap="goDetail" data-type="allCollege" hoverClass="btnHover">
+                            <image class="collegeSearchIconWH" mode="widthFix" src="../image/allCollege.png"></image>
+                            <view>全部院校</view>
+                        </view>
+                        <view bindtap="goDetail" data-type="collegeCompare" hoverClass="btnHover">
+                            <image class="collegeSearchIconWH" mode="widthFix" src="../image/collegeCompare.png"></image>
+                            <view>院校对比</view>
+                        </view>
+                        <view bindtap="goDetail" data-type="collegeRank" hoverClass="btnHover">
+                            <image class="collegeSearchIconWH" mode="widthFix" src="../image/collegeOrder.png"></image>
+                            <view>大学排名</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="itemBackColor">
+            <view class="itemBackColor pageItemWidth flex twoFontSize fourFontColor " style="height:11.73vw;margin-top:2.67vw;">
+                <scroll-view scrollX scrollIntoView="item{{currentId}}" scrollWithAnimation="true" style="width:91.5vw;height:100%;line-height:11.73vw;">
+                    <view style="white-space:nowrap;">
+                        <view bindtap="collegeTabTap" class="relativeStyle" data-index="{{index}}" data-value="{{item.value}}" id="item{{index}}" style="display:inline-block;margin:0 4.8vw 0 0;" wx:for="{{tabList}}" wx:key="unique">
+                            <view>{{item.name}}</view>
+                            <view class="absoluteStyle checkedBackColor {{currentId==index?'selectLineWH':''}} " style="bottom:0;left:50%;transform:translate(-50%);"></view>
+                        </view>
+                    </view>
+                </scroll-view>
+            </view>
+        </view>
+        <scroll-view scrollY bindscrolltolower="getNextPage" style="height:58vh" wx:if="{{collegeData}}">
+            <view bindtap="goCollegeDetail" class="itemBackColor" data-id="{{index}}" hoverClass="listHover" style="margin:0 0 2.13vw 0;" wx:for="{{collegeList}}" wx:for-item="collegeListSingle" wx:key="unique">
+                <view class="collegeListCardSingle pageItemWidth flex cardBorder textPadding threeFontSize">
+                    <image class="collegeLogo" src="{{collegeListSingle.logoUrl}}"></image>
+                    <view>
+                        <view>
+                            <view class="oneFontSize oneFontWidth">{{collegeListSingle.collegeName}}
+                  <text class="terraceBorderText fiveFontSize checkedColor" style="vertical-align:middle;border:1px solid #9b9b9b;color:#9b9b9b;" wx:for="{{collegeListSingle.tags}}" wx:key="unique">{{item}}</text>
+                            </view>
+                        </view>
+                        <view class="twoFontColor threeFontSize flex flexjsbetween" style="margin:1.33vw 0 0 0;">
+                            <view>{{collegeListSingle.classify}} / {{collegeListSingle.belong}} / {{collegeListSingle.type}}</view>
+                            <view class="flex">
+                                <image mode="widthFix" src="../image/city.png" style="height:2.93vw;width:2.4vw;margin-right:1.07vw;"></image>
+                                <view>
+                    {{collegeListSingle.provinceName}}
+                  </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="twoFontColor twoFontSize textAlign" wx:if="{{scrolltolower}}">正在加载中...</view>
+            <block wx:else>
+                <view class="textAlign" style="margin-top:20vw;line-height:1.7;color:#9b9b9b;" wx:if="{{noCollege}}">
+                    <image class="LoadImgWH" src="/image/error_icon2.png" style="margin-left:9vw;"></image>
+                    <view>暂无院校</view>
+                </view>
+                <view class="twoFontColor twoFontSize textAlign" wx:else>- 已加载全部 -</view>
+            </block>
+        </scroll-view>
+        <view class="textAlign" style="margin-top:20vw;" wx:else>
+            <image class="LoadImgWH" src="/image/loading_icon1.gif"></image>
+            <view>正在加载中...</view>
+        </view>
+    </view>
+    <view class="shaixuan-container content-font {{shaixuan}}" wx:if="{{flag}}">
+        <view bindtap="maskClose" catchtouchmove="catchMaskMove" class="shaixuan-wrap"></view>
+        <view class="whiteColor absoluteStyle twoFontSize fourFontColor" style="top:0px;height:100%;width:76.27vw;right:0;">
+            <scroll-view scrollY style="width:70.93vw;margin:0 auto;height:92vh">
+                <view>
+                    <view class="twoFontColor threeFontSize" style="padding-top:9.07vw">热门标签</view>
+                    <view class="flex flexjsbetween" style="flex-wrap: wrap;">
+                        <view class="{{item.checked?'whiteFontColor checkedBackColor':' selectBlockColor'}} selectBlock " style="margin-top:2.13vw;" wx:for="{{selectTerrace}}" wx:key="unique">
+                            <view bindtap="selectHotTap" class="selectBlock flex flexjscenter" id="{{index}}">{{item.name}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view>
+                    <view class="twoFontColor flex threeFontSize flexjsbetween " style="margin-top:8vw">
+                        <view>类型</view>
+                        <view bindtap="openType" style="padding:0 0 0 3.2vw;">
+                            <image class="{{typeListOpen?'transReverse':''}}" src="/image/down_icon.png" style="height:1.6vw;width:3.2vw;"></image>
+                        </view>
+                    </view>
+                    <view class="flex flexjsbetween {{typeListDown}} typeList">
+                        <view class="{{noType?'whiteFontColor checkedBackColor ':'selectBlockColor'}} selectBlock " style="margin-top:2.13vw;">
+                            <view bindtap="selectTypeTap" class="selectBlock flex flexjscenter" id="noType">不限</view>
+                        </view>
+                        <view class="{{item.checked?'whiteFontColor checkedBackColor ':'selectBlockColor'}} selectBlock " style="margin-top:2.13vw;{{universityType.length-1==index?'background:#fff':''}}" wx:for="{{universityType}}" wx:key="unique">
+                            <view bindtap="selectTypeTap" class="selectBlock flex flexjscenter" id="{{index}}">{{item.name}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view>
+                    <view class="twoFontColor threeFontSize" style="margin-top:8vw">层次</view>
+                    <view class="flex">
+                        <view bindtap="selectDegreeTap" class="{{degreeChecked==-1?'whiteFontColor checkedBackColor':'selectBlockColor'}} selectBlock " id="-1" style="margin:2.13vw 1.87vw 0 0;">
+                            <view class="selectBlock flex flexjscenter">不限</view>
+                        </view>
+                        <view bindtap="selectDegreeTap" class="{{degreeChecked==1?'whiteFontColor checkedBackColor':'selectBlockColor'}} selectBlock " id="1" style="margin:2.13vw 1.87vw 0 0;">
+                            <view class="selectBlock flex flexjscenter">本科</view>
+                        </view>
+                        <view bindtap="selectDegreeTap" class="{{degreeChecked==0?'whiteFontColor checkedBackColor':'selectBlockColor'}} selectBlock " id="0" style="margin:2.13vw 1.87vw 0 0;">
+                            <view class="selectBlock flex flexjscenter">专科</view>
+                        </view>
+                    </view>
+                </view>
+                <view>
+                    <view class="twoFontColor threeFontSize" style="margin-top:8vw">性质</view>
+                    <view class="flex">
+                        <view bindtap="selectCreateTap" class="{{createChecked==-1?'whiteFontColor checkedBackColor':'selectBlockColor'}} selectBlock " id="-1" style="margin:2.13vw 1.86vw 0 0;">
+                            <view class="selectBlock flex flexjscenter">不限</view>
+                        </view>
+                        <view bindtap="selectCreateTap" class="{{createChecked==1?'whiteFontColor checkedBackColor':'selectBlockColor'}} selectBlock " id="1" style="margin:2.13vw 1.86vw 0 0;">
+                            <view bindtap="selectCreateTap" class="selectBlock flex flexjscenter" id="1">公办</view>
+                        </view>
+                        <view bindtap="selectCreateTap" class="{{createChecked==0?'whiteFontColor checkedBackColor':'selectBlockColor'}} selectBlock " id="0" style="margin:2.13vw 1.86vw 0 0;">
+                            <view bindtap="selectCreateTap" class="selectBlock flex flexjscenter" id="2">民办</view>
+                        </view>
+                    </view>
+                </view>
+                <view>
+                    <view class="twoFontColor flex threeFontSize flexjsbetween" style="margin-top:8vw">
+                        <view>所在地</view>
+                        <view bindtap="openArea" style="padding:0 0 0 3.2vw;">
+                            <image class="{{areaListOpen?'transReverse':''}}" src="/image/down_icon.png" style="height:1.6vw;width:3.2vw;"></image>
+                        </view>
+                    </view>
+                    <view class="flex flexjsbetween areaList {{areaListDown}}" style="{{areaListDown=='areaList-animate'?'overflow:visible;':''}}">
+                        <view class="{{national?'whiteFontColor checkedBackColor':'selectBlockColor'}} selectBlock " style="margin-top:2.13vw;">
+                            <view bindtap="selectAreaTap" class="selectBlock flex flexjscenter" data-areatype="fast" id="{{index}}">全国</view>
+                        </view>
+                        <view class="{{item.checked?'whiteFontColor checkedBackColor':'selectBlockColor'}} selectBlock" style="margin-top:2.13vw;{{cityList.length-1==index?'background:#fff':''}}" wx:for="{{cityList}}" wx:key="unique">
+                            <view bindtap="selectAreaTap" class="selectBlock flex flexjscenter" data-areatype="nofast" id="{{index}}">{{item.name}}</view>
+                        </view>
+                    </view>
+                </view>
+            </scroll-view>
+            <view class="flex operationItemWH twoFontSize" style="width:70.93vw;margin:0 auto;justify-content:flex-end;">
+                <view bindtap="resetSelectTap" class="operationBtnWH flex flexjscenter" style="border-radius:26.67vw 0 0 26.67vw;border: 1px solid #E9302D;box-sizing:border-box;">
+                    <view class="checkedColor">重置</view>
+                </view>
+                <view bindtap="confirmSelectTap" class="operationBtnWH flex flexjscenter" style="border-radius:0 26.67vw 26.67vw 0;background-image: linear-gradient(-52deg, #E9302D 1%, #FF5053 100%);color: #fff;">
+                    <view>确定</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</block>
+<loginPopup id="loginPopup"></loginPopup>

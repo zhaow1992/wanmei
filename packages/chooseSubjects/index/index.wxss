@@ -1,0 +1,222 @@
+@import "../evaluation/evaluation.wxss";
+
+page {
+    background-image: linear-gradient(131deg,#3A6EFF 0%,#4383FF 90%);
+}
+
+.con {
+    overflow: hidden;
+}
+
+.back {
+    position: fixed;
+    top: 50rpx;
+    left: 30rpx;
+    width: 20rpx;
+    height: 36rpx;
+    padding: 30rpx;
+    z-index: 99;
+}
+
+.header {
+    position: relative;
+    background-image: linear-gradient(131deg,#3A6EFF 0%,#4383FF 90%);
+}
+
+.h-bg>.img {
+    position: absolute;
+    top: 40rpx;
+    right: 0;
+    width: 556rpx;
+    height: 466rpx;
+}
+
+.h-bg>.word {
+    position: absolute;
+    top: 37%;
+    left: 6%;
+    width: 288rpx;
+    height: 64rpx;
+}
+
+.bigData {
+    display: inline-block;
+    top: 26%;
+    left: 6%;
+    border-radius: 24rpx;
+    border: 1rpx solid #FFFFFF;
+    padding: 5rpx 20rpx;
+}
+
+.h-con {
+    position: absolute;
+    top: 52%;
+}
+
+.customized-elective {
+    position: relative;
+    bottom: -50rpx;
+    width: 80%;
+    height: 104rpx;
+    line-height: 104rpx;
+    margin: 0 auto;
+    background-image: linear-gradient(180deg,#FFCB41 0%,#FFA532 92%);
+    box-shadow: 0 0 5px 4px rgba(0,0,0,0.1);
+    color: #744B17;
+    border-radius: 52rpx;
+}
+
+.province {
+    justify-content: space-around;
+    width: 40%;
+    padding: 0rpx 20rpx;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.province>image {
+    width: 18rpx;
+    height: 10rpx;
+    vertical-align: middle;
+}
+
+.confirme {
+    width: 60%;
+    border-left: 1rpx solid #ffd872;
+}
+
+.customized-tips {
+    width: 90%;
+    margin: 0 auto;
+    padding: 80rpx 40rpx 30rpx;
+    background: #5C93FF;
+    border-radius: 8px;
+    line-height: 40rpx;
+    box-sizing: border-box;
+}
+
+.public-box {
+    width: 100%;
+    padding: 40rpx;
+    background: #fff;
+    border-radius: 20px 20px 0 0;
+    box-sizing: border-box;
+}
+
+.elective-query {
+    width: 100%;
+    margin-top: -2rpx;
+    padding: 30rpx 30rpx 60rpx 30rpx;
+    background-color: #fff;
+    border-radius: 0rpx;
+}
+
+.public-box>view:first-child {
+    margin-bottom: 38rpx;
+}
+
+.newpeople .flex>text {
+    color: #212121;
+}
+
+.newpeople .flex>image {
+    width: 18rpx;
+    height: 32rpx;
+    padding: 10rpx 20rpx;
+    transform: rotate(90deg);
+}
+
+.newpeople .flex>image.rotate {
+    transform: rotate(-90deg);
+}
+
+.message-list {
+    position: relative;
+    margin-top: 20rpx;
+}
+
+.m-left {
+    position: relative;
+}
+
+.m-left .round {
+    position: relative;
+    top: -15rpx;
+    left: 0rpx;
+    width: 50rpx;
+    height: 50rpx;
+    line-height: 50rpx;
+    border-radius: 50%;
+    text-align: center;
+    opacity: 0.7;
+    background-image: linear-gradient(131deg,#3A6EFF 0%,#4383FF 90%);
+}
+
+.m-left .round::after {
+    content: '';
+    position: absolute;
+    left: 47%;
+    bottom: -62rpx;
+    width: 2rpx;
+    height: 60rpx;
+    border-right: 1rpx dashed #78A1FF;
+}
+
+.message-list:last-child .round::after {
+    content: '';
+    height: 0;
+}
+
+.m-left>image {
+    width: 140rpx;
+    height: 140rpx;
+    margin-right: 30rpx;
+    vertical-align: middle;
+}
+
+.m-right {
+    margin-left: 30rpx;
+}
+
+.m-right .tips {
+    display: inline-block;
+    margin-top: 10rpx;
+    padding: 5rpx 0;
+}
+
+.btnMenu {
+    position: absolute;
+    right: 0;
+    top: 12rpx;
+    border-radius: 40rpx;
+    width: 172rpx;
+    height: 60rpx;
+    text-align: center;
+    line-height: 60rpx;
+}
+
+.q-list {
+    width: 30%;
+    margin-top: 20rpx;
+    padding: 30rpx 10rpx;
+    box-shadow: 0 0 5px 2px rgba(0,0,0,0.05);
+    border-radius: 16rpx;
+    box-sizing: border-box;
+}
+
+.maxpadding {
+    padding: 70rpx 20rpx;
+}
+
+.maxmargin {
+    margin-bottom: 20px!important;
+}
+
+.q-list>image {
+    width: 150rpx;
+    height: 116rpx;
+}
+
+.q-list>.desc {
+    margin-top: 15rpx;
+}

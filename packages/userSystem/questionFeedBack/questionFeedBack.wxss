@@ -1,0 +1,18 @@
+page {
+    background: #f8f5f4;
+}
+
+.rightIconWH {
+    width: 1.6vw;
+    height: 3.2vw;
+}
+
+.pictureWH {
+    height: 30.4vw;
+    width: 18.93vw;
+}
+
+.closeIconWH {
+    width: 6.4vw;
+    height: 6.4vw;
+}

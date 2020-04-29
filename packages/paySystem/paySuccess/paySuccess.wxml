@@ -1,0 +1,8 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="allPageBGcolor cutLineWH"></view>
+<view class="textAlign">
+    <image mode="widthFix" src="./../image/paySuccess.png" style="height:20px;width:17.07vw;margin:9.33vw auto 2.93vw"></image>
+    <view class="oneFontColor bottomBorder" style="font-size:5.33vw;padding-bottom:9.33vw;">订购成功！</view>
+    <view class="twoFontColor twoFontSize" style="margin-top:4.27vw;">恭喜您成为志愿VIP会员</view>
+    <view bindtap="goMy" class="oneFontSize borderThree whiteFontColor flex flexjscenter" style="background-image: linear-gradient(-52deg, #E9302D 1%, #FF5053 100%);width:46.67vw;box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);height:10.67vw;margin:6.67vw auto 0;">返回会员中心</view>
+</view>

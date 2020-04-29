@@ -1,0 +1,4 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="main clearfix pageItemWidth" id="main" style="column-count:2;padding:4.27vw;">
+    <image mode="widthFix" src="{{item.pictureUrl}}" style="width:44.4vw;border-radius: 1.07vw;margin-bottom:2.67vw;" wx:for="{{singhtList}}"></image>
+</view>

@@ -1,0 +1,9 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="content-wrapper content-font VIPpower">
+    <image src="../../image/VIPpower.png"></image>
+    <view>您没有权限查看数据</view>
+    <view class="point-font">请登录VIP账号</view>
+    <view bindtap="payBtn" class="recommend-btn oneFontSize" style="margin:8vw 0 3vw 0;width:91.4vw;" wx:if="{{!isIos}}">开通VIP</view>
+    <view bindtap="noPay" class="recommend-btn oneFontSize" style="margin:8vw 0 3vw 0;width:91.4vw;opacity:0.6;" wx:else>{{payBtnText}}</view>
+    <view bindtap="mobileBtn" class="info btn-font" style="margin-top:5vw" wx:if="{{mobile==true}}">登 录</view>
+</view>

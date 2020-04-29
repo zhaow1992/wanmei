@@ -1,0 +1,179 @@
+page {
+    background: #F8F5F4;
+}
+
+.ml10 {
+    margin-left: 10rpx;
+}
+
+.ml20 {
+    margin-left: 20rpx;
+}
+
+.ml30 {
+    margin-left: 30rpx;
+}
+
+.mt10 {
+    margin-top: 10rpx;
+}
+
+.mt20 {
+    margin-top: 20rpx;
+}
+
+.mt30 {
+    margin-top: 30rpx;
+}
+
+.mt40 {
+    margin-top: 40rpx;
+}
+
+.borderB {
+    width: 76rpx;
+    height: 6rpx;
+    background: #E9302D;
+    margin-top: 10rpx;
+    border-radius: 4rpx;
+}
+
+.tab-box {
+    width: 100%;
+    height: 90rpx;
+    display: flex;
+}
+
+.tab-item {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.case-box {
+    width: 100%;
+    height: 80rpx;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.case-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 30rpx;
+}
+
+.lab {
+    width: 16rpx;
+    height: 16rpx;
+    border-radius: 50%;
+    margin-right: 12rpx;
+}
+
+.title {
+    font-size: 44rpx;
+    width: 50rpx;
+}
+
+.list-item {
+    height: 120rpx;
+    padding-left: 30rpx;
+    margin-bottom: 10rpx;
+}
+
+.progress1 {
+    height: 16rpx;
+    background: #F56767;
+    border-radius: 12px;
+}
+
+.progress2 {
+    height: 16rpx;
+    background: #FFB272;
+    border-radius: 12px;
+}
+
+.studentInfo {
+    width: 100%;
+    height: 120rpx;
+    margin-top: 16rpx;
+}
+
+.radarContainer {
+    width: 100%;
+    height: 280px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.radarCanvas {
+    height: 240px;
+    margin: 0 auto;
+    position: absolute;
+}
+
+.barCanvas {
+    height: 150px;
+    margin: 0 auto;
+    position: absolute;
+}
+
+.lineCanvas {
+    height: 280px;
+    margin: 0 auto;
+    position: absolute;
+}
+
+.curveCanvas {
+    height: 280px;
+    margin: 0 auto;
+    position: absolute;
+}
+
+.cakeCanvas {
+    height: 290px;
+    margin: 0 auto;
+    position: absolute;
+}
+
+.title-font {
+    letter-spacing: 0;
+    padding-top: 30rpx;
+    margin-left: 30rpx;
+}
+
+.txt {
+    padding-bottom: 40rpx;
+    margin-top: 20rpx;
+}
+
+.representative {
+    margin-top: 40rpx;
+    padding: 0 30rpx 50rpx 30rpx;
+}
+
+.avatar {
+    width: 140rpx;
+    height: 140rpx;
+    border-radius: 50%;
+}
+
+.detail {
+    margin-left: 30rpx;
+    width: 626rpx;
+    background: #FAFAFA;
+    border-radius: 16px;
+    padding: 30rpx;
+}
+
+.line {
+    width: 224rpx;
+    height: 10rpx;
+    border-radius: 16rpx;
+    background: #E9E9E9;
+}

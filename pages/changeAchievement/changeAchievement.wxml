@@ -1,0 +1,159 @@
+<navigationcustomtop navigationText="成绩更换"></navigationcustomtop>
+<loading wx:if="{{showLoad}}"></loading>
+<view class="container" hidden="{{showLoad}}">
+    <view class="setAchievement" wx:if="{{SHisShow}}">
+        <view class="title sixFontSize">今天还可更换 {{changeNumber}} 次</view>
+        <view class="threeFontColor">成绩决定推荐结果及录取概率 <text>请认真填写</text>
+        </view>
+        <view class="totalScore">
+            <view class="oneFontSize">模考总分</view>
+            <view class="inputBox searchView">
+                <image src="/image/search_image.png"></image>
+                <input bindinput="SHinputScore" maxlength="3" placeholder="请输入成绩" placeholderClass="oneFontSize twoFontColor " type="number" value="{{SHscore}}"></input>
+                <text class="score oneFontSize threeFontColor">分</text>
+            </view>
+        </view>
+        <view class="testSubject">
+            <view class="oneFontSize">选测科目</view>
+            <view class="ts-content flex flexjsbetween">
+                <view bindtap="SHselectTestSubject" class="items itemBackColor twoFontColor oneFontSize {{item.flag?'selected':''}}" data-name="{{item.name}}" wx:for="{{SHtestSubject}}" wx:key="{{index}}">{{item.name}}</view>
+            </view>
+        </view>
+    </view>
+    <view class="setAchievement" wx:if="{{CTisShow}}">
+        <view class="title sixFontSize">今天还可更换 {{changeNumber}} 次</view>
+        <view class="threeFontColor">成绩决定推荐结果及录取概率 <text>请认真填写</text>
+        </view>
+        <view class="totalScore">
+            <view class="oneFontSize">模考总分</view>
+            <view class="inputBox searchView">
+                <image src="/image/search_image.png"></image>
+                <input bindinput="traditionInputScore" maxlength="3" placeholder="请输入成绩" placeholderClass="oneFontSize twoFontColor " type="number" value="{{SHscore}}"></input>
+                <text class="score oneFontSize threeFontColor">分</text>
+            </view>
+        </view>
+        <view class="testSubject twoItems">
+            <view class="oneFontSize">文理倾向</view>
+            <view class="ts-content flex flexjsbetween">
+                <view bindtap="traditionSubject" class="items itemBackColor twoFontColor oneFontSize {{item.flag?'selected':''}} {{CTdisabled?'viewdisabled':''}}" data-name="{{item.name}}" wx:for="{{traditionSubject}}" wx:key="{{index}}">{{item.name}}</view>
+            </view>
+            <view bindtap="showPopup" class="ts-tips threeFontSize twoFontColor" hoverClass="btnHover">
+                <image class="questionIcon" src="/image/question.png"></image>
+                <text>"新高改" 文理怎么选?</text>
+            </view>
+        </view>
+        <view wx:if="{{popup.popupFlag}}">
+            <view catchtap="hidePopup" class="wrap {{popup.wrapAnimate}}" style="background:rgba(0,0,0,{{popup.bgOpacity}});z-index:100"></view>
+            <view class="{{popup.popupAnimate}} popup-wrapper threeFontSize fourFontColor">
+                <view class="twoFontSize bold">"新高改" 文理怎么选?</view>
+                <view style="margin-top:4vw;">若您所在省份已计划实行新高改 (不分文理)，您只需选择较为倾向的科类即可。到政策正式实行时，无需选择文理。（未实行新高考政策的省份请正常选择文理）</view>
+                <view class="closeToast">
+                    <view class="line"></view>
+                    <image bindtap="hidePopup" src="/image/windowClose.png"></image>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="setAchievement" wx:if="{{JSisShow}}">
+        <view class="title sixFontSize">今天还可更换 {{changeNumber}} 次</view>
+        <view class="threeFontColor">成绩决定推荐结果及录取概率 <text>请认真填写</text>
+        </view>
+        <view class="totalScore">
+            <view class="oneFontSize">模考总分</view>
+            <view class="inputBox searchView">
+                <image src="/image/search_image.png"></image>
+                <input bindinput="traditionInputScore" maxlength="3" placeholder="请输入成绩" placeholderClass="oneFontSize twoFontColor" type="number" value="{{SHscore}}"></input>
+                <text class="score oneFontSize threeFontColor">分</text>
+            </view>
+        </view>
+        <view class="testSubject jsItem">
+            <view class="oneFontSize">选测科目成绩</view>
+            <view class="ts-content oneFontSize fourFontColor">
+                <view bindtap="jsChangeScore" class="flex flexjsbetween" data-type="one">
+                    <view>
+                        <text>{{JSselectedSubject1}}</text>
+                        <text>{{JSselectedLevel1}}</text>
+                    </view>
+                    <image class="rightIconWH" src="/image/openList.png"></image>
+                </view>
+                <view bindtap="jsChangeScore" class="flex flexjsbetween" data-type="two">
+                    <view>
+                        <text>{{JSselectedSubject2}}</text>
+                        <text>{{JSselectedLevel2}}</text>
+                    </view>
+                    <image class="rightIconWH" src="/image/openList.png"></image>
+                </view>
+            </view>
+        </view>
+        <view class="ts-box {{tsBox1?'teBoxActive':'teBoxCancel'}}">
+            <view catchtap="closeTsBox" class="ts-mark {{tsBox1?'markActive':'markCancel'}}"></view>
+            <view class="ts-box-con">
+                <view class="header flex flexjsbetween">
+                    <view class="fourFontSize fourFontColor">选择选测科目成绩</view>
+                    <view bindtap="closeTsBox" class="closeTsBox" hoverClass="btnHover">
+                        <image src="/image/icon_close_alt2.png"></image>
+                    </view>
+                </view>
+                <view class="testSubject jsSubject">
+                    <view class="twoFontSize fourFontColor">选测科目</view>
+                    <view class="ts-content flex " style="flex-wrap: nowrap;">
+                        <view bindtap="JSselectTestSubject" class="items itemBackColor twoFontColor oneFontSize {{item.flag?'selected':''}} {{JSdisabled?'viewdisabled':''}}" data-name="{{item.name}}" data-type="one" style="margin-right:20rpx;" wx:for="{{JStestSubject1}}" wx:key="{{index}}">{{item.name}}</view>
+                    </view>
+                </view>
+                <view class="testLevel">
+                    <view class="twoFontSize fourFontColor">选测等级</view>
+                    <view class="tl-con flex flexjsbetween">
+                        <view bindtap="JSselectTestLevel" class="items itemBackColor twoFontColor oneFontSize {{item.flag?'selected':''}}" data-name="{{item.name}}" data-type="one" wx:for="{{JStestLevel1}}" wx:key="{{index}}">{{item.name}}</view>
+                    </view>
+                </view>
+                <view bindtap="finishSelect" class="finish whiteFontColor oneFontSize gradientThree  textAlign" data-type="one" hoverClass="btnHover">确认无误</view>
+            </view>
+        </view>
+        <view class="ts-box {{tsBox2?'teBoxActive':'teBoxCancel'}}">
+            <view catchtap="closeTsBox" class="ts-mark {{tsBox2?'markActive':'markCancel'}}"></view>
+            <view class="ts-box-con">
+                <view class="header flex flexjsbetween">
+                    <view class="fourFontSize fourFontColor">选择选测科目成绩</view>
+                    <view bindtap="closeTsBox" class="closeTsBox" hoverClass="btnHover">
+                        <image src="/image/icon_close_alt2.png"></image>
+                    </view>
+                </view>
+                <view class="testSubject jsSubject">
+                    <view class="twoFontSize fourFontColor">选测科目</view>
+                    <view class="ts-content flex flexjsbetween" style="flex-wrap: nowrap;">
+                        <view bindtap="JSselectTestSubject" class="items itemBackColor twoFontColor oneFontSize {{item.flag?'selected':''}}" data-name="{{item.name}}" data-type="two" wx:for="{{JStestSubject2}}" wx:key="{{index}}">{{item.name}}</view>
+                    </view>
+                </view>
+                <view class="testLevel">
+                    <view class="twoFontSize fourFontColor">选测等级</view>
+                    <view class="tl-con flex flexjsbetween">
+                        <view bindtap="JSselectTestLevel" class="items itemBackColor twoFontColor oneFontSize {{item.flag?'selected':''}}" data-name="{{item.name}}" data-type="two" wx:for="{{JStestLevel2}}" wx:key="{{index}}">{{item.name}}</view>
+                    </view>
+                </view>
+                <view bindtap="finishSelect" class="finish whiteFontColor oneFontSize gradientThree  textAlign" data-type="two" hoverClass="btnHover">确认无误</view>
+            </view>
+        </view>
+    </view>
+    <view class="setAchievement" wx:if="{{ZJisShow}}">
+        <view class="title sixFontSize">今天还可更换 {{changeNumber}} 次</view>
+        <view class="threeFontColor">成绩决定推荐结果及录取概率 <text>请认真填写</text>
+        </view>
+        <view class="totalScore">
+            <view class="oneFontSize">模考总分</view>
+            <view class="inputBox searchView">
+                <image src="/image/search_image.png"></image>
+                <input bindinput="SHinputScore" maxlength="3" placeholder="请输入成绩" placeholderClass="oneFontSize twoFontColor " type="number" value="{{SHscore}}"></input>
+                <text class="score oneFontSize threeFontColor">分</text>
+            </view>
+        </view>
+        <view class="testSubject">
+            <view class="oneFontSize">选测科目</view>
+            <view class="ts-content flex flexjsbetween">
+                <view bindtap="ZJtestSubject" class="items itemBackColor twoFontColor oneFontSize {{item.flag?'selected':''}}" data-name="{{item.name}}" wx:for="{{ZJtestSubject}}" wx:key="{{index}}">{{item.name}}</view>
+            </view>
+        </view>
+    </view>
+    <view bindtap="goPay" class="finishSetting whiteFontColor oneFontSize gradientThree  textAlign" hoverClass="btnHover" wx:if="{{changeNumber===0&&userInfo.UserType==1}}">开通VIP 每天可更换10次成绩</view>
+    <view class="finishSetting whiteFontColor oneFontSize gradientThree  textAlign disabled" wx:if="{{changeNumber===0&&userInfo.UserType>1}}">今日次数已用完 明天再试试吧</view>
+    <view bindtap="setScore" class="finishSetting whiteFontColor oneFontSize gradientThree  textAlign {{finishFlag?'':'disabled'}}" hoverClass="btnHover" wx:if="{{changeNumber>0}}">确认设置</view>
+</view>

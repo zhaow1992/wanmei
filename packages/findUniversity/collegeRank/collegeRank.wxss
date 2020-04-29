@@ -1,0 +1,5 @@
+.selectLineWH {
+    width: 10.13vw;
+    height: 0.8vw;
+    border-radius: 0.4vw;
+}

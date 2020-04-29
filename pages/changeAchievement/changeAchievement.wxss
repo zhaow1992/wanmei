@@ -1,0 +1,480 @@
+.container {
+    height: 90vh;
+    padding: 0 30rpx;
+    overflow: hidden;
+}
+
+.setAchievement .title {
+    margin-top: 30rpx;
+}
+
+.threeFontColor>text {
+    margin-left: 20rpx;
+}
+
+.totalScore {
+    margin-top: 50rpx;
+}
+
+.testSubject {
+    margin-top: 30rpx;
+}
+
+.inputBox {
+    width: 100%;
+    height: 104rpx;
+    margin: 20rpx auto 0;
+    background-color: #fff;
+    border-radius: 16rpx;
+}
+
+.inputBox>image {
+    position: absolute;
+    top: 40rpx;
+    left: -8rpx;
+}
+
+.inputBox>input {
+    height: 100%;
+    padding-left: 80rpx;
+    padding-right: 60rpx;
+    line-height: 104rpx;
+    box-sizing: border-box;
+}
+
+.inputBox .score {
+    position: absolute;
+    top: 20rpx;
+    right: 22rpx;
+}
+
+.ts-content {
+    flex-wrap: wrap;
+}
+
+.ts-content .items {
+    width: 31%;
+    line-height: 84rpx;
+    margin-top: 20rpx;
+    text-align: center;
+    border-radius: 16rpx;
+    border: 1rpx solid #fff;
+}
+
+.ts-content .items.selected {
+    color: #e9302d;
+    border: 1rpx solid #E9302D;
+}
+
+.twoItems .ts-content .items {
+    width: 48%;
+}
+
+.jsItem .ts-content>view {
+    margin-top: 20rpx;
+    padding: 0 30rpx;
+    line-height: 104rpx;
+    background-color: #fff;
+    border-radius: 16rpx;
+}
+
+.ts-tips {
+    display: inline-block;
+    margin-top: 20rpx;
+}
+
+.ts-tips>image {
+    margin-right: 10rpx;
+    margin-top: -2rpx;
+    vertical-align: middle;
+}
+
+.finishSetting {
+    position: fixed;
+    bottom: 50rpx;
+    left: 5%;
+    width: 90%;
+    line-height: 88rpx;
+    border-radius: 44rpx;
+    z-index: 99;
+}
+
+.popup-wrapper {
+    width: 70vw;
+    background: #fff;
+    position: fixed;
+    top: 60vh;
+    opacity: 0;
+    left: 10vw;
+    border-radius: 12px;
+    padding: 5vw;
+    line-height: 1.8;
+    z-index: 101;
+}
+
+.popupAnimate {
+    animation: popupAnimate 0.5s ease-in-out forwards;
+}
+
+@-webkit-keyframes popupAnimate {
+    0% {
+    }
+
+    60% {
+        top: 30vh;
+        opacity: 0.5;
+    }
+
+    80% {
+        top: 32vh;
+        opacity: 1;
+    }
+
+    100% {
+        top: 30vh;
+        opacity: 1;
+    }
+}
+
+@keyframes popupAnimate {
+    0% {
+    }
+
+    60% {
+        top: 30vh;
+        opacity: 0.5;
+    }
+
+    80% {
+        top: 32vh;
+        opacity: 1;
+    }
+
+    100% {
+        top: 30vh;
+        opacity: 1;
+    }
+}
+
+.popupAnimateOut {
+    animation: popupAnimateOut 0.2s ease-in-out forwards;
+}
+
+@-webkit-keyframes popupAnimateOut {
+    0% {
+        top: 30vh;
+    }
+
+    100% {
+        top: 100vh;
+    }
+}
+
+@keyframes popupAnimateOut {
+    0% {
+        top: 30vh;
+    }
+
+    100% {
+        top: 100vh;
+    }
+}
+
+.closeToast>.line {
+    position: absolute;
+    bottom: -44rpx;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4rpx;
+    height: 42rpx;
+    background-color: #fff;
+}
+
+.closeToast>image {
+    position: absolute;
+    bottom: -106rpx;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 64rpx;
+    height: 64rpx;
+}
+
+.ts-box {
+    position: fixed;
+    bottom: -60vh;
+    left: 0;
+    z-index: 999;
+}
+
+.teBoxActive {
+    animation: teBoxActive 0.3s ease-in-out forwards;
+}
+
+@-webkit-keyframes teBoxActive {
+    0% {
+        bottom: -60vh;
+    }
+
+    100% {
+        bottom: 0;
+    }
+}
+
+@keyframes teBoxActive {
+    0% {
+        bottom: -60vh;
+    }
+
+    100% {
+        bottom: 0;
+    }
+}
+
+.teBoxCancel {
+    animation: teBoxCancel 0.3s ease-in-out forwards;
+}
+
+@-webkit-keyframes teBoxCancel {
+    0% {
+        bottom: 0;
+    }
+
+    100% {
+        bottom: -60vh;
+    }
+}
+
+@keyframes teBoxCancel {
+    0% {
+        bottom: 0;
+    }
+
+    100% {
+        bottom: -60vh;
+    }
+}
+
+.markActive {
+    animation: markActive 0.1s ease-in-out forwards;
+}
+
+@-webkit-keyframes markActive {
+    0% {
+    }
+
+    100% {
+        position: fixed;
+        background-color: rgba(0,0,0,0.3);
+    }
+}
+
+@keyframes markActive {
+    0% {
+    }
+
+    100% {
+        position: fixed;
+        background-color: rgba(0,0,0,0.3);
+    }
+}
+
+.markCancel {
+    animation: markCancel 0.1s ease-in-out forwards;
+}
+
+@-webkit-keyframes markCancel {
+    0% {
+        position: fixed;
+        background-color: rgba(0,0,0,0.3);
+    }
+
+    100% {
+    }
+}
+
+@keyframes markCancel {
+    0% {
+        position: fixed;
+        background-color: rgba(0,0,0,0.3);
+    }
+
+    100% {
+    }
+}
+
+.ts-mark {
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.ts-box-con {
+    position: relative;
+    width: 100vw;
+    height: 60vh;
+    padding: 30rpx;
+    background-color: #fff;
+    z-index: 999;
+    box-sizing: border-box;
+    border-radius: 40rpx 40rpx 0 0;
+}
+
+.closeTsBox>image {
+    width: 24rpx;
+    height: 24rpx;
+}
+
+.jsSubject .items {
+    width: 23%;
+    line-height: 76rpx;
+    border: 1rpx solid #cecece;
+}
+
+.testLevel {
+    margin-top: 30rpx;
+}
+
+.testLevel .tl-con {
+    flex-wrap: wrap;
+}
+
+.testLevel .tl-con .items {
+    width: 31%;
+    margin-top: 20rpx;
+    line-height: 76rpx;
+    border: 1rpx solid #cecece;
+    text-align: center;
+    border-radius: 16rpx;
+}
+
+.testLevel .tl-con .items.selected {
+    color: #e9302d;
+    border: 1rpx solid #E9302D;
+}
+
+.ts-box-con .finish {
+    position: absolute;
+    bottom: 50rpx;
+    left: 5%;
+    width: 90%;
+    border-radius: 44rpx;
+    line-height: 88rpx;
+}
+
+.finishScoreBox {
+    position: fixed;
+    height: 42vh;
+    left: 0;
+    width: 100vw;
+    z-index: 999;
+}
+
+.finishScoreBox .f-mask {
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.finishBoxActive {
+    animation: finishBoxActive 0.3s ease-in-out forwards;
+}
+
+@-webkit-keyframes finishBoxActive {
+    0% {
+        bottom: -42vh;
+    }
+
+    100% {
+        bottom: 0;
+    }
+}
+
+@keyframes finishBoxActive {
+    0% {
+        bottom: -42vh;
+    }
+
+    100% {
+        bottom: 0;
+    }
+}
+
+.finishBoxCancel {
+    animation: finishBoxCancel 0.3s ease-in-out forwards;
+}
+
+@-webkit-keyframes finishBoxCancel {
+    0% {
+        bottom: 0;
+    }
+
+    100% {
+        bottom: -42vh;
+    }
+}
+
+@keyframes finishBoxCancel {
+    0% {
+        bottom: 0;
+    }
+
+    100% {
+        bottom: -42vh;
+    }
+}
+
+.finishScoreBox .f-mask.maskActive {
+    animation: markActive 0.1s ease-in-out forwards;
+}
+
+.finishScoreBox .f-mask.maskCancel {
+    animation: markCancel 0.1s ease-in-out forwards;
+}
+
+.finishScoreBox .f-con {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 42vh;
+    padding: 30rpx;
+    z-index: 999;
+    background-color: #fff;
+    border-radius: 20rpx 20rpx 0 0;
+    box-sizing: border-box;
+}
+
+.f-tips {
+    padding-top: 20rpx;
+}
+
+.f-tips>image {
+    margin-right: 10rpx;
+    margin-top: -5rpx;
+    vertical-align: middle;
+}
+
+.f-scoreinfo {
+    padding: 30rpx;
+    border-bottom: 1rpx solid #e9e9e9;
+}
+
+.againFinish {
+    position: absolute;
+    bottom: 50rpx;
+    left: 5%;
+    width: 90%;
+    line-height: 88rpx;
+    border-radius: 44rpx;
+}
+
+.viewdisabled {
+    pointer-events: none;
+}
+
+.disabled {
+    background-image: linear-gradient(137deg,#ffa5a6 0%,#fa9596 100%);
+    pointer-events: none;
+}

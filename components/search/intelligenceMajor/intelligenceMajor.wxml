@@ -1,0 +1,11 @@
+<view bindtap="chooseMajor" class="fr jsb ac whiteColor" data-name="{{item.name}}" hoverClass="listHover" style="height:120rpx;padding:0 4.3vw;border-bottom:1px solid #e9e9e9;" wx:if="{{intelligenceMajor.length>0}}" wx:for="{{intelligenceMajor}}">
+    <view class="fc jc">
+        <view class="twoFontSize twoFontColor">{{item.name}}</view>
+        <view class="threeFontSize threeFontColor">学历层次:本科</view>
+    </view>
+    <image mode="widthFix" src="/image/moreArrow.png" style="width:2.22vw;height:2.22vw;"></image>
+</view>
+<view class="fc ac" style="margin-top:50rpx;" wx:if="{{intelligenceMajor.length==0}}">
+    <image src="/image/recommend_noFount.png" style="width:214rpx;height:214rpx;"></image>
+    <view class="threeFontColor twoFontSize" style="margin-top:20rpx;">抱歉，未找到相关内容</view>
+</view>

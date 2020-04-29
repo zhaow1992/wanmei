@@ -1,0 +1,187 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="loading" wx:if="{{showLoad}}">
+    <image src="../../image/loading_icon1.gif"></image>
+    <view style="margin-top:5.56vw">加载中...</view>
+</view>
+<view class="container" style="padding-bottom:5vw" wx:else>
+    <view class="flex zhejiang-info-color" style="padding: 0 4.8vw;line-height:3;justify-content:space-between">
+        <view class="flex">
+            <view>{{course==0?'理科':'文科'}}</view>
+            <view style="margin-left:2vw">{{batchName}}
+          <text wx:if="{{GroupName!=''}}">({{GroupName}})</text>
+            </view>
+            <view style="margin-left:2vw">{{total}}分</view>
+            <view style="margin-left:2vw" wx:if="{{userScore.provinceNumId==1}}">{{userScore.chooseLevelOrSubjects}}</view>
+        </view>
+    </view>
+    <view class=" zhejiang-info-color" style="position:relative;padding-left:20vw;background:#fff;margin-bottom:5.3vw" wx:for="{{tableList}}">
+        <view>
+            <view>
+                <view style="width:5vw;height:4.5vw;position:absolute;top:5vw;left:0;background:#e9302d;color:#fff;text-align:center;line-height:4.5vw;">{{item.ji}}</view>
+                <view style="position:absolute;top:4.95vw;left:5vw;width:0px;height:0px;border:2.3vw solid transparent;border-left:2vw solid #e9302d;"></view>
+            </view>
+            <view class="checkedColor" style="position:absolute;top:3vw;left:8vw;font-size:4.5vw;">
+                <block wx:if="{{item.probability>0}}">
+                    <text style="font-weight:bold;">{{item.probability}}</text>
+                    <text class="point-font">%</text>
+                </block>
+                <text wx:else>新增</text>
+            </view>
+            <view class="point-font info" style="position:absolute;top:10vw;left:8vw;{{item.probabilityAlias=='风险极大'?'color:#c0361f':item.probabilityAlias=='风险大'?'color:#e85533':item.probabilityAlias=='风险大'?'color:#e85533':item.probabilityAlias=='风险适中'?'color:#ff7800':item.probabilityAlias=='风险小'?'color:#3ec020':''}}">{{item.probabilityAlias}}</view>
+        </view>
+        <view style="padding:2vw 4.8vw 2vw 0;position:relative">
+            <view bindtap="collegeUp" class="title-font oneFontColor" data-index="{{index}}" data-uCode="{{item.uCode}}" style="width:55vw;line-height:1.5;margin-top:2vw">{{item.alias}}
+          <text class="zhejiang-info-color point-font" style="font-weight:normal">{{item.tags}}</text>
+            </view>
+            <view class="point-font">
+                <text wx:if="{{userScore.provinceNumId==1}}">{{item.chooseLevel}} </text>{{item.collegeType}}</view>
+            <view class="flex zhejiang-content-font zhejiang-content-color" style="margin-top:2vw">
+                <view style="width:35vw">• {{item.year==0?'-':item.year}}招生计划
+            <text class="video-title-color">{{item.planNum==0?'-':item.planNum}}</text>
+                </view>
+            </view>
+            <view class="flex zhejiang-content-font zhejiang-content-color" style="justify-content:space-between">
+                <view class="flex">
+                    <view style="width:35vw">• {{item.scoreLineYear==0?'-':item.scoreLineYear}}最低分
+              <text class="video-title-color">{{item.minScore==0?'-':item.minScore}}</text>
+                    </view>
+                    <view>录取人数
+              <text class="video-title-color">{{item.enterNum==0?'-':item.enterNum}}</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="borderTop" style="position:relative;padding:2vw 0" wx:for="{{item.professions}}" wx:for-index="majorIndex" wx:for-item="professions">
+            <view class="title-font video-content-color" style="position:absolute;top:2vw;left:-12vw">
+                <block wx:if="{{professions.probability>0}}">
+                    <text style="font-weight:bold;">{{professions.probability}}</text>
+                    <text class="point-font">%</text>
+                </block>
+                <text wx:else>新增</text>
+            </view>
+            <view>
+                <view class="flex" style="justify-content:space-between">
+                    <view bindtap="majorUp" class="video-title-color title-font" data-code="{{professions.code}}" data-collegename="{{item.alias}}" data-cost="{{professions.cost}}" data-extended="{{professions.extended}}" data-learyear="{{professions.learYear}}" data-majorcode="{{professions.majorCode}}" data-plannum="{{professions.planNum}}" data-planyear="{{professions.scoreLineYear}}" data-probability="{{professions.probability}}" data-professionname="{{professions.alias}}" style="line-height:1.5;width:62vw">{{professions.alias}}</view>
+                </view>
+                <view class="flex point-font">
+                    <view style="width:14vw">学制：{{professions.learYear.length>0?professions.learYear:'-'}}年</view>
+                    <view>学费：{{professions.cost.length>0?professions.cost:'-'}}</view>
+                </view>
+                <view style="margin-top:2vw">
+                    <view style="width:35vw">• {{professions.year==0?'-':professions.year}}招生计划
+              <text class="video-title-color">{{professions.planNum==0?'-':professions.planNum}}</text>
+                    </view>
+                </view>
+                <view class="flex" style="justify-content:space-between">
+                    <view class="flex">
+                        <view style="width:35vw">• {{professions.scoreLineYear==0?'-':professions.scoreLineYear}}最低分
+                <text class="video-title-color">{{professions.minScore==0?'-':professions.minScore}}</text>
+                        </view>
+                        <view>录取人数
+                <text class="video-title-color">{{professions.enterNum==0?'-':professions.enterNum}}</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<view catchtouchmove="catchWrapperTouchmove" class=" majorUp-wrapper {{majorUp}}">
+    <view bindtap="majorClose" style="width:100%;height:100%"></view>
+    <view class="content-font zhejiang-info-color major-bottom" wx:if="{{majorLoad}}">
+        <view class="loading" style="position:absolute">
+            <image src="../../image/loading_icon1.gif"></image>
+        </view>
+    </view>
+    <view class="content-font zhejiang-info-color major-bottom" wx:else>
+        <image bindtap="majorClose" src="../../image/icon_close_alt2.png" style="position:absolute;top:3.8vw;right:4.8vw;width:5.5vw;height:5.5vw"></image>
+        <view class="title-font zhejiang-content-color" style="line-height:1.5;width:85vw;">{{majorDetail.ProfessionName}}</view>
+        <view class="flex major-bottom-wrapper">
+            <view>代码:{{majorDetail.Code}}</view>
+            <view>{{majorDetail.CollegeName}}</view>
+        </view>
+        <view class="zhejiang-content-color" style="line-height:3">基本信息</view>
+        <view style="line-height:2.5">
+            <view class="flex biaoBorderBottom biaoBorderTop">
+                <view class="major-biao-left biaoBorderLeft biaoBorderRight" style="width:30vw">学制：</view>
+                <view class="major-biao-right">{{majorDetail.LearYear}}年</view>
+                <view class="major-biao-left biaoBorderLeft biaoBorderRight">学费：</view>
+                <view class="biaoBorderRight major-biao-right">{{majorDetail.Cost}}</view>
+            </view>
+            <view class="flex biaoBorderBottom">
+                <view class="major-biao-left biaoBorderLeft biaoBorderRight" style="width:30vw">计划：</view>
+                <view class="major-biao-right">{{majorDetail.PlanNum==0?'-':majorDetail.PlanNum}}</view>
+                <view class="major-biao-left biaoBorderLeft biaoBorderRight">概率：</view>
+                <view class="biaoBorderRight major-biao-right flex" style="justify-content:center;">{{majorDetail.Probability}}%</view>
+            </view>
+        </view>
+        <view class="zhejiang-content-color" style="line-height:3">专业历年招生统计</view>
+        <view class="flex biaoBorderTop zhuanye-fenshuxian">
+            <view class="biaoBorderLeft" style="width:13.33vw;background:#f2f2f2;text-align:center">年份</view>
+            <view class="major-biao-left">录取人数</view>
+            <view class="major-biao-left">最低分</view>
+            <view style="width:24vw;background:#f2f2f2;text-align:center">线差分</view>
+            <view class="major-biao-left" style="white-space:nowrap;">最低位次</view>
+        </view>
+        <view class="{{index==0?'biaoBorderTop':''}} flex biaoBorderBottom zhuanye-fenshuxian" style="line-height:2.5" wx:for="{{majorDetail.RecommendPFModel}}">
+            <view class="biaoBorderLeft" style="width:13.33vw;text-align:center">{{majorDetail.PlanYear-index}}</view>
+            <view style="width:18.67vw;text-align:center">{{item.eu==0?'-':item.eu}}</view>
+            <view style="width:18.67vw;text-align:center">{{item.ms==0?'-':item.ms}}</view>
+            <view style="width:24vw;text-align:center">{{item.sdf==0?'-':item.sdf}}</view>
+            <view style="width:18.67vw;text-align:center">{{item.ls==0?'-':item.ls}}</view>
+        </view>
+        <view style="display:flex;justify-content:flex-end">
+            <view bindtap="goMajorDetail" class="recommend-btn oneFontSize" hoverClass="btnHover" style="width:91.6vw;position:absolute;bottom:5vw;">查看完整专业详情</view>
+        </view>
+    </view>
+</view>
+<view catchtouchmove="catchWrapperTouchmove" class=" majorUp-wrapper {{collegeUp}}">
+    <view bindtap="collegeClose" style="width:100%;height:100%"></view>
+    <view class="content-font zhejiang-info-color major-bottom" wx:if="{{collegeLoad}}">
+        <view class="loading" style="position:absolute">
+            <image src="../../image/loading_icon1.gif"></image>
+        </view>
+    </view>
+    <view class="content-font zhejiang-info-color major-bottom" wx:else>
+        <image bindtap="collegeClose" src="../../image/icon_close_alt2.png" style="position:absolute;top:3.8vw;right:4.8vw;width:5.5vw;height:5.5vw"></image>
+        <view class="title-font zhejiang-content-color" style="line-height:1.5">{{collegeDetail.collegeName}}
+        <text class="zhejiang-info-color point-font">{{collegeDetail.tag}}</text>
+        </view>
+        <view class="flex major-bottom-wrapper point-font"></view>
+        <view class="zhejiang-content-color flex" style="line-height:3;justify-content:space-between">
+            <view>院校分数线</view>
+            <view class="flex">
+                <view>
+                    <view class="picker flex">
+                        <view>{{tableList[0].BatchName}}</view>
+                        <view class="image" style="margin-right:2vw"></view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="flex biaoBorderTop zhuanye-fenshuxian" style="margin-top:3vw;line-height:2.5;">
+            <view class="biaoBorderLeft" style="width:18.67vw;background:#f2f2f2;text-align:center">年份</view>
+            <view class="major-biao-left" style="width:30vw">最高分</view>
+            <view class="major-biao-left" style="width:24vw">最低分</view>
+            <view style="width:20vw;background:#f2f2f2;text-align:center" wx:if="{{cityId==1}}">选测</view>
+            <view class="major-biao-left" style="width:24vw">平均分</view>
+            <view class="major-biao-left" style="width:24vw">录取数</view>
+            <view class="major-biao-left" style="width:24vw;white-space:nowrap;">最低位次</view>
+        </view>
+        <scroll-view scrollY style="height:46vh;border-right:1px solid #e4e4e4;box-sizing:border-box;">
+            <view class="{{index==0?'biaoBorderTop':''}} flex biaoBorderBottom zhuanye-fenshuxian" style="line-height:2.5;" wx:for="{{collegeDetail.collegeInfo}}">
+                <view class="biaoBorderLeft" style="width:18.67vw;text-align:center">{{item.year}}</view>
+                <view style="width:30vw;text-align:center">{{item.maxScore==0?'-':item.maxScore}}</view>
+                <view style="width:24vw;text-align:center">{{item.minScore==0?'-':item.minScore}}</view>
+                <view style="width:20vw;text-align:center" wx:if="{{cityId==1}}">{{item.chooseLevel}}</view>
+                <view style="width:24vw;text-align:center">{{item.avgScore==0?'-':item.avgScore}}</view>
+                <view style="width:24vw;text-align:center">{{item.enterNum==0?'-':item.enterNum}}</view>
+                <view style="width:24vw;text-align:center">{{item.lowSort==0?'-':item.lowSort}}</view>
+            </view>
+        </scroll-view>
+        <view style="display:flex;justify-content:flex-end">
+            <navigator class="recommend-btn oneFontSize" hoverClass="btnHover" style="width:91.6vw;position:absolute;bottom:5vw;" url="/packages/findUniversity/collegeDetail/collegeDetail?numId={{collegeDetail.numId}}">查看完整院校详情</navigator>
+        </view>
+    </view>
+</view>
+<view bindtap="baocun" class="baocun btn-color title-font" wx:if="{{baocunFlag}}">保存</view>

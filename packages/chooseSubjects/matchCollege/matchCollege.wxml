@@ -1,0 +1,73 @@
+<navigationcustomtop id="navigationcustom" navigationText="-"></navigationcustomtop>
+<view class="container">
+    <view class="flex jsb listPadding" id="nav" style="line-height:3;padding:20rpx 4.3vw;">
+        <view class="threeFontSize twoFontColor">共 {{colleges.collegeCount}} 所院校， {{colleges.matchCount}} 匹配</view>
+        <view bindtap="sort" class="marjorRate itemBackColor threeFontSize fourFontColor">专业匹配率 <text class="up" style="{{!sort?'border-bottom:8rpx solid #e9302d':''}}"></text>
+            <text class="down1" style="{{sort?'border-top:8rpx solid #e9302d':''}}"></text>
+        </view>
+    </view>
+    <scroll-view scrollY bindscrolltolower="getMore" scrollIntoView="view{{intoView}}" scrollWithAnimation="{{true}}" style="height:{{scrollH}}px;">
+        <view style="padding:0 4.3vw;">
+            <view class="item-wrapper" id="view{{index}}" wx:for="{{colleges.colleges}}">
+                <view bindtap="collegeUp" class="flex item" data-collegeid="{{item.collegeId}}" data-ucode="{{item.uCode}}" hoverClass="listHover">
+                    <view>
+                        <view class="oneFontSize oneFontColor" style="display:inline-block">{{item.collegeName}}</view>
+                        <text class="tag fiveFontSize threeFontColor" wx:if="{{item.is985==1}}">985</text>
+                        <text class="tag fiveFontSize threeFontColor" wx:if="{{item.is211==1}}">211</text>
+                        <text class="tag fiveFontSize threeFontColor" wx:if="{{item.firstClass!=''}}">双一流</text>
+                        <view class="threeFontSize twoFontColor">{{item.classify}}/ {{item.belong}} / {{collegeInfo.typeId==1?'公立':'私立'}}</view>
+                    </view>
+                    <view style="text-align:center;">
+                        <view class="sevenFontSize checkedColor">{{item.rate}}<text class="twoFontSize">%</text>
+                        </view>
+                        <view class="threeFontSize twoFontColor" style="border:1px solid #ccc;border-radius:5vw;width:17vw;height:5vw;">匹配专业
+            </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="twoFontColor twoFontSize textAlign" wx:if="{{colleges.matchCount==colleges.colleges.length}}">- 已加载全部 -</view>
+        <view class="twoFontColor twoFontSize textAlign" wx:else>正在加载中...</view>
+    </scroll-view>
+</view>
+<view style="width:100vw;height:100vh;background:rgba(0,0,0,0.3);position:fixed;top:0;left:0;" wx:if="{{matchMajorFlag}}"></view>
+<view class="majorUp-wrapper {{collegeUp}}">
+    <view bindtap="collegeClose" style="width:100%;height:100%"></view>
+    <view class="content-font threeFontColor major-bottom" wx:if="{{matchMajorLoading}}">
+        <view class="loading" style="position:absolute">
+            <image src="/image/loading_icon1.gif"></image>
+        </view>
+    </view>
+    <view class="content-font threeFontColor major-bottom" wx:else>
+        <image bindtap="collegeClose" src="/image/icon_close_alt2.png" style="position:absolute;top:3.8vw;right:4.8vw;width:4vw;height:4vw"></image>
+        <view>
+            <view>
+                <view class="fourFontSize fourFontColor" style="display:inline-block;margin-right:10rpx;">{{collegeInfo.collegeName}}</view>
+                <text class="tag fiveFontSize threeFontColor" wx:if="{{collegeInfo.is985==1}}">985</text>
+                <text class="tag fiveFontSize threeFontColor" wx:if="{{collegeInfo.is211==1}}">211</text>
+                <text class="tag fiveFontSize threeFontColor" wx:if="{{collegeInfo.firstClass!=''}}">双一流</text>
+                <view class="threeFontColor threeFontSize">{{collegeInfo.classify}}/ {{collegeInfo.belong}}</view>
+                <view class="tips threeFontSize twoFontColor">注：红色为匹配专业</view>
+            </view>
+            <view class="majorTitle threeFontSize fourFontColor bold">
+                <view>专业名称</view>
+                <view>选科要求</view>
+            </view>
+            <scroll-view scrollY class="bottomBorder" style="height:41vh;">
+                <view class="majorList itemBackColor" wx:for="{{collegeInfo.chooseSubjects}}">
+                    <view class="twoFontSize {{item.isFit?'checkedColor':'fourFontColor'}}">{{item.majorName}}</view>
+                    <view wx:if="{{chooseSubjectType==3}}">
+                        <view class="threeFontSize fourFontColor">【首选】{{item.firstSelect}}</view>
+                        <view class="threeFontSize fourFontColor">【再选】{{item.leftSelect?item.leftSelect:'不限'}}</view>
+                    </view>
+                    <view wx:if="{{chooseSubjectType!=3}}">
+                        <view class="threeFontSize fourFontColor">{{item.firstSelect}}</view>
+                    </view>
+                </view>
+            </scroll-view>
+        </view>
+        <view style="display:flex;justify-content:flex-end">
+            <view bindtap="collegeDetail" class="recommend-btn oneFontSize" style="width:91.6vw;position:absolute;bottom:5vw;">查看院校详情</view>
+        </view>
+    </view>
+</view>

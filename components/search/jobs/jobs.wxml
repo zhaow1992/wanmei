@@ -1,0 +1,12 @@
+<view class="whiteColor" style="padding-top:30rpx;" wx:if="{{jobs.length>0}}">
+    <view bindtap="jobDetail" data-id="{{item.code}}" hoverClass="listHover" style="border-bottom:2rpx solid #E9E9E9" wx:for="{{jobs}}">
+        <view class="fr ac jsb" style="margin:0 30rpx;height:120rpx;">
+            <rich-text class="twoRowsOmit oneFontSize oneFontColor" nodes="{{item.name}}"></rich-text>
+            <image src="/image/moreArrow.png" style="width:12rpx;height:20rpx;"></image>
+        </view>
+    </view>
+</view>
+<view class="fc ac" style="margin-top:50rpx;" wx:else>
+    <image src="/image/recommend_noFount.png" style="width:214rpx;height:214rpx;"></image>
+    <view class="threeFontColor twoFontSize" style="margin-top:20rpx;">抱歉，未找到相关内容</view>
+</view>

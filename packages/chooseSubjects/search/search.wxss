@@ -1,0 +1,44 @@
+page {
+    background: #F8F5F4;
+}
+
+.search-box {
+    width: 600rpx;
+    height: 68rpx;
+    border-radius: 36rpx;
+    background: #E8E8E8;
+    margin-top: 10rpx;
+    margin-left: 32rpx;
+}
+
+.history {
+    padding: 12rpx 24rpx;
+    background: #F7F7F7;
+    border-radius: 30rpx;
+}
+
+.lab {
+    height: 28rpx;
+    padding: 0 12rpx;
+    border: 1rpx solid #9B9B9B;
+    border-radius: 8rpx;
+}
+
+.lab:not(:first-child) {
+    margin-left: 8rpx;
+}
+
+.lishijilu {
+    border-bottom: 1px solid #dedddb;
+    line-height: 3;
+}
+
+.historyHit {
+    padding: 12rpx 24rpx;
+    background: #F7F7F7;
+    border-radius: 30rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 185rpx;
+}

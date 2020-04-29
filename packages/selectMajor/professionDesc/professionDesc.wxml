@@ -1,0 +1,162 @@
+<navigationcustomtop navigationText="{{jobDesc.name}}" share="{{share}}"></navigationcustomtop>
+<loading wx:if="{{showLoad}}"></loading>
+<view class="container" wx:else>
+    <canvas canvasId="salaryAdd" style="width:{{canvasWidth}}px;height:{{canvasHeight}}px;position:fixed;top:100vh;left:-100vw"></canvas>
+    <view class="flex flexjsaround twoFontSize threeFontColor whiteColor bottomBorder" id="nav" style="height:12.8vw;line-height:1;" wx:if="{{jobDesc.relationPost.length!==0}}">
+        <view bindtap="swiperNav" class="{{currentTab==0?'oneFontSize fourFontColor':''}} relativeStyle" data-current="0">
+            <view>职业介绍</view>
+            <view class="absoluteStyle" style="left:50%;transform:translate(-50%);margin-top:3vw;">
+                <view class="checkedBackColor {{currentTab==0?'selectLineWH':''}} "></view>
+            </view>
+        </view>
+        <view bindtap="swiperNav" class="{{currentTab==1?'oneFontSize fourFontColor':''}} relativeStyle" data-current="1" wx:if="{{jobDesc.relationPost.length!==0}}">
+            <view>就业岗位</view>
+            <view class="absoluteStyle" style="left:50%;transform:translate(-50%);margin-top:3vw;">
+                <view class="checkedBackColor {{currentTab==1?'selectLineWH':''}} "></view>
+            </view>
+        </view>
+    </view>
+    <view id="nav" wx:else></view>
+    <swiper bindchange="changeSwiper" current="{{currentTab}}" style="background:#F8F5F4;height:{{swiperH}}px;">
+        <swiper-item>
+            <scroll-view scrollY scrollTop="{{topNum}}" scrollWithAnimation="true" style="height:{{swiperH}}px;">
+                <view style="height:16rpx;"></view>
+                <view class="public-con" style="margin-top:0">
+                    <text class="title fourFontSize oneFontColor bold">{{jobDesc.name}}</text>
+                    <view style="margin-top:20rpx;">
+                        <rich-text class="fourFontColor twoFontSize" nodes="{{jobDesc.info}}"></rich-text>
+                    </view>
+                    <view class="workContent" style="margin-top:20rpx;line-height:1.5;" wx:if="{{jobDesc.infoDetail}}">
+                        <rich-text class="twoFontSize fourFontColor" nodes="{{jobDesc.infoDetail}}"></rich-text>
+                    </view>
+                </view>
+                <view class="public-con" style="padding:30rpx 0 20rpx;" wx:if="{{jobDesc.relationPost.length>0}}">
+                    <text class="title fourFontSize oneFontColor bold" style="padding-left:40rpx">相关岗位 <text class="checkedColor ">{{jobDesc.relationPost.length}}</text> 个 </text>
+                    <view bindtap="gorelationPost" class="job-list flex flexjsbetween" data-index="{{index}}" data-name="{{item.name}}" hoverClass="listHover" wx:for="{{jobDesc.relationPost}}" wx:key="{{index}}">
+                        <text class="oneFontColor oneFontSize">{{item.name}}</text>
+                        <view>
+                            <text class="twoFontSize threeFontColor">{{item.salaryMin}}-{{item.salaryMax}}/月</text>
+                            <image src="/image/openList.png"></image>
+                        </view>
+                    </view>
+                </view>
+                <view class="public-con" style="padding:30rpx 0 20rpx;" wx:if="{{jobDesc.relationJob.length>0}}">
+                    <text class="title fourFontSize oneFontColor bold" style="padding-left:40rpx">相关职业 <text class="checkedColor">{{jobDesc.relationJob.length}}</text> 个 </text>
+                    <view bindtap="getprofessionInfo" class="job-list flex flexjsbetween" data-code="{{item.code}}" hoverClass="listHover" wx:for="{{jobDesc.relationJob}}" wx:key="{{index}}">
+                        <text class="oneFontColor oneFontSize">{{item.name}}</text>
+                        <image src="/image/openList.png"></image>
+                    </view>
+                </view>
+                <view class="data-source">
+                    <view class="title">
+                        <image src="/image/light.png"></image>
+                        <text class="twoFontSize oneFontColor">数据来源说明:</text>
+                    </view>
+                    <view class="d-con">
+                        <view class="threeFontSize fourFontColor">
+                            <text></text>职业数据来自《中华人民共和国国家职业分类大典》，薪资数据来自于职友集</view>
+                    </view>
+                </view>
+            </scroll-view>
+        </swiper-item>
+        <swiper-item wx:if="{{postList.length!==0}}">
+            <scroll-view scrollX scrollLeft="{{scrollLeft}}" scrollWithAnimation="true" style="width:100%;padding:0 30rpx;box-sizing:border-box">
+                <view class="profession-info flex">
+                    <view bindtap="choosePost" class="postlist threeFontSize twoFontColor itemBackColor {{item.flag==true?'active':''}}" data-index="{{index}}" data-name="{{item.name}}" wx:for="{{postList}}" wx:key="{{index}}">
+                        <view>{{item.name}}</view>
+                        <view>{{item.salaryMin}}-{{item.salaryMax}}/月</view>
+                    </view>
+                </view>
+            </scroll-view>
+            <scroll-view scrollY style="height:{{swiperH-70}}px;">
+                <view class="salary-info">
+                    <view class="flex flexjsbetween">
+                        <text class="title fourFontSize oneFontColor bold">薪资情况</text>
+                        <view class="changeTab threeFontSize flex">
+                            <view bindtap="changeTab" class="threeFontColor {{salaryInfo==0?'active':''}}" data-current="0" data-type="salaryinfo">按趋势</view>
+                            <view bindtap="changeTab" class="threeFontColor {{salaryInfo==1?'active':''}}" data-current="1" data-type="salaryinfo">按分布</view>
+                        </view>
+                    </view>
+                    <view class="relativeStyle" hidden="true" style="display:{{salaryInfo==0&&workSituation.experience.length!==0?'block':none}}">
+                        <image class="salaryAddImg" src="{{salaryAddImg}}"></image>
+                    </view>
+                    <view class="relativeStyle" hidden="true" style="display:{{salaryInfo==1&&workSituation.experience.length!==0?'block':none}}">
+                        <canvas canvasId="salaryScale" style="width:{{pieData.pieW}}px;height:{{pieData.pieH}}px;margin:auto;"></canvas>
+                    </view>
+                </view>
+                <view class="salary-info" style="padding-bottom:0" wx:if="{{workSituation.competitionIndustry.length!==0||workSituation.competitionRegion.length!==0}}">
+                    <view class="flex flexjsbetween" style="margin-bottom:15rpx">
+                        <text class="title fourFontSize oneFontColor bold">收入排行</text>
+                        <view class="changeTab threeFontSize flex">
+                            <view bindtap="changeTab" class="threeFontColor {{salaryRank==0?'active':''}} {{workSituation.competitionRegion.length==0?'alone':''}}" data-current="0" data-type="salaryRank" wx:if="{{workSituation.competitionIndustry.length!==0}}">按行业</view>
+                            <view bindtap="changeTab" class="threeFontColor {{salaryRank==1?'active':''}} {{workSituation.competitionIndustry.length==0?'alone':''}}" data-current="1" data-type="salaryRank" wx:if="{{workSituation.competitionRegion.length!==0}}">按地区</view>
+                        </view>
+                    </view>
+                    <view hidden="true" style="display:{{salaryRank==0&&workSituation.competitionIndustry.length!==0?'block':none}};max-height:{{salaryRankHeight1}}rpx;overflow:hidden">
+                        <view class="salaryRank flex" wx:for="{{workSituation.competitionIndustry}}" wx:key="{{index}}">
+                            <view class="professionName itemBackColor twoFontSize fourFontColor">{{item.career}}</view>
+                            <view class="line">...................................................</view>
+                            <view class="money itemBackColor">￥{{item.money}}</view>
+                        </view>
+                    </view>
+                    <view hidden="true" style="display:{{salaryRank==1&&workSituation.competitionRegion.length!==0?'block':none}};max-height:{{salaryRankHeight2}}rpx;overflow:hidden">
+                        <view class="salaryRank flex" wx:for="{{workSituation.competitionRegion}}" wx:key="{{index}}">
+                            <view class="professionName itemBackColor twoFontSize fourFontColor">{{item.city}}</view>
+                            <view class="line">...................................................</view>
+                            <view class="money itemBackColor">￥{{item.money}}</view>
+                        </view>
+                    </view>
+                    <view bindtap="getSalaryRankHeight" class="loadMore textAlign twoFontColor threeFontSize" data-type="salaryRank1" hoverClass="btnHover" wx:if="{{workSituation.competitionIndustry.length>5&&salaryRank==0}}">
+                        <text>{{salaryRankHeight1=='auto'?'收起全部':'查看全部'}}</text>
+                        <image class="{{salaryRankHeight1=='auto'?'up':''}}" src="/image/openList.png"></image>
+                    </view>
+                    <view bindtap="getSalaryRankHeight" class="loadMore textAlign twoFontColor threeFontSize" data-type="salaryRank2" hoverClass="btnHover" wx:if="{{workSituation.competitionRegion.length>5&&salaryRank==1}}">
+                        <text>{{salaryRankHeight2=='auto'?'收起全部':'查看全部'}}</text>
+                        <image class="{{salaryRankHeight2=='auto'?'up':''}}" src="/image/openList.png"></image>
+                    </view>
+                </view>
+                <view class="salary-info" hidden="true" style="min-height:450rpx;display:{{workSituation.edu.length!==0||workSituation.seniority.length!==0?'block':'none'}}">
+                    <view class="flex flexjsbetween" style="margin-bottom:20rpx">
+                        <text class="title fourFontSize oneFontColor bold">就业形势</text>
+                        <view class="changeTab threeFontSize flex">
+                            <view bindtap="changeTab" class="threeFontColor {{situation==0?'active':''}} {{workSituation.seniority.length==0?'alone':''}}" data-current="0" data-type="situation" wx:if="{{workSituation.edu.length!==0}}">按学历</view>
+                            <view bindtap="changeTab" class="threeFontColor {{situation==1?'active':''}} {{workSituation.edu.length==0?'alone':''}}" data-current="1" data-type="situation" wx:if="{{workSituation.seniority.length!==0}}">按经验</view>
+                        </view>
+                    </view>
+                    <view class="relativeStyle" hidden="true" style="display:{{situation==0?'block':none}}">
+                        <canvas canvasId="edu" style="width:{{pieData.pieW}}px;height:{{pieData.pieH}}px;margin:auto;"></canvas>
+                    </view>
+                    <view class="relativeStyle" hidden="true" style="display:{{situation==1?'block':none}}">
+                        <canvas canvasId="seniority" style="width:{{pieData.pieW}}px;height:{{pieData.pieH}}px;margin:auto;"></canvas>
+                    </view>
+                </view>
+                <view class="salary-info demand" style="padding-bottom:0" wx:if="{{workSituation.demandRank.length!==0}}">
+                    <text class="title fourFontSize oneFontColor bold">招聘需求量</text>
+                    <view style="max-height:{{demandHeight}}rpx;overflow:hidden">
+                        <view class="salaryRank flex" wx:for="{{workSituation.demandRank}}" wx:key="{{index}}">
+                            <view class="professionName itemBackColor twoFontSize fourFontColor">{{item.city}}</view>
+                            <view class="line">...................................................</view>
+                            <view class="money itemBackColor">{{item.number}} 个职位</view>
+                        </view>
+                    </view>
+                    <view bindtap="getSalaryRankHeight" class="loadMore textAlign twoFontColor threeFontSize" data-type="demand" hoverClass="btnHover" wx:if="{{workSituation.demandRank.length>5}}">
+                        <text>{{demandHeight=='auto'?'收起全部':'查看全部'}}</text>
+                        <image class="{{demandHeight=='auto'?'up':''}}" src="/image/openList.png"></image>
+                    </view>
+                </view>
+                <view class="data-source">
+                    <view class="title">
+                        <image src="/image/light.png"></image>
+                        <text class="twoFontSize oneFontColor">数据来源说明:</text>
+                    </view>
+                    <view class="d-con">
+                        <view style="margin-top:24rpx">
+                            <text></text>职业数据来自《中华人民共和国国家职业分类大典》，薪资数据来自于职友集 </view>
+                        <view style="margin-top:20rpx">
+                            <text></text>{{description[1]}}</view>
+                    </view>
+                </view>
+            </scroll-view>
+        </swiper-item>
+    </swiper>
+</view>

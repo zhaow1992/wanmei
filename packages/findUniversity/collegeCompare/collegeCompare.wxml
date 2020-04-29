@@ -1,0 +1,33 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="wrapper">
+    <view bindtap="goSearch" class="search search-view content-color">添加院校<image src="/image/search_icon.png"></image>
+    </view>
+    <view class="flex content-wrapper borderBottom" style="line-height:3;margin-top:3.33vw">
+        <view class="flex" style="justify-content:space-between;width:85vw;margin-left:4vw">
+            <view class="zhejiang-info-color">历史记录</view>
+            <view bindtap="clear" style="color:#999;">删除全部</view>
+        </view>
+    </view>
+    <scroll-view scrollY style="height:70vh;">
+        <view class="borderBottom" style="background:#fff" wx:for="{{collegeCompareList}}">
+            <view class="flex">
+                <view bindtap="chooseCollegeNo" data-id="{{item.numId}}" data-index="{{index}}" style="width:14vw;height:18vw;line-height:18vw;" wx:if="{{item.st==true}}">
+                    <image src="/image/course_Checked.png" style="width:4vw;height:4vw"></image>
+                </view>
+                <view bindtap="chooseCollege" data-id="{{item.numId}}" data-index="{{index}}" style="width:14vw;height:18vw;line-height:18vw;" wx:else>
+                    <image src="/image/course_no_Checked.png" style="width:4vw;height:4vw"></image>
+                </view>
+                <navigator style="width:100%" url="../collegeDetail/collegeDetail?numId={{item.numId}}">
+                    <view>
+                        <view class="title-font" style="text-align:left">{{item.cnName}}</view>
+                    </view>
+                </navigator>
+            </view>
+        </view>
+    </scroll-view>
+    <view class="flex" style="justify-content:space-around;position:absolute;bottom:0vw;width:100vw;border-top:1px solid #f0eff5;padding-top:3vw;background:#fff;">
+        <view class="content-font video-hot-color">已选 <text class="info" style="font-size:8vw"> {{num}}</text> / 6</view>
+        <view bindtap="compareStart" class="youcipingBtn" wx:if="{{num>1&&num<=6}}">开始对比</view>
+        <view bindtap="compareYaoqiu" class="moren" wx:else>开始对比</view>
+    </view>
+</view>

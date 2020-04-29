@@ -1,0 +1,45 @@
+.chooseCity-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    background: #fff;
+    padding: 4.8vw 0;
+}
+
+.chooseCity-wrapper view {
+    width: 21vw;
+    margin: 2vw;
+    text-align: center;
+    line-height: 2.5;
+    border-radius: 17px;
+    color: #080808;
+}
+
+.on {
+    color: #fff!important;
+}
+
+.content-color {
+    text-align: center;
+    line-height: 3;
+}
+
+.chooseBtn {
+    width: 40vw;
+    margin: auto;
+    text-align: center;
+    background: #f0eff5;
+    border-radius: 15px;
+    line-height: 2;
+}
+
+.choose {
+    color: #fff;
+}
+
+.container {
+    min-height: 0;
+}
+
+.btn-color {
+    background: #E9302D;
+}

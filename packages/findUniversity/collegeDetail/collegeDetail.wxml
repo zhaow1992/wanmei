@@ -1,0 +1,155 @@
+<import src="/template/collegeTerrace.wxml"></import>
+<navigationcustomtop id="navigationcustom" navigationText="{{navigationText}}" share="{{share}}"></navigationcustomtop>
+<view class="itemBackColor">
+    <view class="relativeStyle collegeMomentPicture">
+        <image class="collegeMomentPicture" mode="aspectFill" src="../image/collegeBanner.png" wx:if="{{collegeMomentCover==''&&videoPath==''}}"></image>
+        <image class="collegeMomentPicture" mode="aspectFill" src="{{collegeMomentCover}}" wx:elif="{{collegeMomentCover!=''}}"></image>
+        <video autoplay="true" class="collegeMomentPicture" controls="false" loop="true" muted="true" src="{{videoPath}}" wx:else></video>
+        <image class="collegeIcon" src="{{collegeIcon}}"></image>
+        <view class="abovePicture">
+            <view class="fourFontSize fourFontWidth whiteFontColor">{{collegeName}}</view>
+        </view>
+    </view>
+    <view class="whiteColor fourFontColor">
+        <view class="flex threeFontSize " style="padding:1.86vw 0 1.86vw 23.73vw;">
+            <view wx:for="{{collegeTerrace}}" wx:key="unique">
+                <view class="terraceBorder checkedColor" style="border:1px solid #9b9b9b;padding:0 0.5vw;color:#9b9b9b;">
+                    <view style="padding:0 1.67vw;">{{item}}</view>
+                </view>
+            </view>
+        </view>
+        <view class="twoFontSize">
+            <view class="" style="display:flex;padding-top:4vw;padding-left:5.33vw;">
+                <view class="collegeStrength flex">
+                    <image class="Icon" mode="widthFix" src="../image/createTime.png"></image>
+                    <view class="">{{collegeStrength.createTime}}</view>
+                </view>
+                <view class="collegeStrength flex">
+                    <image class="Icon" mode="widthFix" src="../image/quality.png"></image>
+                    <view class="">{{collegeStrength.quality}}</view>
+                </view>
+                <view class="collegeStrength flex">
+                    <image class="Icon" mode="widthFix" src="../image/location.png"></image>
+                    <view class="">{{collegeStrength.locality}}</view>
+                </view>
+                <view class="collegeStrength flex">
+                    <image class="Icon" mode="widthFix" src="../image/subordinate.png"></image>
+                    <view class="">{{collegeStrength.subordinate}}</view>
+                </view>
+            </view>
+            <view class="" style="display:flex;padding-top:4vw;padding-left:5.33vw;">
+                <view class="collegeStrength flex">
+                    <image class="Icon" mode="widthFix" src="../image/degree.png"></image>
+                    <view class="">{{collegeStrength.diploma}}</view>
+                </view>
+                <view class="collegeStrength flex">
+                    <image class="Icon" mode="widthFix" src="../image/collegeType.png"></image>
+                    <view class="">{{collegeStrength.style}}</view>
+                </view>
+                <view class="collegeStrength flex" wx:if="{{collegeStrength.doctor>0}}">
+                    <image class="Icon" mode="widthFix" src="../image/doctorPoint.png"></image>
+                    <view class="">{{collegeStrength.doctor}}</view>
+                </view>
+                <view class="collegeStrength flex" wx:if="{{collegeStrength.master>0}}">
+                    <image class="Icon" mode="widthFix" src="../image/masterPoint.png"></image>
+                    <view class="">{{collegeStrength.master}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view bindtap="goCollegeIntroduction" class="threeFontSize fourFontColor itemBackColor" style="padding:6.4vw 4.27vw 5.33vw 4.27vw;display:flex;position:relative">
+        <rich-text nodes="<div style='overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;'> {{detailText}}</div>"></rich-text>
+    </view>
+    <scroll-view scrollX class="flex pageItemWidth" style="margin-bottom:4vw;white-space:nowrap;">
+        <view class="flex">
+            <view bindtap="goCollegeSight" class="relativeStyle schoolImageWH" style="margin-right:2.67vw;" wx:for="{{schoolPicture}}" wx:key="unique">
+                <image class="schoolImageWH" mode="aspectFill" src="{{item.pictureUrl}}" style="border-radius:1.07vw;"></image>
+                <view class="absoluteStyle whiteFontColor flex flexjscenter" style="background:rgba(0,0,0,0.36);bottom:0;height:5.33vw;font-size:2.93vw;width:100%;border-radius:0 0 1.07vw 1.07vw;">{{item.name}}</view>
+            </view>
+        </view>
+    </scroll-view>
+    <view wx:if="{{recruitChapter.length>0}}">
+        <view class="allPageBGcolor cutLineWH"></view>
+        <view class="whiteColor" style="padding:4vw 4.27vw 0 4.27vw;">
+            <view class="flex collegeTitleFlex">
+                <view class="fourFontSize">招生简章</view>
+                <view>
+                    <view bindtap="moreChapterTap" class="threeFontSize threeFontColor">更多</view>
+                </view>
+            </view>
+            <view>
+                <view bindtap="recruitChapterTap" class="flex {{index+1<recruitChapter.length?'bottomBorder':''}}" hoverClass="itemHover" id="{{index}}" style="justify-content:space-between;padding:4vw 0" wx:if="{{index<5}}" wx:for="{{recruitChapter}}">
+                    <view class="oneFontSize textOmit" style="width:83.73vw;">{{item.name}}</view>
+                    <image class="rightIconWH " src="/image/right_logo.png "></image>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="allPageBGcolor cutLineWH" wx:if="{{rankName.length>0}}"></view>
+    <view class="whiteColor" style="padding:4vw 4.27vw" wx:if="{{rankName.length>0}}">
+        <view class="flex collegeTitleFlex">
+            <view class="fourFontSize">院校排名</view>
+        </view>
+        <view class="flex flexjsaround" style="padding:4.8vw 0 0 0;">
+            <view class="flex rankBlockWH flexjscenter" style="align-items:flex-start;border: 1px solid #CCCCCC;border-radius:2.13vw;box-sizing:border-box;" wx:for="{{rankName}}" wx:key="unique">
+                <view class=" textAlign">
+                    <view class="flex flexjscenter" style="font-size:5.33vw;color: #FE3B39;height:10.67vw;">{{item.value}}</view>
+                    <view class="flex flexjscenter">
+                        <view style="height:1px;border-bottom:1px dotted #CCCCCC;width:10.67vw;box-sizing:border-box"></view>
+                    </view>
+                    <view class="flex flexjscenter" style="height:6.13vw;">
+                        <view class="fourFontColor threeFontSize textAlign" wx:if="{{item.type==1}}">武书连</view>
+                        <view class="fourFontColor threeFontSize textAlign" wx:if="{{item.type==2}}">软科</view>
+                        <view class="fourFontColor threeFontSize textAlign" wx:if="{{item.type==3}}">校友会</view>
+                        <view class="fourFontColor threeFontSize textAlign" wx:if="{{item.type==4}}">U.S.News</view>
+                        <view class="fourFontColor threeFontSize textAlign" wx:if="{{item.type==5}}">QS</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="allPageBGcolor cutLineWH" wx:if="{{nationalDiscipline[0]!=''&&privinceDiscipline[0]!=''}}"></view>
+    <view class="whiteColor" style="padding:4vw 4.27vw 3.47vw 4.27vw;" wx:if="{{nationalDiscipline[0]!=''&&privinceDiscipline[0]!=''}}">
+        <view class="flex collegeTitleFlex">
+            <view class="fourFontSize">特色专业</view>
+            <view bindtap="moreSpecialTap" class="threeFontSize threeFontColor">更多</view>
+        </view>
+        <view style="padding:4.8vw 0 3.47vw 0;" wx:if="{{nationalDiscipline[0]!=''}}">
+            <view class="threeFontSize" style="color: #999;">国家特色专业</view>
+            <view class="flex" style="flex-wrap:wrap;padding-top:1.33vw;">
+                <view bindtap="showMediumSubjectTap" class="disciplineBlock-border" id="{{index}}" style="margin:2.13vw 2.13vw 0 0" wx:for="{{nationalDiscipline}}" wx:key="unique">
+                    <view class="threeFontSize twoFontColor disciplineBlock-text flex">{{item}}</view>
+                </view>
+            </view>
+        </view>
+        <view wx:if="{{privinceDiscipline[0]!=''}}">
+            <view class="threeFontSize" style="color: #999;">省特色专业</view>
+            <view class="flex" style="flex-wrap:wrap;padding-top:1.33vw">
+                <view bindtap="showMediumSubjectTap" class="disciplineBlock-border " id="{{index}}" style="margin:2.13vw 2.13vw 0 0" wx:for="{{privinceDiscipline}}" wx:key="unique">
+                    <view class="threeFontSize twoFontColor disciplineBlock-text flex">{{item}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="allPageBGcolor cutLineWH"></view>
+    <view class="whiteColor" style="padding:4.8vw 4.27vw 0 4.27vw">
+        <view class="flex collegeTitleFlex">
+            <view class="fourFontSize">院系/专业</view>
+            <view bindtap="moreMajorTap" class="threeFontSize threeFontColor">更多</view>
+        </view>
+        <view>
+            <view bindtap="univercityCollegeTap" class="flex {{index+1<univercityCollege.length?'bottomBorder':''}}" data-id="{{index}}" hoverClass="itemHover" style="justify-content:space-between;padding:4vw 0" wx:if="{{index<5}}" wx:for="{{univercityCollege}}">
+                <view class="oneFontSize textOmit" style="width:83.73vw;">{{item.instituteName}}</view>
+                <image class="rightIconWH" src="/image/right_logo.png "></image>
+            </view>
+        </view>
+    </view>
+    <view class="allPageBGcolor cutLineWH"></view>
+    <view class="operationItemWH"></view>
+    <view class="operationItemWH whiteColor twoFontSize" style="position: fixed;bottom: 0;display:flex;align-items:center;box-shadow: 0 4px 4px 4px rgba(0,0,0,0.05);" wx:if="{{share==false&&bottomTap==true}}">
+        <view class="whiteFontColor" style="display:flex;width:95.2vw;margin: 1.87vw 2.4vw;justify-content:space-around;height:10.67vw;">
+            <view bindtap="goEnrolPlan" class="checkedColor flex flexjscenter borderBox" hoverClass="btnHover" style="width:47.6vw;border-radius:5.6vw 0 0 5.6vw;border: 1px solid #FE3B39;">招生计划</view>
+            <view bindtap="goScoreLine" class="flex flexjscenter" hoverClass="btnHover" style="width:47.6vw;border-radius:0 5.6vw 5.6vw 0;background-image: linear-gradient(-52deg, #E9302D 1%, #FF5053 100%);">历年分数线</view>
+        </view>
+    </view>
+</view>

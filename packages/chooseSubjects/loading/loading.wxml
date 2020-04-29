@@ -1,0 +1,12 @@
+<view class="con">
+    <view class="box">
+        <view class="box1"></view>
+        <view class="box2"></view>
+        <view class="box3"></view>
+    </view>
+    <view class="box4 twoFontColor oneFontSize textAlign">
+        <text class="number">{{step}}</text>
+        <text class="scale">%</text>
+    </view>
+</view>
+<view class="word textAlign oneFontSize oneFontColor">{{tips}}</view>

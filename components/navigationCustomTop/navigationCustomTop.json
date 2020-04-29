@@ -1,0 +1,12 @@
+{
+    "component": true,
+    "usingComponents": {
+        "serverfail": "/components/serverFail/serverFail",
+        "bottomFrame": "../bottomFrame/bottomFrame",
+        "topMenu": "../topMenu/topMenu",
+        "loading": "../loading/loading",
+        "rightdrawermenu": "../rightDrawerMenu/rightDrawerMenu",
+        "dropDownMenu": "../dropDownMenu/dropDownMenu",
+        "navigationcustomtop": "navigationCustomTop"
+    }
+}

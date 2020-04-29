@@ -1,0 +1,11 @@
+{
+    "usingComponents": {
+        "loading": "/components/loading/loading",
+        "serverfail": "/components/serverFail/serverFail",
+        "bottomFrame": "../../../components/bottomFrame/bottomFrame",
+        "topMenu": "../../../components/topMenu/topMenu",
+        "rightdrawermenu": "../../../components/rightDrawerMenu/rightDrawerMenu",
+        "dropDownMenu": "../../../components/dropDownMenu/dropDownMenu",
+        "navigationcustomtop": "../../../components/navigationCustomTop/navigationCustomTop"
+    }
+}

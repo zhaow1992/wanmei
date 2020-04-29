@@ -1,0 +1,44 @@
+<navigationcustomtop navigationText="选科要求" share="{{share}}"></navigationcustomtop>
+<loading wx:if="{{showLoad}}"></loading>
+<view hidden="{{showLoad}}">
+    <view class="fc" id="nav">
+        <view bindtap="goCollegeDetail" class="head itemBackColor fr ac jsb" hoverClass="btnHover" style="padding-left:32rpx;">
+            <view class="fr ac">
+                <image src="{{collegeInfo.logoUrl}}" style="width:88rpx;height:88rpx;"></image>
+                <view class="fc">
+                    <view class="fr ac" style="margin-left:30rpx;">
+                        <view class="oneFontColor oneFontSize">{{collegeInfo.collegeName}}</view>
+                        <view class="fr ac fiveFontSize threeFontColor" style="margin-top:10rpx;margin-left:15rpx;">
+                            <view class="lab" wx:if="{{collegeInfo.is985=='1'}}">985</view>
+                            <view class="lab" wx:if="{{collegeInfo.is211=='1'}}">211</view>
+                            <view class="lab" wx:if="{{collegeInfo.firstClass}}">双一流</view>
+                        </view>
+                    </view>
+                    <view class="threeFontSize threeFontColor" style="margin-left:30rpx;">{{collegeInfo.classify}} / {{collegeInfo.belong}} / {{collegeInfo.typeId==1?'公立':'私立'}}</view>
+                </view>
+            </view>
+        </view>
+        <view class="bottomBorder fr ac threeFontSize twoFontColor" style="background: #ECECEC;height:90rpx;">
+            <view class="tab-head fr ac" style="width:450rpx;">
+                <view style="margin-left:32rpx;">专业名称</view>
+            </view>
+            <view class="fr ac tab-head" style="width:300rpx;">
+                <text style="margin-left:32rpx">选科要求</text>
+            </view>
+        </view>
+    </view>
+    <scroll-view scrollY class="list-box" style="height:{{scrollH}}px">
+        <view class="itemBackColor fr ac fourFontColor twoFontSize" data-type="2" style="align-items:stretch;min-height:124rpx;background:{{index%2!=0?'#FAFAFA':''}}" wx:for="{{collegeInfo.chooseSubjects}}">
+            <view class="fr ac boxs" style="width:450rpx;border-right:2rpx solid #E2E2E2;min-height:124rpx;padding-left:32rpx;">
+                <text style="margin:10rpx">{{item.majorName}}</text>
+            </view>
+            <view class="fr ac boxs" style="width:300rpx;border-right:2rpx solid #E2E2E2;min-height:124rpx;padding-left:32rpx;">
+                <view style="margin:10rpx 0;" wx:if="{{chooseSubjectType==3}}">
+                    <view>【首选】{{item.firstSelect}}</view>
+                    <view>【再选】{{item.leftSelect?item.leftSelect:'不限'}}</view>
+                </view>
+                <view style="margin:10rpx 0;" wx:if="{{chooseSubjectType!=3}}">{{item.firstSelect}}</view>
+            </view>
+        </view>
+    </scroll-view>
+</view>

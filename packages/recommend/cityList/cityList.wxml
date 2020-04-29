@@ -1,0 +1,7 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="chooseCity-wrapper container">
+    <view bindtap="chooseCityArr" class="{{city.st?'btn-color on':''}}" data-id="{{city.cityId}}" wx:for="{{cityList}}" wx:for-item="city" wx:key="unique">{{city.cityName}}</view>
+</view>
+<view class="content-color content-font">省份可多选</view>
+<view class="chooseBtn title-font" wx:if="{{showBtn==false}}">确定</view>
+<view bindtap="quedingChoose" class="chooseBtn title-font choose btn-color" wx:if="{{showBtn==true}}">确定</view>

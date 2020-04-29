@@ -1,0 +1,138 @@
+<navigationcustomtop navigationText="查专业"></navigationcustomtop>
+<loading wx:if="{{showLoad}}"></loading>
+<view class="whiteColor container" hidden="{{showLoad}}">
+    <view id="nav">
+        <view class="searchWrapper flex">
+            <view bindtap="goSearch" class="pageItemWidth searchView-viewH flex searchBorder">
+                <view class="twoFontSize searchView twoFontColor">
+                    <image src="/image/search_icon.png"></image>搜索
+        </view>
+            </view>
+            <view bindtap="chooseDropDown" class="flex" style="position:relative;">
+                <view>{{isBOrZ==0?'本科':'专科'}}</view>
+                <dropdown bind:chooseEvent="chooseItem" id="collegeCourseDrop" items="{{isBOrZItem}}" left="-10vw" top="7.47vw" value="0"></dropdown>
+                <image class="moreIcon" mode="widthFix" src="/image/openList.png" style="transform:rotate(90deg);"></image>
+            </view>
+        </view>
+        <view class="flex flexjsaround pageItemWidth twoFontSize threeFontColor" style="height:12.8vw;line-height:1;">
+            <view bindtap="swiperNav" class="{{currentTab==0?'oneFontSize fourFontColor':''}} relativeStyle" data-current="0">
+                <view>推荐专业</view>
+                <view class="absoluteStyle" style="left:50%;transform:translate(-50%);margin-top:2.4vw;">
+                    <view class="checkedBackColor {{currentTab==0?'selectLineWH':''}} "></view>
+                </view>
+            </view>
+            <view bindtap="swiperNav" class="{{currentTab==1?'oneFontSize fourFontColor':''}} relativeStyle" data-current="1">
+                <view>全部专业</view>
+                <view class="absoluteStyle" style="left:50%;transform:translate(-50%);margin-top:2.4vw;">
+                    <view class="checkedBackColor {{currentTab==1?'selectLineWH':''}} "></view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <swiper bindchange="changeSwiper" current="{{currentTab}}" style="background:#F8F5F4;height:{{swiperH}}px;">
+        <swiper-item>
+            <scroll-view scrollY style="height:{{swiperH}}px;">
+                <view class="banner-wrapper" wx:if="{{recommendMajor.id==null}}">
+                    <view class="banner-bg">
+                        <image mode="aspectFill" src="/image/banner_logo.png" style="position:absolute;right:0;top:0;height:42vw;width:45vw;"></image>
+                        <view class="flex">
+                            <view>
+                                <view class="fourFontSize whiteFontColor">还在为专业选择而发愁？</view>
+                                <view class="threeFontSize whiteFontColor" style="margin-top:1vw;opacity:0.7;width:48.27vw;">五大维度充分认知自己，推荐适合专业。</view>
+                            </view>
+                            <view bindtap="goCeping" class="evaluationBtn oneFontSize bold" hoverClass="btnHover">立即测评</view>
+                        </view>
+                    </view>
+                </view>
+                <block wx:else>
+                    <view class="title flex" style="padding:4.3vw;">
+                        <view class="fourFontSize oneFontColor bold">测评推荐</view>
+                        <view bindtap="changeTab" class="threeFontSize threeFontColor flex" hoverClass="btnHover">
+                            <image class="moreLoadingIcon" src="/image/loading.gif" wx:if="{{recommendMajorLoading}}"></image>
+                            <view>换一批</view>
+                        </view>
+                    </view>
+                    <view class="flex majorItem-wrapper">
+                        <view bindtap="goMajorDetail" class="majorItem {{changeTab}}" data-majorcode="{{item.majorCode}}" wx:for="{{recommendMajor.majors}}">
+                            <view class="evaluation-item" hoverClass="listHover">
+                                <view class="oneFontSize oneFontColor moreRowsOmit" style="line-height:1.5;">{{item.majorName}}</view>
+                                <view class="twoFontSize twoFontColor">{{item.subMajorCount}}个专业</view>
+                            </view>
+                        </view>
+                    </view>
+                </block>
+                <view class="whiteColor">
+                    <view class="title flex" style="padding:4.3vw;">
+                        <view class="fourFontSize oneFontColor bold">报考热度</view>
+                        <navigator class="threeFontSize threeFontColor" hoverClass="btnHover" url="/packages/selectMajor/hotMajorList/hotMajorList?isborz={{isBOrZ}}">更多</navigator>
+                    </view>
+                    <view class="list">
+                        <view bindtap="goMajorDetail" class="flex" data-majorcode="{{item.majorCode}}" hoverClass="listHover" style="padding:2vw 4.3vw" wx:for="{{hotList}}">
+                            <view style="position:relative;width:8.5vw;height:8.53vw;">
+                                <image src="/image/{{index==0?'hotRank1':index==1?'hotRank2':'hotRank3'}}.png" style="width:100%;height:100%;" wx:if="{{index<=2}}"></image>
+                                <view class="fourFontSize threeFontColor" style="height:8.5vw;line-height:8.5vw;text-align:center;" wx:else>{{index+1}}</view>
+                            </view>
+                            <view class="flex rank-wrapper">
+                                <view class="oneFontSize oneFontColor textOmit" style="width:48vw;">{{item.professionName}}</view>
+                                <view class="flex">
+                                    <view class="twoFontSize twoFontColor" wx:if="{{item.countOfCollege>0&&isBOrZ==0}}">{{item.countOfCollege==0?'-':item.countOfCollege}}所开设院校</view>
+                                    <image class="moreIcon" src="/image/openList.png"></image>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="whiteColor" style="margin-top:2.13vw;">
+                    <view class="title flex" style="padding:4.3vw;">
+                        <view class="fourFontSize oneFontColor bold">就业前景</view>
+                        <navigator class="threeFontSize threeFontColor" hoverClass="btnHover" url="/packages/selectMajor/jobProspects/jobProspects?isborz={{isBOrZ}}">更多</navigator>
+                    </view>
+                    <view class="list">
+                        <view bindtap="goMajorDetail" class="flex" data-majorcode="{{item.majorCode}}" hoverClass="listHover" style="padding:2vw 4.3vw;" wx:for="{{jobList}}">
+                            <view style="position:relative;width:8.5vw;height:8.5vw;line-height:1.5;">
+                                <block wx:if="{{index<=2}}">
+                                    <view style="width:100%;height:100%;position:absolute;background-image: {{index==0?'linear-gradient(180deg, #F78368 0%, #F37B72 100%)':index==1?'linear-gradient(0deg, #7D99FA 20%, #6C9BF6 100%)':index==2?'linear-gradient(0deg, #937DE2 0%, #A87CF5 100%)':''}};border-radius:100%;"></view>
+                                    <view class="flex rank-Icon-wrapper">
+                                        <view class="oneFontSize whiteFontColor">{{index+1}}</view>
+                                        <view class="fiveFontSize whiteFontColor">TOP</view>
+                                    </view>
+                                </block>
+                                <view class="fourFontSize threeFontColor" style="height:8.5vw;line-height:8.5vw;text-align:center;" wx:else>{{index+1}}</view>
+                            </view>
+                            <view class="flex rank-wrapper" style="margin-left:2.9vw;">
+                                <view class="oneFontSize oneFontColor textOmit" style="width:48vw;">{{item.professionName}}</view>
+                                <view class="flex">
+                                    <view class="twoFontSize twoFontColor" wx:if="{{item.countOfCollege>0&&isBOrZ==0}}">{{item.countOfCollege==0?'-':item.countOfCollege}}所开设院校</view>
+                                    <image class="moreIcon" src="/image/openList.png"></image>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </scroll-view>
+        </swiper-item>
+        <swiper-item style="margin-top:2.13vw;">
+            <scroll-view scrollY style="height:{{swiperH}}px;">
+                <loading loadingType="local" wx:if="{{allMajorLoading}}"></loading>
+                <view hidden="{{allMajorLoading}}">
+                    <wux-sticky bind:stick="onStick" bind:unstick="onUnStick">
+                        <wux-sticky class="List">
+                            <view class="whiteColor" id="{{item.id}}" style="margin-bottom:2.13vw;line-height:3;" wx:for="{{isBOrZ==0?majorsList.majorsBK:majorsList.majorsZK}}">
+                                <view class="bigMajor fourFontSize oneFontColor bold whiteColor listPadding">{{item.name}}</view>
+                                <navigator class="middleMajor listPadding" hoverClass="listHover" url="/packages/selectMajor/middleMajorDetail/middleMajorDetail?majorcode={{middleMajor.code}}" wx:for="{{item.listMajor}}" wx:for-item="middleMajor">
+                                    <view class="flex" style="justify-content:space-between;{{index==item.listMajor.length-1?'':'border-bottom:1px solid #E9E9E9;'}}">
+                                        <view class="oneFontSize oneFontColor">{{middleMajor.name}}</view>
+                                        <view class="flex twoFontSize twoFontColor">
+                                            <view>{{middleMajor.smallCount}}个专业</view>
+                                            <image class="moreIcon" src="/image/openList.png"></image>
+                                        </view>
+                                    </view>
+                                </navigator>
+                            </view>
+                        </wux-sticky>
+                    </wux-sticky>
+                </view>
+            </scroll-view>
+        </swiper-item>
+    </swiper>
+</view>

@@ -1,0 +1,40 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<loading wx:if="{{showLoad}}"></loading>
+<block wx:else>
+    <view class="cutLineWH allPageBGcolor"></view>
+    <scroll-view scrollY bindscrolltolower="scrollToLower" class="classRoomList-wrapper container" style="height:88vh;background:#fff;" wx:if="{{learnList.length>0}}">
+        <navigator class="newClass-wrapper " hoverClass="none" url="/pages/classRoomDetail/classRoomDetail?type={{item.type}}&id={{item.numId}}" wx:for="{{learnList}}">
+            <image class="newClass-left" lazyLoad="{{true}}" src="{{item.imageUrl}}" style="background:#f0eff5"></image>
+            <view class="newClass-right">
+                <text class="newClassRight">
+                    <text class="title-font newClass-right-title video-title-color">{{item.title}}</text>
+                    <text class="newClass-right-content">
+{{item.description}}</text>
+                </text>
+                <view class="newClass-right-bottom">
+                    <view class="point-font">{{item.itemCount}}课时</view>
+                    <view class="subject-bottom-wrapper point-font" style="margin:0">
+                        <image src="/image/classRoom_eye.png"></image>
+                        <view>{{item.hits}}</view>
+                    </view>
+                </view>
+            </view>
+        </navigator>
+        <block wx:if="{{showMore==true}}">
+            <view style="display:flex;justify-content:space-around;background:#f0eff5;" wx:if="{{loadMore==true}}">
+                <view style="display:flex;align-items:center;">
+                    <image src="/image/loading.gif" style="width:4vw;height:4vw;margin-right:2vw"></image> 数据加载中...</view>
+            </view>
+            <view style="background:#f0eff5;text-align:center" wx:if="{{loadMore==false}}">已加载全部</view>
+        </block>
+    </scroll-view>
+    <view class="flex null-wrapper relativeStyle flexjscenter" style="top:16.19vh;" wx:else>
+        <view class="flex">
+            <image mode="widthFix" src="../image/null_logo.png" style=""></image>
+            <view class="twoFontSize threeFontColor">暂无学习记录</view>
+            <navigator class="twoFontSize cepingBtn" openType="switchTab" url="/pages/classRoom/classRoom">
+                <text style="margin-right:1.3vw;">+</text>去学习
+          </navigator>
+        </view>
+    </view>
+</block>

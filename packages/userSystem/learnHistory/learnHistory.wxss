@@ -1,0 +1,27 @@
+page {
+    background: #fff;
+}
+
+.container {
+    background: #fff;
+}
+
+.null-wrapper>view {
+    flex-direction: column;
+}
+
+.null-wrapper>view>image {
+    width: 21vw;
+    margin-bottom: 3.2vw;
+}
+
+.cepingBtn {
+    margin-top: 9vw;
+    width: 29.1vw;
+    height: 9.6vw;
+    text-align: center;
+    line-height: 9.6vw;
+    border-radius: 9.6vw;
+    background: linear-gradient(to left,#E9302D,#FF5053);
+    color: #fff;
+}

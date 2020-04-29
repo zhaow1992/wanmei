@@ -1,0 +1,5 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="cutLineWH allPageBGcolor"></view>
+<view bindtap="" class="threeFontSize fourFontColor itemBackColor" style="padding:4.27vw;line-height:1.86;">
+    <rich-text nodes="{{detailText}}"></rich-text>
+</view>

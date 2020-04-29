@@ -1,0 +1,115 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<block wx:if="{{showLoad}}"></block>
+<block wx:else>
+    <rightdrawermenu bind:hideEvent="hideRightMenu" id="rightdrawermenu">
+        <view catchtouchmove="catchMenu" class="whiteColor absoluteStyle twoFontSize fourFontColor" style="top:{{menuTop}}px;height:100%;width:76.27vw;right:0;">
+            <scroll-view scrollY style="width:70.93vw;margin:0 auto;height:{{menuHeight}}px">
+                <view>
+                    <view class="twoFontColor threeFontSize" style="padding-top:9.07vw">热门标签</view>
+                    <view class="flex flexjsbetween" style="flex-wrap: wrap;">
+                        <view class="{{item.checked?'whiteFontColor checkedBackColor':' selectBlockColor'}} selectBlock " style="margin-top:2.13vw;" wx:for="{{selectTerrace}}" wx:key="unique">
+                            <view bindtap="selectHotTap" class="selectBlock flex flexjscenter" id="{{index}}">{{item.name}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view>
+                    <view class="twoFontColor flex threeFontSize flexjsbetween " style="margin-top:8vw">
+                        <view>类型</view>
+                        <view bindtap="openType" style="padding:0 0 0 3.2vw;"></view>
+                    </view>
+                    <view class="flex flexjsbetween typeList">
+                        <view class="{{noType?'whiteFontColor checkedBackColor ':'selectBlockColor'}} selectBlock " style="margin-top:2.13vw;">
+                            <view bindtap="selectTypeTap" class="selectBlock flex flexjscenter" id="noType">不限</view>
+                        </view>
+                        <view class="{{item.checked?'whiteFontColor checkedBackColor ':'selectBlockColor'}} selectBlock " style="margin-top:2.13vw;{{universityType.length-1==index?'background:#fff':''}}" wx:for="{{universityType}}" wx:key="unique">
+                            <view bindtap="selectTypeTap" class="selectBlock flex flexjscenter" id="{{index}}">{{item.name}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view>
+                    <view class="twoFontColor threeFontSize" style="margin-top:8vw">层次</view>
+                    <view class="flex">
+                        <view bindtap="selectDegreeTap" class="{{degreeChecked==-1?'whiteFontColor checkedBackColor':'selectBlockColor'}} selectBlock " id="-1" style="margin:2.13vw 1.87vw 0 0;">
+                            <view class="selectBlock flex flexjscenter">不限</view>
+                        </view>
+                        <view bindtap="selectDegreeTap" class="{{degreeChecked==1?'whiteFontColor checkedBackColor':'selectBlockColor'}} selectBlock " id="1" style="margin:2.13vw 1.87vw 0 0;">
+                            <view class="selectBlock flex flexjscenter">本科</view>
+                        </view>
+                        <view bindtap="selectDegreeTap" class="{{degreeChecked==0?'whiteFontColor checkedBackColor':'selectBlockColor'}} selectBlock " id="0" style="margin:2.13vw 1.87vw 0 0;">
+                            <view class="selectBlock flex flexjscenter">专科</view>
+                        </view>
+                    </view>
+                </view>
+                <view>
+                    <view class="twoFontColor threeFontSize" style="margin-top:8vw">性质</view>
+                    <view class="flex">
+                        <view bindtap="selectCreateTap" class="{{createChecked==-1?'whiteFontColor checkedBackColor':'selectBlockColor'}} selectBlock " id="-1" style="margin:2.13vw 1.86vw 0 0;">
+                            <view class="selectBlock flex flexjscenter">不限</view>
+                        </view>
+                        <view bindtap="selectCreateTap" class="{{createChecked==1?'whiteFontColor checkedBackColor':'selectBlockColor'}} selectBlock " id="1" style="margin:2.13vw 1.86vw 0 0;">
+                            <view bindtap="selectCreateTap" class="selectBlock flex flexjscenter" id="1">公办</view>
+                        </view>
+                        <view bindtap="selectCreateTap" class="{{createChecked==0?'whiteFontColor checkedBackColor':'selectBlockColor'}} selectBlock " id="0" style="margin:2.13vw 1.86vw 0 0;">
+                            <view bindtap="selectCreateTap" class="selectBlock flex flexjscenter" id="2">民办</view>
+                        </view>
+                    </view>
+                </view>
+                <view>
+                    <view class="twoFontColor flex threeFontSize flexjsbetween" style="margin-top:8vw">
+                        <view>省份</view>
+                        <view bindtap="openArea" style="padding:0 0 0 3.2vw;"></view>
+                    </view>
+                    <view class="flex flexjsbetween areaList">
+                        <view class="{{national?'whiteFontColor checkedBackColor':'selectBlockColor'}} selectBlock " style="margin-top:2.13vw;">
+                            <view bindtap="selectAreaTap" class="selectBlock flex flexjscenter" data-areatype="fast" id="{{index}}">全国</view>
+                        </view>
+                        <view class="{{item.checked?'whiteFontColor checkedBackColor':'selectBlockColor'}} selectBlock" style="margin-top:2.13vw;{{cityList.length-1==index?'background:#fff':''}}" wx:for="{{cityList}}" wx:key="unique">
+                            <view bindtap="selectAreaTap" class="selectBlock flex flexjscenter" data-areatype="nofast" id="{{index}}">{{item.name}}</view>
+                        </view>
+                    </view>
+                </view>
+            </scroll-view>
+            <view class="flex operationItemWH twoFontSize" style="width:70.93vw;margin:0 auto;justify-content:flex-end;">
+                <view bindtap="resetSelectTap" class="operationBtnWH flex flexjscenter" style="border-radius:26.67vw 0 0 26.67vw;border: 1px solid #E9302D;box-sizing:border-box;">
+                    <view class="checkedColor">重置</view>
+                </view>
+                <view bindtap="confirmSelectTap" class="operationBtnWH flex flexjscenter" style="border-radius:0 26.67vw 26.67vw 0;background-image: linear-gradient(-52deg, #E9302D 1%, #FF5053 100%);color: #fff;">
+                    <view>确定</view>
+                </view>
+            </view>
+        </view>
+    </rightdrawermenu>
+    <view class="itemBackColor">
+        <view class="flex pageItemWidth flexjsend" style="padding:3vw 0;">
+            <image bindtap="goPublicSearch" src="/image/publicSearchIcon.png" style="width:3.47vw;height:3.47vw;padding:0 2.67vw 0 5.33vw;"></image>
+            <view bindtap="showRightMeun" class="twoFontColor threeFontSize flex">
+                <image mode="widthFix" src="/image/siftCollege.png" style="width:3.2vw;height:3.47vw;"></image>
+                <view>筛选</view>
+            </view>
+        </view>
+    </view>
+    <scroll-view scrollY bindscrolltolower="getNextPage" style="height:84vh">
+        <view class="allPageBGcolor cutLineWH"></view>
+        <view bindtap="goCollegeDetail" class="itemBackColor" data-id="{{index}}" hoverClass="listHover" style="margin:0 0 2.13vw 0;" wx:for="{{collegeList}}" wx:for-item="collegeListSingle" wx:key="unique">
+            <view class="collegeListCardSingle pageItemWidth flex cardBorder textPadding threeFontSize">
+                <image class="collegeLogo" src="{{collegeListSingle.collegeIcon}}"></image>
+                <view>
+                    <view>
+                        <view class="oneFontSize oneFontWidth">{{collegeListSingle.name}}
+                <text class="terraceBorderText fiveFontSize checkedColor" style="vertical-align:middle;border:1px solid #9b9b9b;color:#9b9b9b;" wx:for="{{collegeListSingle.collegeTerrace}}" wx:key="unique">{{item}}</text>
+                        </view>
+                    </view>
+                    <view class="twoFontColor threeFontSize flex flexjsbetween" style="margin:1.33vw 0 0 0;">
+                        <view>{{collegeListSingle.collegeTag}}</view>
+                        <view class="flex">
+                            <image mode="widthFix" src="/image/city.png" style="height:2.93vw;width:2.4vw;margin-right:1.07vw;"></image>
+                            <view>
+                  {{collegeListSingle.city}}
+                </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </scroll-view>
+</block>

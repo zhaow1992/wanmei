@@ -1,0 +1,131 @@
+<navigationcustomtop id="navigationcustom" navigationHome="{{navigationHome}}" navigationText="学业测评"></navigationcustomtop>
+<view class="con">
+    <view bindtap="goMyReport" class="myReport itemBackColor" hoverClass="btnHover" style="top:{{statusH+14}}px">
+        <text class="twoFontSize twoFontColor">我的报告</text>
+        <text class="num textAlign absoluteStyle fiveFontSize whiteFontColor" wx:if="{{cepingCount!==0}}">{{cepingCount}}</text>
+    </view>
+    <view class="majorTest relativeStyle">
+        <image class="absoluteStyle majorTestImg" src="http://wmei-appfile.cn-bj.ufileos.com/image/zhuang_ye_ding_wei.png"></image>
+        <view bindtap="showspPopup" class="absoluteStyle startTest textAlign oneFontSize itemBackColor bold" hoverClass="btnHover">开始测评</view>
+        <view class="tips threeFontSize whiteFontColor absoluteStyle">{{majorRelative}} 人已完成</view>
+    </view>
+    <view class="videoScrollBox flex">
+        <view bindtap="goPlayVideo" class="v-list" data-id="{{item.numId}}" data-type="{{item.type}}" hoverClass="btnHover" wx:if="{{index<6}}" wx:for="{{majorVideoList}}" wx:key="{{index}}">
+            <view class="v-l-top relativeStyle">
+                <image class="v-img" src="{{item.imgUrl}}"></image>
+                <view class="tool absoluteStyle flex flexjsbetween">
+                    <view class="threeFontSize whiteFontColor">
+                        <image class="seen" src="/image/ceping/seen.png"></image>
+                        <text class="">{{item.hits}}</text>
+                    </view>
+                    <text class="threeFontSize whiteFontColor" wx:if="{{item.time}}">{{item.time}}</text>
+                </view>
+            </view>
+        </view>
+        <view bindtap="goMoreVideo" class="showmore textAlign twoFontSize itemBackColor oneFontColor" data-type="1" hoverClass="btnHover" wx:if="{{majorVideoList.length>=6}}">更多</view>
+    </view>
+    <view class="public studentStatus ">
+        <view class="title fourFontSize oneFontColor bold">学习状态</view>
+        <view class="test-type flex">
+            <view bindtap="goTestDetail" class="test-list relativeStyle itemBackColor" data-name="{{item.name}}" data-type="{{item.type}}" hoverClass="btnHover" wx:for="{{xxzt}}" wx:key="{{index}}">
+                <view class="t-title oneFontSize oneFontColor bold">{{item.name}}</view>
+                <view class="t-tips threeFontSize twoFontColor">{{item.desc}}</view>
+                <view class="desc absoluteStyle fiveFontSize twoFontColor">已有 {{item.number}} 人参与</view>
+                <image class="absoluteStyle img" src="{{item.imgUrl}}"></image>
+            </view>
+        </view>
+        <view class="videoScrollBox flex">
+            <view bindtap="goPlayVideo" class="v-list" data-id="{{item.numId}}" data-type="{{item.type}}" hoverClass="btnHover" wx:if="{{index<6}}" wx:for="{{studyVideoList}}" wx:key="{{index}}">
+                <view class="v-l-top relativeStyle">
+                    <image class="v-img" src="{{item.imgUrl}}"></image>
+                    <view class="tool absoluteStyle flex flexjsbetween">
+                        <view class="threeFontSize whiteFontColor">
+                            <image class="seen" src="/image/ceping/seen.png"></image>
+                            <text class="">{{item.hits}}</text>
+                        </view>
+                        <text class="threeFontSize whiteFontColor" wx:if="{{item.time}}">{{item.time}}</text>
+                    </view>
+                </view>
+            </view>
+            <view bindtap="goMoreVideo" class="showmore textAlign twoFontSize itemBackColor oneFontColor" data-type="2" hoverClass="btnHover" wx:if="{{studyVideoList.length>=6}}">更多</view>
+        </view>
+    </view>
+    <view class="public studentStatus ">
+        <view class="title fourFontSize oneFontColor bold">心理健康</view>
+        <view class="test-type flex">
+            <view bindtap="goTestDetail" class="test-list relativeStyle itemBackColor" data-name="{{item.name}}" data-type="{{item.type}}" hoverClass="btnHover" wx:for="{{xljk}}" wx:key="{{index}}">
+                <view class="t-title oneFontSize oneFontColor bold">{{item.name}}</view>
+                <view class="t-tips threeFontSize twoFontColor" style="width:68%;">{{item.desc}}</view>
+                <view class="desc absoluteStyle fiveFontSize twoFontColor">已有 {{item.number}} 人参与</view>
+                <image class="absoluteStyle img {{item.name=='自我控制能力测评'?'active':''}}" src="{{item.imgUrl}}"></image>
+            </view>
+        </view>
+        <view class="videoScrollBox flex">
+            <view bindtap="goPlayVideo" class="v-list" data-id="{{item.numId}}" data-type="{{item.type}}" hoverClass="btnHover" wx:if="{{index<6}}" wx:for="{{mindVideoList}}" wx:key="{{index}}">
+                <view class="v-l-top relativeStyle">
+                    <image class="v-img" src="{{item.imgUrl}}"></image>
+                    <view class="tool absoluteStyle flex flexjsbetween">
+                        <view class="threeFontSize whiteFontColor">
+                            <image class="seen" src="/image/ceping/seen.png"></image>
+                            <text class="">{{item.hits}}</text>
+                        </view>
+                        <text class="threeFontSize whiteFontColor" wx:if="{{item.time}}">{{item.time}}</text>
+                    </view>
+                </view>
+            </view>
+            <view bindtap="goMoreVideo" class="showmore textAlign twoFontSize itemBackColor oneFontColor" data-type="3" hoverClass="btnHover" wx:if="{{mindVideoList.length>=6}}">更多</view>
+        </view>
+    </view>
+    <view wx:if="{{studentOrparent.popupFlag}}">
+        <view catchtap="hidespPopup" class="wrap {{studentOrparent.wrapAnimate}}" style="background:rgba(0,0,0,{{studentOrparent.bgOpacity}});"></view>
+        <view class="{{studentOrparent.popupAnimate}} popup-wrapper">
+            <view class="oneFontSize oneFontColor bold" style="line-height: 3;margin-top: 2vw">请选择您的身份</view>
+            <view class="flex flexjsbetween oneFontColor twoFontSize" style="padding:0 100rpx;margin-top:30rpx;">
+                <view bindtap="showSexPopup" class="student">
+                    <image src="/image/ceping/student.png"></image>
+                    <view class="">我是学生</view>
+                </view>
+                <view bindtap="showPopup" class="parent">
+                    <image src="/image/ceping/parent.png"></image>
+                    <view class="">我是家长</view>
+                </view>
+            </view>
+            <image catchtap="hidespPopup" class="closepopup" src="/image/ceping/closepopup.png"></image>
+        </view>
+        <view wx:if="{{sexPopup.sexFlag}}">
+            <view catchtap="hideSexPopup" class="wrap {{sexPopup.wrapAnimate}}" style="background:rgba(0,0,0,{{sexPopup.bgOpacity}});"></view>
+            <view class="{{sexPopup.popupAnimate}} popup-wrapper">
+                <view class="oneFontSize oneFontColor bold" style="line-height: 3;margin-top: 2vw">请选择您的性别</view>
+                <view class="flex flexjsbetween oneFontColor twoFontSize" style="padding:0 100rpx;margin-top:30rpx;">
+                    <view bindtap="chooseSex" class="student" data-sex="1">
+                        <image src="/image/ceping/boy.png"></image>
+                        <view class="">我是男生</view>
+                    </view>
+                    <view bindtap="chooseSex" class="parent" data-sex="0">
+                        <image src="/image/ceping/girl.png"></image>
+                        <view class="">我是女生</view>
+                    </view>
+                </view>
+                <image catchtap="hideSexPopup" class="closepopup" src="/image/ceping/closepopup.png"></image>
+            </view>
+        </view>
+        <view wx:if="{{popup.popupFlag}}">
+            <view catchtap="hidePopup" class="wrap {{popup.wrapAnimate}}" style="background:rgba(0,0,0,{{popup.bgOpacity}});"></view>
+            <view class="{{popup.popupAnimate}} popup-wrapper">
+                <view class="oneFontSize oneFontColor bold" style="line-height: 3;margin-top: 2vw">请选择您的性别</view>
+                <view class="flex flexjsbetween oneFontColor twoFontSize" style="padding:0 100rpx;margin-top:30rpx;">
+                    <view bindtap="chooseParent" class="student" data-sex="1">
+                        <image src="/image/ceping/father.png"></image>
+                        <view class="">我是爸爸</view>
+                    </view>
+                    <view bindtap="chooseParent" class="parent" data-sex="0">
+                        <image src="/image/ceping/mother.png"></image>
+                        <view class="">我是妈妈</view>
+                    </view>
+                </view>
+                <image catchtap="hidePopup" class="closepopup" src="/image/ceping/closepopup.png"></image>
+            </view>
+        </view>
+    </view>
+</view>
+<loginPopup id="loginPopup"></loginPopup>

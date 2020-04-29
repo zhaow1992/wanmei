@@ -1,0 +1,137 @@
+<view class="statusBar" style="height:{{statusBarHeight}}px;"></view>
+<view class="flex bar" style="height:{{barHeight}}px;top:{{statusBarHeight}}px;">
+    <view bindtap="navigateBack" class="navigateBack">
+        <image mode="widthFix" src="./../image/goBack_icon.png"></image>
+    </view>
+    <view class="barText">会员权益</view>
+</view>
+<block wx:if="{{showLoad}}"></block>
+<view class="container" wx:else>
+    <scroll-view scrollY style="height:{{scrollHeight}}px;">
+        <view class="header-wrapper">
+            <image mode="widthFix" src="./../image/head_bg.png" style="width:100vw;"></image>
+            <view class="flex" style="position:absolute;width:100vw;z-index:1;justify-content:space-around;top:20.5vw;">
+                <view class="flex">
+                    <view class="indicator {{swiperIndex==index?'vipOn':''}}" style="background:rgba(255,255,255,0.15);margin-right:{{index==memberText.length-1?0:2.4}}vw;" wx:for="{{memberText}}" wx:key="{{index}}"></view>
+                </view>
+            </view>
+            <swiper bindchange="bindchange" class="swiperClass" current="{{swiperIndex}}" duration="1000" nextMargin="{{margindata}}" previousMargin="86rpx">
+                <swiper-item style="width:auto">
+                    <view class="slide-image {{swiperIndex==0?'active':'quiet'}}">
+                        <image mode="widthFix" src="./../image/card1_bg.png" style="width:100%;"></image>
+                        <view class="flex">
+                            <view style="font-size:5.86vw;">普通会员</view>
+                            <view class="threeFontSize">基础功能使用</view>
+                        </view>
+                        <view class="flex">
+                            <view bindtap="selectCompareDetail" class="vipBtn">权益对比</view>
+                            <image mode="widthFix" src="./../image/card1_logo.png" style="width:9.3vw;"></image>
+                        </view>
+                    </view>
+                </swiper-item>
+                <swiper-item>
+                    <view class="slide-image {{swiperIndex==1?'active':'quiet'}}">
+                        <image mode="widthFix" src="./../image/card2_bg.png" style="width:100%;"></image>
+                        <view class="flex">
+                            <view style="font-size:5.86vw;">志愿VIP</view>
+                            <view class="threeFontSize" style="background:#E3A55B;">适合高三学生</view>
+                        </view>
+                        <view class="flex" style="align-items:flex-end;">
+                            <view>
+                                <view bindtap="selectDetail" class="vipBtn" style="background:linear-gradient(to bottom, #FEFDF9,#FEE9BF);color:#D38428;box-shadow: 0 2px 4px 0 rgba(75,52,7,0.12);">查看详情</view>
+                                <view class="threeFontSize" style="color:#8F530C;line-height:1.42;margin-top:1.6vw;">已有233213人购买</view>
+                            </view>
+                            <image mode="widthFix" src="./../image/card2_logo.png" style="width:9.3vw;"></image>
+                        </view>
+                    </view>
+                </swiper-item>
+                <swiper-item>
+                    <view class="slide-image {{swiperIndex==2?'active':'quiet'}}">
+                        <image mode="widthFix" src="./../image/card3_bg.png" style="width:100%;"></image>
+                        <view class="flex">
+                            <view style="font-size:5.86vw;color:#DEC597;">升学VIP</view>
+                            <view class="threeFontSize" style="background:none;color:#DEC597;width:23vw;">适合初高中学生</view>
+                        </view>
+                        <view class="flex" style="align-items:flex-end;">
+                            <view>
+                                <view bindtap="selectDetail" class="vipBtn" style="background:none;border:1px solid #DEC597;color:#DEC597;box-shadow:none;">查看详情</view>
+                                <view class="threeFontSize" style="color:#A7906B;line-height:1;margin-top:1.6vw;">已有233213人购买</view>
+                            </view>
+                            <image mode="widthFix" src="./../image/card3_logo.png" style="width:9.3vw;"></image>
+                        </view>
+                    </view>
+                </swiper-item>
+            </swiper>
+        </view>
+        <view class="vip-wrapper">
+            <view class="fourFontSize oneFontColor">{{memberText[swiperIndex]}}</view>
+            <view class="flex fourFontColor">
+                <view class="flex">
+                    <view class="flex" style="justify-content:space-around;">
+                        <image mode="widthFix" src="{{vipBgImageUrl[swiperIndex]}}"></image>
+                        <image mode="widthFix" src="./../image/vip1_icon.png" style="width:6vw;height:6vw;position:absolute;"></image>
+                    </view>
+                    <view>当年招生计划</view>
+                </view>
+                <view class="flex">
+                    <view class="flex" style="justify-content:space-around;">
+                        <image mode="widthFix" src="{{vipBgImageUrl[swiperIndex]}}"></image>
+                        <image mode="widthFix" src="./../image/vip2_icon.png" style="width:6vw;height:6vw;position:absolute;"></image>
+                    </view>
+                    <view>多维度智能填报</view>
+                </view>
+                <view class="flex">
+                    <view class="flex" style="justify-content:space-around;">
+                        <image mode="widthFix" src="./../image/vip_no_bg.png" wx:if="{{swiperIndex==0}}"></image>
+                        <image mode="widthFix" src="{{vipBgImageUrl[swiperIndex]}}" wx:else></image>
+                        <image mode="widthFix" src="./../image/vip3_icon.png" style="width:6vw;height:6vw;position:absolute;"></image>
+                    </view>
+                    <view class="{{swiperIndex==0?'threeFontColor':''}}">专业定位测评</view>
+                </view>
+                <view class="flex">
+                    <view class="flex" style="justify-content:space-around;">
+                        <image mode="widthFix" src="./../image/vip_no_bg.png" wx:if="{{swiperIndex==0}}"></image>
+                        <image mode="widthFix" src="{{vipBgImageUrl[swiperIndex]}}" wx:else></image>
+                        <image mode="widthFix" src="./../image/vip4_icon.png" style="width:6vw;height:6vw;position:absolute;"></image>
+                    </view>
+                    <view class="{{swiperIndex==0?'threeFontColor':''}}">1800+志愿讲堂</view>
+                </view>
+                <view class="flex">
+                    <view class="flex" style="justify-content:space-around;">
+                        <image mode="widthFix" src="./../image/vip_no_bg.png" wx:if="{{swiperIndex==0||swiperIndex==1}}"></image>
+                        <image mode="widthFix" src="{{vipBgImageUrl[swiperIndex]}}" wx:else></image>
+                        <image mode="widthFix" src="./../image/vip5_icon.png" style="width:6vw;height:6vw;position:absolute;"></image>
+                    </view>
+                    <view class="{{swiperIndex==0||swiperIndex==1?'threeFontColor':''}}">7000+同步课堂</view>
+                </view>
+            </view>
+        </view>
+        <view class="forPeople-wrapper">
+            <view class="fourFontSize oneFontColor">适用人群</view>
+            <view class="threeFontSize fourFontColor">
+                <view>可用地区：全国（港/澳/台/西藏暂不支持）</view>
+                <view>生效日期：开通之日起至用户高考结束的9月1日</view>
+                <view>适用考生：普通类文理科考生/新高考选科类考生</view>
+                <view class="flex" style="margin:0;align-items:flex-start;">
+                    <view>适用批次：</view>
+                    <view>
+                        <view style="margin-bottom:1.5vw;">普通类批次</view>
+                        <view>(提前批/自主招生/艺术体育类考生暂不适用)</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="banner-wrapper">
+            <image src="./../image/banner1.png"></image>
+        </view>
+        <view bindtap="callMobile" class="twoFontColor phone">客服热线 800-767-8888</view>
+    </scroll-view>
+    <view class="flex gradientThree whiteFontColor flexjscenter operationItemWH pay-wrapper oneFontSize" style="opacity:0.6;" wx:if="{{isIOS&&swiperIndex!=0}}">{{payBtnText}}</view>
+    <view class="flex operationItemWH flexjsbetween pay-wrapper itemBackColor" wx:elif="{{!vipType&&swiperIndex>0}}">
+        <view class="flex">
+            <view class="twoFontColor">价格：</view>
+            <view class="money">￥{{vipPrice}}</view>
+        </view>
+        <view bindtap="goPayDetail" class="oneFontSize payBtn">开通{{vipName}}</view>
+    </view>
+</view>

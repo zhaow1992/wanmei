@@ -1,0 +1,96 @@
+.search-wrapper {
+    padding: 2.8vw 0;
+    position: relative;
+}
+
+.search-wrapper input {
+    padding-left: 8vw;
+}
+
+.search-icon {
+    width: 3.47vw;
+    height: 3.47vw;
+    position: absolute;
+    top: 50%;
+    margin-top: -1.735vw;
+    left: 5.5vw;
+}
+
+.search {
+    background: #fff;
+    width: 82.83vw;
+    height: 8.75vw;
+    border-radius: 5px;
+    margin: auto;
+    padding: 0 10px;
+    text-align: left;
+}
+
+.search-title {
+    background: #f7f7f7;
+    line-height: 3;
+}
+
+.loading {
+    margin-top: -40.71vw;
+}
+
+.indexSearch-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f0eff5;
+    line-height: 3;
+}
+
+.indexSearch-title {
+    font-weight: blod;
+}
+
+.zanTishi {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: rgba(0,0,0,0);
+    color: rgba(255,255,255,0);
+    border-radius: 10px;
+    width: 40vw;
+    text-align: center;
+    line-height: 4;
+    margin-left: -20vw;
+    margin-top: -5vw;
+}
+
+.zanTishiAnimate {
+    animation: zanTishi 2s ease;
+}
+
+@-webkit-keyframes zanTishi {
+    0% {
+    }
+
+    50% {
+        background: rgba(0,0,0,1);
+        color: rgba(255,255,255,1);
+    }
+
+    100% {
+        background: rgba(0,0,0,0);
+        color: rgba(255,255,255,0);
+    }
+}
+
+@keyframes zanTishi {
+    0% {
+    }
+
+    50% {
+        background: rgba(0,0,0,1);
+        color: rgba(255,255,255,1);
+    }
+
+    100% {
+        background: rgba(0,0,0,0);
+        color: rgba(255,255,255,0);
+    }
+}

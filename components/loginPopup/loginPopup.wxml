@@ -1,0 +1,14 @@
+<view wx:if="{{showPopupFlag}}">
+    <view catchtap="_hideTap" class="wrap {{wrapAnimateMajor}}" style="background:rgba(0,0,0,{{bgOpacityMajor}});"></view>
+    <view class="{{popupAnimateMajor}} popup-wrapper">
+        <view style="font-size:36rpx;color:#212121;">您还未登录</view>
+        <view style="font-size:28rpx;color:#757575;margin-top:10rpx;">请先登录再进行操作</view>
+        <view>
+            <image src="/image/noLogin.png" style="width:148rpx;height:148rpx;margin-top:36rpx;"></image>
+        </view>
+        <view style="display:flex;align-items:center;justify-content:space-between;margin-top:56rpx;">
+            <view catchtap="_hideTap" class="btnStyle" hoverClass="btnHover" style="border:1px solid #E9302D;box-sizing:border-box;color:#E9302D;">暂不登录</view>
+            <view catchtap="login" class="btnStyle" hoverClass="btnHover" style="color:#fff;background-image: linear-gradient(-52deg, #E9302D 1%, #FF5053 100%);">立即登录</view>
+        </view>
+    </view>
+</view>

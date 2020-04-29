@@ -1,0 +1,34 @@
+<navigationcustomtop navigationText="我的选科"></navigationcustomtop>
+<view class="con">
+    <loading wx:if="{{showLoad}}"></loading>
+    <block wx:else>
+        <block wx:if="{{chooseSubjectList.length!==0}}">
+            <view bindtap="goChooseSubjectDetail" class="list itemBackColor flex flexjsbetween" data-id="{{item.id}}" data-provinceid="{{item.provinceNumId}}" data-type="{{item.type}}" data-year="{{item.chooseYear}}" hoverClass="itemHover" wx:for="{{chooseSubjectList}}" wx:key="{{index}}">
+                <view class="flex">
+                    <view class="img">
+                        <image src="/image/myChooseSub.png"></image>
+                    </view>
+                    <view class="l-con">
+                        <view class="oneFontSize oneFontColor bold">
+              {{item.provinceName}}选科
+              <text class="descSub">{{item.subjectsName}}</text>
+                        </view>
+                        <view class="threeFontSize threeFontColor time">{{item.time}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="flex twoFontColor twoFontSize" style="line-height:3;text-align:center;justify-content:space-around;" wx:if="{{showMore}}">
+                <view class="flex">
+                    <image src="/image/loading.gif" style="width:4vw;height:4vw;margin-right:2vw;"></image>
+                    <view>加载数据中</view>
+                </view>
+            </view>
+            <view class="twoFontColor twoFontSize" style="line-height:3;text-align:center;" wx:else>- 我也是有底线的 -</view>
+        </block>
+        <view class="fixed textAlign" wx:else>
+            <image class="no-data" src="/image/no-data.png"></image>
+            <view class="tips threeFontColor twoFontSize">还没有选择适合的高考科目</view>
+            <view bindtap="goChooseSubjects" class="chooseSub gradientThree whiteFontColor twoFontSize">+ 去选科</view>
+        </view>
+    </block>
+</view>

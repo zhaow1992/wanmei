@@ -1,0 +1,63 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view wx:if="{{showFrame}}">
+    <view wx:if="{{flag}}">
+        <view class="wrap {{wrapAnimate}}" style="background:rgba(0,0,0,{{bgOpacity}});" wx:if="{{wrapAnimate}}"></view>
+        <view catchtap="hideFrame" class="frame-wrapper {{frameAnimate}}">
+            <view catchtap="catchNone" catchtouchmove="catchMove" class="frame">
+                <view class="title-wrapper flex">
+                    <view>{{smallFrameTitle}}</view>
+                    <image catchtap="hideFrame" src="/image/icon_close_alt2.png"></image>
+                </view>
+                <scroll-view scrollY class="twoFontColor twoFontSize" style="margin-top: 6.4vw;height:59.52vh">
+                    <view class="checkedColor oneFontSize">专业简介</view>
+                    <view style="line-height:6.93vw;margin:2.67vw 0 5.33vw 0;">{{abstract}}</view>
+                    <view class="checkedColor oneFontSize">就业方向</view>
+                    <view style="line-height:6.93vw;margin-top:2.67vw;">{{direct}}</view>
+                </scroll-view>
+                <view class="operationItemWH" style="width:100vw;"></view>
+                <view class="operationItemWH flexjsbetween whiteColor flex" style="position:absolute;bottom:0;left:0;box-shadow:0 4px 4px 4px rgba(0,0,0,0.05);">
+                    <view class="flex" style="margin-left:4.27vw;position:relative;">
+                        <image class="peopleIconWH" src="/image/majorWomen.png" style="margin-right:2.93vw"></image>
+                        <view class="relativeStyle">
+                            <view class="threeFontSize absoluteStyle flex flexjsbetween" style="bottom:0;margin-bottom: 1.07vw;width: 30.67vw;">
+                                <view style="color:#66A6FF;">{{manPercent}}</view>
+                                <view style="color:#F66666;">{{womanPercent}}</view>
+                            </view>
+                            <view style="position:relativel;">
+                                <view class="proportionLine lineHeight"></view>
+                                <view class="womanLine checkedBackColor lineHeight" mode="widthFix" style="width:{{womanWidth}};z-index:7"></view>
+                            </view>
+                        </view>
+                        <image class="peopleIconWH" mode="widthFix" src="/image/majorMen.png" style="margin-left:2.93vw"></image>
+                    </view>
+                    <view class="whiteFontColor gradientTwo flexjscenter twoFontSize flex" style="border-radius:5.6vw;display:flex;width:29.07vw;height:10.67vw;margin:0 2.4vw 0 0;">
+						专业详情
+					</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="whiteColor">
+    <view class="twoFontSize twoFontColor bottomBorder " hoverClass="itemHover " id="{{index}}" wx:for="{{college}}" wx:for-item="collegeSingle" wx:key="unique">
+        <view bindtap="collegeTap" class="flex oneFontSize {{collegeSingle.show?'bottomBorder':''}} " id="{{index}}" style="padding: 0 4.27vw;justify-content:space-between;">
+            <image class="leftIcon" src="{{collegeSingle.leftIcon}}" style="transform:rotate{{collegeSingle.rotates}}"></image>
+            <view class="flex itemListWidth oneFontColor" style="height:13.07vw;margin-left:3.2vw; ">
+				{{collegeSingle.instituteName}}
+			</view>
+            <view class="color:#4a4a4a;">{{collegeSingle.majorCount}}</view>
+        </view>
+        <block wx:if="{{collegeSingle.show}}">
+            <view bindtap="disciplineTap" class="twoFontSize " hoverClass="itemHover " id="{{index}}" style="color:#4a4a4a;height:13.07vw;" wx:for="{{college[index].instituteMajors}}" wx:for-item="major" wx:key="unique">
+                <view class="{{major.length>index+1?'bottomBorder':''}} flex flexjsbetween" style="margin:0  4.27vw 0 8.8vw;height:13.07vw ">
+                    <view>
+					{{major.majorName}}
+				</view>
+                    <view>
+					{{major.isBen?'本科':'专科'}}
+				</view>
+                </view>
+            </view>
+        </block>
+    </view>
+</view>

@@ -1,0 +1,47 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="content-font firstList {{down==true?'down':''}}">
+    <view bindtap="chooseClassRoom" data-SubjectId="{{item.SubjectId}}" data-name="{{item.name}}" wx:for="{{chooseKetang}}">{{item.name}}</view>
+</view>
+<view bindtap="hideKetang" class="firstList-bottom {{down==true?'hide':''}}" wx:if="{{down==true}}"></view>
+<view>
+    <view class="nav">
+        <view bindtap="chooseKetang" class="{{down==true?'newOrHot':''}}" style="display:flex;justify-content:center;">{{navName}}
+      <view class="image" style="display:flex;align-items:center;">
+                <image src="../../image/down_logo.png" wx:if="{{down==false}}"></image>
+                <image src="../../image/up_icon_red.png" wx:if="{{down==true}}"></image>
+            </view>
+        </view>
+        <view bindtap="newChoose" class="{{sortType==1?'newOrHot':''}}">最新</view>
+        <view bindtap="hotChoose" class="{{sortType==2?'newOrHot':''}}">最热</view>
+    </view>
+    <view class="loading content-font" wx:if="{{bufenLoad}}">
+        <image src="../../image/loading_icon1.gif"></image>
+        <view style="margin-top:5.56vw">数据加载中...</view>
+    </view>
+    <scroll-view scrollY bindscrolltolower="scrollToLower" class="classRoomList-wrapper container" style="height:82vh" wx:else>
+        <navigator class="newClass-wrapper " hoverClass="listHover" url="../classRoomDetail/classRoomDetail?type={{item.type}}&id={{item.numId}}" wx:for="{{newClassList}}">
+            <image class="newClass-left" lazyLoad="{{true}}" src="{{item.imgUrl}}" style="background:#f0eff5"></image>
+            <view class="newClass-right">
+                <text class="newClassRight">
+                    <text class="title-font newClass-right-title video-title-color">{{item.title}}</text>
+                    <text class="newClass-right-content">
+{{item.intro}}</text>
+                </text>
+                <view class="newClass-right-bottom">
+                    <view class="point-font">{{item.itemsCount}}课时</view>
+                    <view class="subject-bottom-wrapper point-font" style="margin:0">
+                        <image src="../../image/classRoom_eye.png"></image>
+                        <view>{{item.hits}}</view>
+                    </view>
+                </view>
+            </view>
+        </navigator>
+        <block wx:if="{{showMore==true}}">
+            <view style="display:flex;justify-content:space-around;background:#f0eff5;" wx:if="{{loadMore==true}}">
+                <view style="display:flex;align-items:center;">
+                    <image src="../../image/loading.gif" style="width:4vw;height:4vw;margin-right:2vw"></image> 数据加载中...</view>
+            </view>
+            <view style="background:#f0eff5;text-align:center" wx:if="{{loadMore==false}}">- 我也是有底线的 -</view>
+        </block>
+    </scroll-view>
+</view>

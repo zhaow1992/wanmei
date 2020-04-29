@@ -1,0 +1,7 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="chooseCity-wrapper container">
+    <view bindtap="chooseCityArr" class="{{batch.st?'on btn-color':''}}" data-name="{{batch.name}}" wx:for="{{batchList}}" wx:for-item="batch" wx:key="unique">{{batch.name}}</view>
+</view>
+<view class="content-color content-font">类型可多选</view>
+<view class="chooseBtn title-font" style="background:#f0eff5" wx:if="{{showBtn==false}}">确定</view>
+<view bindtap="quedingChoose" class="chooseBtn title-font choose btn-color}}" wx:if="{{showBtn==true}}">确定</view>

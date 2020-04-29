@@ -1,0 +1,56 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="pageItemWidth">
+    <view class="publicSearchWrapper flex flexjsbetween" style="">
+        <view class="searchView-viewH  flex searchBorder" style="width: 80vw;background:#E8E8E8;border:none;">
+            <view class="twoFontSize publicSearchView twoFontColor flex">
+                <image src="/image/search_icon.png"></image>
+                <input bindblur="blur" bindconfirm="searchResults" bindfocus="focus" bindinput="searchValue" class="twoFontColor twoFontSize" focus="{{focus}}" maxlength="20" placeholder="{{placeholder}}" style="width:54.4vw;" value="{{value}}"></input>
+            </view>
+        </view>
+        <view bindtap="cancelTap" class="checkedColor twoFontSize">取消</view>
+    </view>
+    <scroll-view scrollY style="height:80vh;" wx:if="{{collegeList.length>0}}">
+        <view bindtap="chooseCollege" class="flex" data-codeid="{{item.code}}" data-collegeid="{{item.numId}}" data-collegename="{{item.cnName}}" data-index="{{index}}" data-ucode="{{item.uCode}}" style="padding:0 4.3vw;justify-content:space-between;border-bottom:1px solid #e9e9e9;" wx:for="{{collegeList}}">
+            <view style="line-height:3;">{{item.cnName}}</view>
+            <image mode="widthFix" src="/image/right_logo.png" style="width:2.22vw;height:2.22vw;"></image>
+        </view>
+    </scroll-view>
+    <block wx:else>
+        <view class="flex" style="justify-content:space-around;height:50vh;" wx:if="{{searchFalg}}">
+            <view class="flex threeFontColor" style="flex-direction:column;">
+                <image mode="widthFix" src="/image/recommend_noFount.png" style="width:20vw;height:20vw;margin-bottom:3vw;"></image>
+                <view class="oneFontSize">没有找到内容</view>
+                <view class="threeFontSize">请换其他条件试试吧</view>
+            </view>
+        </view>
+        <block wx:else>
+            <view class="flex flexjsbetween" style="margin:5.87vw 0 0 0;">
+                <view class="oneFontColor twoFontSize">搜索记录</view>
+                <image bindtap="deleteHistoryStorageTap" class="iconWH" src="/image/laji_icon.png" wx:if="{{deleteIcon}}"></image>
+            </view>
+            <view class="flex " style="flex-wrap:wrap;" wx:if="{{historyList.length>0}}">
+                <view class="blockBackColor" style="margin:3.2vw 2.67vw 0 0;border-radius:4vw" wx:if="{{item}}" wx:for="{{historyList}}" wx:key="unique">
+                    <view bindtap="goSearch" class="twoFontColor threeFontSize flex letterBreak" data-name="{{item}}" style="padding:1.87vw 3.2vw;">{{item}}</view>
+                </view>
+            </view>
+            <view class="flex" style="justify-content:space-around;height:50vh;" wx:else>
+                <view class="flex" style="flex-direction:column;">
+                    <image mode="widthFix" src="/image/recommend_noFount.png" style="width:20vw;height:20vw;"></image>
+                    <view class="title-font threeFontColor" style="margin-top:5.56vw;">暂无搜索记录</view>
+                </view>
+            </view>
+        </block>
+    </block>
+</view>
+<view class="whiteColor" style="margin-top:20rpx;" wx:if="{{hitSearch.length>0&&!isSearch}}">
+    <view class="content-color content-wrapper fr ac lishijilu" style="border:none;margin-top:20rpx;">
+        <view class="twoFontSize oneFontColor">热门搜索</view>
+    </view>
+    <view class="fr ac" style="flex-wrap:wrap;margin-top:28rpx;">
+        <view style="padding-bottom:24rpx;" wx:for="{{hitSearch}}">
+            <view bindtap="goSearch" class="history threeFontSize twoFontColor" data-name="{{item.keywords}}" hoverClass="listHover" style="margin:0 20rpx;">
+					{{item.keywords}}
+				</view>
+        </view>
+    </view>
+</view>

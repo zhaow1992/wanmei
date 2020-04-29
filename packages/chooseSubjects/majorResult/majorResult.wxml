@@ -1,0 +1,57 @@
+<navigationcustomtop navigationText="选科要求"></navigationcustomtop>
+<loading wx:if="{{showLoad}}"></loading>
+<view class="fc" id="head">
+    <view class="head itemBackColor fc jc" style="padding-left:32rpx;">
+        <view class="oneFontColor oneFontSize">{{majorInfo.majorName}}</view>
+        <view class="twoFontColor threeFontSize" style="margin-top:10rpx;">相关专业{{majorInfo.relatedMajorCount}}个</view>
+    </view>
+    <view class="fr ac threeFontSize twoFontColor" style="height:80rpx;width:750rpx;margin-left:30rpx;">共{{majorInfo.collegeCount}}所院校</view>
+</view>
+<scroll-view scrollY class="fc ac" style="height:{{scrollH}}px;margin-left:30rpx">
+    <view bindtap="showToast" class="fc jc item whiteColor" data-index="{{index}}" hoverClass="listHover" style="height:162rpx;" wx:for="{{majorInfo.chooseSubjects.items}}">
+        <view class="fr" style="margin-left:30rpx;">
+            <view class="oneFontSize oneFontColor">{{item.collegeName}}</view>
+            <view class="fr ac fiveFontSize threeFontColor" style="margin-top:10rpx;margin-left:20rpx;">
+                <view class="lab" wx:if="{{item.is985==1}}">985</view>
+                <view class="lab" wx:if="{{item.is211==1}}">211</view>
+                <view class="lab" wx:if="{{item.firstClass!=''}}">双一流</view>
+            </view>
+        </view>
+        <view class="threeFontSize twoFontColor flex" style="margin:12rpx 30rpx 0;">
+            <view>{{item.classify}} / {{item.belong}} / {{item.typeId==1?'公立':'私立'}}</view>
+            <view class="threeFontSize" style="margin-left:20rpx;width:40%;" wx:if="{{chooseSubjectType==3}}">【首选】{{item.firstSelect}}【再选】{{item.leftSelect?item.leftSelect:'不限'}}
+      </view>
+            <view class="fr ac threeFontSize" style="margin-left:20rpx;width:40%;" wx:if="{{chooseSubjectType!=3}}">{{item.firstSelect}}</view>
+        </view>
+    </view>
+</scroll-view>
+<view catchtap="hideToast" catchtouchmove="ture" class="toast" wx:if="{{toastShow}}">
+    <view animation="{{animationData}}" catchtap="a" class="drawer">
+        <view class="" style="margin:0 44rpx;">
+            <view class="fr ac jsb" style="margin-top:40rpx;">
+                <view class="fourFontSize fourFontColor fr ac">
+                    <view>{{chkItem.collegeName}}</view>
+                    <view class="fr ac fiveFontSize threeFontColor" style="margin-top:10rpx;margin-left:20rpx;">
+                        <view class="lab" wx:if="{{chkItem.is985==1}}">985</view>
+                        <view class="lab" wx:if="{{chkItem.is211==1}}">211</view>
+                        <view class="lab" wx:if="{{chkItem.firstClass!=''}}">双一流</view>
+                    </view>
+                </view>
+                <image catchtap="hideToast" src="/image/icon_close_alt2.png" style="width:24rpx;height:24rpx"></image>
+            </view>
+            <view class="threeFontSize threeFontColor" style="margin-top:10rpx;">{{chkItem.classify}} / {{chkItem.belong}} / {{chkItem.typeId==1?'公立':'私立'}}</view>
+            <view class="tableHead threeFontSize fourFontColor fr ac" style="margin-top:30rpx;">
+                <view class="fr ac" style="width:50%;padding-left:32rpx">专业名称</view>
+                <view class="fr ac" style="width:50%;padding-left:32rpx">选科要求</view>
+            </view>
+            <scroll-view scrollY class="oneFontColor" style="height:583rpx">
+                <view class="fr ac" style="min-height:128rpx;background:{{index%2!=0?'#FAFAFA':''}}" wx:for="{{chkItem.chooseSubjects}}">
+                    <view class="fr ac twoFontSize" style="width:50%;padding-left:32rpx;line-height:36rpx;margin:10rpx 0;">{{item.majorName}}</view>
+                    <view class="fr ac threeFontSize" style="width:50%;padding-left:32rpx;line-height:36rpx;margin:10rpx 0;" wx:if="{{chooseSubjectType==3}}">【首选】{{item.firstSelect}}【再选】{{item.leftSelect?item.leftSelect:'不限'}}</view>
+                    <view class="fr ac threeFontSize" style="width:50%;padding-left:32rpx;line-height:36rpx;margin:10rpx 0;" wx:if="{{chooseSubjectType!=3}}">{{item.firstSelect}}</view>
+                </view>
+            </scroll-view>
+            <view bindtap="collegeDetail" class="btn oneFontSize fr ac jc" hoverClass="btnHover" style="margin-top:53rpx;">查看院校详情</view>
+        </view>
+    </view>
+</view>

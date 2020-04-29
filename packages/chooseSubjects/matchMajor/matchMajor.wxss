@@ -1,0 +1,33 @@
+.item-wrapper {
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 20rpx;
+}
+
+.item {
+    padding: 4.3vw;
+    justify-content: space-between;
+    border-radius: 8px;
+    box-shadow: 0 0 5px 2px rgba(0,0,0,0.03);
+    line-height: 1.7;
+}
+
+.yxppl {
+    width: 214rpx;
+    height: 56rpx;
+    border-radius: 56rpx;
+    background: #fff;
+    justify-content: space-around;
+}
+
+.sort-wrapper {
+    flex-direction: column;
+    margin-left: 10rpx;
+    height: 25rpx;
+    justify-content: space-around;
+}
+
+.sort-wrapper>image {
+    width: 14rpx;
+    height: 9rpx;
+}

@@ -1,0 +1,13 @@
+{
+    "usingComponents": {
+        "loading": "/components/loading/loading",
+        "college": "/components/search/college/college",
+        "major": "/components/search/major/major",
+        "serverfail": "/components/serverFail/serverFail",
+        "bottomFrame": "../../components/bottomFrame/bottomFrame",
+        "topMenu": "../../components/topMenu/topMenu",
+        "rightdrawermenu": "../../components/rightDrawerMenu/rightDrawerMenu",
+        "dropDownMenu": "../../components/dropDownMenu/dropDownMenu",
+        "navigationcustomtop": "../../components/navigationCustomTop/navigationCustomTop"
+    }
+}

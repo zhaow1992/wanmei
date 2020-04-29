@@ -1,0 +1,42 @@
+<view class="whiteColor" wx:if="{{colleges.length>0}}">
+    <view bindtap="collegeDetail" data-id="{{item.numId}}" hoverClass="listHover" style="border-bottom:2rpx solid #E9E9E9" wx:for="{{colleges}}">
+        <view class="fr ac jsb" style="height:157rpx;margin:0 30rpx;">
+            <view class="fr ac">
+                <image class="logo" src="{{item.logoUrl||'/image/collegeLogo.png'}}"></image>
+                <view class="fr ac threeFontSize twoFontColor" style="margin-left:20rpx;">
+                    <view class="fc">
+                        <view class="fr ac">
+                            <view class="oneFontSize oneFontColor">
+                                <rich-text nodes="{{item.cnName}}"></rich-text>
+                            </view>
+                            <view class="lab fr ac jc fiveFontSize threeFontColor" style="margin-left:20rpx;" wx:if="{{item.is211==1}}">
+                211
+              </view>
+                            <view class="lab fr ac jc fiveFontSize threeFontColor" wx:if="{{item.is985==1}}">
+                985
+              </view>
+                            <view class="lab fr ac jc fiveFontSize threeFontColor" wx:if="{{item.firstClass}}">
+                双一流
+              </view>
+                        </view>
+                        <view class="fr ac jsb" style="width:590rpx">
+                            <view class="threeFontSize twoFontColor">
+                {{item.classify?item.classify+'/':''}} {{item.belong?item.belong+'/':''}} {{item.typeId==1?'公立':'私立'}}
+              </view>
+                            <view class="fr ac">
+                                <image src="/image/city.png" style="width:18rpx;height:22rpx"></image>
+                                <view class="threeFontSize twoFontColor" style="margin-left:10rpx;">
+                  {{item.provinceName}}
+                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="fc ac" style="margin-top:50rpx;" wx:else>
+    <image src="/image/recommend_noFount.png" style="width:214rpx;height:214rpx;"></image>
+    <view class="threeFontColor twoFontSize" style="margin-top:20rpx;">抱歉，未找到相关内容</view>
+</view>

@@ -1,0 +1,75 @@
+<view>
+    <view style="height:{{navigationCustomStatusHeight+navigationCustomCapsuleHeight}}px"></view>
+    <view class="navigationCustomTopAll">
+        <view style="height:{{navigationCustomStatusHeight}}px"></view>
+        <view class="navigationCustomTopMain" style="height:{{navigationCustomCapsuleHeight}}px;line-height:{{navigationCustomCapsuleHeight}}px">
+            <view class="navigationAllIconButton" style="display:flex;height:{{navigationCustomCapsuleHeight}}px">
+                <view bindtap="backIconButtonTap" class="backIconButton">
+                    <image mode="widthFix" src="/image/returnBtn.png" style="max-height:20px"></image>
+                </view>
+            </view>
+            <view class="navigationText title-font" style="line-height:{{navigationCustomCapsuleHeight}}px"> {{navigationText}} </view>
+        </view>
+    </view>
+</view>
+<view class="oneFontSize">
+    <view class="allPageBGcolor">
+        <view class="flex titleHeight pageItemWidth">订购内容</view>
+    </view>
+    <view class="itemBackColor">
+        <view class="pageItemWidth twoFontColor" style="height:26.13vw;">
+            <view style="padding:4vw 0;">
+                <view class="oneFontColor" style="padding:0 0 2.13vw 0;">开通{{vipName}}</view>
+                <view class="threeFontSize">适用于普通类文理科考生/新高考选科类考生</view>
+                <view class="threeFontSize" style="padding:1.07vw 0 0 0;">提前批次、自主招生及艺术体育类考生暂不适用</view>
+            </view>
+        </view>
+    </view>
+    <view class="itemBackColor">
+        <view class="allPageBGcolor">
+            <view class="flex titleHeight pageItemWidth">订购对象</view>
+        </view>
+        <view class="flex titleHeight pageItemWidth flexjsbetween fourFontColor">
+            <view>{{phoneNumber}}</view>
+        </view>
+    </view>
+    <view class="flex pageItemWidth" style="margin-top:3.2vw;">
+        <image mode="widthFix" src="../image/agree.png" style="height:20px;width:3.2vw;margin-right:1.33vw;line-height:1.42"></image>
+        <view class="twoFontColor threeFontSize">我已阅读并同意</view>
+        <view bindtap="goPayInfo" class="threeFontSize" style="color:#4DA7FF;">《<text style="text-decoration:underline">服务条款及免责声明</text>》</view>
+    </view>
+    <view class="absoluteStyle" style="width:100%;bottom:0;box-shadow: 0 4px 4px 4px rgba(0,0,0,0.05);">
+        <view class="pageItemWidth" style="">
+            <form reportSubmit bindsubmit="payClick" style="">
+                <view class="flex flexjsbetween operationItemWH">
+                    <view class="flex">
+                        <view>价格：</view>
+                        <view style="font-size:6.4vw;color: #F54142;">
+                ￥{{vipPrice}}</view>
+                    </view>
+                    <button class="whiteFontColor" formType="submit" style="height:11.73vw;width:47.73vw;border-radius:5.87vw;background-image: linear-gradient(-52deg, #E9302D 1%, #FF5053 100%);margin:0;line-height:11.73vw;">去支付</button>
+                </view>
+            </form>
+        </view>
+    </view>
+    <view wx:if="{{tanceng}}">
+        <view bindtap="payWrap" class="pay-wrap"></view>
+        <view class="pay-web">
+            <view class="container">
+                <view>
+                    <view class="content-wrapper yanzheng-wrapper">
+                        <image src="../../image/photo_icon.png"></image>
+                        <input bindinput="mobilehao" class="title-font" disabled="{{disabledFlag}}" maxlength="11" placeholder="请输入手机号" style="width:55vw;" type="number"></input>
+                        <view bindtap="sendAuthCode" class="yanzhengBtn btn-color {{yanzhengmaChecked==true?'yanzhengmaChecked btn-color':''}}" wx:if="{{!showyanzheng}}">{{getyanzhengma}}</view>
+                        <view class="yanzhengBtn {{yanzhengBtnBg==false?'yanzhengBtnBg':''}}" wx:if="{{showyanzheng}}">{{time}}</view>
+                    </view>
+                    <view class="content-wrapper yanzheng-wrapper">
+                        <image src="../../image/mobileCode.png"></image>
+                        <input bindinput="yanzhengma" class="title-font" maxlength="6" placeholder="请输入验证码" type="number"></input>
+                    </view>
+                </view>
+                <view class="point-font content-color point-info"></view>
+            </view>
+        </view>
+    </view>
+</view>

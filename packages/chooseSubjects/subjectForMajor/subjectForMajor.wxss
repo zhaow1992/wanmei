@@ -1,0 +1,13 @@
+.lishijilu {
+    border-bottom: 1px solid #dedddb;
+    line-height: 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.history {
+    padding: 12rpx 24rpx;
+    background: #F7F7F7;
+    border-radius: 30rpx;
+}

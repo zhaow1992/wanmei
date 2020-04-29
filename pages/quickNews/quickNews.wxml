@@ -1,0 +1,24 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="container" style="min-height:{{containerHeight}}px;">
+    <loading wx:if="{{showLoad}}"></loading>
+    <block wx:else>
+        <view class="borderTop">
+            <view class="content-wrapper" wx:for="{{quickNews}}">
+                <view class="flex" style="{{index==quickNews.length-1?'':'border-bottom:1px solid #f0eff5;'}}justify-content:space-between;padding:4.8vw 0;">
+                    <view class="zhejiang-info-color point-font" style="width:20vw;">
+                        <text>{{item.creationTime}}</text>
+                    </view>
+                    <view class="zhejiang-content-color" style="width:72vw;line-height:1.5;">{{item.updateContent}}</view>
+                </view>
+            </view>
+            <view class="zhejiang-info-color content-font" style="text-align:center;line-height:3;" wx:if="{{loadMore==true}}">加载数据中</view>
+            <view class="zhejiang-info-color content-font" style="text-align:center;line-height:3;" wx:else>-我也是有底线的-</view>
+        </view>
+        <navigator openType="reLaunch" style="z-index:2;width:15vw;height:15vw;box-shadow:0px 0px 10px #e4e4e4;position:fixed;bottom:15vw;right:5vw;background:rgba(255,255,255,0.6);border-radius:100%;display:flex;" url="../index/index" wx:if="{{source==true}}">
+            <view style="width:10vw;margin:auto;height:10vw;display:flex;flex-direction:column;align-items:center;justify-content:space-around;">
+                <image src="../../image/returnHome.png" style="width:5vw;height:5vw;"></image>
+                <text class="point-font info">返回首页</text>
+            </view>
+        </navigator>
+    </block>
+</view>

@@ -1,0 +1,17 @@
+@import "../search/collegeList/collegeList.wxss";
+
+.btn {
+    width: 250rpx;
+    height: 60rpx;
+    border-radius: 30rpx;
+    background: linear-gradient(-31deg,#E9302D 50%,#E9302D 100%);
+}
+
+.dis {
+    box-shadow: 4rpx 6rpx 4rpx rgba(250,149,150,0.30);
+    color: #fff;
+    width: 78.7vw;
+    height: 11.73vw;
+    border-radius: 11.73vw;
+    background: linear-gradient(to left,#E9302D,#FF5053);
+}

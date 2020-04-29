@@ -1,0 +1,47 @@
+<navigationcustomtop navigationText="职业库"></navigationcustomtop>
+<view class="con">
+    <loading wx:if="{{loadingFlag}}"></loading>
+    <block wx:else>
+        <view class="tips  itemBackColor" id="nav">
+            <view class="relativeStyle searchWrapper flex">
+                <navigator class=" searchView-viewH flex searchBorder twoFontSize twoFontColor" url="/pages/globalSearch/globalSearch?mode=job">请输入职业名称</navigator>
+                <view class="twoFontSize searchView twoFontColor absoluteStyle">
+                    <image src="../image/search_icon.png"></image>
+                </view>
+            </view>
+            <view style="height:16rpx;background:#f8f5f4"></view>
+        </view>
+        <swiper style="height:{{swiperH}}px">
+            <swiper-item>
+                <scroll-view scrollY bindscrolltolower="loadMore" style="height:{{swiperH}}px">
+                    <view class="profession-type itemBackColor {{jobtype.flag==false?'':'noborder'}}" style="height:{{jobtype.flag==false?'50':oneBoxHeightArr[idx].height}}px;overflow:hidden;" wx:for="{{professionInfo}}" wx:for-index="idx" wx:for-item="jobtype" wx:key="{{index}}">
+                        <view bindtap="changejobtype" class="jobtypename" data-code="{{jobtype.code}}" data-flag="{{jobtype.flag}}" data-idx="{{idx}}" hoverClass="listHover">
+                            <image class="openList {{jobtype.flag?'openJobAnimate':''}}" src="/image/openList.png"></image>
+                            <view class="oneFontSize oneFontColor">{{jobtype.name}}</view>
+                        </view>
+                        <view class="oneBoxHeight">
+                            <view bindtap="changeProfessionBox" class="profession-item" data-flag="{{items.flag}}" data-id="{{items.code}}" data-idx="{{idx}}" data-idx1="{{index}}" data-name="{{items.name}}" style="height:{{items.flag==false?'50':oneBoxHeightArr[idx].height1}}px" wx:if="{{items.name}}" wx:for="{{jobtype.children}}" wx:for-item="items" wx:key="{{index}}">
+                                <view class="p-type oneFontSize oneFontColor" hoverClass="listHover">
+                                    <image class="{{items.flag?'openJobAnimate':''}}" src="/image/openList.png" wx:if="{{items.jobs.length!==0}}"></image>
+                                    <text style="margin-left:{{items.jobs.length==0?'30':'15'}}rpx">{{items.name}}</text>
+                                </view>
+                                <view class="clear" style="clear:both;"></view>
+                                <view class="profession-box" hidden="{{!items.flag}}" id="th{{idx}}and{{index}}" style="{{items.jobs.length==0?'border:none;':''}};display:block;height:{{items.flag==false?'':oneBoxHeightArr[idx].height1}}px">
+                                    <view catchtap="goProfessionDesc" class="profession-list" data-id="{{item.code}}" hoverClass="listHover" wx:for="{{items.jobs}}" wx:key="{{index}}">
+                                        <view class="flex flexjsbetween" wx:if="{{item.name}}">
+                                            <view class="p-name fourFontColor twoFontSize">{{item.name}}</view>
+                                            <view class="p-price">
+                                                <image src="/image/openList.png"></image>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="twoFontColor twoFontSize textAlign" style="padding:10rpx 0;">{{requestFlag==true?'加载数据中':'- 我也是有底线的 -'}}</view>
+                </scroll-view>
+            </swiper-item>
+        </swiper>
+    </block>
+</view>

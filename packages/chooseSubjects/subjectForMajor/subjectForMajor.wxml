@@ -1,0 +1,27 @@
+<view class="container" style="background:#fff;">
+    <view style="position:relative;">
+        <image mode="widthFix" src="../image/major_banner.png" style="width:100%;height:420rpx;"></image>
+        <image bindtap="returnTap" class="absoluteStyle" src="/image/return.png" style="width:2.67vw;height:4.8vw;padding:35px 7vw;top:0;left:0;"></image>
+    </view>
+    <view bindtap="goSearch" catchtap="toSearch" class="searchView-viewH flex" style="background:#fff;border:none;box-shadow: 0 0 5px 4px rgba(64,64,64,0.05);height:100rpx;border-radius:8px;position:relative;top:-9vw;width:670rpx;left:40rpx;">
+        <view class="twoFontSize searchView twoFontColor">
+            <image src="/image/search_icon.png"></image>搜索感兴趣的专业...
+		</view>
+    </view>
+    <view class="content-color lishijilu" style="border:none;margin-top:-5vw;">
+        <text style="margin-left:40rpx;">最近查询</text>
+        <image bindtap="clearHistory" src="/image/laji_icon.png" style="width:3.73vw;height:3.73vw;margin-right:40rpx;"></image>
+    </view>
+    <view class="fr ac" style="flex-wrap:wrap;margin-left:40rpx;margin-top:20rpx;" wx:if="{{majorHistoryList.length>0}}">
+        <view wx:for="{{majorHistoryList}}">
+            <view bindtap="toSearch" class="fr ac jc history threeFontSize twoFontColor" data-keyword="{{item}}">{{item}}</view>
+        </view>
+    </view>
+    <view class="flex" style="justify-content:space-around;height:40vh;" wx:else>
+        <view class="flex" style="flex-direction:column;">
+            <image mode="widthFix" src="/image/recommend_noFount.png" style="width:20vw;height:20vw;"></image>
+            <view class="title-font threeFontColor" style="margin-top:5.56vw;">您还没有查询记录</view>
+            <view class="title-font threeFontColor">赶紧去查看自己的心仪专业吧</view>
+        </view>
+    </view>
+</view>

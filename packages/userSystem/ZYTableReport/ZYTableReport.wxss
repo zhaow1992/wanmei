@@ -1,0 +1,16 @@
+page {
+    background: #fff;
+}
+
+.container {
+    background: #fff;
+}
+
+.null-wrapper>view {
+    flex-direction: column;
+}
+
+.null-wrapper>view>image {
+    width: 21vw;
+    margin-bottom: 3.2vw;
+}

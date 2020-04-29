@@ -1,0 +1,126 @@
+.banner-wrapper {
+    padding: 4.3vw;
+}
+
+.banner-bg {
+    width: 79.7vw;
+    height: 30.2vw;
+    border-radius: 8px;
+    padding: 5.9vw;
+    background-image: linear-gradient(132deg,#2489E6 0%,#6664F5 100%);
+    box-shadow: 0 0 5px 2px rgba(0,0,0,0.03);
+    position: relative;
+    line-height: 1.5;
+}
+
+.banner-bg>view {
+    width: 52.8vw;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 100%;
+    align-items: flex-start;
+}
+
+.evaluationBtn {
+    background: #fff;
+    color: #3388FF;
+    width: 29.3vw;
+    height: 9vw;
+    border-radius: 9vw;
+    line-height: 9vw;
+    text-align: center;
+}
+
+.title {
+    justify-content: space-between;
+    padding: 4.27vw 0;
+}
+
+.bigMajor {
+    position: sticky;
+    top: 0px;
+}
+
+.container {
+    background: #fff;
+}
+
+.searchWrapper {
+    justify-content: space-around;
+    padding: 2.13vw;
+}
+
+.searchBorder {
+    background: #E8E8E8;
+    border: none;
+    width: 75vw;
+    margin: 0;
+}
+
+.evaluation-item {
+    padding: 2.7vw;
+    width: 23.4vw;
+    height: 29.6vw;
+    border-radius: 8px;
+}
+
+.rank-wrapper {
+    justify-content: space-between;
+    margin-left: 2.7vw;
+    width: 87%;
+}
+
+.rank-Icon-wrapper {
+    flex-direction: column;
+    position: relative;
+    text-align: center;
+    line-height: 1;
+    justify-content: space-around;
+    height: 84%;
+    padding: 8% 0;
+}
+
+.majorItem-wrapper {
+    justify-content: space-between;
+    padding: 0 4.3vw;
+    flex-wrap: wrap;
+}
+
+.majorItem {
+    box-shadow: 0 0 5px 2px rgba(0,0,0,0.03);
+    border-radius: 8px;
+    width: 28.8vw;
+    height: 35vw;
+    background: #fff;
+    margin-bottom: 2.7vw;
+}
+
+.changeAnimate {
+    animation: changeAnimate 0.8s ease forwards;
+}
+
+@-webkit-keyframes changeAnimate {
+    0% {
+    }
+
+    50% {
+        transform: rotateY(90deg);
+        opacity: 0;
+    }
+
+    100% {
+    }
+}
+
+@keyframes changeAnimate {
+    0% {
+    }
+
+    50% {
+        transform: rotateY(90deg);
+        opacity: 0;
+    }
+
+    100% {
+    }
+}

@@ -1,0 +1,77 @@
+<view class="con">
+    <view class="header" style="height:{{screenHeight>800?44:52}}vh">
+        <image bindtap="goHome" class="back" src="/image/return-home-w.png" style="width:50rpx;height:50rpx;" wx:if="{{share}}"></image>
+        <image bindtap="back" class="back" src="/image/return.png" wx:else></image>
+        <view class="h-bg">
+            <image class="img" src="../image/electiveBg.png"></image>
+            <image class="word" src="../image/electiveWord.png"></image>
+            <view class="bigData absoluteStyle twoFontSize whiteFontColor">大数据</view>
+        </view>
+        <view class="h-con">
+            <view class="customized-elective flex flexjsaround fourFontSize textAlign">
+                <view bindtap="goChooseProvince" class="province flex oneFontSize" style="color:#744b17">
+                    <picker bindchange="bindMultiPickerChange" bindcolumnchange="bindcolumnchange" hoverClass="btnHover" mode="multiSelector" range="{{multiArray}}" value="{{multiIndex}}">
+                        <view class="picker">
+                            <text>{{year}}</text>
+                            <text> {{city}}</text>
+                        </view>
+                    </picker>
+                    <image src="/image/more.png"></image>
+                </view>
+                <view bindtap="customizedSubject" class="confirme" hoverClass="btnHover">定制选科方案</view>
+            </view>
+            <view class="customized-tips whiteFontColor threeFontSize">
+        结合《{{city}}招生普通高校专业(类)选考科目范围》大数据综合分析（适合 高一/二学生）
+      </view>
+        </view>
+    </view>
+    <view class="main">
+        <view bindtap="open" class="public-box newpeople">
+            <view class="flex flexjsbetween">
+                <text class="fourFontSize">快速导航</text>
+            </view>
+            <view class="message-list flex">
+                <view class="m-left">
+                    <view class="round oneFontSize whiteFontColor">1</view>
+                </view>
+                <view class="m-right">
+                    <view class="oneFontSize oneFontColor">专业定位测评</view>
+                    <view class="threeFontSize twoFontColor tips">明确自己的大学专业方向,可跳过</view>
+                </view>
+                <view catchtap="goEvaluation" class="btnMenu threeFontSize itemBackColor gradientThree whiteFontColor" hoverClass="btnHover">开始测评</view>
+            </view>
+            <view class="message-list flex">
+                <view class="m-left">
+                    <view class="round oneFontSize whiteFontColor">2</view>
+                </view>
+                <view class="m-right">
+                    <view class="oneFontSize oneFontColor">选择意向专业/职业</view>
+                    <view class="threeFontSize twoFontColor tips">依据推荐和个人喜好选择专业方向</view>
+                </view>
+                <view catchtap="goChooseMajor" class="btnMenu threeFontSize itemBackColor gradientThree whiteFontColor" hoverClass="btnHover">选择专业</view>
+            </view>
+            <view class="message-list flex">
+                <view class="m-left">
+                    <view class="round oneFontSize whiteFontColor">3</view>
+                </view>
+                <view class="m-right">
+                    <view class="oneFontSize oneFontColor">获得选科方案</view>
+                    <view class="threeFontSize twoFontColor tips">通过大数据分析自动生成选科方案</view>
+                </view>
+                <view catchtap="goChooseSubPlan" class="btnMenu threeFontSize itemBackColor gradientThree whiteFontColor" hoverClass="btnHover">查看方案({{totalCount}})</view>
+            </view>
+        </view>
+        <view bindtap="openChooseQuery" class="public-box elective-query {{screenHeight>700?electiveQueryFlag?'visited1':'active1':electiveQueryFlag?'visited':'active'}}" touchmove="">
+            <view class="flex flexjsbetween">
+                <text class="fourFontSize oneFontColor" style="margin-left:12rpx">选科查询</text>
+            </view>
+            <view class="flex flexjsbetween">
+                <view bindtap="goQuerySubjectsDetail" class="q-list textAlign " data-type="{{item.menuName}}" hoverClass="btnHover" wx:for="{{chooseSubMenu}}" wx:key="{{index}}">
+                    <image src="{{item.src}}"></image>
+                    <view class="name oneFontColor twoFontSize">{{item.menuName}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<loginPopup id="loginPopup"></loginPopup>

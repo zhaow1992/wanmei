@@ -1,0 +1,55 @@
+<navigationcustomtop id="navigationcustom" navigationText="就业前景"></navigationcustomtop>
+<view class="container">
+    <loading wx:if="{{showLoad}}"></loading>
+    <view hidden="{{showLoad}}">
+        <view class="flex threeFontSize twoFontColor" id="nav" style="justify-content:space-between;padding:0 4.3vw;line-height:3.5;">
+            <view>全国排名</view>
+            <view bindtap="showPopup" class="flex">
+                <image class="questionIcon" src="/image/question.png"></image>
+                <view style="margin-left:2vw;">使用说明</view>
+            </view>
+        </view>
+        <scroll-view scrollY bindscrolltolower="getNextPage" style="height:{{scrollH}}px;">
+            <view class="whiteColor" style="line-height:3.5;">
+                <view class="list">
+                    <view bindtap="goMajorDetail" class="listPadding" data-majorcode="{{item.majorCode}}" hoverClass="listHover" wx:for="{{jobList}}">
+                        <view class="flex list-item" style="{{index==jobList.length-1?'':'border-bottom:1px solid #E9E9E9;'}}">
+                            <view style="position:relative;width:7.5vw;height:7.5vw;line-height:1.5;">
+                                <block wx:if="{{index<=2}}">
+                                    <view style="width:100%;height:100%;position:absolute;background-image: {{index==0?'linear-gradient(180deg, #F78368 0%, #F37B72 100%)':index==1?'linear-gradient(0deg, #7D99FA 20%, #6C9BF6 100%)':index==2?'linear-gradient(0deg, #937DE2 0%, #A87CF5 100%)':''}};border-radius:100%;"></view>
+                                    <view class="flex" style="flex-direction:column;position:relative;text-align:center;line-height:1;justify-content:space-around;height:100%;">
+                                        <view class="oneFontSize whiteFontColor">{{index+1}}</view>
+                                    </view>
+                                </block>
+                                <view class="fourFontSize threeFontColor" style="height:8.5vw;line-height:8.5vw;text-align:center;" wx:else>{{index+1}}</view>
+                            </view>
+                            <view class="flex" style="justify-content:space-between;margin-left:2.9vw;width:87%;">
+                                <view class="oneFontSize oneFontColor textOmit" style="width:48vw;">{{item.professionName}}</view>
+                                <view class="flex">
+                                    <view class="twoFontSize twoFontColor" wx:if="{{item.countOfCollege>0&&isBOrZ==0}}">{{item.countOfCollege==0?'-':item.countOfCollege}}所开设院校</view>
+                                    <image class="moreIcon" src="/image/openList.png"></image>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="flex twoFontColor" style="line-height:3;text-align:center;justify-content:space-around;" wx:if="{{showMore}}">
+                <view class="flex">
+                    <image src="/image/loading.gif" style="width:4vw;height:4vw;margin-right:2vw;"></image>
+                    <view>加载数据中</view>
+                </view>
+            </view>
+            <view class="twoFontColor" style="line-height:3;text-align:center;" wx:else>- 我也是有底线的 -</view>
+        </scroll-view>
+    </view>
+</view>
+<view wx:if="{{popup.popupFlag}}">
+    <view catchtap="hidePopup" class="wrap {{popup.wrapAnimate}}" style="background:rgba(0,0,0,{{popup.bgOpacity}});"></view>
+    <view class="{{popup.popupAnimate}} popup-wrapper threeFontSize fourFontColor">
+        <view class="twoFontSize bold">使用说明</view>
+        <view style="margin-top:4vw;">以上数据来自于职友集(jobui.com)，仅供参考。</view>
+        <view class="closeLine"></view>
+        <image catchtap="hidePopup" class="closeBtn" src="/image/windowClose.png"></image>
+    </view>
+</view>

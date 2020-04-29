@@ -1,0 +1,17 @@
+page {
+    background: #F8F5F4;
+}
+
+.year-box {
+    overflow: hidden;
+    margin-top: 15rpx;
+    padding: 0 30rpx;
+    height: 104rpx;
+    line-height: 104rpx;
+}
+
+.openlist>image {
+    width: 16rpx;
+    height: 24rpx;
+    vertical-align: middle;
+}

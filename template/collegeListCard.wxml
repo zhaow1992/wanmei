@@ -1,0 +1,15 @@
+<template name="collegeListCard">
+    <view class="collegeListCardSingle pageItemWidth flex whiteColor cardBorder textPadding threeFontSize" style="margin:2.13vw 0;">
+        <image class="collegeLogo" src="{{collegeIcon}}"></image>
+        <view bindtap="goCollegeDetail" class="" data-id="{{index}}">
+            <view class="flex">
+                <view class="oneFontSize oneFontWidth" style="">{{name}}
+          <text style="margin-left: 2.67vw;">
+                        <text class="terraceBorder checkedColor" wx:for="{{collegeTerrace}}" wx:key="unique">{{item}}</text>
+                    </text>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+<import src="collegeTerrace.wxml"></import>

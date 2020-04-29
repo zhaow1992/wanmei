@@ -1,0 +1,63 @@
+.oneChooseSubject,.twoChooseSubject {
+    margin: 30rpx 0;
+    padding: 0 30rpx;
+}
+
+.subjectBox {
+    padding: 0 50rpx;
+}
+
+.s-list {
+    width: 28%;
+    margin: 20rpx 2% 20rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bgBox {
+    position: relative;
+    width: 128rpx;
+    height: 128rpx;
+    background: #f6f6f8;
+    border-radius: 50%;
+    align-items: center;
+    border: 2rpx solid transparent;
+}
+
+.bgBox.active {
+    border: 2rpx solid rgba(233,48,45,0.40);
+}
+
+.bgBox>image:first-child {
+    width: 110rpx;
+    height: 110rpx;
+}
+
+.name {
+    width: 100%;
+    margin-top: 20rpx;
+}
+
+.isSelect {
+    position: absolute;
+    top: 6rpx;
+    right: -3rpx;
+    width: 36rpx;
+    height: 36rpx;
+    z-index: 999;
+}
+
+.confirme {
+    position: fixed;
+    bottom: 50rpx;
+    left: 5%;
+    width: 90%;
+    line-height: 88rpx;
+    border-radius: 46rpx;
+}
+
+.disabled {
+    background-image: linear-gradient(137deg,#ffa5a6 0%,#fa9596 100%);
+    pointer-events: none;
+}

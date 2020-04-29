@@ -1,0 +1,91 @@
+<navigationcustomtop navigationText=""></navigationcustomtop>
+<loading wx:if="{{showLoad}}"></loading>
+<view class="container">
+    <view id="nav">
+        <navigator class="flex" hoverClass="listHover" style="padding: 32rpx;justify-content: space-between;background:#fff;" url="/packages/selectMajor/middleMajorDetail/middleMajorDetail?majorcode={{majorCode}}">
+            <view>
+                <view class="fourFontSize oneFontColor bold">{{majorName}}</view>
+                <view class="threeFontSize twoFontColor">相关专业共 {{smallMajorCount}} 个</view>
+            </view>
+            <view style="text-align:center;line-height: 1.7;">
+                <view class="sevenFontSize" style="color:#E9302D;">{{rate==0?'-':rate}}<text class="twoFontSize">%</text>
+                </view>
+                <view class="threeFontSize threeFontColor" hoverClass="btnHover">院校匹配率</view>
+            </view>
+        </navigator>
+        <view class="flex jsb listPadding" style="line-height:4;">
+            <view class="twoFontColor threeFontSize">共 {{collegeCount}} 所院校</view>
+            <view class="fourFontColor threeFontSize yxppl flex">
+                <view bindtap="shaixuan" class="flex">
+                    <view>{{shaixuan==true?'匹配':shaixuan==false?'不匹配':'全部'}}</view>
+                    <image mode="widthFix" src="/image/tabDown.png" style="width:3vw;height:3vw;margin-left:2vw;"></image>
+                </view>
+            </view>
+        </view>
+    </view>
+    <scroll-view scrollY bindscrolltolower="getNextPage" style="height:{{scrollH}}px;">
+        <view class="textAlign" style="padding-top:20vw;" wx:if="{{localLoading}}">
+            <image class="LoadImgWH" src="/image/loading_icon1.gif"></image>
+        </view>
+        <view hidden="{{localLoading}}" style="padding:0 4.3vw;">
+            <block wx:if="{{collegeList.length>0}}">
+                <view class="item-wrapper" wx:for="{{collegeList}}">
+                    <navigator class="flex item" hoverClass="listHover" url="/packages/findUniversity/collegeDetail/collegeDetail?numId={{item.collegeId}}">
+                        <view class="matchStyle fiveFontSize" style="{{item.isFit?'':'background:#ccc;'}}">{{item.isFit?'匹配':'不匹配'}}</view>
+                        <view>
+                            <view class="oneFontSize oneFontColor bold">{{item.collegeName}}
+                  <text class="terraceBorderText fiveFontSize" style="vertical-align:middle;color:#9b9b9b;font-weight:normal;border:1px solid #9b9b9b;" wx:if="{{level!=''}}" wx:for="{{item.level}}" wx:for-item="level">{{level}}</text>
+                            </view>
+                            <view class="threeFontSize twoFontColor">{{item.classify}} / {{item.belong}} / {{item.typeId==1?'公立':'私立'}}</view>
+                        </view>
+                    </navigator>
+                </view>
+                <view class="flex twoFontColor" style="line-height:3;text-align:center;justify-content:space-around;" wx:if="{{showMore}}">
+                    <view class="flex">
+                        <image src="/image/loading.gif" style="width:4vw;height:4vw;margin-right:2vw;"></image>
+                        <view>加载数据中</view>
+                    </view>
+                </view>
+                <view class="twoFontColor" style="line-height:3;text-align:center;" wx:else>- 我也是有底线的 -</view>
+            </block>
+            <view class="no-data" wx:else>
+                <image src="/image/no-data.png"></image>
+                <view>暂无数据</view>
+            </view>
+        </view>
+    </scroll-view>
+</view>
+<view style="width:100vw;height:100vh;background:rgba(0,0,0,0.3);position:fixed;top:0;left:0;" wx:if="{{matchMajorFlag}}"></view>
+<view class="majorUp-wrapper {{collegeUp}}">
+    <view bindtap="collegeClose" style="width:100%;height:100%"></view>
+    <view class="content-font threeFontColor major-bottom" wx:if="{{matchMajorLoading}}">
+        <view class="loading" style="position:absolute">
+            <image src="/image/loading_icon1.gif"></image>
+        </view>
+    </view>
+    <view class="content-font threeFontColor major-bottom" wx:else>
+        <image bindtap="collegeClose" src="/image/icon_close_alt2.png" style="position:absolute;top:3.8vw;right:4.8vw;width:4vw;height:4vw"></image>
+        <view>
+            <view>
+                <view class="oneFontSize oneFontColor bold">北京大学
+              <text class="terraceBorderText fiveFontSize" style="vertical-align:middle;color:#9b9b9b;font-weight:normal;" wx:for="{{tab}}">{{item}}</text>
+                </view>
+                <view class="threeFontSize twoFontColor">综合 / 教育部 / 公办</view>
+            </view>
+            <view class="threeFontSize twoFontColor" style="text-align:right;">注：红色为匹配专业</view>
+            <view class="flex biao-wrapper biaoStyle fourFontColor threeFontSize">
+                <view>专业名称</view>
+                <view>选科要求</view>
+            </view>
+            <scroll-view scrollY style="height:43vh;">
+                <view class="flex biao-wrapper content-wrapper fourFontColor" style="{{index%2?'background:#fafafa':''}}" wx:for="{{majorList}}">
+                    <view class="twoFontSize">德语 (金融学、会计学、市场营销)</view>
+                    <view class="threeFontSize">【首选】物理或历史均可 【再选】地理、政治</view>
+                </view>
+            </scroll-view>
+        </view>
+        <view style="display:flex;justify-content:flex-end">
+            <navigator class="recommend-btn oneFontSize" style="width:91.6vw;position:absolute;bottom:5vw;" url="">查看院校详情</navigator>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,10 @@
+.bindMobileBtn {
+    width: 91.5vw;
+    height: 11.73vw;
+    text-align: center;
+    line-height: 11.73vw;
+    border-radius: 11.73vw;
+    color: #fff;
+    margin: 5vw auto 0;
+    background: linear-gradient(to left,#E9302D,#FF5053);
+}

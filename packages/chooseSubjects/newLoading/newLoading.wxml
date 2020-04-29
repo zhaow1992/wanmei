@@ -1,0 +1,2 @@
+<canvas canvasId="loading" style="width:410rpx;height:410rpx;border:1px solid #ccc;margin:300rpx auto 50rpx;"></canvas>
+<view class="oneFontSize oneFontColor" style="text-align:center;">正在推荐专业...</view>

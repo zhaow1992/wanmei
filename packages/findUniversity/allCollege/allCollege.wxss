@@ -1,0 +1,133 @@
+@import "../collegeIntroduction/collegeIntroduction.wxss";
+
+page {
+    background: #f8f5f4;
+}
+
+.collegeLogo {
+    width: 9.07vw;
+    height: 9.07vw;
+    margin-right: 3.2vw;
+}
+
+.selectBlock {
+    height: 8.53vw;
+    width: 22.4vw;
+    border-radius: 1.07vw;
+}
+
+.selectBlockFont {
+    color: #4a4a4a;
+}
+
+.selectBlockColor {
+    background: #f7f7f7;
+    border-radius: 1.07vw;
+}
+
+.typeList {
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+.typeList-animate {
+    animation: typeListDown 0.3s ease forwards;
+}
+
+@-webkit-keyframes typeListDown {
+    0% {
+    }
+
+    100% {
+        height: 53.33vw;
+    }
+}
+
+@keyframes typeListDown {
+    0% {
+    }
+
+    100% {
+        height: 53.33vw;
+    }
+}
+
+.typeList-animate-out {
+    animation: typeListDownOut 0.3s ease forwards;
+}
+
+@-webkit-keyframes typeListDownOut {
+    0% {
+        height: 53.33vw;
+    }
+
+    100% {
+        height: 32vw;
+    }
+}
+
+@keyframes typeListDownOut {
+    0% {
+        height: 53.33vw;
+    }
+
+    100% {
+        height: 32vw;
+    }
+}
+
+.areaList {
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+.areaList-animate {
+    animation: areaListDown 0.3s ease forwards;
+}
+
+@-webkit-keyframes areaListDown {
+    0% {
+    }
+
+    100% {
+        height: 66vh;
+    }
+}
+
+@keyframes areaListDown {
+    0% {
+    }
+
+    100% {
+        height: 66vh;
+    }
+}
+
+.areaList-animate-out {
+    animation: typeListDownOut 0.3s ease forwards;
+}
+
+@-webkit-keyframes areaListDownOut {
+    0% {
+        height: 66vh;
+    }
+
+    100% {
+        height: 32vw;
+    }
+}
+
+@keyframes areaListDownOut {
+    0% {
+        height: 66vh;
+    }
+
+    100% {
+        height: 32vw;
+    }
+}
+
+.operationBtnWH {
+    width: 25.33vw;
+    height: 9.07vw;
+}

@@ -1,0 +1,106 @@
+page {
+    background: #F8F5F4;
+}
+
+.borderB {
+    width: 76rpx;
+    height: 6rpx;
+    background: #E9302D;
+    margin-top: 10rpx;
+    border-radius: 4rpx;
+}
+
+.tab-box {
+    width: 100%;
+    height: 90rpx;
+    display: flex;
+}
+
+.tab-item {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.head {
+    width: 100%;
+    height: 148rpx;
+}
+
+.lab {
+    height: 28rpx;
+    padding: 0 12rpx;
+    border: 1rpx solid #9B9B9B;
+    border-radius: 8rpx;
+}
+
+.lab:not(:first-child) {
+    margin-left: 8rpx;
+}
+
+.like {
+    height: 56rpx;
+    padding: 0 18rpx;
+    border: 1rpx solid #CCCCCC;
+    border-radius: 28rpx;
+}
+
+.tab-head {
+    height: 90rpx;
+    border-right: 2rpx solid #E2E2E2;
+}
+
+.major-lab {
+    height: 46rpx;
+    padding: 0 14rpx;
+    border: 1rpx solid #CCCCCC;
+    border-radius: 23rpx;
+    margin-left: 20rpx;
+}
+
+.toast {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    background: rgba(0,0,0,0.35);
+}
+
+.drawer {
+    background: #FFFFFF;
+    border-radius: 40rpx 40rpx 0 0;
+    width: 100%;
+    height: 1042rpx;
+    position: absolute;
+    bottom: 0;
+}
+
+.marjor-item {
+    height: 150rpx;
+}
+
+.btn {
+    width: 662rpx;
+    height: 88rpx;
+    background: linear-gradient(#E9302D,#FF5053);
+    box-shadow: 0 4rpx 6rpx 4rpx rgba(250,149,150,0.30);
+    border-radius: 44rpx;
+    color: #ffffff;
+}
+
+.direction {
+    background: linear-gradient(rgba(255,255,255,1),rgba(124,120,120,0.1));
+}
+
+.btn {
+    width: 686rpx;
+    height: 88rpx;
+    background: linear-gradient(#E9302D 0,#FF5053 100%);
+    box-shadow: 0 2rpx 3rpx 2rpx rgba(250,149,150,0.30);
+    border-radius: 46rpx;
+}
+
+.boxs {
+    box-sizing: border-box;
+}

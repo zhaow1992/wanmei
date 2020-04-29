@@ -1,0 +1,16 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<loading wx:if="{{showLoad}}"></loading>
+<block wx:else>
+    <serverfail bind:confirmEvent="_confirmEvent" id="serverfail" wx:if="{{serverfail==true}}"></serverfail>
+    <block wx:else>
+        <view>
+            <image class="youzhiyuanImage" src="/image/applogo.png"></image>
+        </view>
+        <view class="youzhiyuanName">完美志愿填报助手</view>
+        <button bindgetphonenumber="getPhoneNumber" class="wexinAuthorizedBtn wexinAuthorizedBtnName flex" disabled="{{bindCheckedFlag}}" loading="{{bindCheckedFlag}}" openType="getPhoneNumber">微信手机号快捷登录</button>
+        <view class="flex signUpText">
+            <view style="color: #999;">注册代表你已阅读并同意</view>
+            <view bindtap="goInsertInfo" style="color:#FF5053;">《用户注册协议》</view>
+        </view>
+    </block>
+</block>

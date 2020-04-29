@@ -1,0 +1,361 @@
+page {
+    background-color: #f8f5f4;
+}
+
+.con {
+    overflow: hidden;
+    padding: 0 32rpx 30rpx 32rpx;
+    margin-top: 20rpx;
+}
+
+.myReport {
+    display: inline-block;
+    position: fixed;
+    right: 0;
+    top: 12%;
+    line-height: 60rpx;
+    padding: 0 50rpx 0 30rpx;
+    z-index: 10;
+    border-radius: 100rpx 0 0 100rpx;
+    box-sizing: border-box;
+}
+
+.num {
+    display: inline-block;
+    min-width: 28rpx;
+    min-height: 28rpx;
+    top: 5rpx;
+    right: 15rpx;
+    line-height: 30rpx;
+    background: #E9302D;
+    border-radius: 100%;
+    padding: 5rpx;
+}
+
+.majorTest {
+    overflow: hidden;
+    height: 280rpx;
+    box-sizing: border-box;
+}
+
+.majorTestImg {
+    width: 104%;
+    height: 106%;
+    margin-left: -2%;
+    margin-top: -1%;
+    box-shadow: 0 0 5px 2px rgba(0,0,0,0.05);
+}
+
+.majorTest .title {
+    margin: 36rpx 0 8rpx 0;
+}
+
+.startTest {
+    bottom: 36rpx;
+    left: 40rpx;
+    width: 220rpx;
+    height: 68rpx;
+    margin-top: 42rpx;
+    line-height: 68rpx;
+    display: inline-block;
+    border-radius: 17px;
+    color: #FF738D;
+}
+
+.majorTest .tips {
+    bottom: 50rpx;
+    right: 0;
+    padding: 4rpx 10rpx;
+    opacity: 0.8;
+    background: #FF4E6F;
+    border-radius: 100px 0 0 100px;
+}
+
+.videoScrollBox {
+    overflow-x: scroll;
+    margin-top: 30rpx;
+}
+
+.videoScrollBox .v-list {
+    overflow: hidden;
+    width: 300rpx;
+    flex-shrink: 0;
+    margin-right: 20rpx;
+    border-radius: 8px;
+}
+
+.videoScrollBox .showmore {
+    flex-shrink: 0;
+    width: 110rpx;
+    height: 226rpx;
+    line-height: 226rpx;
+    border-radius: 8px;
+}
+
+.videoScrollBox .v-l-top {
+    height: 226rpx;
+}
+
+.videoScrollBox .v-l-top .tool {
+    width: 100%;
+    padding: 8rpx 15rpx;
+    bottom: 0rpx;
+    left: 0;
+    box-sizing: border-box;
+    background-image: linear-gradient(180deg,rgba(0,0,0,0.00) 0%,rgba(0,0,0,0.35) 77%);
+}
+
+.videoScrollBox .v-l-top .v-img {
+    width: 100%;
+    height: 226rpx;
+}
+
+.videoScrollBox .v-l-top .seen {
+    width: 28rpx;
+    height: 20rpx;
+    margin-right: 8rpx;
+}
+
+.public {
+    margin-top: 50rpx;
+}
+
+.public .test-type {
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.test-list {
+    flex-shrink: 0;
+    width: 48.5%;
+    padding-left: 20rpx;
+    height: 234rpx;
+    margin-top: 20rpx;
+    box-shadow: 0 0 5px 2px rgba(0,0,0,0.03);
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.test-list .t-title {
+    margin: 30rpx 0 10rpx 0;
+}
+
+.public .img {
+    width: 160rpx;
+    height: 230rpx;
+    bottom: 0rpx;
+    right: 0rpx;
+}
+
+.public .img.active {
+    width: 210rpx;
+    height: 174rpx;
+}
+
+.public .desc {
+    bottom: 30rpx;
+    left: 20rpx;
+}
+
+.popup-wrapper {
+    width: 80vw;
+    background: #fff;
+    position: fixed;
+    top: 60vh;
+    opacity: 0;
+    left: 10vw;
+    border-radius: 12px;
+    z-index: 12;
+    text-align: center;
+}
+
+.popupspAnimate {
+    animation: popupspAnimate 0.5s ease-in-out forwards;
+}
+
+@-webkit-keyframes popupspAnimate {
+    0% {
+    }
+
+    60% {
+        top: 30vh;
+        opacity: 0.5;
+    }
+
+    80% {
+        top: 32vh;
+        opacity: 1;
+    }
+
+    100% {
+        top: 30vh;
+        opacity: 1;
+    }
+}
+
+@keyframes popupspAnimate {
+    0% {
+    }
+
+    60% {
+        top: 30vh;
+        opacity: 0.5;
+    }
+
+    80% {
+        top: 32vh;
+        opacity: 1;
+    }
+
+    100% {
+        top: 30vh;
+        opacity: 1;
+    }
+}
+
+.popupspAnimateOut {
+    animation: popupspAnimateOut 0.2s ease-in-out forwards;
+}
+
+@-webkit-keyframes popupspAnimateOut {
+    0% {
+        top: 30vh;
+    }
+
+    100% {
+        top: 100vh;
+    }
+}
+
+@keyframes popupspAnimateOut {
+    0% {
+        top: 30vh;
+    }
+
+    100% {
+        top: 100vh;
+    }
+}
+
+.closepopup {
+    position: absolute;
+    bottom: -93rpx;
+    left: 50%;
+    width: 64rpx;
+    height: 94rpx;
+    transform: translateX(-50%);
+}
+
+.student>image,.parent>image {
+    width: 152rpx;
+    height: 145rpx;
+    margin-bottom: 18rpx;
+}
+
+.titlePopup {
+    line-height: 3;
+    font-size: 5.8vw;
+    margin-top: 2vw;
+}
+
+.contentPopup {
+    text-align: center;
+    padding: 0 4.3vw 8vw 4.3vw;
+    line-height: 2;
+    font-size: 3.9vw;
+    color: #999999;
+    border-bottom: 1px solid #eee;
+}
+
+.chooseSex-wrapper>view {
+    width: 40vw;
+    color: #3388FF;
+    text-align: center;
+    font-size: 4.6vw;
+    line-height: 3;
+}
+
+.chooseSex-wrapper>view:first-of-type {
+    border-right: 1px solid #eee;
+}
+
+.popup-wrapper {
+    width: 80vw;
+    padding-bottom: 70rpx;
+    background: #fff;
+    position: fixed;
+    top: 60vh;
+    opacity: 0;
+    left: 10vw;
+    border-radius: 12px;
+    z-index: 12;
+    text-align: center;
+}
+
+.popupAnimate {
+    animation: popupAnimate 0.5s ease-in-out forwards;
+}
+
+@-webkit-keyframes popupAnimate {
+    0% {
+    }
+
+    60% {
+        top: 30vh;
+        opacity: 0.5;
+    }
+
+    80% {
+        top: 32vh;
+        opacity: 1;
+    }
+
+    100% {
+        top: 30vh;
+        opacity: 1;
+    }
+}
+
+@keyframes popupAnimate {
+    0% {
+    }
+
+    60% {
+        top: 30vh;
+        opacity: 0.5;
+    }
+
+    80% {
+        top: 32vh;
+        opacity: 1;
+    }
+
+    100% {
+        top: 30vh;
+        opacity: 1;
+    }
+}
+
+.popupAnimateOut {
+    animation: popupAnimateOut 0.2s ease-in-out forwards;
+}
+
+@-webkit-keyframes popupAnimateOut {
+    0% {
+        top: 30vh;
+    }
+
+    100% {
+        top: 100vh;
+    }
+}
+
+@keyframes popupAnimateOut {
+    0% {
+        top: 30vh;
+    }
+
+    100% {
+        top: 100vh;
+    }
+}

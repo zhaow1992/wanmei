@@ -1,0 +1,67 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="container" style="background:url('http://staticv2.wmei.cn/images/xiaochengxu/YJTB-bg.jpg');height:89vh;width:100vw;background-size:cover;">
+    <view class="flex" style="margin-left:5vw;padding-top:5vw;">
+        <view bindtap="changeScore" class="flex threeFontSize oneFontColor" style="margin-right:2vw;background:#fff;height:7.5vw;border-radius:7.5vw;padding:0 3.5vw;line-height:7.5vw;">
+            <view class="flex">
+                <view style="margin-right:2vw;">{{userScore.total}}分</view>
+                <view style="margin-right:2vw;" wx:if="{{userInfo[0].Province==1}}">{{userScore.chooseLevelList[0].value}}{{userScore.chooseLevelList[1].value}}</view>
+                <view>{{userScore.courseType==0?'理科':'文科'}}</view>
+            </view>
+            <image src="../../image/choose_fen_icon.png" style="width:2.5vw;height:3vw;margin-left:2vw"></image>
+        </view>
+        <view bindtap="goChangeBatch" class="picker nav" style="background:#fff;height:7.5vw;border-radius:7.5vw;padding:0 3.5vw;line-height:7.5vw;">
+            <view class="picker flex" style="align-item:center">
+                <view>{{batchName}}
+          <text wx:if="{{GroupName!=''}}">({{GroupName}})</text>
+                </view>
+                <image src="../../image/down_icon.png" style="width:4.5vw;height:2vw;margin-left:1vw;"></image>
+            </view>
+        </view>
+    </view>
+    <view class="YJTBBtn-wrapper" style="{{startBtnFlag==true?'background:linear-gradient(to bottom, #ff6147,#f51919);':''}}">
+        <image class="{{cir==true?'cir-animate':''}}" src="../../image/YJTB-animate1.png" style="width:50vw;height:50vw;" wx:if="{{loadAnimate1==true}}"></image>
+        <image src="" style="width:50vw;height:50vw;" wx:if="{{startBtnFlag==true}}"></image>
+        <view class="bgAnimate" style="width:50vw;height:50vw;border:1px solid #F0E8E8;border-radius:100%;position:absolute;"></view>
+        <view class="bgAnimate1" style="width:50vw;height:50vw;border:1px solid #F0E8E8;border-radius:100%;position:absolute;"></view>
+        <view bindtap="{{startBtnFlag==true?'YJTBBtnZYTable':'YJTBBtn'}}" class="YJTBBtn-container" style="background:url(\"http://staticv2.wmei.cn/images/xiaochengxu/YJTB-btnWrapper.png\") no-repeat;background-size:cover;">
+            <image mode="widthFix" src="../../image/YJTB-startBtn-success.png" style="width:12.8vw;height:12.8vw;z-index:2" wx:if="{{startBtnFlag==true}}"></image>
+            <image mode="widthFix" src="../../image/YJTB-startBtn.png" style="width:7vw;height:7vw;z-index:2" wx:else></image>
+        </view>
+    </view>
+    <view class="zhejiang-content-color title-font" style="text-align:center;margin-top:5vw;">{{createText}}</view>
+    <view class="zhejiang-info-color" style="padding:0 4.8vw;line-height:1.5;margin-top:5vw;text-align:center;">完美志愿一键填报采用独家人工智能算法，依据高考成绩，就读地区倾向、院校类型及是否中外办学等因素综合生成，仅供用户参考。</view>
+</view>
+<view bindtap="shezhiUp" class="content-font zhejiang-content-color YJTB-bottom-shezhi">点击设置
+  <image class="YJTB-jiantou" src="../../image/YJTB-up.png" style="width:4vw;height:4vw;position:absolute;right:6vw;top:3vw"></image>
+</view>
+<view class="majorUp-wrapper {{shezhiUp}}" style="z-index:3;">
+    <view bindtap="shezhiClose" style="width:100%;height:100%"></view>
+    <view class="content-font content-wrapper" style="height:90%;width:90.4%;background:#fff;position:absolute;bottom:0;line-height:2">
+        <view bindtap="shezhiClose" style="text-align:center;width:100vw;height:10vw;">
+            <image class="YJTB-jiantou-down" src="../../image/YJTB-down.png" style="width:4vw;height:4vw;position:absolute;left:50%;margin-left:-2vw;top:1vw"></image>
+        </view>
+        <scroll-view scrollY style="height:83vh;">
+            <view class="flex" style="justify-content:space-between">
+                <text>院校所在省份</text>
+                <text class="zhejiang-info-color">(多选)</text>
+            </view>
+            <view class="flex" style="flex-wrap:wrap;justify-content:flex-start;">
+                <view bindtap="chooseCityArr" data-id="{{item.cityId}}" style="width:20vw;text-align:center;line-height:2;margin-top:2vw;border-radius:5px;margin-left:2vw;{{item.st==true?'border:1px solid #e9302d;background:#e9302d;color:#fff':'border:1px solid #e4e4e4;'}}" wx:for="{{cityList}}">{{item.cityName}}</view>
+            </view>
+            <view class="flex" style="justify-content:space-between">
+                <text>院校类型</text>
+                <text class="zhejiang-info-color">(多选)</text>
+            </view>
+            <view class="flex" style="flex-wrap:wrap;justify-content:flex-start;">
+                <view bindtap="collegeTypeArr" data-name="{{item.name}}" style="width:20vw;text-align:center;line-height:2;margin-top:2vw;border-radius:5px;margin-left:2vw;{{item.st==true?'border:1px solid #e9302d;background:#e9302d;color:#fff':'border:1px solid #e4e4e4;'}}" wx:for="{{batchList}}">{{item.name}}</view>
+            </view>
+            <view class="flex" style="justify-content:space-between">
+                <text>其他</text>
+            </view>
+            <view bindtap="ZWHZChoose" style="width:43vw;text-align:center;line-height:2;margin-top:2vw;border-radius:5px;margin-left:2vw;{{ZWHZ==true?'border:1px solid #e9302d;background:#e9302d;color:#fff':'border:1px solid #e4e4e4;'}}">包含（中外合作）</view>
+        </scroll-view>
+        <view bindtap="shezhiSuccess" class="btn-color content-font" style="width:14vw;height:14vw;border-radius:100%;text-align:center;display:flex;align-items:center;justify-content:space-around;position:absolute;bottom:7vw;right:10vw;color:#fff;">
+            <text style="width:8vw;display:inline-block;line-height:1.5;">完成设置</text>
+        </view>
+    </view>
+</view>

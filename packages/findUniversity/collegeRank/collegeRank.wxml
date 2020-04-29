@@ -1,0 +1,151 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="flex " style="margin:auto;width:89.33vw;height:12.8vw;">
+    <view bindtap="rankTap" class="relativeStyle fourFontColor oneFontSize flex" data-id="{{index}}" style="height:12.8vw;{{rankName.length==index+1?'':'margin-right:8vw;'}}" wx:for="{{rankName}}" wx:key="unique">
+        <view class=" textAlign {{currentTab==index?'oneFontSize fourFontColor ':'  twoFontSize threeFontColor'}}" style=""> {{item}}
+    </view>
+        <view class="absoluteStyle checkedBackColor {{currentTab==index?'selectLineWH':''}} " style="bottom:0;left:50%;transform:translate(-50%);"></view>
+    </view>
+</view>
+<view class="allPageBGcolor"></view>
+<swiper bindchange="change" current="{{currentTab}}" duration="400" style="height:80vh;">
+    <swiper-item>
+        <view class="flex fourFontColor threeFontSize" style="background:#ECECEC;height:12vw;">
+            <view class="flex flexjscenter" style="width:49.33vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        大学名称
+      </view>
+            <view class="flex flexjscenter" style="width:16.53vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        {{XYHCollegeRankList[0].yearValues[0].year}}
+      </view>
+            <view class="flex flexjscenter" style="width:16.53vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        {{XYHCollegeRankList[0].yearValues[1].year}}
+      </view>
+            <view class="flex flexjscenter" style="width:16.8vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        {{XYHCollegeRankList[0].yearValues[2].year}}
+      </view>
+        </view>
+        <scroll-view scrollY bindscrolltolower="scrolltolower" style="height:73vh;">
+            <view class="flex fourFontColor twoFontSize" style="height:13.33vw;border-bottom: 1px solid #E2E2E2;" wx:for="{{XYHCollegeRankList}}" wx:key="unique">
+                <view bindtap="goCollegeDetail" class="flex" style="width:49.33vw;height:13.33vw;border-right: 1px solid #E2E2E2;">
+                    <view style="margin-left:4.27vw;">{{item.collegeName}}</view>
+                </view>
+                <view class="flex flexjscenter" style="width:16.53vw;height:13.33vw;border-right: 1px solid #E2E2E2;">{{item.yearValues[0].value?item.yearValues[0].value:'-'}}</view>
+                <view class="flex flexjscenter" style="width:16.53vw;height:13.33vw;border-right: 1px solid #E2E2E2;">{{item.yearValues[1].value?item.yearValues[1].value:'-'}}</view>
+                <view class="flex flexjscenter" style="width:16.8vw;height:13.33vw;border-right: 1px solid #E2E2E2;">{{item.yearValues[2].value?item.yearValues[2].value:'-'}}</view>
+            </view>
+            <view class="twoFontSize threeFontColor" style="text-align:center;line-height:3;" wx:if="{{xyhFlag}}">已加载全部</view>
+            <view class="twoFontSize threeFontColor" style="text-align:center;line-height:3;" wx:else>正在加载中...</view>
+        </scroll-view>
+    </swiper-item>
+    <swiper-item>
+        <view class="flex fourFontColor threeFontSize" style="background:#ECECEC;height:12vw;">
+            <view class="flex flexjscenter" style="width:49.33vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        大学名称
+      </view>
+            <view class="flex flexjscenter" style="width:16.53vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        {{latestYear}}
+      </view>
+            <view class="flex flexjscenter" style="width:16.53vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        {{latestYear-1}}
+      </view>
+            <view class="flex flexjscenter" style="width:16.8vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        {{latestYear-2}}
+      </view>
+        </view>
+        <scroll-view scrollY bindscrolltolower="scrolltolower" style="height:73vh;">
+            <view class="flex fourFontColor twoFontSize" style="height:13.33vw;border-bottom: 1px solid #E2E2E2;" wx:for="{{WSLCollegeRankList}}" wx:key="unique">
+                <view bindtap="goCollegeDetail" class="flex" style="width:49.33vw;height:13.33vw;border-right: 1px solid #E2E2E2;">
+                    <view style="margin-left:4.27vw;">{{item.collegeName}}</view>
+                </view>
+                <view class="flex flexjscenter" style="width:16.53vw;height:13.33vw;border-right: 1px solid #E2E2E2;">{{item.yearValues[0].value?item.yearValues[0].value:'-'}}</view>
+                <view class="flex flexjscenter" style="width:16.53vw;height:13.33vw;border-right: 1px solid #E2E2E2;">{{item.yearValues[1].value?item.yearValues[1].value:'-'}}</view>
+                <view class="flex flexjscenter" style="width:16.8vw;height:13.33vw;border-right: 1px solid #E2E2E2;">{{item.yearValues[2].value?item.yearValues[2].value:'-'}}</view>
+            </view>
+            <view class="twoFontSize threeFontColor" style="text-align:center;line-height:3;" wx:if="{{wslFlag}}">已加载全部</view>
+            <view class="twoFontSize threeFontColor" style="text-align:center;line-height:3;" wx:else>正在加载中...</view>
+        </scroll-view>
+    </swiper-item>
+    <swiper-item>
+        <view class="flex fourFontColor threeFontSize" style="background:#ECECEC;height:12vw;">
+            <view class="flex flexjscenter" style="width:49.33vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        大学名称
+      </view>
+            <view class="flex flexjscenter" style="width:16.53vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        {{latestYear}}
+      </view>
+            <view class="flex flexjscenter" style="width:16.53vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        {{latestYear-1}}
+      </view>
+            <view class="flex flexjscenter" style="width:16.8vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        {{latestYear-2}}
+      </view>
+        </view>
+        <scroll-view scrollY bindscrolltolower="scrolltolower" style="height:73vh;">
+            <view class="flex fourFontColor twoFontSize" style="height:13.33vw;border-bottom: 1px solid #E2E2E2;" wx:for="{{MSCollegeRankList}}" wx:key="unique">
+                <view bindtap="goCollegeDetail" class="flex" style="width:49.33vw;height:13.33vw;border-right: 1px solid #E2E2E2;">
+                    <view style="margin-left:4.27vw;">{{item.collegeName}}</view>
+                </view>
+                <view class="flex flexjscenter" style="width:16.53vw;height:13.33vw;border-right: 1px solid #E2E2E2;">{{item.yearValues[0].value?item.yearValues[0].value:'-'}}</view>
+                <view class="flex flexjscenter" style="width:16.53vw;height:13.33vw;border-right: 1px solid #E2E2E2;">{{item.yearValues[1].value?item.yearValues[1].value:'-'}}</view>
+                <view class="flex flexjscenter" style="width:16.8vw;height:13.33vw;border-right: 1px solid #E2E2E2;">{{item.yearValues[2].value?item.yearValues[2].value:'-'}}</view>
+            </view>
+            <view class="twoFontSize threeFontColor" style="text-align:center;line-height:3;" wx:if="{{rkFlag}}">已加载全部</view>
+            <view class="twoFontSize threeFontColor" style="text-align:center;line-height:3;" wx:else>正在加载中...</view>
+        </scroll-view>
+    </swiper-item>
+    <swiper-item>
+        <view class="flex fourFontColor threeFontSize" style="background:#ECECEC;height:12vw;">
+            <view class="flex flexjscenter" style="width:49.33vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        大学名称
+      </view>
+            <view class="flex flexjscenter" style="width:16.53vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        {{latestYear}}
+      </view>
+            <view class="flex flexjscenter" style="width:16.53vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        {{latestYear-1}}
+      </view>
+            <view class="flex flexjscenter" style="width:16.8vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        {{latestYear-2}}
+      </view>
+        </view>
+        <scroll-view scrollY bindscrolltolower="scrolltolower" style="height:73vh;">
+            <view class="flex fourFontColor twoFontSize" style="height:13.33vw;border-bottom: 1px solid #E2E2E2;" wx:for="{{QSCollegeRankList}}" wx:key="unique">
+                <view bindtap="goCollegeDetail" class="flex" style="width:49.33vw;height:13.33vw;border-right: 1px solid #E2E2E2;">
+                    <view style="margin-left:4.27vw;">{{item.collegeName}}</view>
+                </view>
+                <view class="flex flexjscenter" style="width:16.53vw;height:13.33vw;border-right: 1px solid #E2E2E2;">{{item.yearValues[0].value?item.yearValues[0].value:'-'}}</view>
+                <view class="flex flexjscenter" style="width:16.53vw;height:13.33vw;border-right: 1px solid #E2E2E2;">{{item.yearValues[1].value?item.yearValues[1].value:'-'}}</view>
+                <view class="flex flexjscenter" style="width:16.8vw;height:13.33vw;border-right: 1px solid #E2E2E2;">{{item.yearValues[2].value?item.yearValues[2].value:'-'}}</view>
+            </view>
+            <view class="twoFontSize threeFontColor" style="text-align:center;line-height:3;" wx:if="{{qsFlag}}">已加载全部</view>
+            <view class="twoFontSize threeFontColor" style="text-align:center;line-height:3;" wx:else>正在加载中...</view>
+        </scroll-view>
+    </swiper-item>
+    <swiper-item>
+        <view class="flex fourFontColor threeFontSize" style="background:#ECECEC;height:12vw;">
+            <view class="flex flexjscenter" style="width:49.33vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        大学名称
+      </view>
+            <view class="flex flexjscenter" style="width:16.53vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        {{latestYear}}
+      </view>
+            <view class="flex flexjscenter" style="width:16.53vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        {{latestYear-1}}
+      </view>
+            <view class="flex flexjscenter" style="width:16.8vw;border-right: 1px solid #E2E2E2;height:12vw;">
+        {{latestYear-2}}
+      </view>
+        </view>
+        <scroll-view scrollY bindscrolltolower="scrolltolower" style="height:73vh;">
+            <view class="flex fourFontColor twoFontSize" style="height:13.33vw;border-bottom: 1px solid #E2E2E2;" wx:for="{{USNCollegeRankList}}" wx:key="unique">
+                <view bindtap="goCollegeDetail" class="flex" style="width:49.33vw;height:13.33vw;border-right: 1px solid #E2E2E2;">
+                    <view style="margin-left:4.27vw;">{{item.collegeName}}</view>
+                </view>
+                <view class="flex flexjscenter" style="width:16.53vw;height:13.33vw;border-right: 1px solid #E2E2E2;">{{item.yearValues[0].value?item.yearValues[0].value:'-'}}</view>
+                <view class="flex flexjscenter" style="width:16.53vw;height:13.33vw;border-right: 1px solid #E2E2E2;">{{item.yearValues[1].value?item.yearValues[1].value:'-'}}</view>
+                <view class="flex flexjscenter" style="width:16.8vw;height:13.33vw;border-right: 1px solid #E2E2E2;">{{item.yearValues[2].value?item.yearValues[2].value:'-'}}</view>
+            </view>
+            <view class="twoFontSize threeFontColor" style="text-align:center;line-height:3;" wx:if="{{usFlag}}">已加载全部</view>
+            <view class="twoFontSize threeFontColor" style="text-align:center;line-height:3;" wx:else>正在加载中...</view>
+        </scroll-view>
+    </swiper-item>
+</swiper>

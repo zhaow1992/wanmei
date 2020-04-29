@@ -1,0 +1,91 @@
+.btnAnimate {
+    animation: btnAnimate 1.7s ease-out infinite!important;
+}
+
+@-webkit-keyframes btnAnimate {
+    0% {
+    }
+
+    25% {
+        transform: scale(1.05);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+
+    75% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes btnAnimate {
+    0% {
+    }
+
+    25% {
+        transform: scale(1.05);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+
+    75% {
+        transform: scale(1.05);
+    }
+}
+
+form .btn {
+    width: 0rpx;
+    height: 0rpx;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    background: rgba(0,155,0,0.5);
+    position: static!important;
+}
+
+.btnView {
+    width: 66.7vw;
+    height: 12.5vw;
+    border-radius: 100px;
+    text-align: center;
+    line-height: 12.5vw;
+    background: #e9302d;
+    color: #fff;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.shareButtonMain button {
+    width: 66.7vw;
+    height: 12.5vw;
+    color: #fff;
+    line-height: 12.5vw;
+    text-align: center;
+    background: #e9302d;
+    margin: 0;
+    padding: 0;
+    border-radius: 12.5vw;
+    position: relative;
+    bottom: -4.2vw;
+    left: 50%;
+}
+
+button::after {
+    border: none;
+}
+
+.shareBtn-wrapper form .btn {
+    width: 0rpx;
+    height: 0rpx;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    background: rgba(0,155,0,0.5);
+    position: static!important;
+}

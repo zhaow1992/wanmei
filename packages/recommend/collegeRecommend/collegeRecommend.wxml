@@ -1,0 +1,201 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="loading" wx:if="{{showLoad}}">
+    <image src="/image/loading_icon1.gif"></image>
+    <view style="margin-top:5.56vw">加载中...</view>
+</view>
+<view class="container" wx:else>
+    <view class="recommend-top" style="z-index:5;position:relative">
+        <view bindtap="chooseProvince">省份
+				<text class="info" wx:if="{{cityidList.length>0}}">({{cityidList.length}})</text>
+            <image src="/image/down_icon.png"></image>
+        </view>
+        <picker bindchange="CdiCSBChange" class="gailv-picker" mode="selector" range="{{CdiCSB}}" value="{{CdiCSBIndex}}">
+            <view class="picker" style="width:25vw">
+                <view wx:if="{{paixuFlag}}">风险等级</view>
+                <view wx:if="{{!paixuFlag}}">{{CdiCSB[CdiCSBIndex]}}</view>
+                <view class="image">
+                    <image src="/image/down_icon.png"></image>
+                </view>
+            </view>
+        </picker>
+        <view bindtap="chooseCls">类型
+				<text class="info" wx:if="{{batchNameList.length>0}}">({{batchNameList.length}})</text>
+            <image src="/image/down_icon.png"></image>
+        </view>
+        <view bindtap="chooseWeici">位次
+				<image src="/image/down_icon.png"></image>
+        </view>
+    </view>
+    <view class="content-font firstList {{down==true?'down':''}}" style="height:450rpx">
+        <view class="fanwei-left-style video-content-color">{{zhejiangRanks.MaxRanking}}</view>
+        <view class="fanwei-right-style video-content-color">{{zhejiangRanks.MinRanking}}</view>
+        <view class="tuijian-wrapper video-content-color">推荐区间</view>
+        <view class="view-tiao-style"></view>
+        <view class="view-fugai-style btn-color btn-border" style="width:{{ballRightRight-ballRightLeft-17}}px;left:{{ballRightLeft+17}}px"></view>
+        <text class="text-left-style title-font video-title-color" style="left:{{ballRightLeft-18.5}}px;">{{rankLeft}}</text>
+        <view bindtap="ballClickEventLeft" catchtouchmove="ballMoveEventLeft" class="view-style view-border" style="left:{{ballRightLeft}}px;"></view>
+        <text class="text-left-style title-font video-title-color" style="left:{{ballRightRight-18.5}}px;">{{rankRight}}</text>
+        <view bindtap="ballClickEventRight" catchtouchmove="ballMoveEventRight" class="view-style view-border" style="left:{{ballRightRight}}px;"></view>
+        <view class="flex" style="position:absolute;bottom:15vw;left:50%;margin-left:-27.5vw">
+            <view bindtap="weiciChongzhi" class="weici-zhongzhi info title-font btn-border">重置</view>
+            <view bindtap="weiciQueren" class="weici-queren title-font btn-color">确认</view>
+        </view>
+    </view>
+    <view bindtap="hideKetang" class="firstList-bottom {{down==true?'hide':''}}" wx:if="{{down==true}}"></view>
+    <scroll-view bindscrolltolower="scrollToLower" scrollY="{{share}}" style="white-space: nowrap;height:{{VIP==false?'60':'80'}}vh;background:#fff">
+        <view class="recommend-info content-wrapper">
+            <view>
+                <text class="title-font blod" style="margin:0 1vw"></text>{{score}}分
+					<text class="title-font blod"></text>{{rank}}位
+					<text style="margin:0 1vw"></text>{{chooseLevel}}</view>
+        </view>
+        <view class="loading search-loading" wx:if="{{noListFlag==true}}">
+            <image src="/image/recommend_noFount.png" style="width:20vw;height:20vw;"></image>
+            <view style="margin-top:5.56vw;text-align:left">未找到相关信息</view>
+            <view style="margin-left:-5vw;font-size:2.5vw;">可重新选择筛选条件</view>
+            <view bindtap="zhejiangmoren" class="info title-font" style="margin-left:-5vw;margin-top:5vw;">查看全部推荐</view>
+        </view>
+        <block wx:else>
+            <view class="loading" wx:if="{{bufenLoad}}">
+                <image src="/image/loading_icon1.gif"></image>
+                <view style="margin-top:5.56vw">数据加载中...</view>
+            </view>
+            <block wx:else>
+                <view class="loading search-loading" wx:if="{{zhejiangList.length==0}}">
+                    <image src="/image/recommend_noFount.png" style="width:20vw;height:20vw;"></image>
+                    <view class="title-font zhejiang-content-color" style="width:50vw;margin-top:5.56vw;text-align:left;margin-left:-10vw">暂无匹配的院校专业组</view>
+                    <view class="zhejiang-info-color" style="width:50vw;margin-left:-14vw">请更改合适的成绩或筛选条件</view>
+                </view>
+                <block wx:else>
+                    <view wx:for="{{zhejiangList}}" wx:for-index="zhejiangListIndex" wx:for-item="zhejiangCollege">
+                        <view wx:if="{{VIP==false?zhejiangListIndex<3:true}}">
+                            <view class="zhejiangList-wrapper">
+                                <view class="flex zhejiangCollege-wrapper" style="align-items:stretch;">
+                                    <view style="line-height:1.5">
+                                        <navigator style="margin-bottom:3vw" url="/packages/findUniversity/collegeDetail/collegeDetail?numId={{zhejiangCollege.collegeId}}">
+                                            <view class="title-font" style="line-height:1.5;">{{zhejiangCollege.collegeName}}
+													<text class="levels" style="font-size:3vw">{{zhejiangCollege.levels}}</text>
+                                            </view>
+                                        </navigator>
+                                        <view class="flex zhejiang-info-color">
+                                            <view>{{zhejiangCollege.year}}计划数: {{zhejiangCollege.planNum}}</view>
+                                            <view class="margin">代码:{{zhejiangCollege.collegeCode}}</view>
+                                            <view class="margin">匹配专业: {{zhejiangCollege.professions.length-zhejiangCollege.num}}</view>
+                                        </view>
+                                    </view>
+                                    <view class="flex" style="flex-direction:column;justify-content:space-between;">
+                                        <view class="flex zhejiang-info-color">
+                                            <view style="width:10vw"></view>
+                                            <view class="margin">{{zhejiangCollege.provinceName}}</view>
+                                        </view>
+                                    </view>
+                                </view>
+                                <view class="flex professionwx:wrapper" style="padding-right:0;" wx:if="{{professions.ZyType==1||professions.ZyType==2||professions.ZyType==3}}" wx:for="{{zhejiangCollege.professions}}" wx:for-item="professions">
+                                    <image class="professionwx:tuijian" src="../image/yuanxiao_logo01.png" wx:if="{{professions.ZyType==1}}"></image>
+                                    <image class="professionwx:tuijian" src="../image/yuanxiao_logo02.png" wx:if="{{professions.ZyType==2}}"></image>
+                                    <image class="professionwx:tuijian" src="../image/yuanxiao_logo03.png" wx:if="{{professions.ZyType==3}}"></image>
+                                    <view>
+                                        <view style="line-height:1.5;margin-bottom:1.5vw;">
+                                            <view style="font-size:3.8vw;line-height:1.5;width:70vw;white-space:normal;">{{professions.ProfessionName}}
+														<text class="zhejiang-info-color margin point-font">{{professions.BatchName}}</text>
+                                            </view>
+                                        </view>
+                                        <view class="flex zhejiang-info-color" style="justify-content:space-between;width:75vw;">
+                                            <view class="flex">
+                                                <view>学费: {{professions.Cost}}元</view>
+                                                <view class="margin">学制: {{professions.Learnyear}}年</view>
+                                            </view>
+                                            <view class="flex margin">
+                                                <view class="professionsNoKemu" wx:if="{{professions.NoLimit=='1'}}">不限</view>
+                                                <block wx:else>
+                                                    <view class="professionsKemu {{chooseLevelArr[0][0]=='物'||chooseLevelArr[1][0]=='物'||chooseLevelArr[2][0]=='物'?'wuli':''}}" wx:if="{{professions.Physics==1}}">物</view>
+                                                    <view class="professionsKemu {{chooseLevelArr[0][0]=='化'||chooseLevelArr[1][0]=='化'||chooseLevelArr[2][0]=='化'?'huaxue':''}}" wx:if="{{professions.Chemistry==1}}">化</view>
+                                                    <view class="professionsKemu {{chooseLevelArr[0][0]=='生'||chooseLevelArr[1][0]=='生'||chooseLevelArr[2][0]=='生'?'shengwu':''}}" wx:if="{{professions.Biology==1}}">生</view>
+                                                    <view class="professionsKemu {{chooseLevelArr[0][0]=='政'||chooseLevelArr[1][0]=='政'||chooseLevelArr[2][0]=='政'?'zhengzhi':''}}" wx:if="{{professions.Politics==1}}">政</view>
+                                                    <view class="professionsKemu {{chooseLevelArr[0][0]=='历'||chooseLevelArr[1][0]=='历'||chooseLevelArr[2][0]=='历'?'lishi':''}}" wx:if="{{professions.History==1}}">史</view>
+                                                    <view class="professionsKemu {{chooseLevelArr[0][0]=='地'||chooseLevelArr[1][0]=='地'||chooseLevelArr[2][0]=='地'?'dili':''}}" wx:if="{{professions.Geography==1}}">地</view>
+                                                    <view class="professionsKemu {{chooseLevelArr[0][0]=='技'||chooseLevelArr[1][0]=='技'||chooseLevelArr[2][0]=='技'?'jishu':''}}" wx:if="{{professions.Technology==1}}">技</view>
+                                                </block>
+                                            </view>
+                                        </view>
+                                        <view class="flex zhejiang-info-color">
+                                            <view>{{professions.year}}招生计划: 1段 {{professions.planNum1==0?'-':professions.planNum1}} / 2段 {{professions.planNum2==0?'-':professions.planNum2}}
+														/ 3段 {{professions.planNum3==0?'-':professions.planNum3}}</view>
+                                        </view>
+                                    </view>
+                                </view>
+                                <block wx:if="{{zhejiangCollege.num>0}}">
+                                    <view bindtap="bupipeiOpen" class="flex borderBottom" data-id="{{zhejiangCollege.id}}" style="flex-direction:column;line-height:3" wx:if="{{bupipeiOpen==false}}">
+                                        <view class="flex">不匹配专业({{zhejiangCollege.num}})
+												<image src="/image/down_icon.png" style="width:3.4vw;height:1.5vw;margin-left:2vw"></image>
+                                        </view>
+                                    </view>
+                                    <view bindtap="bupipeiClose" class="flex borderBottom" data-id="{{zhejiangCollege.id}}" style="flex-direction:column;line-height:3" wx:if="{{bupipeiOpen==true}}">
+                                        <view class="flex">不匹配专业({{zhejiangCollege.num}})
+												<image src="../../image/up_icon.png" style="width:3.4vw;height:1.5vw;margin-left:2vw"></image>
+                                        </view>
+                                    </view>
+                                </block>
+                                <block wx:if="{{false}}" wx:for="{{zhejiangCollege.professions}}" wx:for-item="professions">
+                                    <view class="flex professionwx:wrapper" style="padding-right:0;" wx:if="{{professions.ZyType==0&&zhejiangCollege.id==getcollegeId}}">
+                                        <image class="professionwx:tuijian" src="../image/yuanxiao_logo01.png" wx:if="{{professions.ZyType==1}}"></image>
+                                        <image class="professionwx:tuijian" src="../image/yuanxiao_logo02.png" wx:if="{{professions.ZyType==2}}"></image>
+                                        <image class="professionwx:tuijian" src="../image/yuanxiao_logo03.png" wx:if="{{professions.ZyType==3}}"></image>
+                                        <view>
+                                            <view style="line-height:1.5;margin-bottom:1.5vw;">
+                                                <view style="font-size:3.8vw;line-height:1.5;">{{professions.ProfessionName}}
+															<text class="zhejiang-info-color margin content-font">{{professions.BatchName}}</text>
+                                                </view>
+                                            </view>
+                                            <view class="flex zhejiang-info-color" style="justify-content:space-between;width:75vw;">
+                                                <view class="flex">
+                                                    <view>学费: {{professions.Cost}}元</view>
+                                                    <view class="margin">学制: {{professions.Learnyear}}年</view>
+                                                </view>
+                                                <view class="flex margin">
+                                                    <view class="professionsNoKemu" wx:if="{{professions.NoLimit=='1'}}">不限</view>
+                                                    <block wx:else>
+                                                        <view class="professionsKemu {{chooseLevelArr[0][0]=='物'||chooseLevelArr[1][0]=='物'||chooseLevelArr[2][0]=='物'?'wuli':''}}" wx:if="{{professions.Physics==1}}">物</view>
+                                                        <view class="professionsKemu {{chooseLevelArr[0][0]=='化'||chooseLevelArr[1][0]=='化'||chooseLevelArr[2][0]=='化'?'huaxue':''}}" wx:if="{{professions.Chemistry==1}}">化</view>
+                                                        <view class="professionsKemu {{chooseLevelArr[0][0]=='生'||chooseLevelArr[1][0]=='生'||chooseLevelArr[2][0]=='生'?'shengwu':''}}" wx:if="{{professions.Biology==1}}">生</view>
+                                                        <view class="professionsKemu {{chooseLevelArr[0][0]=='政'||chooseLevelArr[1][0]=='政'||chooseLevelArr[2][0]=='政'?'zhengzhi':''}}" wx:if="{{professions.Politics==1}}">政</view>
+                                                        <view class="professionsKemu {{chooseLevelArr[0][0]=='历'||chooseLevelArr[1][0]=='历'||chooseLevelArr[2][0]=='历'?'lishi':''}}" wx:if="{{professions.History==1}}">史</view>
+                                                        <view class="professionsKemu {{chooseLevelArr[0][0]=='地'||chooseLevelArr[1][0]=='地'||chooseLevelArr[2][0]=='地'?'dili':''}}" wx:if="{{professions.Geography==1}}">地</view>
+                                                        <view class="professionsKemu {{chooseLevelArr[0][0]=='技'||chooseLevelArr[1][0]=='技'||chooseLevelArr[2][0]=='技'?'jishu':''}}" wx:if="{{professions.Technology==1}}">技</view>
+                                                    </block>
+                                                </view>
+                                            </view>
+                                            <view class="flex zhejiang-info-color">
+                                                <view>{{professions.year}}招生计划:1段 {{professions.planNum1==0?'-':professions.planNum1}} / 2段 {{professions.planNum2==0?'-':professions.planNum2}}
+															/ 3段 {{professions.planNum3==0?'-':professions.planNum3}}</view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </block>
+                            </view>
+                        </view>
+                    </view>
+                </block>
+                <block wx:if="{{VIP==true}}">
+                    <block wx:if="{{showMore==true}}">
+                        <view style="display:flex;justify-content:space-around;background:#f0eff5;" wx:if="{{loadMore==true}}">
+                            <view style="display:flex;align-items:center;">
+                                <image src="/image/loading.gif" style="width:7vw;height:7vw;margin-right:2vw"></image> 数据加载中...
+								</view>
+                        </view>
+                        <view style="background:#f0eff5;text-align:center" wx:if="{{loadMore==false}}">已加载全部</view>
+                    </block>
+                </block>
+            </block>
+        </block>
+    </scroll-view>
+    <block wx:if="{{VIP==true}}"></block>
+    <view style="background:#fff;" wx:else>
+        <view class="content-font" style="line-height:2">
+            <view class="btn-font" style="text-align:center;font-size:5vw">开通VIP,查看完整推荐</view>
+            <view class="zhejiang-info-color" style="text-align:center">各大VIP特权功能等你发现</view>
+            <view class="recommend-btn oneFontSize" style="margin:5vw auto 0;width:90vw;color:#fff;background:#{{color}};box-shadow:none;opacity:0.6;" wx:if="{{isIos}}">{{payBtnText}}</view>
+            <view bindtap="commonTuijian" class="recommend-btn oneFontSize" style="margin:5vw auto 0;width:90vw;color:#fff;background:#{{color}};box-shadow:none;" wx:else>开通VIP</view>
+        </view>
+    </view>
+</view>

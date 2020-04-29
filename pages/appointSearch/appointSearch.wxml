@@ -1,0 +1,18 @@
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<loading wx:if="{{showLoad}}"></loading>
+<view class="fr ac whiteColor" style="padding-bottom:10rpx;">
+    <view class="search-box fr ac">
+        <image src="{{icon}}" style="width:28rpx;height:28rpx;margin-left:40rpx"></image>
+        <input focus bindconfirm="search" bindinput="input" class="twoFontSize twoFontColor" confirmType="搜索" placeholder="请输入关键字" placeholderClass="twoFontSize twoFontColor" style="margin-left:30rpx;width:440rpx" value="{{keyword}}"></input>
+        <image bindtap="clearInput" src="/image/detail.png" style="width:30rpx;height:30rpx;margin-left:10rpx" wx:if="{{keyword}}"></image>
+    </view>
+    <view bindtap="cancel" class="twoFontSize checkedColor" style="margin-left:30rpx;">取消</view>
+</view>
+<scroll-view class="fc whiteColor" scrollY="{{true}}" style="height:{{windowHeight}}px">
+    <college colleges="{{searchList}}" wx:if="{{type=='1'}}"></college>
+    <major majors="{{searchList}}" wx:if="{{type=='2'}}"></major>
+    <view class="fc ac" style="margin-top:50rpx;" wx:if="{{searchList.length==0}}">
+        <image src="/image/nodata.png" style="width:214rpx;height:214rpx;"></image>
+        <view class="threeFontColor twoFontSize" style="margin-top:20rpx;">抱歉，未找到相关内容</view>
+    </view>
+</scroll-view>

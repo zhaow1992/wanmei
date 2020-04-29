@@ -1,0 +1,150 @@
+.wrapAnimate {
+    animation: wrapAnimate 0.5s ease-in-out forwards;
+}
+
+@-webkit-keyframes wrapAnimate {
+    0% {
+    }
+
+    100% {
+        background: rgba(0,0,0,0.7);
+    }
+}
+
+@keyframes wrapAnimate {
+    0% {
+    }
+
+    100% {
+        background: rgba(0,0,0,0.7);
+    }
+}
+
+.wrapAnimateOut {
+    animation: wrapAnimateOut 0.2s ease-in-out forwards;
+}
+
+@-webkit-keyframes wrapAnimateOut {
+    0% {
+        background: rgba(0,0,0,0.7);
+    }
+
+    100% {
+        background: rgba(0,0,0,0);
+    }
+}
+
+@keyframes wrapAnimateOut {
+    0% {
+        background: rgba(0,0,0,0.7);
+    }
+
+    100% {
+        background: rgba(0,0,0,0);
+    }
+}
+
+.popupAnimate {
+    animation: popupAnimate 0.5s ease-in-out forwards;
+}
+
+@-webkit-keyframes popupAnimate {
+    0% {
+    }
+
+    60% {
+        top: 30vh;
+        opacity: 0.5;
+    }
+
+    80% {
+        top: 32vh;
+        opacity: 1;
+    }
+
+    100% {
+        top: 30vh;
+        opacity: 1;
+    }
+}
+
+@keyframes popupAnimate {
+    0% {
+    }
+
+    60% {
+        top: 30vh;
+        opacity: 0.5;
+    }
+
+    80% {
+        top: 32vh;
+        opacity: 1;
+    }
+
+    100% {
+        top: 30vh;
+        opacity: 1;
+    }
+}
+
+.popupAnimateOut {
+    animation: popupAnimateOut 0.2s ease-in-out forwards;
+}
+
+@-webkit-keyframes popupAnimateOut {
+    0% {
+        top: 30vh;
+    }
+
+    100% {
+        top: 100vh;
+    }
+}
+
+@keyframes popupAnimateOut {
+    0% {
+        top: 30vh;
+    }
+
+    100% {
+        top: 100vh;
+    }
+}
+
+.wrap {
+    z-index: 5;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,0.5);
+}
+
+.popup-wrapper {
+    width: 500rpx;
+    padding: 60rpx 44rpx;
+    background: #fff;
+    position: fixed;
+    top: 35vh;
+    opacity: 0;
+    left: 50%;
+    transform: translate(-50%);
+    border-radius: 20rpx;
+    z-index: 6;
+    text-align: center;
+}
+
+.btnStyle {
+    width: 236rpx;
+    height: 72rpx;
+    line-height: 72rpx;
+    text-align: center;
+    border-radius: 72rpx;
+    font-size: 28rpx;
+}
+
+.btnHover {
+    opacity: 0.6;
+}

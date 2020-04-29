@@ -1,0 +1,342 @@
+.collegeListCardSingle {
+    justify-content: space-between;
+}
+
+.iconMargin {
+    margin-right: 1.33vw;
+}
+
+.collegeLogo {
+    width: 9.07vw;
+    height: 9.07vw;
+    margin-right: 3.2vw;
+}
+
+.terraceBorder {
+    min-width: 9.07vw;
+    margin-right: 1.07vw;
+    box-sizing: border-box;
+    text-align: center;
+    border: 1px solid #f66666;
+    border-radius: 1.07vw;
+}
+
+.loading {
+    margin-top: -40.71vw;
+}
+
+page {
+    background: #f8f5f4;
+}
+
+.indexSearch-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f0eff5;
+    line-height: 3;
+}
+
+.indexSearch-title {
+    font-weight: blod;
+}
+
+.LoadImgWH {
+    width: 28.06vw;
+    height: 25.14vw;
+}
+
+.zanTishi {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: rgba(0,0,0,0);
+    color: rgba(255,255,255,0);
+    border-radius: 10px;
+    width: 40vw;
+    text-align: center;
+    line-height: 4;
+    margin-left: -20vw;
+    margin-top: -5vw;
+}
+
+.zanTishiAnimate {
+    animation: zanTishi 2s ease;
+}
+
+@-webkit-keyframes zanTishi {
+    0% {
+    }
+
+    50% {
+        background: rgba(0,0,0,1);
+        color: rgba(255,255,255,1);
+    }
+
+    100% {
+        background: rgba(0,0,0,0);
+        color: rgba(255,255,255,0);
+    }
+}
+
+@keyframes zanTishi {
+    0% {
+    }
+
+    50% {
+        background: rgba(0,0,0,1);
+        color: rgba(255,255,255,1);
+    }
+
+    100% {
+        background: rgba(0,0,0,0);
+        color: rgba(255,255,255,0);
+    }
+}
+
+.search-privince {
+}
+
+.searchTab {
+    justify-content: space-between;
+}
+
+.collegeTab {
+    padding: 3.73vw 0;
+}
+
+.collegeTag {
+}
+
+.topTapIcon {
+    height: 1.07vw;
+    width: 1.6vw;
+    margin-left: 0.53vw;
+}
+
+.selectBlock {
+    height: 8.53vw;
+    width: 22.4vw;
+    border-radius: 1.07vw;
+}
+
+.selectBlockFont {
+    color: #4a4a4a;
+}
+
+.selectBlockColor {
+    background: #f7f7f7;
+    border-radius: 1.07vw;
+}
+
+.shaixuan-container .shaixuan-wrap {
+    width: 100%;
+    height: 100%;
+}
+
+.collegeSearchIconWH {
+    width: 14.93vw;
+    height: 12.53vw;
+}
+
+.collegeLogo {
+    width: 9.07vw;
+    height: 9.07vw;
+    margin-right: 3.2vw;
+}
+
+.selectLineWH {
+    width: 10.93vw;
+    height: 0.8vw;
+    border-radius: 0.4vw;
+}
+
+.typeList {
+    flex-wrap: wrap;
+    height: 32vw;
+    overflow: hidden;
+}
+
+.typeList-animate {
+    animation: typeListDown 0.3s ease forwards;
+}
+
+@-webkit-keyframes typeListDown {
+    0% {
+    }
+
+    100% {
+        height: 53.33vw;
+    }
+}
+
+@keyframes typeListDown {
+    0% {
+    }
+
+    100% {
+        height: 53.33vw;
+    }
+}
+
+.typeList-animate-out {
+    animation: typeListDownOut 0.3s ease forwards;
+}
+
+@-webkit-keyframes typeListDownOut {
+    0% {
+        height: 53.33vw;
+    }
+
+    100% {
+        height: 32vw;
+    }
+}
+
+@keyframes typeListDownOut {
+    0% {
+        height: 53.33vw;
+    }
+
+    100% {
+        height: 32vw;
+    }
+}
+
+.areaList {
+    flex-wrap: wrap;
+    height: 32vw;
+    overflow: hidden;
+}
+
+.areaList-animate {
+    animation: areaListDown 0.3s ease forwards;
+}
+
+@-webkit-keyframes areaListDown {
+    0% {
+    }
+
+    100% {
+        height: 66vh;
+    }
+}
+
+@keyframes areaListDown {
+    0% {
+    }
+
+    100% {
+        height: 66vh;
+    }
+}
+
+.areaList-animate-out {
+    animation: typeListDownOut 0.3s ease forwards;
+}
+
+@-webkit-keyframes areaListDownOut {
+    0% {
+        height: 66vh;
+    }
+
+    100% {
+        height: 32vw;
+    }
+}
+
+@keyframes areaListDownOut {
+    0% {
+        height: 66vh;
+    }
+
+    100% {
+        height: 32vw;
+    }
+}
+
+.operationBtnWH {
+    width: 25.33vw;
+    height: 9.07vw;
+}
+
+.listMask {
+    width: 6.4vw;
+    height: 8.53vw;
+    background-image: linear-gradient(270deg,#FFFFFF 0%,rgba(255,255,255,0.00) 100%);
+}
+
+.shaixuan-container .shaixuan-wrap {
+    width: 100%;
+    height: 100%;
+}
+
+.shaixuan-container {
+    position: fixed;
+    top: 0;
+    left: 100vw;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    z-index: 5;
+}
+
+.shaixuan-animate {
+    animation: shaixuan 0.5s ease forwards;
+}
+
+@-webkit-keyframes shaixuan {
+    0% {
+    }
+
+    100% {
+        left: 0;
+    }
+}
+
+@keyframes shaixuan {
+    0% {
+    }
+
+    100% {
+        left: 0;
+    }
+}
+
+.content-font {
+    font-size: 3.33vw;
+}
+
+.shaixuan-animate-out {
+    animation: shaixuanOut 0.5s ease forwards;
+}
+
+@-webkit-keyframes shaixuanOut {
+    0% {
+        left: 0;
+    }
+
+    100% {
+        left: 100vw;
+    }
+}
+
+@keyframes shaixuanOut {
+    0% {
+        left: 0;
+    }
+
+    100% {
+        left: 100vw;
+    }
+}
+
+.shaixuan-content {
+    width: 75vw;
+    height: 94vh;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 20px 20px 20px 20px;
+}
