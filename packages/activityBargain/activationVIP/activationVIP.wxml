@@ -1,0 +1,8 @@
+<navigationcustomtop navigationText=" " share="true"></navigationcustomtop>
+<view class="container" style="background:#fff;text-align:center;margin-top:10vw;">
+    <image src="../../../image/active-shareSuccess.png" style="width:27.5vw;height:27.5vw;"></image>
+    <view style="color:#999">激活成功</view>
+    <view style="margin-top:5vw"></view>
+    <view style="margin-top:15vw;">恭喜您成为VIP用户</view>
+    <button openType="share" style="padding:0;margin:5vw auto;width:66.7vw;height:12vw;line-height:12vw;background:#e9302d;color:#fff;border-radius:12vw;box-shadow: 0 5px 10px 0 rgba(255,80,83,0.30);font-size:4vw">邀请好友参与0元购</button>
+</view>

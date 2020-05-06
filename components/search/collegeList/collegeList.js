@@ -33,6 +33,7 @@ Component({
     methods: {
         chooseCity: function chooseCity(e) {
             var _e$currentTarget$data = e.currentTarget.dataset, index = _e$currentTarget$data.index, item = _e$currentTarget$data.item;
+            console.log(this.data.collegeListType);
             switch (this.data.collegeListType) {
               case "score":
                 this.searchCollegeByScore(index, item);
@@ -60,6 +61,7 @@ Component({
             var collegeList = that.data.collegeList;
             var collegeid = item.numId || item.collegeId;
             var historyList = [];
+            if (!collegeList[index].isThisProvinceEnroll) return;
             try {
                 var collegeScoreLineList = wx.getStorageSync("collegeScoreLineList");
                 if (collegeScoreLineList) {

@@ -1,5 +1,7 @@
 var api = require("../../utils/api.js");
 
+var sensors = require("../../utils/sensors.js");
+
 Page({
     data: {
         loginFlag: false,
@@ -17,6 +19,11 @@ Page({
         if (res.from === "button") {
             // 来自页面内转发按钮
         }
+        var data = {
+            SA_share_type: "课堂",
+            SA_share_content: "完美志愿填报助手"
+        };
+        app.sensors.track("ShareClick", sensors.ShareClick(data));
         return {
             title: "完美志愿填报助手",
             path: "/pages/index/index?classRoom=true",

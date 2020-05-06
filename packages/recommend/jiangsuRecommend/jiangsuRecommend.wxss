@@ -1,3 +1,41 @@
+page {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.cardBtn {
+    height: 80rpx;
+    border-radius: 80rpx;
+    line-height: 80rpx;
+    text-align: center;
+    border: 1rpx solid #e9302d;
+}
+
+.bindCard {
+    width: 240rpx;
+    color: #e9302d;
+    box-sizing: border-box;
+}
+
+.popup-wrapper {
+    padding: 0!important;
+    opacity: 0.6!important;
+}
+
+.applyCard {
+    width: 340rpx;
+    color: #fff;
+    background: linear-gradient(to left,#E9302D,#FF5053);
+    margin-left: 20rpx;
+    border: none;
+    padding: 0;
+}
+
+button[disabled] {
+    color: #fff!important;
+}
+
 .container {
     background: #fff;
     min-height: 0;
@@ -800,4 +838,174 @@
     line-height: 10vw;
     border-radius: 5px;
     margin-top: 2vw;
+}
+
+.previewForm {
+    position: fixed;
+    bottom: -70vh;
+    left: 0;
+    width: 100%;
+    height: 70vh;
+    padding: 40rpx;
+    border-radius: 20px 20px 0 0;
+    z-index: 100;
+    box-sizing: border-box;
+    overflow: scroll;
+}
+
+.previewForm.active {
+    animation: previewForm .3s ease-in-out forwards;
+}
+
+.previewForm.visited {
+    animation: closePreviewAnimation .3s ease-in-out forwards;
+}
+
+@-webkit-keyframes previewForm {
+    0% {
+        bottom: -70vh;
+    }
+
+    100% {
+        bottom: 0;
+    }
+}
+
+@keyframes previewForm {
+    0% {
+        bottom: -70vh;
+    }
+
+    100% {
+        bottom: 0;
+    }
+}
+
+@-webkit-keyframes closePreviewAnimation {
+    0% {
+        bottom: 0;
+    }
+
+    100% {
+        bottom: -70vh;
+    }
+}
+
+@keyframes closePreviewAnimation {
+    0% {
+        bottom: 0;
+    }
+
+    100% {
+        bottom: -70vh;
+    }
+}
+
+.mark {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 99;
+}
+
+.mark.active {
+    position: fixed;
+}
+
+.previewForm .header>image {
+    width: 24rpx;
+    height: 24rpx;
+    padding: 20rpx;
+}
+
+.fill {
+    bottom: 13vw;
+    right: 6vw;
+    border: 1rpx solid #eee;
+    border-radius: 30rpx;
+    padding: 0rpx 30rpx;
+}
+
+.list {
+    height: 36px;
+    border-bottom: 1px solid #eee;
+}
+
+.listIndex {
+    display: inline-block;
+    width: 40rpx;
+    height: 40rpx;
+    line-height: 40rpx;
+    margin-right: 30rpx;
+    background-color: rgba(233,48,45,0.5);
+}
+
+.listR .count {
+    margin-right: 35rpx;
+}
+
+.listR .line {
+    padding: 20rpx;
+}
+
+.listR .line>text {
+    display: block;
+    width: 30rpx;
+    height: 2rpx;
+    margin-top: 6rpx;
+    background-color: #aaa;
+}
+
+.listR .line>text:first-child {
+    margin-top: 0;
+}
+
+.saveVolunteer {
+    position: absolute;
+    bottom: 2vw;
+    width: 90%;
+    height: 80rpx;
+    line-height: 80rpx;
+    border-radius: 40rpx;
+    margin: 0 auto;
+}
+
+.disabled {
+    pointer-events: none;
+}
+
+.zycount {
+    right: 10rpx;
+    top: 0;
+    color: #ff5400;
+    padding: 0 12rpx;
+    box-shadow: 0rpx 1rpx 10rpx 1rpx #f07007;
+}
+
+.box {
+    width: 300px;
+    position: relative;
+}
+
+.mainmove {
+    position: absolute;
+    width: 100%;
+    opacity: 0.8;
+    background: #eee;
+}
+
+.boxshadow {
+    box-shadow: 0 0 20rpx 2rpx #aaa;
+}
+
+.maind {
+    background: #fff;
+    border: 1px dashed #efefef;
+}
+
+.mainend {
+    position: static;
+    opacity: 1;
 }

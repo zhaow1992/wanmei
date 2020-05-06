@@ -13,6 +13,8 @@ var app = getApp();
 
 var api = require("../../utils/api.js");
 
+var sensors = require("../../utils/sensors.js");
+
 var page = 1;
 
 var course = void 0;
@@ -60,7 +62,14 @@ Page({
         openStyle: "height:80rpx;overflow:hidden",
         isMore: true,
         showMore: false,
-        scoreLineType: "score"
+        scoreLineType: "score",
+        icon: {
+            src: "/image/search.png",
+            style: "width:28rpx;height:28rpx"
+        },
+        collegeType: "",
+        showCode: false,
+        section: 1
     },
     onLoad: function onLoad(options) {
         var searchType = 0;
@@ -77,6 +86,11 @@ Page({
               case "college":
                 searchType = 1;
                 placeholder = "请输入院校关键字";
+                if (options.type) {
+                    this.setData({
+                        collegeType: options.type
+                    });
+                }
                 break;
 
               case "major":
@@ -125,6 +139,35 @@ Page({
                 searchType = 100;
                 placeholder = "请输入院校关键字";
                 break;
+
+              case "zjReport":
+                searchType = 1e3;
+                placeholder = "请输入院校关键字";
+                break;
+
+              case "sdReport":
+                this.setData({
+                    section: parseInt(options.section)
+                });
+                searchType = 847;
+                placeholder = "请输入院校关键字";
+                break;
+
+              case "bjReport":
+                searchType = 834;
+                placeholder = "请输入院校关键字";
+                break;
+
+              case "tjReport":
+                this.section = options.section;
+                searchType = 835;
+                placeholder = "请输入院校关键字";
+                break;
+
+              case "hnReport":
+                searchType = 853;
+                placeholder = "请输入院校关键字";
+                break;
             }
         }
         var globalHistory = wx.getStorageSync("searchHistory" + searchType) || [];
@@ -135,7 +178,9 @@ Page({
             globalHistory: globalHistory,
             tabList: []
         });
-        this.getSearchKeyword(searchType);
+        if (searchType != 1e3 || searchType != 847 || searchType != 2e3) {
+            this.getSearchKeyword(searchType);
+        }
     },
     //获取热门搜索
     getSearchKeyword: function getSearchKeyword(type) {
@@ -155,6 +200,7 @@ Page({
     },
     onUnload: function onUnload() {
         wx.removeStorageSync("hits");
+        wx.removeStorageSync("isSearchCollege");
         this.removeStroage();
     },
     //计算高度
@@ -209,7 +255,11 @@ Page({
             searchType: 0,
             placeholder: "请输入关键字",
             globalHistory: wx.getStorageSync("searchHistory0") || [],
-            hitSearch: wx.getStorageSync("hits") || []
+            hitSearch: wx.getStorageSync("hits") || [],
+            icon: {
+                src: "/image/search.png",
+                style: "width:28rpx;height:28rpx"
+            }
         });
         this.removeStroage();
         wx.navigateBack();
@@ -222,6 +272,7 @@ Page({
     },
     //搜索
     search: function search() {
+        page = 0;
         this.removeStroage();
         var searchType = this.data.isPointSearch ? this.data.searchType : 0;
         this.setData({
@@ -269,13 +320,37 @@ Page({
     toSerchAppoint: function toSerchAppoint(e) {
         var value = this.data.serchAppoint[e.currentTarget.dataset.index].name;
         var searchType = e.currentTarget.dataset.type;
+        var icon = this.data.icon;
+        switch (searchType) {
+          case 1:
+            icon = {
+                src: "/image/collegeIcon.png",
+                style: "width:28rpx;height:28rpx"
+            };
+            break;
+
+          case 2:
+            icon = {
+                src: "/image/majorIcon.png",
+                style: "width:27rpx;height:30rpx"
+            };
+            break;
+
+          case 13:
+            icon = {
+                src: "/image/jobIcon.png",
+                style: "width:30rpx;height:28rpx"
+            };
+            break;
+        }
         this.getSearchKeyword(searchType);
         this.setData({
             isPointSearch: true,
             placeholder: "请输入" + value + "关键字",
             searchType: searchType,
             globalHistory: wx.getStorageSync("searchHistory" + searchType) || [],
-            tabList: []
+            tabList: [],
+            icon: icon
         });
     },
     //根据历史搜索
@@ -345,14 +420,15 @@ Page({
                 });
             } else {
                 this.pointSearch(2, function(res) {
-                    var majors = _this4.majorData(res.result, value);
+                    console.log(res.result.items);
+                    var majors = _this4.majorData(res.result.items, value);
                     wx.setStorageSync("majorsPoint", majors);
                     _this4.setData({
                         majorsPoint: majors,
                         showLocalLoad: false
                     });
                     _this4.scrollHeight();
-                });
+                }, page);
             }
             break;
 
@@ -421,43 +497,248 @@ Page({
           case 100:
             this.autonomyCollege(value);
             break;
+
+          case 1e3:
+            this.zjReportCollege(value);
+            break;
+
+          case 847:
+            this.sdReportCollege(value);
+            break;
+
+          case 834:
+            this.bjReportCollege(value);
+            break;
+
+          case 835:
+            this.bjReportCollege(value);
+            break;
+
+          case 853:
+            this.bjReportCollege(value);
+            break;
         }
         this.setData({
             isSearch: false
         });
     },
+    //浙江版自主填报
+    zjReportCollege: function zjReportCollege(value) {
+        var _this5 = this;
+        var json = {
+            isBen: false,
+            provinceId: 843,
+            keywords: value,
+            // chooseLevel:wx.getStorageSync('userScore').chooseSubjects || [],
+            count: 10
+        };
+        var pages = getCurrentPages();
+        var prevPage = pages[pages.length - 2];
+        //上一个页面
+                var collegeList = prevPage.data.ZCollegeList.collegeList;
+        api.getZJCollege("TZY/Recommendation/QueryCollegesByNewGaoKaoCustomV2", "POST", json).then(function(res) {
+            if (res.isSuccess) {
+                res.result.map(function(item) {
+                    item.collegeName = item.collegeName.length > 15 ? item.collegeName.substring(0, 15) + "..." : item.collegeName;
+                    item.newCollegeName = item.collegeName.replace(value, '<span style="color:red">' + value + "</span>");
+                    collegeList.map(function(list) {
+                        if (list.collegeId == item.collegeId) {
+                            item.st = true;
+                        }
+                    });
+                });
+                _this5.setData({
+                    searchResult: true,
+                    showLocalLoad: false,
+                    zjCollege: res.result
+                });
+                _this5.scrollHeight();
+            } else {
+                _this5.setData({
+                    searchResult: true,
+                    showLocalLoad: false
+                });
+                wx.showToast({
+                    title: res.message,
+                    icon: "none"
+                });
+            }
+        });
+    },
+    //山东版自主填报
+    sdReportCollege: function sdReportCollege(value) {
+        var _this6 = this;
+        var cityId = wx.getStorageSync("cityId").cityId;
+        var json = {
+            isBen: false,
+            isFillEnroll: true,
+            provinceId: cityId,
+            keywords: value,
+            // chooseLevel:wx.getStorageSync('userScore').chooseSubjects || [],
+            count: 20
+        };
+        if (cityId == 847) {
+            json.section = this.data.section;
+        }
+        var list = wx.getStorageSync("addCollegeList") || [];
+        api.getSDCollege("TZY/Recommendation/QueryCollegesByNewGaoKaoCustom", "POST", json).then(function(res) {
+            if (res.isSuccess) {
+                res.result.map(function(item) {
+                    item.collegeName = item.collegeName.length > 15 ? item.collegeName.substring(0, 15) + "..." : item.collegeName;
+                    item.newCollegeName = item.collegeName.replace(value, '<span style="color:red">' + value + "</span>");
+                    var pages = getCurrentPages();
+                    var prevPage = pages[pages.length - 2];
+                    //上一个页面
+                                        if (prevPage.data.ZCollegeList) {
+                        var collegeList = prevPage.data.ZCollegeList.collegeList;
+                        collegeList.map(function(list) {
+                            if (list.uCode == item.uCode && list.collegeCode == item.collegeCode && list.isBen == item.isBen) {
+                                item.st = true;
+                            }
+                        });
+                    }
+                    var hash = {};
+                    res.result = res.result.reduce(function(item, next) {
+                        hash[next.uCode] ? "" : hash[next.uCode] = true && item.push(next);
+                        return item;
+                    }, []);
+                    if (wx.getStorageSync("isSearchCollege")) {
+                        _this6.setData({
+                            showCode: true
+                        });
+                        list.map(function(i) {
+                            if (i.uCode == item.uCode && i.collegeCode == item.collegeCode) {
+                                item.st = true;
+                            }
+                        });
+                        wx.setStorageSync("addCollegeList", list);
+                    }
+                });
+                _this6.setData({
+                    searchResult: true,
+                    showLocalLoad: false,
+                    sdCollege: res.result
+                });
+                _this6.scrollHeight();
+            } else {
+                _this6.setData({
+                    searchResult: true,
+                    showLocalLoad: false
+                });
+                wx.showToast({
+                    title: res.message,
+                    icon: "none"
+                });
+            }
+        });
+    },
+    //北京、天津 海南版自主填报
+    bjReportCollege: function bjReportCollege(value) {
+        var _this7 = this;
+        var json = {
+            isBen: true,
+            provinceId: this.data.searchType,
+            keywords: value,
+            chooseLevel: wx.getStorageSync("userScore").chooseSubjects || [],
+            count: 10,
+            layer: this.section
+        };
+        var pages = getCurrentPages();
+        var prevPage = pages[pages.length - 2];
+        //上一个页面
+                var collegeList = prevPage.data.ZCollegeList.collegeList;
+        var chooseArr = prevPage.data.score.chooseLevelArr;
+        api.getSDCollege("TZY/Recommendation/QueryCollegesByNewGaoKaoCustomV3", "POST", json).then(function(res) {
+            if (res.isSuccess) {
+                res.result.map(function(item) {
+                    item.chooseStr = item.chooseCns;
+                    if (item.isFit) {
+                        if (item.chooseCns.indexOf("/") != -1) {
+                            item.chooseCns = item.chooseCns.replace(/\s*/g, "").split("/");
+                            item.spliceStr = "/";
+                        } else if (item.chooseCns.indexOf("+") != -1) {
+                            item.spliceStr = "+";
+                            item.chooseCns = item.chooseCns.replace(/\s*/g, "").split("+");
+                        } else {
+                            item.chooseCns = item.chooseCns.split();
+                        }
+                    }
+                    item.collegeName = item.collegeName.length > 15 ? item.collegeName.substring(0, 15) + "..." : item.collegeName;
+                    item.newCollegeName = item.collegeName.replace(value, '<span style="color:red">' + value + "</span>");
+                    if (_this7.data.searchType == 834 || _this7.data.searchType == 835 || _this7.data.searchType == 853) {
+                        collegeList.map(function(list) {
+                            if (list.uCode == item.uCode && list.chooseSubjects == item.chooseStr && list.collegeCode == item.collegeCode) {
+                                item.st = true;
+                            }
+                        });
+                    } else {
+                        collegeList.map(function(list) {
+                            if (list.collegeId == item.collegeId) {
+                                item.st = true;
+                            }
+                        });
+                    }
+                });
+                _this7.setData({
+                    chooseArr: chooseArr,
+                    searchResult: true,
+                    showLocalLoad: false,
+                    bjCollege: res.result
+                });
+                _this7.scrollHeight();
+            } else {
+                _this7.setData({
+                    searchResult: true,
+                    showLocalLoad: false
+                });
+                wx.showToast({
+                    title: res.message,
+                    icon: "none"
+                });
+            }
+        });
+    },
     //自主院校查询
     autonomyCollege: function autonomyCollege(value) {
-        var _this5 = this;
+        var _this8 = this;
         var userScore = wx.getStorageSync("userScore");
         if (userScore) {
             api.QueryCollegesByManualFillout("TZY/Recommendation/QueryCollegesByManualFillout", "POST", userScore.provinceNumId, userScore.batch, userScore.courseType, value).then(function(res) {
                 app.insertSearchKeyword(value, 100);
-                _this5.setData({
+                _this8.setData({
                     searchResult: true,
                     showLocalLoad: false,
                     intelligenceCollege: res.result
                 });
-                _this5.scrollHeight();
+                _this8.scrollHeight();
             });
         }
     },
     //专业优先搜索专业
     firstMajor: function firstMajor(value) {
-        var _this6 = this;
+        var _this9 = this;
         api.QueryMajorsByProfessionFirst("TZY/Recommendation/QueryMajorsByProfessionFirst", "POST", value).then(function(res) {
             app.insertSearchKeyword(value, 8);
-            _this6.setData({
+            var arr = wx.getStorageSync("sdAddMajorSearch") || [];
+            res.result.map(function(i) {
+                i.st = false;
+                arr.map(function(j) {
+                    if (i.code == j.majorcode) {
+                        i.st = true;
+                    }
+                });
+            });
+            _this9.setData({
                 searchResult: true,
                 showLocalLoad: false,
                 intelligenceMajor: res.result
             });
-            _this6.scrollHeight();
+            _this9.scrollHeight();
         });
     },
     //选科搜索专业/大学
     choseSubject: function choseSubject(value) {
-        var _this7 = this;
+        var _this10 = this;
         var keywordStr = value.trim();
         if (!keywordStr || keywordStr == " ") return;
         var json = {
@@ -469,46 +750,46 @@ Page({
         if (this.data.searchType == 14) {
             api.queryCollege("ChooseSubject/Colleges/Query", "POST", json).then(function(res) {
                 app.insertSearchKeyword(keywordStr, 14);
-                _this7.setData({
+                _this10.setData({
                     searchResult: true,
                     showLocalLoad: false,
                     collegeList: res.result,
                     collegeListType: "choseSubject"
                 });
-                _this7.scrollHeight();
+                _this10.scrollHeight();
             });
         } else if (this.data.searchType == 15) {
             api.queryCollege("ChooseSubject/Majors/Query", "POST", json).then(function(res) {
                 app.insertSearchKeyword(value, 15);
-                _this7.setData({
+                _this10.setData({
                     searchResult: true,
                     showLocalLoad: false,
                     majorList: res.result,
                     collegeListType: "choseSubject"
                 });
-                _this7.scrollHeight();
+                _this10.scrollHeight();
             });
         }
     },
     //测录取率搜索大学
     searchCollegeByTest: function searchCollegeByTest(value) {
-        var _this8 = this;
+        var _this11 = this;
         var keywords = value;
         keywords = keywords.replace(/\s+/g, "");
         api.CollegeEnrollQuery("TZY/CollegeEnroll/Query", "POST", cityId, course == -1 ? 0 : course, batch, keywords).then(function(res) {
             app.insertSearchKeyword(keywords, 6);
-            _this8.setData({
+            _this11.setData({
                 searchResult: true,
                 showLocalLoad: false,
                 collegeList: res.result,
                 collegeListType: "test"
             });
-            _this8.scrollHeight();
+            _this11.scrollHeight();
         });
     },
     //分数线搜索大学
     searchCollegeByScroe: function searchCollegeByScroe(value) {
-        var _this9 = this;
+        var _this12 = this;
         var that = this;
         var isNewGK = false;
         var provinceId = wx.getStorageSync("userInfo")[0].Province;
@@ -522,62 +803,99 @@ Page({
         }
         api.scoreSearchByKeyword(url, "POST", value, provinceId).then(function(res) {
             if (res.isSuccess) {
+                var data = {
+                    SA_search_type: "院校",
+                    SA_search_keywords: _this12.data.keyword,
+                    SA_is_result: res.result.length ? true : false
+                };
+                app.sensors.track("SearchResult", sensors.SearchResult(data));
                 app.insertSearchKeyword(value, 10);
-                _this9.setData({
+                _this12.setData({
                     searchResult: true,
                     showLocalLoad: false,
                     collegeList: res.result,
                     collegeListType: "score"
                 });
-                _this9.scrollHeight();
+                _this12.scrollHeight();
             } else {}
         });
     },
     //指定搜索
     pointSearch: function pointSearch(type, fn, page) {
-        var _this10 = this;
+        var _this13 = this;
         var value = this.data.keyword;
+        this.setData({
+            isMore: true
+        });
         switch (type) {
           case 1:
-            api.getCollegeByKeyword("Colleges/QueryByKeywords", "POST", value, page, 20).then(function(res) {
-                _this10.setData({
+            api.getCollegeByKeyword("api/search/colleges", "POST", value, page, 20).then(function(res) {
+                var data = {
+                    SA_search_type: "院校",
+                    SA_search_keywords: _this13.data.keyword,
+                    SA_is_result: res.result.items.length ? true : false
+                };
+                app.sensors.track("SearchResult", sensors.SearchResult(data));
+                _this13.setData({
                     showLocalLoad: false,
                     searchResult: true
                 });
-                if (page == 1) _this10.insertSearchKeyword(value, 1);
+                if (page == 1) _this13.insertSearchKeyword(value, 1);
                 return fn(res);
             });
             break;
 
           case 2:
-            api.getMajorByKeyword("Majors/QueryByKeywords?keywords=" + encodeURI(value) + "&majorType=-1&returnCount=20", "POST").then(function(res) {
-                _this10.setData({
+            var parameter = {
+                keyword: this.data.keyword,
+                index: page,
+                count: 10
+            };
+            api.getMajorByKeyword("api/search/majors", "POST", parameter).then(function(res) {
+                var data = {
+                    SA_search_type: "专业",
+                    SA_search_keywords: _this13.data.keyword,
+                    SA_is_result: res.result.length ? true : false
+                };
+                app.sensors.track("SearchResult", sensors.SearchResult(data));
+                _this13.setData({
                     showLocalLoad: false,
                     searchResult: true
                 });
-                if (page == 1) _this10.insertSearchKeyword(value, 2);
+                if (page == 1) _this13.insertSearchKeyword(value, 2);
                 return fn(res);
             });
             break;
 
           case 13:
-            api.getCareersByKeyword("Careers/QueryJobs", "POST", value, page, 20).then(function(res) {
-                _this10.setData({
+            var parame = {
+                keyword: this.data.keyword,
+                index: page,
+                count: 10
+            };
+            api.getCareersByKeyword("api/search/jobs", "POST", parame).then(function(res) {
+                var data = {
+                    SA_search_type: "职业",
+                    SA_search_keywords: _this13.data.keyword,
+                    SA_is_result: res.result.items.length ? true : false
+                };
+                app.sensors.track("SearchResult", sensors.SearchResult(data));
+                _this13.setData({
                     showLocalLoad: false,
                     searchResult: true
                 });
-                if (page == 1) _this10.insertSearchKeyword(value, 13);
+                if (page == 1) _this13.insertSearchKeyword(value, 13);
                 return fn(res);
             });
             break;
 
           case 3:
             api.getVideoByKeyword("App/Videos/QueryByKeyword", "POST", value, 20).then(function(res) {
-                _this10.setData({
+                _this13.setData({
                     showLocalLoad: false,
                     searchResult: true
                 });
-                if (page == 1) _this10.insertSearchKeyword(value, 3);
+                if (page == 1) _this13.insertSearchKeyword(value, 3);
                 return fn(res);
             });
             break;
@@ -598,7 +916,7 @@ Page({
     },
     //综合搜索
     comprehensiveSearch: function comprehensiveSearch() {
-        var _this11 = this;
+        var _this14 = this;
         this.setData({
             showLoad: true
         });
@@ -606,10 +924,10 @@ Page({
         console.log(value);
         var promiseList = [ api.getCollegeByKeyword("Colleges/QueryByKeywords", "POST", value, 1, 2), api.getMajorByKeyword("Majors/QueryByKeywords?keywords=" + encodeURI(value) + "&majorType=1&returnCount=2", "POST"), api.getCareersByKeyword("Careers/QueryJobs", "POST", value, 1, 2), api.getVideoByKeyword("App/Videos/QueryByKeyword", "POST", value, 2), api.insertSearchKeyword("App/Logs/Insert", "POST", value, 0) ];
         Promise.all(promiseList).then(function(res) {
-            var college = _this11.collegeData(res[0].result.items, value);
-            var majors = _this11.majorData(res[1].result, value);
-            var jobs = _this11.majorData(res[2].result.items, value);
-            var video = _this11.vidoeData(res[3].result, value);
+            var college = _this14.collegeData(res[0].result.items, value);
+            var majors = _this14.majorData(res[1].result, value);
+            var jobs = _this14.majorData(res[2].result.items, value);
+            var video = _this14.vidoeData(res[3].result, value);
             // let news = this.newsData(res[4].result.items,value);
                         var tabList = [];
             if (res[0].result.items.length > 0 || res[1].result.length > 0 || res[2].result.items.length > 0 || res[3].result.length > 0) tabList.push({
@@ -634,7 +952,7 @@ Page({
             });
             // if(res[4].result.items.length > 0)
             //   tabList.push({tab:'文章',type:5});
-                        _this11.setData({
+                        _this14.setData({
                 showLoad: false,
                 showLocalLoad: false,
                 searchResult: true,
@@ -644,17 +962,21 @@ Page({
                 jobs: jobs,
                 video: video
             });
-            _this11.scrollHeight();
+            _this14.scrollHeight();
         });
     },
     //处理院校数据
     collegeData: function collegeData(list, value) {
-        list.map(function(item) {
-            item.cnName = item.cnName.length > 8 ? item.cnName.substring(0, 8) + "..." : item.cnName;
-            item.cnName = item.cnName.replace(value, '<span style="color:red">' + value + "</span>");
-            return item;
-        });
-        return list;
+        if (this.data.collegeType == "compare") {
+            return list;
+        } else {
+            list.map(function(item) {
+                item.cnName = item.cnName.length > 8 ? item.cnName.substring(0, 8) + "..." : item.cnName;
+                item.cnName = item.cnName.replace(value, '<span style="color:red">' + value + "</span>");
+                return item;
+            });
+            return list;
+        }
     },
     //处理专业数据
     majorData: function majorData(list, value) {
@@ -699,7 +1021,7 @@ Page({
     },
     //加载更多数据
     getMore: function getMore() {
-        var _this12 = this;
+        var _this15 = this;
         var type = this.data.searchType;
         var value = this.data.keyword;
         this.setData({
@@ -712,13 +1034,33 @@ Page({
             var collegePoint = this.data.collegePoint;
             this.pointSearch(type, function(res) {
                 if (res.result.items.length == 0) {
-                    _this12.setData({
+                    _this15.setData({
                         isMore: false
                     });
                 } else {
-                    var college = _this12.collegeData(res.result.items, value);
-                    _this12.setData({
+                    var college = _this15.collegeData(res.result.items, value);
+                    _this15.setData({
                         collegePoint: [].concat(_toConsumableArray(collegePoint), _toConsumableArray(college)),
+                        showLocalLoad: false,
+                        isMore: true
+                    });
+                }
+            }, page);
+            break;
+
+          case 2:
+            if (!this.data.isMore) return;
+            var majorsPoint = this.data.majorsPoint;
+            this.pointSearch(type, function(res) {
+                console.log(res);
+                if (res.result.items.length == 0) {
+                    _this15.setData({
+                        isMore: false
+                    });
+                } else {
+                    var major = _this15.majorData(res.result.items, value);
+                    _this15.setData({
+                        majorsPoint: [].concat(_toConsumableArray(majorsPoint), _toConsumableArray(major)),
                         showLocalLoad: false,
                         isMore: true
                     });
@@ -731,12 +1073,12 @@ Page({
             var jobsPoint = this.data.jobsPoint;
             this.pointSearch(13, function(res) {
                 if (res.result.items.length == 0) {
-                    _this12.setData({
+                    _this15.setData({
                         isMore: false
                     });
                 } else {
-                    var jobs = _this12.jobData(res.result.items, value);
-                    _this12.setData({
+                    var jobs = _this15.jobData(res.result.items, value);
+                    _this15.setData({
                         jobsPoint: [].concat(_toConsumableArray(jobsPoint), _toConsumableArray(jobs)),
                         showLocalLoad: false,
                         isMore: true

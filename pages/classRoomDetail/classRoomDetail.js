@@ -1,5 +1,7 @@
 var api = require("../../utils/api.js");
 
+var sensors = require("../../utils/sensors.js");
+
 var app = getApp();
 
 Page({
@@ -38,12 +40,50 @@ Page({
     },
     onShareAppMessage: function onShareAppMessage(res) {
         var that = this;
+        var data = {
+            SA_share_type: "课堂视频播放页",
+            SA_share_content: "我正在看[" + that.data.packDetail.title + "] 推荐给你！"
+        };
+        app.sensors.track("ShareClick", sensors.ShareClick(data));
         if (res.from === "button") {}
         return {
             title: "我正在看[" + that.data.packDetail.title + "] 推荐给你！",
             imageUrl: "http://bapp.wmei.cn/share/video.png",
             path: "/pages/classRoomDetail/classRoomDetail?type=" + that.data.packType + "&id=" + that.data.packId + "&share=true"
         };
+    },
+    InsertSA: function InsertSA(duration) {
+        var that = this;
+        var SA_maintype = that.data.packType == 1 ? "讲堂" : "课程";
+        var SA_minortype = that.minortype;
+        var SA_name = that.SA_name;
+        var SA_num = that.data.packDetail.sectionCount;
+        var SA_chapter_name = that.title;
+        var SA_times = that.times;
+        var SA_duration = duration;
+        var SA_restrict = that.data.userInfo[0].UserType == 14 && that.data.packType == 2 || that.data.packType == 1 ? false : true;
+        var SA_reason = that.message;
+        var data = {
+            SA_maintype: SA_maintype,
+            SA_minortype: SA_minortype,
+            SA_name: SA_name,
+            SA_num: SA_num,
+            SA_chapter_name: SA_chapter_name,
+            SA_times: SA_times,
+            SA_duration: SA_duration,
+            SA_restrict: SA_restrict,
+            SA_reason: SA_reason
+        };
+        app.sensors.track("LearnView", sensors.LearnView(data));
+    },
+    onUnload: function onUnload() {
+        var endTime = new Date().getTime();
+        var duration = endTime - this.startTime;
+        var h = parseInt(duration / 1e3 / 60 / 60 % 24);
+        var m = parseInt(duration / 1e3 / 60 % 60);
+        var s = parseInt(duration / 1e3 % 60);
+        duration = h + ":" + m + ":" + s;
+        this.InsertSA(duration);
     },
     openSpeed: function openSpeed() {
         this.setData({
@@ -80,6 +120,9 @@ Page({
         var _this = this;
         var that = this;
         api.getPackDetail("App/Videos/Get", "POST", packId, packType, userid).then(function(res) {
+            that.SA_name = res.result.title;
+            that.title = res.result.chapters[0].sections[0].sectionTitle;
+            that.times = res.result.chapters[0].sections[0].sectionTime;
             that.selectComponent("#navigationcustom").setNavigationAll(res.result.title, true, that.data.sharePageBack);
             that.setData({
                 packDetail: res.result,
@@ -105,6 +148,10 @@ Page({
             that.setData({
                 share: true
             });
+        }
+        that.minortype = "";
+        if (options && options.minortype) {
+            that.minortype = options.minortype;
         }
         var packId = options.id;
         var packType = options.type;

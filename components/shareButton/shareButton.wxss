@@ -36,7 +36,7 @@
     }
 }
 
-form .btn {
+.btn {
     width: 0rpx;
     height: 0rpx;
     margin: 0;
@@ -52,7 +52,8 @@ form .btn {
     border-radius: 100px;
     text-align: center;
     line-height: 12.5vw;
-    background: #e9302d;
+    background-image: linear-gradient(-52deg,#E9302D 1%,#FF5053 100%);
+    box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);
     color: #fff;
     margin: auto;
     position: absolute;
@@ -67,7 +68,8 @@ form .btn {
     color: #fff;
     line-height: 12.5vw;
     text-align: center;
-    background: #e9302d;
+    background-image: linear-gradient(-52deg,#E9302D 1%,#FF5053 100%);
+    box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);
     margin: 0;
     padding: 0;
     border-radius: 12.5vw;
@@ -80,7 +82,7 @@ button::after {
     border: none;
 }
 
-.shareBtn-wrapper form .btn {
+.shareBtn-wrapper .btn {
     width: 0rpx;
     height: 0rpx;
     margin: 0;
@@ -88,4 +90,8 @@ button::after {
     border-radius: 0;
     background: rgba(0,155,0,0.5);
     position: static!important;
+}
+
+.btnHover {
+    opacity: 0.6;
 }

@@ -1,0 +1,187 @@
+<view style="margin-top:100rpx;" wx:if="{{cityId!=847&&cityId!=834&&cityId!=843}}">
+    <view style="overflow-x:{{overOnePage?'hidden':'initial'}}">
+        <view class="item-wrap" style="height: {{itemWrapHeight}}px;">
+            <view bindtap="itemClick" catch:touchend="{{dragging?'touchEnd':''}}" catch:touchmove="{{dragging?'touchMove':''}}" class="item {{cur==index?'cur':''}} {{curZ==index?'zIndex':''}} {{itemTransition&&index!==cur?'itemTransition':''}} {{item.fixed?'fixed':''}}" data-code="{{item.data.majorCode}}" data-index="{{index}}" data-key="{{item.key}}" id="item{{index}}" style="transform: translate3d({{index===cur?tranX+'px':item.x*100+'%'}}, {{index===cur?tranY+'px':item.y*100+'%'}}, 0px);width: {{100/columns}}%" wx:for="{{list}}" wx:key="index">
+                <view class="fr whiteColor itemCells {{index==cur?'hover':''}}">
+                    <view class="fr jc" style="width:100rpx;">
+                        <view class="idx fr ac jc twoFontSize whiteFontColor">{{item.key+1}}</view>
+                    </view>
+                    <view class="fr jsb" style="width:650rpx;">
+                        <view class="fc jsb">
+                            <view class="fc">
+                                <view class="fr ac jsb">
+                                    <view class="oneFontSize oneFontColor bold textOmit" style="width:390rpx">{{item.data.professionName}}</view>
+                                    <view class="threeFontSize threeFontColor" style="margin-left:18rpx;">代码 {{item.data.professionCode}}</view>
+                                </view>
+                                <view class="fr ac twoFontColor threeFontSize" style="margin-top:14rpx;">
+                                    <view style="margin-right:20rpx;max-width:100rpx;white-space:nowrap">{{item.data.chooseCns}}</view>
+                                    <view style="margin-right:20rpx;max-width:200rpx;white-space:nowrap">{{item.data.year}}计划 {{item.data.plan}}</view>
+                                    <view style="margin-right:20rpx;max-width:76rpx;white-space:nowrap">学制 {{item.data.learnYear}}</view>
+                                    <view style="margin-right:20rpx;max-width:120rpx;white-space:nowrap">学费 {{item.data.cost}}</view>
+                                </view>
+                            </view>
+                            <view class="fr ac twoFontColor threeFontSize" style="margin-top:50rpx;">
+                                <view class="oneFontColor twoFontSize textOmit" style="max-width:200rpx;">{{item.data.collegeName}}</view>
+                                <view style="margin-left:20rpx;">代码 {{item.data.collegeCode}}</view>
+                            </view>
+                        </view>
+                        <view bind:longpress="longPress" class="fr ac jc" data-index="{{index}}" data-key="{{item.key}}" style="width:100rpx;" wx:if="{{!share}}">
+                            <image class="drag" src="/image/drag.png"></image>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<view wx:if="{{cityId==847}}">
+    <view style="overflow-x:{{overOnePage?'hidden':'initial'}}">
+        <view class="item-wrap" style="height: {{itemWrapHeight}}px;">
+            <view catch:touchend="{{dragging?'touchEnd':''}}" catch:touchmove="{{dragging?'touchMove':''}}" class="item {{cur==index?'cur':''}} {{curZ==index?'zIndex':''}} {{itemTransition&&index!==cur?'itemTransition':''}} {{item.fixed?'fixed':''}}" data-index="{{index}}" data-key="{{item.key}}" id="item{{index}}" style="transform: translate3d({{index===cur?tranX+'px':item.x*100+'%'}}, {{index===cur?tranY+'px':item.y*100+'%'}}, 0px);width: {{100/columns}}%" wx:for="{{list}}">
+                <view bind:longpress="longPress" class="fr jsb whiteColor itemCells {{index==cur?'hover':''}}" data-index="{{index}}">
+                    <view class="fc">
+                        <view class="fr">
+                            <view class="fc">
+                                <view class="fr jc" style="width:130rpx;">
+                                    <view class="idx fr ac jc twoFontSize whiteFontColor" style="background:{{item.data.dataType==1?'#FF5053':item.data.dataType==2?'#F7BA00':item.data.dataType==3?'#76CF27':item.data.dataType==4?'#2792CF':'#FF5053'}}">{{index+1}} </view>
+                                </view>
+                                <view class="fr jc" style="width:130rpx;">
+                                    <view>
+                                        <view class="fr afe oneFontColor" style="margin-top:5rpx;">
+                                            <view class="fourFontSize">{{item.data.probability}}</view>
+                                            <view class="threeFontSize">%</view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="fc" style="width:620rpx;border-bottom:1rpx dashed #E9E9E9 ;padding-bottom:20rpx;">
+                                <view class="fr ac jsb">
+                                    <view class="fr" style="height:110rpx;">
+                                        <view bindtap="showmajor" class="oneFontSize oneFontColor bold twoRowsOmit" data-index="{{index}}" data-majorcode="{{item.data.majorCode}}">
+                          {{item.data.professionName}}
+                      </view>
+                                    </view>
+                                    <view catch:tap="clickPopup" class="fr ac jc" data-index="{{index}}" data-key="{{item.key}}" style="margin-right:32rpx" wx:if="{{!share&&flag}}">
+                                        <image class="drag" src="/image/gd.png"></image>
+                                    </view>
+                                    <view class="absoluteStyle menubox itemBackColor checkedColor textAlign twoFontSize" style="top:24rpx;right:80rpx;" wx:if="{{item.st}}">
+                                        <view class="fr changeaddress">
+                                            <view catchtap="moveUp" data-index="{{index}}" style="border-right:1rpx solid #eee" wx:if="{{index!=0}}">上移</view>
+                                            <view catchtap="moveDown" data-index="{{index}}" style="border-right:1rpx solid #eee" wx:if="{{index!=list.length-1}}">下移</view>
+                                            <view catchtap="delVolunteer" data-index="{{index}}">删除</view>
+                                        </view>
+                                    </view>
+                                </view>
+                                <view class="threeFontSize threeFontColor fr ac" style="margin-top:10rpx;">
+                                    <view>代码 {{item.data.collegeCode}}  {{item.data.year||item.data.planYear}}招生{{item.data.planNum}}人</view>
+                                    <rich-text nodes="{{item.data.chooseCns?item.data.chooseCns:'不限'}}" style="margin-left:14rpx;" wx:if="{{item.data.chooseCns&&isPreview}}"></rich-text>
+                                    <rich-text nodes="{{item.data.chooseLevel?item.data.chooseLevel:'不限'}}" style="margin-left:14rpx;" wx:if="{{item.data.chooseLevel&&!isPreview}}"></rich-text>
+                                    <view>
+                                        <text style="margin-left:14rpx;">{{item.data.learnYear}} </text>
+                                        <text style="margin-left:14rpx;" wx:if="{{item.data.cost}}">￥{{item.data.cost}} </text>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="fr" style="margin-left:130rpx;">
+                            <view class="fr ac">
+                                <view class="fr ac fourFontColor oneFontSize " style="margin-top:14rpx;">
+                                    <view bindtap="collegedetail" data-code="{{item.data.majorCode}}" data-collegecode="{{item.data.collegeCode}}" data-collegeid="{{item.data.collegeId}}" data-index="{{index}}" data-isben="{{item.data.isBen}}">{{item.data.collegeName}}</view>
+                                    <view class="threeFontSize threeFontColor" style="margin-top:8rpx;margin-left:8rpx;"> {{item.data.levels}} {{item.data.classify?item.data.classify:'-'}} / {{item.data.collegeType?item.data.collegeType=='0'?'私立':item.data.collegeType=='1'?'公立':item.data.collegeType:''}}</view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<scroll-view scrollY style="height:92%;position:relative;z-index:999;padding-top:90rpx;box-sizing:border-box" wx:if="{{cityId==834}}">
+    <view wx:if="{{cityId==834}}">
+        <view style="overflow-x:{{overOnePage?'hidden':'initial'}}">
+            <view class="item-wrap" style="height: {{itemWrapHeight}}px;">
+                <view bindtap="itemClick" catch:touchend="{{dragging?'touchEnd':''}}" catch:touchmove="{{dragging?'touchMove':''}}" class="item {{cur==index?'cur':''}} {{curZ==index?'zIndex':''}} {{itemTransition&&index!==cur?'itemTransition':''}} {{item.fixed?'fixed':''}}" data-code="{{item.data.majorCode}}" data-index="{{index}}" data-key="{{item.key}}" id="item{{index}}" style="transform: translate3d({{index===cur?tranX+'px':item.x*100+'%'}}, {{index===cur?tranY+'px':item.y*100+'%'}}, 0px);width: {{100/columns}}%" wx:for="{{list}}" wx:key="index">
+                    <view class="fr jsb whiteColor itemCells {{index==cur?'hover':''}}" style="padding:20rpx 0 5rpx 0;margin:0">
+                        <view class="fc">
+                            <view class="fr">
+                                <view class="fr jc" style="width:100rpx;">
+                                    <view class="idx fr ac jc twoFontSize whiteFontColor" style="background:{{item.data.dataType==1?'#FF5053':item.data.dataType==2?'#F7BA00':item.data.dataType==3?'#76CF27':'#2792CF'}}">{{item.key+1}} </view>
+                                </view>
+                                <view class="fc" style="width:440rpx;border-bottom:1rpx dashed #E9E9E9 ;padding-bottom:25rpx;">
+                  {{item.data.collegeName}}
+                </view>
+                            </view>
+                        </view>
+                        <view bind:longpress="longPress" class="absoluteStyle move" data-index="{{index}}" data-key="{{item.key}}" wx:if="{{!share&&flag}}">
+                            <image class="drag" src="/image/drag.png" style="margin-top:-28rpx;vertical-align:middle"></image>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</scroll-view>
+<view wx:if="{{cityId==843}}">
+    <view style="overflow-x:{{overOnePage?'hidden':'initial'}}">
+        <view class="item-wrap" style="height: {{itemWrapHeight}}px;">
+            <view catch:touchend="{{dragging?'touchEnd':''}}" catch:touchmove="{{dragging?'touchMove':''}}" class="item {{cur==index?'cur':''}} {{curZ==index?'zIndex':''}} {{itemTransition&&index!==cur?'itemTransition':''}} {{item.fixed?'fixed':''}}" data-index="{{index}}" data-key="{{item.key}}" id="item{{index}}" style="transform: translate3d({{index===cur?tranX+'px':item.x*100+'%'}}, {{index===cur?tranY+'px':item.y*100+'%'}}, 0px);width: {{100/columns}}%" wx:for="{{list}}">
+                <view bind:longpress="longPress" class="fr jsb whiteColor itemCells {{index==cur?'hover':''}}" data-index="{{index}}" style="height:200rpx;">
+                    <view class="fc">
+                        <view class="fr">
+                            <view class="fc">
+                                <view class="fr jc" style="width:130rpx;">
+                                    <view class="idx fr ac jc twoFontSize whiteFontColor" style="background:{{item.data.dataType=='chong'?'#FF5053':item.data.dataType=='shou'?'#F7BA00':item.data.dataType=='bao'?'#76CF27':item.data.dataType=='cha'?'#2792CF':'#FF5053'}}">{{index+1}} </view>
+                                </view>
+                                <view class="fr jc" style="width:130rpx;">
+                                    <view>
+                                        <view class="fr afe oneFontColor" style="margin-top:5rpx;">
+                                            <view class="fourFontSize">{{item.data.probability}}</view>
+                                            <view class="threeFontSize">%</view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="fc" style="width:620rpx;border-bottom:1rpx dashed #E9E9E9 ;padding-bottom:20rpx;">
+                                <view class="fr ac jsb">
+                                    <view class="fr" style="max-height:110rpx;">
+                                        <view bindtap="showplan" class="oneFontSize oneFontColor bold twoRowsOmit" data-index="{{index}}">
+                          {{item.data.professionName}}
+                      </view>
+                                    </view>
+                                    <view catch:tap="clickPopup" class="fr ac jc" data-index="{{index}}" data-key="{{item.key}}" style="margin-right:32rpx" wx:if="{{!share&&flag}}">
+                                        <image class="drag" src="/image/gd.png"></image>
+                                    </view>
+                                    <view class="absoluteStyle menubox itemBackColor checkedColor textAlign twoFontSize" style="top:24rpx;right:80rpx;" wx:if="{{item.st}}">
+                                        <view class="fr changeaddress">
+                                            <view catchtap="moveUp" data-index="{{index}}" style="border-right:1rpx solid #eee" wx:if="{{index!=0}}">上移</view>
+                                            <view catchtap="moveDown" data-index="{{index}}" style="border-right:1rpx solid #eee" wx:if="{{index!=list.length-1}}">下移</view>
+                                            <view catchtap="delVolunteer" data-index="{{index}}">删除</view>
+                                        </view>
+                                    </view>
+                                </view>
+                                <view class="threeFontSize threeFontColor fr ac" style="margin-top:10rpx;">
+                                    <view>代码 {{item.data.professionCode}}  {{item.data.year||item.data.planYear}}计划 {{item.data.planNum}}</view>
+                                    <rich-text nodes="{{item.data.chooseCns?item.data.chooseCns:'不限'}}" style="margin-left:14rpx;" wx:if="{{item.data.chooseCns&&isPreview}}"></rich-text>
+                                    <rich-text nodes="{{item.data.chooseLevel?item.data.chooseLevel:'不限'}}" style="margin-left:14rpx;" wx:if="{{item.data.chooseLevel&&!isPreview}}"></rich-text>
+                                    <view>
+                                        <text style="margin-left:14rpx;">{{item.data.learnYear}} </text>
+                                        <text style="margin-left:14rpx;">{{item.data.cost}} </text>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="fr" style="margin-left:130rpx;height:100rpx">
+                            <view class="fr ac">
+                                <view class="fr ac fourFontColor oneFontSize " style="margin-top:14rpx;">
+                                    <view bindtap="collegedetail" data-code="{{item.data.majorCode}}" data-collegecode="{{item.data.collegeCode}}" data-collegeid="{{item.data.collegeId}}" data-index="{{index}}" data-isben="{{item.data.isBen}}">{{item.data.collegeName}} <text class="threeFontSize threeFontColor" style="margin-top:8rpx;margin-left:8rpx;"> {{item.data.dataJson.levels?item.data.dataJson.levels+' /':''}}  {{item.data.classify?item.data.classify:'-'}} / {{item.data.collegeType?item.data.collegeType=='0'?'私立':item.data.collegeType=='1'?'公立':item.data.collegeType:''}} 代码{{item.data.collegeCode}}</text>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

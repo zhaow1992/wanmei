@@ -1,0 +1,494 @@
+@import "../jiangsuRecommend/jiangsuRecommend.wxss";
+
+.score-wrapper {
+    padding: 20rpx 32rpx;
+}
+
+.score-wrapper>view {
+    margin-right: 20rpx;
+    line-height: 1;
+}
+
+.CWB {
+    width: 60rpx;
+    height: 60rpx;
+    border-radius: 60rpx;
+    color: #fff;
+    text-align: center;
+    line-height: 60rpx;
+    margin-right: 32rpx;
+    overflow: hidden;
+}
+
+.CWB-open {
+    animation: CWBOpen 0.4s ease forwards;
+}
+
+@-webkit-keyframes CWBOpen {
+    0% {
+    }
+
+    100% {
+        width: 220rpx;
+    }
+}
+
+@keyframes CWBOpen {
+    0% {
+    }
+
+    100% {
+        width: 220rpx;
+    }
+}
+
+.CWB-close {
+    animation: CWBClose 0.4s ease forwards;
+}
+
+@-webkit-keyframes CWBClose {
+    0% {
+        width: 220rpx;
+    }
+
+    100% {
+        width: 60rpx;
+    }
+}
+
+@keyframes CWBClose {
+    0% {
+        width: 220rpx;
+    }
+
+    100% {
+        width: 60rpx;
+    }
+}
+
+.swiper-wrapper {
+    background: #F8F5F4;
+}
+
+.helpBtn {
+    border: 1rpx solid #E9302D;
+    width: 84rpx;
+    height: 40rpx;
+    text-align: center;
+    line-height: 40rpx;
+    color: #E9302D;
+    border-radius: 40rpx;
+}
+
+.info-wrapper {
+    justify-content: space-between;
+    line-height: 1;
+    padding: 20rpx 32rpx;
+    background: #FFF1E0;
+}
+
+.college-wrapper {
+    justify-content: space-between;
+    width: 626rpx;
+    padding: 30rpx;
+    background: #FFFFFF;
+    box-shadow: 0 0 10rpx 4rpx rgba(0,0,0,0.03);
+    border-radius: 16rpx;
+    margin: 16rpx auto 0;
+    position: relative;
+}
+
+.rightBtn {
+    width: 10rpx;
+    height: 20rpx;
+    margin-left: 11rpx;
+}
+
+.majorNum {
+    color: #FF5053;
+    margin-bottom: 10rpx;
+    margin-left: -10rpx;
+}
+
+.CWB-icon {
+    width: 44rpx;
+    height: 46rpx;
+    position: absolute;
+    top: 0;
+    right: 30rpx;
+}
+
+.footer-wrapper {
+    position: fixed;
+    width: 100vw;
+    background: #fff;
+    bottom: 0;
+    box-shadow: 0 4px 4px 4px rgba(0,0,0,0.05);
+}
+
+.footer-container {
+    padding: 14rpx 30rpx;
+    justify-content: space-between;
+}
+
+.lookZY {
+    width: 280rpx;
+    height: 80rpx;
+    border-radius: 80rpx;
+    border: 1rpx solid #E9302D;
+    color: #E9302D;
+    text-align: center;
+    line-height: 80rpx;
+    box-sizing: border-box;
+}
+
+.goNext {
+    width: 390rpx;
+    height: 80rpx;
+    border-radius: 80rpx;
+    color: #fff;
+    text-align: center;
+    line-height: 80rpx;
+    background-image: linear-gradient(-52deg,#E9302D 1%,#FF5053 100%);
+    box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);
+}
+
+.popup-content-wrapper {
+    height: 580rpx;
+}
+
+.question-icon {
+    width: 22rpx;
+    height: 22rpx;
+    margin-right: 10rpx;
+}
+
+.goCollegeDetail {
+    width: 100%;
+    height: 88rpx;
+    border: 1rpx solid #E9302D;
+    color: #E9302D;
+    box-sizing: border-box;
+    text-align: center;
+    line-height: 88rpx;
+    border-radius: 88rpx;
+    margin: 40rpx 0;
+}
+
+.clearSX {
+    margin: 30rpx auto;
+    background: #fff;
+    width: 260rpx;
+    height: 72rpx;
+    line-height: 72rpx;
+    text-align: center;
+    border-radius: 72rpx;
+    border: 1rpx solid #ccc;
+}
+
+.step-wrapper {
+    justify-content: space-between;
+    margin-top: 36rpx;
+    position: relative;
+}
+
+.step-item {
+    width: 150rpx;
+    text-align: center;
+}
+
+.item {
+    color: #fff;
+    width: 48rpx;
+    height: 48rpx;
+    border-radius: 100%;
+    background: #79a3ff;
+    text-align: center;
+    line-height: 48rpx;
+    margin: 0 auto 12rpx;
+    z-index: 2;
+    position: relative;
+}
+
+.itemLine {
+    border-top: 1px dotted rgba(122,165,255,0.7);
+    height: 1px;
+    width: 500rpx;
+    position: absolute;
+    top: 24rpx;
+    left: 50%;
+    margin-left: -250rpx;
+    z-index: 1;
+}
+
+.search-wrapper {
+    background: #E8E8E8;
+    border: none;
+    margin-top: 40rpx;
+    padding: 0;
+}
+
+.shaixuan-num {
+    width: 28rpx;
+    height: 28rpx;
+    background: rgba(233,48,45,0.10);
+    color: #E9302D;
+    text-align: center;
+    line-height: 28rpx;
+    border-radius: 100%;
+    margin-left: 4rpx;
+}
+
+.textCenter {
+    text-align: center;
+}
+
+.noMatch {
+    line-height: 1;
+    width: 80rpx;
+    height: 24rpx;
+    border-radius: 24rpx;
+    color: #fff;
+    text-align: center;
+    line-height: 24rpx;
+    background: #ccc;
+    margin: 6rpx auto 0;
+}
+
+.sliderHCon {
+    height: 250rpx;
+    width: 230px;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.showmaxmin {
+    display: flex;
+    justify-content: space-between;
+    width: 68%;
+    margin-top: -34px;
+    position: absolute;
+    color: #666;
+    font-size: 22rpx;
+}
+
+.minValue {
+    margin-top: 10rpx;
+}
+
+.maxValue {
+    margin-right: -90rpx;
+    margin-top: 10rpx;
+}
+
+.twoSlider {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.twoSlider .leftSlider {
+    position: absolute;
+    top: -42rpx;
+    left: 0;
+    width: 100rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    padding: 20rpx;
+    text-align: center;
+    color: #FFF;
+    transform: translateX(-30%);
+}
+
+.sliderPrice view {
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    font-size: 22rpx;
+}
+
+.twoSlider .rightSlider {
+    position: absolute;
+    top: -42rpx;
+    right: 0;
+    width: 100rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    padding: 20rpx;
+    text-align: center;
+    color: #FFF;
+}
+
+.sliderView {
+    color: red;
+}
+
+.select-construct {
+    width: 100%;
+}
+
+.select-area {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.slider-container {
+    width: 100%;
+    display: flex;
+    padding: 20px 0 10px;
+    position: relative;
+}
+
+.slider-left,.slider-right {
+    margin-right: -8rpx;
+}
+
+.active {
+    background-color: #ec1010;
+    color: #fff;
+}
+
+.active::after {
+    position: absolute;
+    bottom: 0rpx;
+    left: 50%;
+    content: '';
+    border: 10rpx solid transparent;
+    border-top: 10rpx solid #ec1010;
+    transform: translateX(-50%);
+}
+
+.ipt {
+    width: 686rpx;
+    height: 104rpx;
+    background: #ffffff;
+    border-radius: 16rpx;
+}
+
+.btn {
+    width: 324rpx;
+    height: 80rpx;
+    border-radius: 40rpx;
+}
+
+.scorewrapper {
+    padding: 20rpx;
+}
+
+.scorewrapper>view {
+    margin-right: 10rpx;
+    line-height: 1;
+}
+
+.pop {
+    width: 32rpx;
+    height: 32rpx;
+    border-radius: 16rpx;
+}
+
+.CWB-icon {
+    left: 28rpx;
+}
+
+.fill {
+    bottom: 12vw;
+    line-height: 44rpx;
+}
+
+.recommendList {
+    background: inherit;
+}
+
+.major-wrapper {
+    background-color: #fff;
+}
+
+.major-wrapper.radius {
+    border-radius: 0 0 8px 8px;
+}
+
+.tips {
+    justify-content: center;
+    align-items: center;
+}
+
+.tips>text {
+    display: inline-block;
+    width: 20rpx;
+    height: 0;
+    margin: 0 15rpx;
+    border: 1rpx dotted #979797;
+}
+
+.footer-wrapper1 {
+    position: fixed;
+    width: 100vw;
+    background: #fff;
+    box-shadow: 0 4px 4px 4px rgba(0,0,0,0.05);
+}
+
+.tb {
+    line-height: 44rpx;
+    border: 1rpx solid #eee;
+    border-radius: 30rpx;
+    padding: 0rpx 30rpx;
+}
+
+.save-btn {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 100%;
+    background-image: linear-gradient(-52deg,#E9302D 1%,#FF5053 100%);
+    box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);
+    color: #fff;
+    text-align: center;
+    position: fixed;
+    bottom: 104rpx;
+    right: 40rpx;
+    justify-content: space-around;
+    z-index: 1;
+}
+
+.popup {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: #FFFFFF;
+    width: 40rpx;
+    height: 28rpx;
+    border: 1rpx solid #E9302D;
+    border-radius: 16px;
+    color: #E9302D;
+}
+
+.major-icon {
+    width: 48rpx;
+    height: 48rpx;
+    border-radius: 100%;
+    margin-right: 20rpx;
+    justify-content: space-around;
+}
+
+.major-image {
+    width: 30rpx;
+    height: 30rpx;
+}
+
+.maj-pop-title {
+    margin-top: 40rpx;
+}
+
+.maj-pop-con {
+    margin-top: 20rpx;
+    line-height: 1.8;
+}

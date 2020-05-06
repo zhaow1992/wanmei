@@ -1,0 +1,225 @@
+.container {
+    background: #fff;
+}
+
+.banner-wrapper {
+    position: relative;
+    width: 100vw;
+    height: 50vw;
+}
+
+.banner-wrapper>image {
+    width: 100vw;
+    height: 50vw;
+}
+
+.banner-wrapper>view:first-of-type {
+    position: absolute;
+    top: 3.5vw;
+    right: 4.3vw;
+    background: rgba(0,0,0,0.15);
+    padding: 0.6vw 2.5vw;
+    color: #fff;
+    border-radius: 50px;
+}
+
+.banner-wrapper>view:last-of-type {
+    position: absolute;
+    bottom: 3.93vw;
+    left: 0;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    background: rgba(0,0,0,0.15);
+    padding: 0.6vw 4.4vw;
+    color: #fff;
+}
+
+.progress-wrapper {
+    padding: 4.3vw 4.3vw 0 4.3vw;
+    justify-content: space-between;
+}
+
+.progress-wrapper-success {
+    padding: 4.3vw 4.3vw 0 4.3vw;
+    justify-content: space-between;
+}
+
+.pay-wrapper {
+    padding: 0 2.9vw;
+    color: #e9302d;
+    border-radius: 50px;
+    border: 1px solid #e9302d;
+}
+
+.indexShareButton {
+    width: 66.7vw;
+    height: 12.5vw;
+    border-radius: 100px;
+    text-align: center;
+    line-height: 12.5vw;
+    background-image: linear-gradient(-52deg,#E9302D 1%,#FF5053 100%);
+    box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);
+    color: #fff;
+    margin: auto;
+    margin-top: 4.3vw;
+}
+
+.btnView {
+    width: 66.7vw;
+    height: 12.5vw;
+    border-radius: 100px;
+    text-align: center;
+    line-height: 12.5vw;
+    background-image: linear-gradient(-52deg,#E9302D 1%,#FF5053 100%);
+    box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);
+    color: #fff;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.shareBtn-wrapper form .btn {
+    width: 0rpx;
+    height: 0rpx;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    background: rgba(0,155,0,0.5);
+    position: static!important;
+}
+
+button::after {
+    border: none;
+}
+
+.timeStyle {
+    text-align: center;
+    color: #999;
+    margin-top: 3.72vw;
+}
+
+.timeStyle>text {
+    color: #e9302d;
+}
+
+.logo-style {
+    text-align: left;
+    color: #999;
+    margin-bottom: 3vw;
+}
+
+.logo-style-and {
+    text-align: left;
+    color: #999;
+    margin-top: 3vw;
+    padding-left: 4.3vw;
+}
+
+.helpList-wrapper {
+    padding: 0 4.3vw;
+    margin-bottom: 4.3vw;
+}
+
+.helpList-wrapper>view:first-of-type {
+    color: #666;
+    margin-bottom: 2vw;
+}
+
+.helpList-wrapper>view:last-of-type {
+    box-shadow: 0 0 30px 0 rgba(0,0,0,0.1);
+    border-radius: 12px;
+}
+
+.friendList {
+    justify-content: space-between;
+    margin-left: 4.3vw;
+    padding: 3vw 4.3vw 3vw 0;
+}
+
+.friendList image {
+    width: 8.8vw;
+    height: 8.8vw;
+    border-radius: 100%;
+    margin-right: 2.1vw;
+}
+
+.openBtn {
+    padding: 3vw 4.3vw 3vw 0;
+    text-align: center;
+    color: #999;
+    justify-content: space-around;
+}
+
+.openBtn image {
+    width: 3.5vw;
+    height: 2vw;
+    margin-left: 1.1vw;
+}
+
+.wrap {
+    z-index: 3;
+}
+
+.popup-wrapper button {
+    width: 66.7vw;
+    height: 12.5vw;
+    color: #fff;
+    line-height: 12.5vw;
+    text-align: center;
+    background-image: linear-gradient(-52deg,#E9302D 1%,#FF5053 100%);
+    box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);
+    margin: 0;
+    padding: 0;
+    border-radius: 12.5vw;
+    position: absolute;
+    bottom: 7.8vw;
+    left: 50%;
+    margin-left: -33.35vw;
+}
+
+.btnAnimate {
+    animation: btnAnimate 1.7s ease-out infinite!important;
+    background-image: linear-gradient(-52deg,#E9302D 1%,#FF5053 100%);
+    box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);
+    border-radius: 12.5vw;
+    color: #fff;
+    width: 66.67vw;
+    height: 12.5vw;
+    font-size: 4.5vw;
+}
+
+@-webkit-keyframes btnAnimate {
+    0% {
+    }
+
+    25% {
+        transform: scale(1.05);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+
+    75% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes btnAnimate {
+    0% {
+    }
+
+    25% {
+        transform: scale(1.05);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+
+    75% {
+        transform: scale(1.05);
+    }
+}

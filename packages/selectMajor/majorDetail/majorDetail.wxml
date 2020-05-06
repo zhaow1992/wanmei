@@ -3,7 +3,7 @@
 <view hidden="{{showLoad}}">
     <view class="container">
         <view class="flex flexjsaround twoFontSize threeFontColor whiteColor" id="nav" style="height:12.8vw;line-height:1;">
-            <view bindtap="swiperNav" class="{{currentTab==item.value?'oneFontSize fourFontColor':''}} relativeStyle" data-current="{{index}}" wx:for="{{tab}}">
+            <view bindtap="swiperNav" class="{{currentTab==item.value?'oneFontSize fourFontColor':''}} relativeStyle" data-current="{{index}}" wx:for="{{tab}}" wx:key="index">
                 <view>{{item.name}}</view>
                 <view class="absoluteStyle" style="left:50%;transform:translate(-50%);margin-top:2.4vw;">
                     <view class="checkedBackColor {{currentTab==item.value?'selectLineWH':''}}"></view>
@@ -49,7 +49,7 @@
                                     <image mode="widthFix" src="../image/icon4.png"></image>
                                 </view>
                                 <view class="text-wrapper flex">
-                                    <view class="oneFontSize oneFontColor">{{majorDetail.male==0||majorDetail.male==100?'-':majorDetail.male}}：{{majorDetail.female==0||majorDetail.female==100?'-':majorDetail.female}}</view>
+                                    <view class="oneFontSize oneFontColor">{{majorDetail.male==0||majorDetail.male==100?'-':majorDetail.male}} ：{{majorDetail.female==0||majorDetail.female==100?'-':majorDetail.female}}</view>
                                     <view class="threeFontSize threeFontColor">男女比例</view>
                                 </view>
                             </view>
@@ -58,7 +58,7 @@
                                     <image mode="widthFix" src="../image/icon4.png"></image>
                                 </view>
                                 <view class="text-wrapper flex">
-                                    <view class="oneFontSize oneFontColor">{{majorDetail.wkRatio==0||majorDetail.wkRatio==100?'-':majorDetail.wkRatio}}：{{majorDetail.lkRatio==0||majorDetail.lkRatio==100?'-':majorDetail.lkRatio}}</view>
+                                    <view class="oneFontSize oneFontColor">{{majorDetail.wkRatio==0||majorDetail.wkRatio==100?'-':majorDetail.wkRatio}} ：{{majorDetail.lkRatio==0||majorDetail.lkRatio==100?'-':majorDetail.lkRatio}}</view>
                                     <view class="threeFontSize threeFontColor">文理比例</view>
                                 </view>
                             </view>
@@ -76,7 +76,7 @@
                                 </view>
                                 <view class="listPadding fourFontColor twoFontSize moreRowsOmit" style="margin-top:4vw;" wx:else>{{majorDetail.introduction}}</view>
                             </view>
-                            <navigator class="more flex threeFontSize twoFontColor" hoverClass="listHover" url="../majorIntro/majorIntro?isborz={{majorDetail.typeId}}&introduction={{majorDetail.introduction}}&objective={{majorDetail.objective}}&requirement={{majorDetail.requirement}}&subjectRequirement={{majorDetail.subjectRequirement}}&loreAndAbility={{majorDetail.loreAndAbility}}&famousScholar={{majorDetail.famousScholar}}" wx:if="{{majorDetail.introduction!=null&&majorDetail.introduction!=''}}">
+                            <navigator bindtap="goMajorIntro" class="more flex threeFontSize twoFontColor" hoverClass="listHover" url="../majorIntro/majorIntro?isborz={{majorDetail.typeId}}&introduction={{majorDetail.introduction}}&objective={{majorDetail.objective}}&requirement={{majorDetail.requirement}}&subjectRequirement={{majorDetail.subjectRequirement}}&loreAndAbility={{majorDetail.loreAndAbility}}&famousScholar={{majorDetail.famousScholar}}" wx:if="{{majorDetail.introduction!=null&&majorDetail.introduction!=''}}">
                                 <view class="flex">
                                     <view>查看更多</view>
                                     <image class="moreIcon" src="/image/moreArrow.png"></image>
@@ -209,7 +209,7 @@
                                 <view class="threeFontColor twoFontSize">暂无数据</view>
                             </view>
                             <block wx:else>
-                                <view bindtap="openJobInfo" class="listPadding oneFontColor" data-index="{{index}}" hoverClass="btnHover" wx:for="{{careerProspects.careerDistribution}}">
+                                <view bindtap="openJobInfo" class="listPadding oneFontColor" data-index="{{index}}" hoverClass="btnHover" wx:for="{{careerProspects.careerDistribution}}" wx:key="index">
                                     <view class="flex">
                                         <view style="width:3.6vw;">
                                             <image class="{{item.st?'openJobAnimate':''}}" src="/image/moreArrow.png" style="width: 1.3vw;height: 2.6vw;"></image>
@@ -231,7 +231,7 @@
                         <view style="padding:4vw 0;">
                             <view class="listPadding fourFontSize oneFontColor bold">岗位薪资</view>
                             <view class="flex flexjsaround twoFontSize threeFontColor whiteColor tab-wrapper">
-                                <view bindtap="moneySwiperNav" class="{{moneyCurrentTab==index?'oneFontSize fourFontColor':''}} relativeStyle" data-current="{{index}}" wx:for="{{moneyTab}}">
+                                <view bindtap="moneySwiperNav" class="{{moneyCurrentTab==index?'oneFontSize fourFontColor':''}} relativeStyle" data-current="{{index}}" wx:for="{{moneyTab}}" wx:key="index">
                                     <view>{{item}}</view>
                                     <view class="absoluteStyle" style="left:50%;transform:translate(-50%);margin-top:3.4vw;">
                                         <view class="checkedBackColor {{moneyCurrentTab==index?'selectLineWH':''}}"></view>
@@ -240,7 +240,7 @@
                             </view>
                             <swiper bindchange="changeMoneySwiper" current="{{moneyCurrentTab}}" style="height:65vw;">
                                 <swiper-item wx:for="{{moneyTab}}">
-                                    <view bindtap="openJobInfo" class="listPadding oneFontColor" data-index="{{index}}" hoverClass="btnHover" wx:for="{{moneyList}}">
+                                    <view bindtap="openJobInfo" class="listPadding oneFontColor" data-index="{{index}}" hoverClass="btnHover" wx:for="{{moneyList}}" wx:key="index">
                                         <view class="flex">
                                             <view style="width:3.6vw;"></view>
                                             <view class="twoFontSize">{{item.name}}</view>
@@ -264,7 +264,7 @@
                                 <view class="threeFontColor twoFontSize">暂无数据</view>
                             </view>
                             <block wx:else>
-                                <view class="listPadding oneFontColor" hoverClass="btnHover" wx:if="{{item.value!=0&&item.value!=null&&item.value!=''}}" wx:for="{{careerProspects.industrialDistribution}}">
+                                <view class="listPadding oneFontColor" hoverClass="btnHover" wx:if="{{item.value!=0&&item.value!=null&&item.value!=''}}" wx:for="{{careerProspects.industrialDistribution}}" wx:key="index">
                                     <view class="flex">
                                         <view style="width:3.6vw;"></view>
                                         <view class="twoFontSize">{{item.name}}</view>
@@ -287,7 +287,7 @@
                                 <view class="threeFontColor twoFontSize">暂无数据</view>
                             </view>
                             <block wx:else>
-                                <view class="listPadding oneFontColor" hoverClass="btnHover" wx:if="{{item.value!=0&&item.value!=null&&item.value!=''}}" wx:for="{{careerProspects.areaDistribution}}">
+                                <view class="listPadding oneFontColor" hoverClass="btnHover" wx:if="{{item.value!=0&&item.value!=null&&item.value!=''}}" wx:for="{{careerProspects.areaDistribution}}" wx:key="index">
                                     <view class="flex">
                                         <view style="width:3.6vw;"></view>
                                         <view class="twoFontSize">{{item.name}}</view>
@@ -320,47 +320,79 @@
                     </view>
                 </scroll-view>
             </swiper-item>
-            <swiper-item wx:if="{{majorDetail.typeId==0}}">
-                <scroll-view scrollY bindscrolltolower="getNextPage" style="height:{{swiperH}}px;">
-                    <block wx:if="{{openCollege.openCollegeList.length>0}}">
-                        <view class="listPadding threeFontSize twoFontColor" style="line-height:3">共 {{openCollege.openCollegeNum}} 所</view>
-                        <navigator class="itemBackColor" hoverClass="listHover" style="margin:0 0 5px 0;line-height:1.5;" url="/packages/findUniversity/collegeDetail/collegeDetail?numId={{item.collegeId}}" wx:for="{{openCollege.openCollegeList}}">
-                            <view class="pageItemWidth flex cardBorder textPadding threeFontSize">
-                                <image class="collegeLogo" src="{{item.logoUrl}}"></image>
-                                <view>
+            <swiper-item>
+                <view class="graySeparate" id="filter">
+                    <view class="threeFontSize frr ac pageItemWidth" style="height:8.5vw;">
+                        <view class="flex">
+                            <image src="/image/question.png" style="width: 2.93vw;height: 2.93vw;"></image>
+                            <view bindtap="dataInfo" class="twoFontColor" style="margin-left:1.07vw;">数据说明</view>
+                        </view>
+                    </view>
+                </view>
+                <scroll-view scrollY bindscrolltolower="getNextPage" style="height:{{swiperH-filterH}}px;">
+                    <block wx:if="{{!loading}}">
+                        <block wx:if="{{openCollege.openCollegeList.length>0}}">
+                            <navigator class="itemBackColor" hoverClass="listHover" style="margin:0 0 5px 0;line-height:1.5;" url="/packages/findUniversity/collegeDetail/collegeDetail?numId={{item.collegeId}}" wx:if="{{isBOrZ=='1'}}" wx:for="{{openCollege.openCollegeList}}" wx:key="index">
+                                <view class="pageItemWidth flex cardBorder textPadding threeFontSize">
+                                    <image class="collegeLogo" src="{{item.logoUrl}}"></image>
                                     <view>
-                                        <view class="oneFontSize oneFontWidth bold flex" style="flex-wrap:wrap;">
-                                            <text style="max-weight:50vw;margin-right:2vw;">{{item.collegeName}}</text>
-                                            <text class="terraceBorderText fiveFontSize sign" wx:for="{{item.tags}}">{{item}}</text>
+                                        <view>
+                                            <view class="oneFontSize oneFontWidth bold flex" style="flex-wrap:wrap;">
+                                                <text style="max-weight:50vw;margin-right:2vw;">{{item.collegeName}}</text>
+                                                <text class="terraceBorderText fiveFontSize sign" wx:if="{{item.is985==1}}">{{item.is985==1?'985':''}}</text>
+                                                <text class="terraceBorderText fiveFontSize sign" wx:if="{{item.is211==1}}">{{item.is211==1?'211':''}}</text>
+                                                <text class="terraceBorderText fiveFontSize sign" wx:if="{{item.firstClass}}">{{item.firstClass?'双一流':''}}</text>
+                                            </view>
                                         </view>
-                                    </view>
-                                    <view class="twoFontColor threeFontSize flex flexjsbetween" style="margin:1.33vw 0 0 0;">
-                                        <view>{{item.classify}} / {{item.belong}} / {{item.collegeType}}</view>
-                                        <view class="flex">
-                                            <image mode="widthFix" src="/image/city.png" style="height:2.93vw;width:2.4vw;margin-right:1.07vw;"></image>
-                                            <view>{{item.provinceName}}</view>
+                                        <view class="twoFontColor threeFontSize flex flexjsbetween" style="margin:1.33vw 0 0 0;">
+                                            <view>{{item.provinceName}} / {{item.classify?item.classify:'-'}} / {{item.belong?item.belong:'-'}} / {{item.collegeType?item.collegeType:'-'}}</view>
+                                            <view class="flex"></view>
                                         </view>
                                     </view>
                                 </view>
+                            </navigator>
+                            <navigator class="itemBackColor" hoverClass="listHover" style="margin:0 0 5px 0;line-height:1.5;" url="/packages/findUniversity/collegeDetail/collegeDetail?numId={{item.collegeId}}" wx:if="{{isBOrZ=='0'}}" wx:for="{{openCollege.openCollegeList}}" wx:key="index">
+                                <view class="pageItemWidth fr cardBorder textPadding threeFontSize">
+                                    <image class="collegeLogo" src="{{item.logoUrl}}"></image>
+                                    <view>
+                                        <view>
+                                            <view class="oneFontSize oneFontWidth bold flex" style="flex-wrap:wrap;">
+                                                <text style="max-weight:50vw;margin-right:2vw;">{{item.collegeName}}</text>
+                                                <text class="terraceBorderText fiveFontSize sign" wx:if="{{item.is985==1}}">{{item.is985==1?'985':''}}</text>
+                                                <text class="terraceBorderText fiveFontSize sign" wx:if="{{item.is211==1}}">{{item.is211==1?'211':''}}</text>
+                                                <text class="terraceBorderText fiveFontSize sign" wx:if="{{item.firstClass}}">{{item.firstClass?'双一流':''}}</text>
+                                            </view>
+                                        </view>
+                                        <view class="twoFontColor threeFontSize flex flexjsbetween" style="margin:1.33vw 0 0 0;">
+                                            <view>{{item.provinceName}} / {{item.classify?item.classify:'-'}} / {{item.belong?item.belong:'-'}} / {{item.collegeType?item.collegeType:'-'}}</view>
+                                            <view class="flex"></view>
+                                        </view>
+                                        <view class="twoFontColor threeFontSize" style="margin-top:8rpx;">校友会：
+                      <text wx:if="{{item.rank>0}}">第{{item.rank}}名</text>
+                                            <text wx:if="{{item.rank<=0}}">-</text> / {{item.star?item.star:'-'}} / {{item.level?item.level:'-'}}</view>
+                                        <view class="twoFontColor threeFontSize" style="margin-top:8rpx;">学科评估：{{item.xkpgLevel?item.xkpgLevel:'-'}}</view>
+                                    </view>
+                                </view>
+                            </navigator>
+                            <view class="flex twoFontColor" style="line-height:3;text-align:center;justify-content:space-around;" wx:if="{{openCollege.showMore}}">
+                                <view class="flex">
+                                    <image src="/image/loading.gif" style="width:4vw;height:4vw;margin-right:2vw;"></image>
+                                    <view>加载数据中</view>
+                                </view>
                             </view>
-                        </navigator>
-                        <view class="flex twoFontColor" style="line-height:3;text-align:center;justify-content:space-around;" wx:if="{{openCollege.showMore}}">
-                            <view class="flex">
-                                <image src="/image/loading.gif" style="width:4vw;height:4vw;margin-right:2vw;"></image>
-                                <view>加载数据中</view>
-                            </view>
+                            <view class="twoFontColor" style="line-height:3;text-align:center;" wx:else>- 我也是有底线的 -</view>
+                        </block>
+                        <view class="all-no-data" wx:else>
+                            <image src="/image/no-data.png"></image>
+                            <view>暂无开设院校</view>
                         </view>
-                        <view class="twoFontColor" style="line-height:3;text-align:center;" wx:else>- 我也是有底线的 -</view>
                     </block>
-                    <view class="all-no-data" wx:else>
-                        <image src="/image/no-data.png"></image>
-                        <view>暂无数据</view>
-                    </view>
+                    <loading loadingType="local" wx:if="{{loading}}"></loading>
                 </scroll-view>
             </swiper-item>
         </swiper>
     </view>
-    <view wx:if="{{popup.popupFlag}}">
+    <view wx:if="{{popup.popupFlag&&currentTab!=2}}">
         <view catchtap="hidePopup" class="wrap {{popup.wrapAnimate}}" style="background:rgba(0,0,0,{{popup.bgOpacity}});"></view>
         <view class="{{popup.popupAnimate}} popup-wrapper threeFontSize fourFontColor">
             <view class="twoFontSize bold">使用说明</view>
@@ -374,6 +406,22 @@
             </view>
             <view class="closeLine"></view>
             <image catchtap="hidePopup" class="closeBtn" src="/image/windowClose.png"></image>
+        </view>
+    </view>
+</view>
+<view wx:if="{{popup.popupFlag&&currentTab==2}}">
+    <view catchtap="hidePopup" class="wrap {{popup.wrapAnimate}}" style="background:rgba(0,0,0,{{popup.bgOpacity}});"></view>
+    <view class="{{popup.popupAnimate}} popup-wrapper1">
+        <view style="text-align:left;padding:4.3vw;font-size:2.7vw">
+            <view class="oneFontColor twoFontSize bold">数据说明</view>
+            <view class="fourFontColor threeFontSize" style="line-height:40rpx;margin-top:30rpx;" wx:if="{{isBOrZ=='1'}}">以下数据为全国所有开设“{{majorDetail.name}}”专业的院校列表，根据校友会结果依次展示。所列院校是否面向本省招生，请以最新招生计划为准。</view>
+            <view class="fourFontColor threeFontSize" wx:if="{{isBOrZ=='0'}}">
+                <view style="line-height:40rpx;margin-top:30rpx;">以下数据为全国所有开设“{{majorDetail.name}}”专业的院校列表，根据校友会结果依次展示。所列院校是否面向本省招生，请以最新招生计划为准。</view>
+                <view style="line-height:40rpx;margin-top:30rpx;">
+                    <text class="oneFontColor threeFontSize bold">校友会结果：</text>取自艾瑞深中国校友会网(Cuaa.Net)最新发布的校友会2019中国大学一流专业排名和2019中国心理学类一流专业排名等榜单。</view>
+                <view style="line-height:40rpx;margin-top:30rpx;">
+                    <text class="oneFontColor threeFontSize bold">学科评估：</text>取自中国学位与研究生教育信息网，全国第四轮学科评估(2016)。</view>
+            </view>
         </view>
     </view>
 </view>

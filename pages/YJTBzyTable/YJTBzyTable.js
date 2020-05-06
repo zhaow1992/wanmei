@@ -1,5 +1,7 @@
 var api = require("../../utils/api.js");
 
+var sensors = require("../../utils/sensors.js");
+
 var app = getApp();
 
 Page({
@@ -22,6 +24,7 @@ Page({
     },
     catchWrapperTouchmove: function catchWrapperTouchmove() {},
     onLoad: function onLoad(options) {
+        console.log(app.globalData.isGaokaoFlag);
         var that = this;
         that.selectComponent("#navigationcustom").setNavigationAll("推荐志愿表", true);
         if (options.pro) that.setData({
@@ -35,6 +38,7 @@ Page({
         try {
             var YJTBList = wx.getStorageSync("YJTBList");
             var userScore = wx.getStorageSync("userScore");
+            var userInfo = wx.getStorageSync("userInfo");
             if (YJTBList) {
                 for (var i = 0; i < YJTBList.length; i++) {
                     YJTBList[i].ji = app.zimu(i);
@@ -42,7 +46,8 @@ Page({
                 that.setData({
                     tableList: YJTBList,
                     showLoad: false,
-                    userScore: userScore
+                    userScore: userScore,
+                    userInfo: userInfo
                 });
             }
         } catch (e) {}
@@ -158,6 +163,7 @@ Page({
         });
         var userScore = that.data.userScore;
         var ProvinceId = userScore.provinceNumId;
+        console.log(ProvinceId);
         var Batch = userScore.batch;
         try {
             var gaokaoScore = wx.getStorageSync("gaokaoScore");
@@ -212,8 +218,35 @@ Page({
             });
         }
         api.RecommendationGetKPL("TZY/Recommendation/GetKPL", "POST", ProvinceId, Batch, wishs).then(function(result) {
-            api.generatedZyTable("App/ZyTable/Save", "POST", ProvinceId, name, Batch, BatchName, UserId, UserScoreId, CourseType, chooseLevel, Total, Colleges, scoreType, rank, result.result.prob).then(function(res) {
+            api.generatedZyTable("App/ZyTable/Save", "POST", 0, ProvinceId, name, Batch, BatchName, UserId, UserScoreId, CourseType, chooseLevel, Total, Colleges, scoreType, rank, result.result.prob).then(function(res) {
                 if (res.isSuccess) {
+                    var sheets_type = "平行志愿表";
+                    if (app.globalData.isGaokaoFlag) {
+                        sheets_type = "高考志愿表";
+                    }
+                    var data = {
+                        SA_operation_type: "保存",
+                        SA_sheets_num: "0",
+                        SA_sheets_type: sheets_type,
+                        SA_sheets_source: "一键填报",
+                        SA_data_province: that.data.userInfo[0].ProvinceName,
+                        SA_data_batch: that.data.batchName,
+                        SA_score_value: that.data.userScore.total,
+                        SA_score_rank: that.data.userScore.rank,
+                        SA_data_subject: that.data.userScore.courseType == 1 ? "文科" : "理科",
+                        SA_line_gap: 0,
+                        SA_reliance_rate: result.result.prob,
+                        SA_colg_num: 0,
+                        SA_colg_maxnum: 0,
+                        SA_major_num: 0,
+                        SA_major_maxnum: 0,
+                        SA_vacancy_rate: 0,
+                        SA_fearture1_rate: 0,
+                        SA_fearture2_rate: 0,
+                        SA_fearture3_rate: 0,
+                        SAfearture4_rate: 0
+                    };
+                    app.sensors.track("VoluntSheets", sensors.VoluntSheets(data));
                     var id = res.result.value;
                     that.setData({
                         creatTable: false,

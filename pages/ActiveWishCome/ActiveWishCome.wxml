@@ -1,0 +1,67 @@
+<view class="navigationCustomTopAll">
+    <view style="height:{{navStatusHeight}}px;color:white"></view>
+    <view class="navigationCustomTopMain" style="height:{{navCapsuleHeight}}px;line-height:{{navCapsuleHeight}}px">
+        <view class="navigationAllIconButton" style="display:flex;height:{{navCapsuleHeight}}px" wx:if="{{navigationHome}}">
+            <view bindtap="backIconButtonTap" class="backIconButton" wx:if="{{share==true}}">
+                <image mode="widthFix" src="/image/return-home-w.png" style="max-height:20px;padding:10rpx"></image>
+            </view>
+            <view bindtap="backIconButtonTap" class="backIconButton" wx:else>
+                <image mode="widthFix" src="/image/return.png" style="max-height:20px;padding:10rpx"></image>
+            </view>
+        </view>
+        <view bindtap="toast" class="navigationText title-font fr ac jc" style="line-height:{{navCapsuleHeight}}px;color:#fff;position:relative;">
+            <image bindtap="goHone" class="absoluteStyle" mode="widthFix" src="/image/return-home-w.png" style="width:6.5vw;height:6.5vw;padding:35px 7vw;left:0;"></image>
+            <view>春节祝福</view>
+        </view>
+    </view>
+</view>
+<view style="background:#eff2f7;min-height:100vh;text-align:center;" wx:if="{{showLoad==true}}">
+    <image mode="widthFix" src="http://staticv2.wmei.cn/images/xiaochengxu/active-common/activeWishLoading.gif" style="width:25vw;margin-top:24vw;"></image>
+    <view class="title-font zhejiang-content-font">高考祝福生成中,请稍等...</view>
+</view>
+<view style="width:100vw;height:100vh;" wx:else>
+    <view class="wishPic" style="{{scrollFlag==false?'height:70vh;':'height:67%;'}}display:flex;align-items:center;justify-content:space-around;">
+        <image mode="widthFix" src="{{dangqianPic}}"></image>
+    </view>
+    <scroll-view scrollX class="scrollview-container" style="bottom:18vw;" wx:if="{{scrollFlag==true}}">
+        <view bindtap="chooseWishPic" class="scrollview-wrapper" data-id="{{index}}" data-mobanid="{{item.id}}" data-url="{{item.url}}" style="{{item.st==true?'border:1px solid #ff5053;':''}}{{index==wishPicUrlList.length-1?'margin-right:4.17vw':''}}" wx:for="{{wishPicUrlList}}">
+            <view style="background:rgba(0,0,0,0.3);position:absolute;top:0;left:0;width:18.61vw;height:18.61vw;text-align:center;line-height:18.61vw;" wx:if="{{item.st==true}}">
+                <image src="../../image/ActiveWish-checked.png" style="width:6.67vw;height:4.3vw;"></image>
+            </view>
+            <image mode="aspectFill" src="{{item.url}}" style="background:#000;"></image>
+            <view class="point-font scrollview-info">{{item.info}}</view>
+        </view>
+    </scroll-view>
+    <view class="flex wishBottomBtn-container">
+        <button class="zan flex shareBtn-wrapper" openType="share">
+            <view class="flex">
+                <image mode="widthFix" src="/image/ActiveWish-share.png" style="margin-right:2vw;"></image>
+                <view>
+                    <view class="title-font" style="text-align:left;line-height:1.5;white-space:nowrap;">转发</view>
+                    <view class="point-font" style="line-height:1.5;">已获 {{wishNum}} 祝福</view>
+                </view>
+            </view>
+        </button>
+        <view bindtap="openInputName" class="zan flex makeBtn-wrapper" wx:if="{{scrollFlag==false}}">
+            <view class="flex">
+                <image src="../../image/active-makeMy-notice.png"></image>
+                <view class="title-font">我也要制作</view>
+            </view>
+        </view>
+        <view bindtap="baocunImage" class="zan flex makeBtn-wrapper" wx:else>
+            <view class="flex">
+                <view class="title-font">保存相册</view>
+            </view>
+        </view>
+    </view>
+</view>
+<view wx:if="{{inputName}}">
+    <view class="wrap"></view>
+    <view style="width:65vw;padding:9.44vw 7vw 9.44vw;background:#fff;border-radius:5px;position:fixed;left:50%;margin-left:-39.5vw;top:25vh;z-index:10;">
+        <image bindtap="closeInputName" src="../../image/icon_close_alt2.png" style="width:4vw;height:4vw;position:absolute;right:3.47vw;top:3.47vw;"></image>
+        <view style="font-size:6.67vw;text-align:center;">你的大名</view>
+        <input bindinput="getName" maxlength="4" placeholder="输入你的姓名" style="width:64.86vw;height:13.19vw;line-height:13.19vw;text-align:center;border-radius:10vw;margin:auto;border:1px solid #e4e4e4;margin-top:8.33vw;"></input>
+        <view bindtap="blessingGenerateNo" style="width:64.86vw;height:13.19vw;line-height:13.19vw;text-align:center;background:#e4e4e4;color:#fff;border-radius:10vw;margin:auto;margin-top:8.33vw;" wx:if="{{nameBtnFlag==false}}">确定</view>
+        <view bindtap="blessingGenerate" hoverClass="btnHover" style="width:64.86vw;height:13.19vw;line-height:13.19vw;text-align:center;background-image: linear-gradient(-52deg, #E9302D 1%, #FF5053 100%);box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);color:#fff;border-radius:10vw;margin:auto;margin-top:8.33vw;" wx:if="{{nameBtnFlag==true}}">确定</view>
+    </view>
+</view>

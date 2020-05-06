@@ -8,3 +8,8 @@
         <image src="../../image/loading_icon1.gif"></image>
     </view>
 </view>
+<view class="popupLoading" wx:if="{{loadingType=='popup'}}">
+    <view style="display: flex;align-items: center;justify-content: space-around;width: 40vw;background: #fff;height: 40vw;">
+        <image src="../../image/loading_icon1.gif"></image>
+    </view>
+</view>

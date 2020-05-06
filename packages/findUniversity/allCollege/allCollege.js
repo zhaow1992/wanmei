@@ -24,9 +24,9 @@ function _defineProperty(obj, key, value) {
     return obj;
 }
 
-// packages/findUniversity/allCollege/allCollege.js
-// var tmpdata = require("../../../tmpdata");
 var app = getApp();
+
+var sensors = require("./../../../utils/sensors.js");
 
 Page((_Page = {
     cityId: "",
@@ -36,6 +36,13 @@ Page((_Page = {
     totalCount: 0,
     locateCount: 0,
     data: {
+        chooseNumber: {
+            level: 0,
+            classify: 0,
+            isBen: 0,
+            type: 0,
+            province: 0
+        },
         showLoad: false,
         national: true,
         noType: true,
@@ -258,10 +265,7 @@ Page((_Page = {
         var that = this;
         if (!app.checkOnce(that, "oneClick")) return;
         wx.navigateTo({
-            url: "/packages/common/publicSearch/publicSearch",
-            success: function success(res) {},
-            fail: function fail(res) {},
-            complete: function complete(res) {}
+            url: "/pages/globalSearch/globalSearch?mode=college"
         });
     },
     checkProvinceIds: function checkProvinceIds() {
@@ -281,6 +285,7 @@ Page((_Page = {
         var that = this;
         var len = that.data.collegeList.length;
         if (len < that.totalCount) {
+            console.log("到底");
             that.pageIndex++;
             that.queryCollegeList(that.checkProvinceIds(), that.checkLevels(), that.checkClassify(), [], [], false, that.data.createChecked, that.data.degreeChecked, false, false, "", that.pageIndex);
         } else {}
@@ -324,12 +329,38 @@ Page((_Page = {
         var that = this;
         if (!app.checkOnce(that, "oneClick")) return;
         var index = e.currentTarget.dataset.id;
-        var numId = that.data.collegeList[index].numId;
+        var collegeList = that.data.collegeList[index];
+        var arr = [];
+        if (collegeList.is985 == 1) {
+            arr.push("985");
+        }
+        if (collegeList.is211 == 1) {
+            arr.push("211");
+        }
+        if (collegeList.firstClass) {
+            arr.push("双一流");
+        }
+        var numId = collegeList.numId;
+        var SA_code = numId;
+        var SA_name = collegeList.name;
+        var SA_province = collegeList.city;
+        var SA_isBen = collegeList.isBen;
+        var SA_level = arr.join("|");
+        var SA_classify = collegeList.classify;
+        var SA_type = collegeList.type;
+        var SA_num = index;
+        var data = {
+            SA_code: SA_code,
+            SA_name: SA_name,
+            SA_province: SA_province,
+            SA_isBen: SA_isBen,
+            SA_level: SA_level,
+            SA_classify: SA_classify,
+            SA_type: SA_type,
+            SA_num: SA_num
+        };
         wx.navigateTo({
-            url: "/packages/findUniversity/collegeDetail/collegeDetail?numId=" + numId,
-            success: function success(res) {},
-            fail: function fail(res) {},
-            complete: function complete(res) {}
+            url: "/packages/findUniversity/collegeDetail/collegeDetail?numId=" + numId
         });
     },
     // 处理学科范围（综合）
@@ -369,43 +400,44 @@ Page((_Page = {
         natures = natures || [];
         arts = arts || [];
         pageSize = pageSize || 10;
-        //provinceIds.push(that.cityId.cityId);
-                _api2.default.queryColleges("Colleges/Query", "POST", provinceIds, levels, classify, natures, arts, isArt, isBen, type, isSingleRecruit, wordSegment, keywords, pageIndex, pageSize).then(function(res) {
-            var collegeList = that.data.collegeList;
-            if (res.result && res.result.items) {
-                var serverCollege = res.result.items;
-                that.totalCount = res.result.totalCount;
-                for (var i in serverCollege) {
-                    var college = {};
-                    college.numId = serverCollege[i].numId;
-                    college.name = serverCollege[i].cnName;
-                    var create = "公办";
-                    if (serverCollege[i].isCivilianRun > 0) {
-                        create = "民办";
-                    }
-                    college.collegeTag = serverCollege[i].classify + " / " + serverCollege[i].belong + " / " + create;
-                    var collegeTerrace = [];
-                    if (serverCollege[i].level) {
-                        collegeTerrace = serverCollege[i].level.split(" ");
-                        collegeTerrace.pop();
-                        // college.collegeTerrace = collegeTerrace;
-                                        }
-                    for (var _i3 = 0; _i3 < res.result.items.length; _i3++) {
-                        var tags = [];
-                        for (var j = 0; j < collegeTerrace.length; j++) {
-                            if (collegeTerrace[j] == "211" || collegeTerrace[j] == "985" || collegeTerrace[j] == "双一流") {
-                                tags.push(collegeTerrace[j]);
-                            }
-                        }
-                        college.collegeTerrace = tags;
-                    }
-                    college.collegeIcon = serverCollege[i].logoUrl || "/image/collegeLogo.png";
-                    college.city = serverCollege[i].provinceName;
-                    collegeList.push(college);
-                }
-                that.setData({
-                    collegeList: collegeList
-                });
+        var chooseNumber = that.data.chooseNumber;
+        var levelArr = [];
+        if (levels.is985 == true) levelArr.push("985");
+        if (levels.is211 == true) levelArr.push("211");
+        if (levels.firstClass == true) levelArr.push("双一流");
+        var SA_province = that.provinceArr.join("|");
+        var SA_level = levelArr.join("|");
+        var SA_classify = classify.join("|");
+        var SA_isBen = parseInt(type) == 1 ? "本科" : parseInt(isBen) == 0 ? "专科" : "";
+        var SA_type = parseInt(isBen) == 1 ? "公立" : parseInt(type) == 0 ? "私立" : "";
+        var parameter = {
+            keyword: "",
+            provinceIds: provinceIds,
+            classify: classify,
+            type: type,
+            isBen: isBen,
+            is985: levels.is985 == true ? true : false,
+            is211: levels.is211 == true ? true : false,
+            isFirstClass: levels.firstClass == true ? true : false,
+            index: pageIndex,
+            count: pageSize
+        };
+        _api2.default.queryColleges("api/search/find-colleges", "POST", parameter).then(function(res) {
+            that.setData({
+                collegeList: that.data.collegeList.concat(res.result.items)
+            });
+            that.totalCount = res.result.totalCount;
+            var SA_number = res.result.totalCount;
+            var data = {
+                SA_province: SA_province,
+                SA_level: SA_level,
+                SA_classify: SA_classify,
+                SA_isBen: SA_isBen,
+                SA_type: SA_type,
+                SA_number: SA_number
+            };
+            if (SA_province != "" || SA_level != "" || SA_classify != "" || SA_isBen != "" || SA_type != "") {
+                // app.sensors.track('ColgFilter', sensors.ColgFilter(data));
             }
         });
     },
@@ -422,7 +454,17 @@ Page((_Page = {
         var that = this;
         var id = e.currentTarget.id;
         var selectTerrace = that.data.selectTerrace;
-        if (selectTerrace[id].checked) selectTerrace[id].checked = false; else selectTerrace[id].checked = true;
+        if (selectTerrace[id].checked) {
+            that.setData({
+                "chooseNumber.level": that.data.chooseNumber.level - 1
+            });
+            selectTerrace[id].checked = false;
+        } else {
+            that.setData({
+                "chooseNumber.level": that.data.chooseNumber.level + 1
+            });
+            selectTerrace[id].checked = true;
+        }
         that.setData({
             selectTerrace: selectTerrace
         });
@@ -454,6 +496,25 @@ Page((_Page = {
         var that = this;
         var id = e.currentTarget.id;
         var createChecked = that.data.createChecked;
+        switch (parseInt(id)) {
+          case 0:
+            that.setData({
+                "chooseNumber.type": 1
+            });
+            break;
+
+          case 1:
+            that.setData({
+                "chooseNumber.type": 1
+            });
+            break;
+
+          default:
+            that.setData({
+                "chooseNumber.type": 0
+            });
+            break;
+        }
         that.setData({
             createChecked: id
         });
@@ -462,6 +523,25 @@ Page((_Page = {
         var that = this;
         var id = e.currentTarget.id;
         var degreeChecked = that.data.degreeChecked;
+        switch (parseInt(id)) {
+          case 0:
+            that.setData({
+                "chooseNumber.isBen": 1
+            });
+            break;
+
+          case 1:
+            that.setData({
+                "chooseNumber.isBen": 1
+            });
+            break;
+
+          default:
+            that.setData({
+                "chooseNumber.isBen": 0
+            });
+            break;
+        }
         that.setData({
             degreeChecked: id
         });
@@ -491,6 +571,7 @@ Page((_Page = {
             noType = true;
         }
         that.setData({
+            "chooseNumber.classify": that.typeCount,
             universityType: universityType,
             noType: noType
         });
@@ -503,6 +584,7 @@ Page((_Page = {
         var cityList = that.data.cityList;
         if (areatype == "fast") {
             national = true;
+            that.provinceArr = [];
             that.locateCount = 0;
             for (var i in cityList) {
                 cityList[i].checked = false;
@@ -513,10 +595,14 @@ Page((_Page = {
             }
             if (cityList[id].checked) {
                 cityList[id].checked = false;
+                that.provinceArr.splice(that.provinceArr.findIndex(function(item) {
+                    return item === cityList[id].name;
+                }), 1);
                 that.locateCount--;
             } else {
                 that.locateCount++;
                 national = false;
+                that.provinceArr.push(cityList[id].name);
                 cityList[id].checked = true;
             }
         }
@@ -524,6 +610,7 @@ Page((_Page = {
             national = true;
         }
         that.setData({
+            "chooseNumber.province": that.locateCount,
             cityList: cityList,
             national: national
         });
@@ -533,6 +620,7 @@ Page((_Page = {
     that.selectComponent("#rightdrawermenu").shaixuanTap();
 }), _defineProperty(_Page, "onLoad", function onLoad(options) {
     var that = this;
+    that.provinceArr = [];
     that.cityId = wx.getStorageSync("cityId");
     that.selectComponent("#navigationcustom").setNavigationAll("全部院校", true);
     that.queryCollegeList([], {}, [], [], [], false, -1, -1, false, false, "", 1);
@@ -540,13 +628,6 @@ Page((_Page = {
         menuTop: app.globalData.navigationCustomStatusHeight + app.globalData.navigationCustomCapsuleHeight
     });
     that.getMenuHeight();
-    // let query = wx.createSelectorQuery();
-    //    query.select('#topmenu').boundingClientRect();
-    // query.exec(function (res) {
-    //  
-    // })
-}), _defineProperty(_Page, "onReady", function onReady() {}), _defineProperty(_Page, "onShow", function onShow() {
+}), _defineProperty(_Page, "onShow", function onShow() {
     app.resetOnce(this, "oneClick");
-}), _defineProperty(_Page, "onHide", function onHide() {}), _defineProperty(_Page, "onUnload", function onUnload() {}), 
-_defineProperty(_Page, "onPullDownRefresh", function onPullDownRefresh() {}), _defineProperty(_Page, "onReachBottom", function onReachBottom() {}), 
-_defineProperty(_Page, "onShareAppMessage", function onShareAppMessage() {}), _Page));
+}), _Page));

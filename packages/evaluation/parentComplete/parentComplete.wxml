@@ -1,1 +1,7 @@
-<!--packages/evaluation/parentComplete/parentComplete.wxml--><text>packages/evaluation/parentComplete/parentComplete.wxml</text>
+<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<view class="container" style="text-align:center;">
+    <image src="/image/active-shareSuccess.png" style="width:30vw;height:30vw;margin-top:15vh;margin-bottom:5vw;"></image>
+    <view class="oneFontSize onFontColor">答题完成</view>
+    <view class="twoFontColor">请尽快让孩子参与测评</view>
+    <view bindtap="complete" class="recommend-btn oneFontSize" style="margin:5vw auto 0;">确定</view>
+</view>

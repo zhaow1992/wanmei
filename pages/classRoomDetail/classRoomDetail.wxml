@@ -4,7 +4,7 @@
     <view style="margin-top:5.56vw">加载中...</view>
 </view>
 <view class="container" wx:else>
-    <video direction="0" id="videoId" src="{{setctionUrl}}" wx:if="{{userInfo[0].UserType==14&&packType==2||packType==1}}">
+    <video direction="0" id="videoId" src="{{setctionUrl}}" wx:if="{{(userInfo[0].UserType==14||userInfo[0].UserType==2||userInfo[0].UserType==3&&userInfo[0].isTiyan)&&packType==2||packType==1}}">
         <cover-view bindtap="openSpeed" class="fiveFontSize speed-btn">{{speed==1?'原速':'x'+speed}}</cover-view>
         <cover-view class="flex video-wrapper {{speedAnimate}}">
             <cover-view>播放速度</cover-view>

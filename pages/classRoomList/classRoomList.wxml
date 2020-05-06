@@ -19,7 +19,7 @@
         <view style="margin-top:5.56vw">数据加载中...</view>
     </view>
     <scroll-view scrollY bindscrolltolower="scrollToLower" class="classRoomList-wrapper container" style="height:82vh" wx:else>
-        <navigator class="newClass-wrapper " hoverClass="listHover" url="../classRoomDetail/classRoomDetail?type={{item.type}}&id={{item.numId}}" wx:for="{{newClassList}}">
+        <navigator class="newClass-wrapper " hoverClass="listHover" url="../classRoomDetail/classRoomDetail?type={{item.type}}&id={{item.numId}}&minortype={{navName}}" wx:for="{{newClassList}}">
             <image class="newClass-left" lazyLoad="{{true}}" src="{{item.imgUrl}}" style="background:#f0eff5"></image>
             <view class="newClass-right">
                 <text class="newClassRight">

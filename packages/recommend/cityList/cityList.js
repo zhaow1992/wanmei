@@ -3,7 +3,7 @@ Page({
         //海南 青海 西藏
         usertype: 0,
         cityList: [],
-        showBtn: false,
+        showBtn: true,
         cityId: null,
         hiddenFlag: true
     },
@@ -13,7 +13,7 @@ Page({
         var cityListArr = [ {
             cityName: "全国",
             cityId: -1,
-            st: false
+            st: true
         } ];
         try {
             var cityList = wx.getStorageSync("cityList");
@@ -76,13 +76,18 @@ Page({
                     showBtn: true
                 });
             } else {
-                cityList[0].st = false;
+                cityList[0].st = true;
                 for (var i = 0; i < cityList.length; i++) {
                     var flag = !cityList[i].st;
                     if (cityId == cityList[i].cityId) {
                         cityList[i].st = flag;
                     }
                 }
+                cityList.map(function(i, index) {
+                    if (index > 0 && i.st) {
+                        cityList[0].st = false;
+                    }
+                });
                 that.setData({
                     showBtn: true
                 });
@@ -104,13 +109,18 @@ Page({
                         cityList[i].st = flag;
                     }
                 }
+                cityList.map(function(i, index) {
+                    if (index > 0 && i.st) {
+                        cityList[0].st = false;
+                    }
+                });
                 that.setData({
                     showBtn: true
                 });
             }
         }
         that.setData({
-            cityList: that.data.cityList
+            cityList: cityList
         });
     },
     quedingChoose: function quedingChoose() {

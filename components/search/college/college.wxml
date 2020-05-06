@@ -1,6 +1,10 @@
 <view class="whiteColor" wx:if="{{colleges.length>0}}">
-    <view bindtap="collegeDetail" data-id="{{item.numId}}" hoverClass="listHover" style="border-bottom:2rpx solid #E9E9E9" wx:for="{{colleges}}">
-        <view class="fr ac jsb" style="height:157rpx;margin:0 30rpx;">
+    <view bindtap="{{collegeType=='compare'?'choseCollege':'collegeDetail'}}" data-id="{{item.numId}}" data-index="{{index}}" hoverClass="listHover" style="border-bottom:2rpx solid #E9E9E9" wx:for="{{colleges}}">
+        <view class="fr jsb ac whiteColor" style="height:120rpx;padding:0 4.3vw;border-bottom:1px solid #e9e9e9;" wx:if="{{collegeType=='compare'}}">
+            <view class="oneFontSize onFontColor">{{item.collegeName||item.cnName}}</view>
+            <image mode="widthFix" src="/image/moreArrow.png" style="width:2.22vw;height:2.22vw;"></image>
+        </view>
+        <view class="fr ac jsb" style="height:157rpx;margin:0 30rpx;" wx:else>
             <view class="fr ac">
                 <image class="logo" src="{{item.logoUrl||'/image/collegeLogo.png'}}"></image>
                 <view class="fr ac threeFontSize twoFontColor" style="margin-left:20rpx;">

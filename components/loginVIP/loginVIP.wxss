@@ -1,4 +1,4 @@
-@import "../search/collegeList/collegeList.wxss";
+@import "../search/intelligenceMajor/intelligenceMajor.wxss";
 
 .btn {
     width: 250rpx;

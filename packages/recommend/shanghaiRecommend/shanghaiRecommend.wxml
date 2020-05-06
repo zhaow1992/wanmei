@@ -1,4 +1,4 @@
-<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<navigationcustomtop id="navigationcustom" navigationText="{{navigationText}}"></navigationcustomtop>
 <view class="loading" wx:if="{{showLoad}}">
     <image src="/image/loading_icon1.gif"></image>
     <view style="margin-top:5.56vw">加载中...</view>
@@ -6,7 +6,7 @@
 <block wx:else>
     <view class="swiper-tab title-font" style="width:65vw">
         <view bindtap="swichNav" class="swiper-tab-list {{currentTab==0?'chong chong-border':''}}" data-current="0">冲</view>
-        <view bindtap="swichNav" class="swiper-tab-list {{currentTab==1?'shou shou-border':''}}" data-current="1">守</view>
+        <view bindtap="swichNav" class="swiper-tab-list {{currentTab==1?'shou shou-border':''}}" data-current="1">稳</view>
         <view bindtap="swichNav" class="swiper-tab-list {{currentTab==2?'bao bao-border':''}}" data-current="2">保</view>
     </view>
     <swiper bindchange="change" current="{{currentTab}}" style="height:80vh">
@@ -18,9 +18,10 @@
                             <view class="zhejiang-content-color">{{userScore.total}} 分</view>
                             <image mode="widthFix" src="../image/choose_score_icon.png" style="width:4vw;height:3vw;margin-left:2vw"></image>
                         </view>
-                        <view class="zhejiang-info-color" style="margin-left:6vw" wx:if="{{shanghaiChongList.length>0}}">
-                            <text class="chong">{{chongSuo}}</text> 所
-                </view>
+                        <view class="zhejiang-info-color" wx:if="{{shanghaiChongList.length>0}}">
+                            <text style="margin:0 15rpx;">{{userScore.rank}}位 </text>
+                            <text>{{chooseLevel[0]+'/'+chooseLevel[1]+'/'+chooseLevel[2]}}</text>
+                        </view>
                     </view>
                     <view bindtap="shaixuan" class="flex">
                         <view class="zhejiang-content-color">筛选</view>
@@ -156,9 +157,10 @@
                             <view class="zhejiang-content-color">{{userScore.total}} 分</view>
                             <image mode="widthFix" src="../image/choose_score_icon.png" style="width:4vw;height:3vw;margin-left:2vw"></image>
                         </view>
-                        <view class="zhejiang-info-color" style="margin-left:6vw" wx:if="{{shanghaiShouList.length>0}}">
-                            <text class="shou">{{shouSuo}}</text> 所
-                </view>
+                        <view class="zhejiang-info-color" wx:if="{{shanghaiShouList.length>0}}">
+                            <text style="margin:0 15rpx;">{{userScore.rank}}位 </text>
+                            <text>{{chooseLevel[0]+'/'+chooseLevel[1]+'/'+chooseLevel[2]}}</text>
+                        </view>
                     </view>
                     <view bindtap="shaixuan" class="flex">
                         <view class="zhejiang-content-color">筛选</view>
@@ -294,9 +296,10 @@
                             <view class="zhejiang-content-color">{{userScore.total}} 分</view>
                             <image mode="widthFix" src="../image/choose_score_icon.png" style="width:4vw;height:3vw;margin-left:2vw"></image>
                         </view>
-                        <view class="zhejiang-info-color" style="margin-left:6vw" wx:if="{{shanghaiBaoList.length>0}}">
-                            <text class="bao">{{baoSuo}}</text> 所
-                </view>
+                        <view class="zhejiang-info-color" wx:if="{{shanghaiBaoList.length>0}}">
+                            <text style="margin:0 15rpx;">{{userScore.rank}}位 </text>
+                            <text>{{chooseLevel[0]+'/'+chooseLevel[1]+'/'+chooseLevel[2]}}</text>
+                        </view>
                     </view>
                     <view bindtap="shaixuan" class="flex">
                         <view class="zhejiang-content-color">筛选</view>

@@ -1,0 +1,128 @@
+@import "../jiangsuRecommend/jiangsuRecommend.wxss";
+
+@import "../zhejiangRecommend/zhejiangRecommend.wxss";
+
+.ipt {
+    width: 686rpx;
+    height: 104rpx;
+    background: #ffffff;
+    border-radius: 16rpx;
+}
+
+.btn {
+    width: 324rpx;
+    height: 80rpx;
+    border-radius: 40rpx;
+}
+
+.scorewrapper {
+    padding: 20rpx;
+}
+
+.scorewrapper>view {
+    margin-right: 10rpx;
+    line-height: 1;
+}
+
+.pop {
+    width: 32rpx;
+    height: 32rpx;
+    border-radius: 16rpx;
+}
+
+.CWB-icon {
+    left: 28rpx;
+}
+
+.fill {
+    bottom: 12vw;
+    line-height: 44rpx;
+}
+
+.recommendList {
+    background: inherit;
+}
+
+.major-wrapper {
+    background-color: #fff;
+}
+
+.major-wrapper.radius {
+    border-radius: 0 0 8px 8px;
+}
+
+.tips {
+    justify-content: center;
+    align-items: center;
+}
+
+.tips>text {
+    display: inline-block;
+    width: 20rpx;
+    height: 0;
+    margin: 0 15rpx;
+    border: 1rpx dotted #979797;
+}
+
+.footer-wrapper1 {
+    position: fixed;
+    width: 100vw;
+    background: #fff;
+    box-shadow: 0 4px 4px 4px rgba(0,0,0,0.05);
+}
+
+.tb {
+    line-height: 44rpx;
+    border: 1rpx solid #eee;
+    border-radius: 30rpx;
+    padding: 0rpx 30rpx;
+}
+
+.save-btn {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 100%;
+    background-image: linear-gradient(-52deg,#E9302D 1%,#FF5053 100%);
+    box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);
+    color: #fff;
+    text-align: center;
+    position: fixed;
+    bottom: 104rpx;
+    right: 40rpx;
+    justify-content: space-around;
+    z-index: 1;
+}
+
+.popup {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: #FFFFFF;
+    width: 40rpx;
+    height: 28rpx;
+    border: 1rpx solid #E9302D;
+    border-radius: 16px;
+    color: #E9302D;
+}
+
+.major-icon {
+    width: 48rpx;
+    height: 48rpx;
+    border-radius: 100%;
+    margin-right: 20rpx;
+    justify-content: space-around;
+}
+
+.major-image {
+    width: 30rpx;
+    height: 30rpx;
+}
+
+.maj-pop-title {
+    margin-top: 40rpx;
+}
+
+.maj-pop-con {
+    margin-top: 20rpx;
+    line-height: 1.8;
+}

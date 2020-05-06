@@ -1,12 +1,12 @@
 <navigationcustomtop navigationText="搜索"></navigationcustomtop>
 <loading wx:if="{{showLoad}}"></loading>
-<view class="fr ac whiteColor" id="searchInput" style="padding-bottom:10rpx;border-bottom:1px solid #E9E9E9;" wx:if="{{!showLoad}}">
+<view class="fr ac whiteColor" id="searchInput" style="padding-bottom:10rpx;" wx:if="{{!showLoad}}">
     <view class="search-box fr ac">
-        <image src="/image/search.png" style="width:40rpx;height:40rpx;margin-left:40rpx"></image>
+        <image src="{{icon.src}}" style="{{icon.style}};margin-left:40rpx"></image>
         <input focus bindconfirm="search" bindinput="input" class="twoFontSize twoFontColor" confirmType="搜索" placeholder="{{placeholder}}" placeholderClass="twoFontSize twoFontColor" style="margin-left:30rpx;width:400rpx" value="{{keyword}}"></input>
         <image bindtap="clearInput" src="/image/close.png" style="width:40rpx;height:40rpx;margin-left:30rpx;" wx:if="{{keyword}}"></image>
     </view>
-    <view bindtap="cancel" class="twoFontSize checkedColor" style="margin-left:30rpx;">取消</view>
+    <view bindtap="{{keyword?'search':'cancel'}}" class="twoFontSize" style="color:#E9302D;margin-left:30rpx;">{{keyword?'搜索':'取消'}}</view>
 </view>
 <view wx:if="{{searchResult}}">
     <scroll-view scrollX class="whiteColor" id="tab" scrollIntoView="tab{{current}}" scrollWithAnimation="{{true}}" style="width:750rpx;height:110rpx;white-space: nowrap; display: flex;" wx:if="{{tabList.length>0}}">
@@ -23,7 +23,7 @@
         <view wx:if="{{college.length>0}}">
             <view class="fourFontSize oneFontColr whiteColor" style="padding-left:30rpx;padding-top:30rpx">院校</view>
             <college colleges="{{college}}"></college>
-            <view bindtap="more" class="more fr ac jsb twoFontColor threeFontSize" data-type="{{1}}">
+            <view bindtap="more" class="more fr ac jc twoFontColor threeFontSize" data-type="{{1}}">
                 <view>查看更多院校</view>
                 <image src="/image/moreArrow.png" style="width:12rpx;height:20rpx;margin-left:12rpx;"></image>
             </view>
@@ -31,7 +31,7 @@
         <view wx:if="{{majors.length>0}}">
             <view class="fourFontSize oneFontColr whiteColor" style="padding-left:30rpx;padding-top:30rpx">专业</view>
             <major majors="{{majors}}"></major>
-            <view bindtap="more" class="more fr ac jsb twoFontColor threeFontSize" data-type="{{2}}">
+            <view bindtap="more" class="more fr ac jc twoFontColor threeFontSize" data-type="{{2}}">
                 <view>查看更多专业</view>
                 <image src="/image/moreArrow.png" style="width:12rpx;height:20rpx;margin-left:12rpx;"></image>
             </view>
@@ -39,7 +39,7 @@
         <view wx:if="{{jobs.length>0}}">
             <view class="fourFontSize oneFontColr whiteColor" style="padding-left:30rpx;padding-top:30rpx">职业</view>
             <jobs jobs="{{jobs}}"></jobs>
-            <view bindtap="more" class="more fr ac jsb twoFontColor threeFontSize" data-type="{{13}}">
+            <view bindtap="more" class="more fr ac jc twoFontColor threeFontSize" data-type="{{13}}">
                 <view>查看更多职业</view>
                 <image src="/image/moreArrow.png" style="width:12rpx;height:20rpx;margin-left:12rpx;"></image>
             </view>
@@ -47,7 +47,7 @@
         <view wx:if="{{video.length>0}}">
             <view class="fourFontSize oneFontColr whiteColor" style="padding-left:30rpx;padding-top:30rpx">课程</view>
             <classRoom video="{{video}}"></classRoom>
-            <view bindtap="more" class="more fr ac jsb twoFontColor threeFontSize" data-type="{{3}}">
+            <view bindtap="more" class="more fr ac jc twoFontColor threeFontSize" data-type="{{3}}">
                 <view>查看更多课程</view>
                 <image src="/image/moreArrow.png" style="width:12rpx;height:20rpx;margin-left:12rpx;"></image>
             </view>
@@ -59,13 +59,13 @@
     </scroll-view>
     <scroll-view scrollY bindscrolltolower="getMore" style="height:{{windowHeight}}px;" wx:if="{{searchType==1}}">
         <loading loadingType="local" wx:if="{{showLocalLoad}}"></loading>
-        <college colleges="{{collegePoint}}" wx:else></college>
+        <college collegeType="{{collegeType}}" colleges="{{collegePoint}}" wx:else></college>
         <view wx:if="{{collegePoint.length>0&&showMore}}">
             <view class="twoFontColor twoFontSize textAlign" style="line-height:2" wx:if="{{!isMore}}">- 已加载全部 -</view>
             <view class="twoFontColor twoFontSize textAlign" style="line-height:2" wx:else>正在加载中...</view>
         </view>
     </scroll-view>
-    <scroll-view scrollY style="height:{{windowHeight}}px;" wx:if="{{searchType==2}}">
+    <scroll-view scrollY bindscrolltolower="getMore" style="height:{{windowHeight}}px;" wx:if="{{searchType==2}}">
         <loading loadingType="local" wx:if="{{showLocalLoad}}"></loading>
         <major majors="{{majorsPoint}}" wx:else></major>
     </scroll-view>
@@ -105,31 +105,51 @@
         <loading loadingType="local" wx:if="{{showLocalLoad}}"></loading>
         <intelligenceCollege intelligenceCollege="{{intelligenceCollege}}" wx:else></intelligenceCollege>
     </scroll-view>
+    <scroll-view scrollY style="height:{{windowHeight}}px" wx:if="{{searchType==1000}}">
+        <loading loadingType="local" wx:if="{{showLocalLoad}}"></loading>
+        <zjCollege zjCollege="{{zjCollege}}" wx:else></zjCollege>
+    </scroll-view>
+    <scroll-view scrollY style="height:{{windowHeight}}px" wx:if="{{searchType==847}}">
+        <loading loadingType="local" wx:if="{{showLocalLoad}}"></loading>
+        <sdCollege sdCollege="{{sdCollege}}" showCode="{{showCode}}" wx:else></sdCollege>
+    </scroll-view>
+    <scroll-view scrollY style="height:{{windowHeight}}px" wx:if="{{searchType==834}}">
+        <loading loadingType="local" wx:if="{{showLocalLoad}}"></loading>
+        <bjCollege bjCollege="{{bjCollege}}" chooseArr="{{chooseArr}}" wx:else></bjCollege>
+    </scroll-view>
+    <scroll-view scrollY style="height:{{windowHeight}}px" wx:if="{{searchType==835}}">
+        <loading loadingType="local" wx:if="{{showLocalLoad}}"></loading>
+        <tjCollege chooseArr="{{chooseArr}}" tjCollege="{{bjCollege}}" wx:else></tjCollege>
+    </scroll-view>
+    <scroll-view scrollY style="height:{{windowHeight}}px" wx:if="{{searchType==853}}">
+        <loading loadingType="local" wx:if="{{showLocalLoad}}"></loading>
+        <hnCollege chooseArr="{{chooseArr}}" hnCollege="{{bjCollege}}" wx:else></hnCollege>
+    </scroll-view>
 </view>
 <view wx:if="{{!searchResult&&!showLoad}}">
     <view class="whiteColor" style="padding:30rpx 0;" wx:if="{{searchType==0}}">
         <view class="fr ac jc threeFontSize threeFontColor">搜索指定内容</view>
         <view class="fr ac jc twoFontSize oneFontColor" style="margin-top:50rpx;">
-            <view class="fr ac" style="flex-wrap:wrap;width:600rpx;">
-                <view bindtap="toSerchAppoint" class="fr ac jc" data-index="{{index}}" data-type="{{item.type}}" style="width:200rpx;margin-bottom:30rpx;" wx:if="{{index>=1}}" wx:for="{{serchAppoint}}">
+            <view class="fr ac" style="flex-wrap:wrap;width:604rpx;">
+                <view bindtap="toSerchAppoint" class="fr ac jc" data-index="{{index}}" data-type="{{item.type}}" style="width:200rpx;margin-bottom:30rpx;{{index==1||index%2==0?'border-right:1rpx solid #E9E9E9':''}}" wx:if="{{index>=1}}" wx:for="{{serchAppoint}}">
           {{item.name}}
         </view>
             </view>
         </view>
     </view>
-    <view class="whiteColor" wx:if="{{hitSearch.length>0&&!showLocalLoad}}">
+    <view class="whiteColor" style="{{searchType==0?'margin-top:16rpx':''}}" wx:if="{{hitSearch.length>0&&!showLocalLoad}}">
         <view class="content-color content-wrapper lishijilu fr ac" style="border:none;">
             <view class="twoFontSize oneFontColor">热门搜索</view>
         </view>
         <view class="fr ac content-color content-wrapper" style="flex-wrap:wrap;">
-            <view style="padding-bottom:10rpx;" wx:for="{{hitSearch}}">
-                <view bindtap="historySearch" class="history threeFontSize twoFontColor" data-item="{{item.keywords}}" hoverClass="listHover" style="margin-right:10rpx">
+            <view style="padding-bottom:24rpx;" wx:for="{{hitSearch}}">
+                <view bindtap="historySearch" class="history threeFontSize twoFontColor " data-item="{{item.keywords}}" hoverClass="listHover" style="margin-right:20rpx">
           {{item.keywords}}
         </view>
             </view>
         </view>
     </view>
-    <view class="whiteColor" style="margin-top:10rpx;" wx:if="{{globalHistory.length>0&&!showLocalLoad}}">
+    <view class="whiteColor" wx:if="{{globalHistory.length>0&&!showLocalLoad}}">
         <view class="content-color content-wrapper lishijilu fr ac jsb" style="border:none;">
             <view class="twoFontSize oneFontColor">搜索历史</view>
             <image bindtap="clearHistory" src="/image/laji_icon.png" style="width:3.73vw;height:3.73vw"></image>

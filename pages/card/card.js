@@ -1,5 +1,7 @@
 var api = require("../../utils/api.js");
 
+var sensors = require("./../../utils/sensors.js");
+
 var app = getApp();
 
 Page({
@@ -77,6 +79,11 @@ Page({
         var sourceSign = app.globalData.system;
         api.bindCard("Users/UserBindCard", "POST", CardNo, CardPassword, UserId, sourceSign).then(function(res) {
             wx.hideNavigationBarLoading();
+            var data = {
+                CardNo: CardNo,
+                UserId: UserId
+            };
+            app.sensors.track("CardActResult", sensors.CardActResult(data, res.isSuccess, res.message));
             if (res.isSuccess) {
                 that.getUserBrief(that.data.userInfo[0].UserId, true);
             } else {
@@ -192,7 +199,8 @@ Page({
                     identityExpirationTime: result.identityExpirationTime || null,
                     userPermissionExpiryTime: result.userPermissionExpiryTime || null,
                     electiveExpiryTime: result.electiveExpiryTime || null,
-                    ziZhuExpiryTime: result.ziZhuExpiryTime || null
+                    ziZhuExpiryTime: result.ziZhuExpiryTime || null,
+                    isTiyan: result.isTiyan
                 });
                 //设定用户信息缓存
                                 wx.setStorageSync("userInfo", userArr);

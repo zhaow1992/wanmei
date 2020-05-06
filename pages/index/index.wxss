@@ -376,11 +376,10 @@
 .oneReport {
     width: 40%;
     height: 100%;
-    background-image: linear-gradient(0deg,#E9302D 9%,#FF777A 93%);
+    background-image: linear-gradient(180deg,#FFAB53 0%,#FE7532 100%);
 }
 
 .recommendHover {
-    background-image: linear-gradient(0deg,rgba(233,48,45,0.6) 0%,rgba(255,102,105,0.6) 100%);
     opacity: 0.6;
 }
 
@@ -546,28 +545,28 @@ input {
     padding: 0;
 }
 
-.wmkxbtn-wrapper {
+.XYKXbtn-wrapper {
     background: #f0eff5;
 }
 
-.wmkxbtn-wrapper>view {
+.XYKXbtn-wrapper>view {
     line-height: 3;
     justify-content: space-between;
 }
 
-.wmkxbtn-wrapper>view>view:first-of-type {
+.XYKXbtn-wrapper>view>view:first-of-type {
     width: 82vw;
     justify-content: space-between;
 }
 
-.wmkxbtn-wrapper>view>view:first-of-type>view {
+.XYKXbtn-wrapper>view>view:first-of-type>view {
     width: 65vw;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.wmkx {
+.XYKX {
     position: relative;
     width: 94%;
     margin: 0 auto;
@@ -575,7 +574,7 @@ input {
     height: 64rpx;
 }
 
-.wmkx .wmkx-bg {
+.XYKX .xykx-bg {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -585,7 +584,7 @@ input {
     height: 100%;
 }
 
-.wmkx .wmkx-tx {
+.XYKX .xykx-tx {
     position: absolute;
     top: 22rpx;
     left: 30rpx;
@@ -593,7 +592,7 @@ input {
     height: 26rpx;
 }
 
-.wmkx .word {
+.XYKX .word {
     position: absolute;
     top: 18rpx;
     left: 85rpx;
@@ -604,7 +603,7 @@ input {
     text-overflow: ellipsis;
 }
 
-.wmkx>image.more {
+.XYKX>image.more {
     position: absolute;
     right: 25rpx;
     top: 28rpx;
@@ -624,6 +623,123 @@ input {
 }
 
 .popup-wrapper {
+    width: 73vw;
+    position: fixed;
+    top: 100vh;
+    left: 13.5vw;
+    z-index: 15;
+    text-align: center;
+}
+
+.wrapAnimate {
+    animation: wrapAnimate 0.3s ease-in-out forwards;
+}
+
+@-webkit-keyframes wrapAnimate {
+    0% {
+    }
+
+    100% {
+        background: rgba(0,0,0,0.7);
+    }
+}
+
+@keyframes wrapAnimate {
+    0% {
+    }
+
+    100% {
+        background: rgba(0,0,0,0.7);
+    }
+}
+
+.wrapAnimateOut {
+    animation: wrapAnimateOut 0.2s ease-in-out forwards;
+}
+
+@-webkit-keyframes wrapAnimateOut {
+    0% {
+        background: rgba(0,0,0,0.7);
+    }
+
+    100% {
+        background: rgba(0,0,0,0);
+    }
+}
+
+@keyframes wrapAnimateOut {
+    0% {
+        background: rgba(0,0,0,0.7);
+    }
+
+    100% {
+        background: rgba(0,0,0,0);
+    }
+}
+
+.popupAnimate {
+    animation: popupAnimate 0.3s ease-in-out forwards;
+}
+
+@-webkit-keyframes popupAnimate {
+    0% {
+    }
+
+    60% {
+        top: 29vh;
+    }
+
+    80% {
+        top: 31vh;
+    }
+
+    100% {
+        top: 29vh;
+    }
+}
+
+@keyframes popupAnimate {
+    0% {
+    }
+
+    60% {
+        top: 29vh;
+    }
+
+    80% {
+        top: 31vh;
+    }
+
+    100% {
+        top: 29vh;
+    }
+}
+
+.popupAnimateOut {
+    animation: popupAnimateOut 0.2s ease-in-out forwards;
+}
+
+@-webkit-keyframes popupAnimateOut {
+    0% {
+        top: 29vh;
+    }
+
+    100% {
+        top: 100vh;
+    }
+}
+
+@keyframes popupAnimateOut {
+    0% {
+        top: 29vh;
+    }
+
+    100% {
+        top: 100vh;
+    }
+}
+
+.popup-wrapper {
     width: 70vw;
     padding: 5vw;
     background: #fff;
@@ -637,26 +753,6 @@ input {
 
 .popupAnimate {
     animation: popupAnimate 0.5s ease-in-out forwards;
-}
-
-@-webkit-keyframes popupAnimate {
-    0% {
-    }
-
-    60% {
-        top: 35vh;
-        opacity: 0.5;
-    }
-
-    80% {
-        top: 37vh;
-        opacity: 1;
-    }
-
-    100% {
-        top: 35vh;
-        opacity: 1;
-    }
 }
 
 @keyframes popupAnimate {
@@ -681,16 +777,6 @@ input {
 
 .popupAnimateOut {
     animation: popupAnimateOut 0.2s ease-in-out forwards;
-}
-
-@-webkit-keyframes popupAnimateOut {
-    0% {
-        top: 35vh;
-    }
-
-    100% {
-        top: 100vh;
-    }
 }
 
 @keyframes popupAnimateOut {

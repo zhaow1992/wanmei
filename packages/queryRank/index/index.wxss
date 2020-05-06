@@ -1,7 +1,6 @@
 .navigationCustomTopMain {
     text-align: center;
     font-size: 8.44vw;
-    background: #E9302D;
 }
 
 .navigationText {
@@ -51,7 +50,6 @@
     top: 0;
     width: 100%;
     z-index: 10;
-    background: #fff;
 }
 
 .title-font {
@@ -67,16 +65,16 @@
 .head {
     width: 686rpx;
     height: 104rpx;
-    margin-left: 32rpx;
+    margin: auto;
     background: #FFFFFF;
     box-shadow: 0 0 10rpx 4rpx rgba(0,0,0,0.03);
-    border-radius: 52rpx;
+    border-radius: 16rpx;
 }
 
 .btn {
     width: 168rpx;
     height: 64rpx;
-    background: linear-gradient(-31deg,#E9302D 50%,#E9302D 100%);
+    background-image: linear-gradient(-31deg,#E9302D 50%,#E9302D 100%);
     border-radius: 32rpx;
 }
 
@@ -86,6 +84,7 @@
     position: fixed;
     top: 0;
     background: rgba(0,0,0,0.35);
+    z-index: 100;
 }
 
 .drawer {

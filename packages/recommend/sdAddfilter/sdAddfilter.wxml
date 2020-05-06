@@ -1,0 +1,37 @@
+<navigationcustomtop navigationText="{{current==0?'搜索院校':'搜索专业'}}"></navigationcustomtop>
+<view class="fr tab whiteColor" id="head">
+    <view bindtap="checkTab" class="fc ac jc tabItem" data-index="{{index}}" wx:for="{{tab}}">
+        <view class="{{index==current?'oneFontSize fourFontColor':'twoFontSize threeFontColor'}}">{{item}}</view>
+        <view class="line" wx:if="{{index==current}}"></view>
+    </view>
+</view>
+<swiper bindchange="" class="whiteColor" current="{{current}}" style="height:{{swiperH}}px">
+    <swiper-item>
+        <view class="relativeStyle searchWrapper flex">
+            <view bindtap="goSearch" class=" searchView-viewH flex searchBorder twoFontSize twoFontColor">请输入院校名称</view>
+            <view class="twoFontSize searchView twoFontColor absoluteStyle">
+                <image src="/image/search.png"></image>
+            </view>
+        </view>
+        <view class="content fr ac warp">
+            <view class="keyword-item twoFontColor threeFontSize fr ac" wx:for="{{collegeList}}">
+                <view>{{item.collegeName}}</view>
+                <image bindtap="del" data-index="{{index}}" src="/image/icon_close_alt2.png" style="width:20rpx;height:20rpx;padding:20rpx;"></image>
+            </view>
+        </view>
+    </swiper-item>
+    <swiper-item>
+        <view class="relativeStyle searchWrapper flex">
+            <view bindtap="goSearch" class=" searchView-viewH flex searchBorder twoFontSize twoFontColor">请输入专业名称</view>
+            <view class="twoFontSize searchView twoFontColor absoluteStyle">
+                <image src="/image/search.png"></image>
+            </view>
+        </view>
+        <view class="content fr ac warp">
+            <view class="keyword-item twoFontColor threeFontSize fr ac" wx:for="{{majorList}}">
+                <view>{{item.name}}</view>
+                <image bindtap="del" data-index="{{index}}" src="/image/icon_close_alt2.png" style="width:20rpx;height:20rpx;padding:20rpx;"></image>
+            </view>
+        </view>
+    </swiper-item>
+</swiper>

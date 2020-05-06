@@ -12,6 +12,23 @@ function _interopRequireDefault(obj) {
     };
 }
 
+var sa = require("./utils/sensorsdata.min.js");
+
+sa.setPara({
+    server_url: "https://ia-shence.wmei.cn/sa?project=default",
+    autoTrack: {
+        appLaunch: true,
+        //是否采集 $MPLaunch 事件，true 代表开启。
+        appShow: false,
+        //是否采集 $MPShow 事件，true 代表开启。
+        appHide: false,
+        //是否采集 $MPHide 事件，true 代表开启。
+        pageShow: true,
+        //是否采集 $MPViewScreen 事件，true 代表开启。
+        pageShare: true
+    }
+});
+
 var timer;
 
 // 获取小程序更新机制兼容
@@ -52,6 +69,12 @@ if (wx.canIUse("getUpdateManager")) {
 
 App({
     globalData: {
+        infoConfig: null,
+        //数据说明配置
+        newGaokaoPro: false,
+        //新高考省份开关
+        applyCardFlag: false,
+        // activityOptions:null, // 砍价活动options,用于跳转
         initLogin: false,
         //初始化登录->重新登陆
         probabilityInfo: {
@@ -113,6 +136,8 @@ App({
         //交易类型
         spbill_create_ip: "127.0.0.1",
         //终端IP
+        domain: "m.wmei.cn",
+        //ios端申请会员卡，发送的H5地址 qa-ch5.wmei.cn
         notify_url: "https://pay.wmei.cn/WeixinPay/App/NotifyUrl.aspx",
         //通知地址
         userHead: "",
@@ -251,13 +276,70 @@ App({
             name: "浙江",
             numId: 843
         } ],
+        classifyList: [ {
+            name: "综合"
+        }, {
+            name: "理工"
+        }, {
+            name: "财经"
+        }, {
+            name: "农林"
+        }, {
+            name: "医药"
+        }, {
+            name: "师范"
+        }, {
+            name: "体育"
+        }, {
+            name: "政法"
+        }, {
+            name: "艺术"
+        }, {
+            name: "民族"
+        }, {
+            name: "军事"
+        }, {
+            name: "语言"
+        }, {
+            name: "其他"
+        } ],
         navigationCustomStatusHeight: 0,
         //自定义navigation高度
         navigationCustomCapsuleHeight: 0
     },
+    login: function login() {
+        var that = this;
+        var openid = wx.getStorageSync("openid");
+        if (openid) {
+            that.globalData.openid = openid;
+            sa.setOpenid(openid);
+            sa.init();
+        } else {
+            wx.login({
+                success: function success(res) {
+                    if (res.code) {
+                        //发起网络请求
+                        _api2.default.getJsCode2Session("MiniProgram/GetJsCode2Session", "POST", res.code).then(function(res) {
+                            if (res.isSuccess) {
+                                var _openid = res.result.openid;
+                                wx.setStorage({
+                                    key: "openid",
+                                    data: _openid
+                                });
+                                that.globalData.openid = _openid;
+                                sa.setOpenid(_openid);
+                                sa.init();
+                            }
+                        });
+                    } else {}
+                }
+            });
+        }
+    },
     // 使用人数增长数
     getImitateHot: function getImitateHot(initial, multiple) {
-        var num = new Date("2018-01-01 00:00:00").getTime();
+        var initTime = "2018/01/01 00:00:00";
+        var num = new Date(initTime).getTime();
         var time = new Date().getTime();
         var t = time - num;
         var d = Math.floor(t / 1e3 / 60 / 60 / 24);
@@ -265,10 +347,10 @@ App({
         return parseInt(initial + parseInt(hours / multiple) * 1e3);
     },
     // 服务器时间格式化
-    transDateTime: function transDateTime(time) {
+    transDateTime: function transDateTime(time, format) {
         var transTime = "";
         transTime = new Date(time);
-        transTime = this.dateFormat("YYYY-mm-dd HH:MM", transTime);
+        transTime = this.dateFormat(format ? format : "YYYY-mm-dd HH:MM", transTime);
         return transTime;
     },
     dateFormat: function dateFormat(fmt, date) {
@@ -324,7 +406,7 @@ App({
     },
     //
     checkNewGaoKao: function checkNewGaoKao(cityId) {
-        if (cityId != "842" && cityId != "843") {
+        if (cityId != "842" && cityId != "843" && cityId != "847" && cityId != "834" && cityId != "835" && cityId != "853") {
             return false;
         } else {
             return true;
@@ -526,6 +608,8 @@ App({
     },
     onLaunch: function onLaunch(options) {
         var that = this;
+        this.sensors = sa;
+        this.login();
         that.globalData.initLogin = false;
         wx.getSystemInfo({
             success: function success(res) {
@@ -759,6 +843,7 @@ App({
         return index;
     },
     // 时间格式化一分钟前、几天前
+    // time 2018-05-25 18:14:02
     getDateDiff: function getDateDiff(time) {
         // 当前时间
         var nowTime = new Date();
@@ -773,22 +858,39 @@ App({
         var timeday = time.substring(8, 10);
         var timehours = parseInt(time.substring(11, 13));
         var timeminutes = time.substring(14, 16);
-        var timesecond = time.substring(17, 19);
         var d_year = year - timeyear;
         var d_month = Math.abs(month - timemonth);
         var d_day = Math.abs(day - timeday);
-        var d_hours = Math.abs(hours - timehours);
+        var d_hours = hours - timehours;
         var d_minutes = Math.abs(minutes - timeminutes);
-        if (d_day > 1) {
-            return timeyear + "-" + timemonth + "-" + timeday + "\n" + timehours + ":" + timeminutes + ":" + timesecond;
-        } else if (d_day == 0 && d_hours > 0 && d_hours <= 24) {
-            return d_hours + "小时前";
-        } else if (d_day == 1 && d_hours > 0 && d_hours <= 24) {
-            return hours + (24 - timehours) + "小时前";
-        } else if (d_minutes > 0 && d_minutes <= 60) {
-            return d_minutes + "分钟前";
+        if (d_year >= 1 || d_month >= 1) {
+            return time;
         } else {
-            return "1分钟前";
+            if (d_day <= 1) {
+                switch (d_day) {
+                  case 0:
+                    if (d_hours == 0 && d_minutes > 0) {
+                        return d_minutes + "分钟前";
+                    } else if (d_hours == 0 && d_minutes == 0) {
+                        return "1分钟前";
+                    } else {
+                        return d_hours + "小时前";
+                    }
+                    break;
+
+                  case 1:
+                    if (d_hours < 0) {
+                        return 24 + d_hours + "小时前";
+                    } else {
+                        return d_day + "天前";
+                    }
+                    break;
+                }
+            } else if (d_day > 1 && d_day < 10) {
+                return d_day + "天前";
+            } else {
+                return time;
+            }
         }
     },
     payPrompt: function payPrompt() {

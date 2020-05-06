@@ -3,8 +3,9 @@
     <view catchtap="hideFrame" class="frame-wrapper {{frameAnimate}}">
         <view catchtap="catchNone" catchtouchmove="catchMove" class="frame">
             <view class="title-wrapper flex">
-                <view>{{frameTitle}}</view>
-                <image catchtap="hideFrame" mode="widthFix" src="/image/icon_close_alt2.png" style=" width: 3.2vw;height: 3.2vw;padding: 0 5vw;margin-right: -5vw;"></image>
+                <view wx:if="{{!custom}}">{{frameTitle}}</view>
+                <slot name="title" wx:else></slot>
+                <image catchtap="hideFrame" mode="widthFix" src="/image/icon_close_alt2.png" style=" width: 3.2vw;height: 3.2vw;padding: 0 5vw;margin-right: -5vw;position: absolute;right: 44rpx;top: 44rpx;"></image>
             </view>
             <slot></slot>
         </view>

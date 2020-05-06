@@ -14,6 +14,8 @@ function _defineProperty(obj, key, value) {
 
 var api = require("../../utils/api.js");
 
+var sensors = require("./../../utils/sensors.js");
+
 var app = getApp();
 
 Page({
@@ -54,7 +56,7 @@ Page({
             name: "化学",
             flag: false
         }, {
-            name: "生物",
+            name: "生命科学",
             flag: false
         } ],
         SHselectedSubjectArr: [],
@@ -151,7 +153,28 @@ Page({
         }, {
             name: "技术",
             flag: false
-        } ]
+        } ],
+        SDtestSubject: [ //山东 北京 天津 海南 选测科目
+        {
+            name: "物理",
+            flag: false
+        }, {
+            name: "化学",
+            flag: false
+        }, {
+            name: "生物",
+            flag: false
+        }, {
+            name: "历史",
+            flag: false
+        }, {
+            name: "地理",
+            flag: false
+        }, {
+            name: "政治",
+            flag: false
+        } ],
+        showToast: false
     },
     //上海  选择选测科目
     SHselectTestSubject: function SHselectTestSubject(e) {
@@ -191,16 +214,47 @@ Page({
             finishFlag: finishFlag
         });
     },
-    //上海  输入成绩
-    SHinputScore: function SHinputScore(e) {
-        var value = e.detail.value;
+    //浙江  上海 输入位次
+    SHinputWeici: function SHinputWeici(e) {
         var finishFlag = void 0;
-        if (value && this.data.SHselectedSubjectArr.length === 3) {
+        var SHselectedSubjectArr = this.data.SHselectedSubjectArr;
+        if (this.data.SHscore && SHselectedSubjectArr.length === 3) {
             finishFlag = true;
         } else {
             finishFlag = false;
         }
+        // if(e.detail.value <= 0 ){
+        //   finishFlag = false 
+        // }
+                this.setData({
+            SHweici: e.detail.value,
+            finishFlag: finishFlag,
+            "userScore.rank": e.detail.value
+        });
+    },
+    //上海  输入成绩
+    SHinputScore: function SHinputScore(e) {
+        var _this = this;
+        var province = wx.getStorageSync("cityId");
+        var cityId = province.cityId;
+        var value = e.detail.value;
+        var finishFlag = void 0;
         this.setData({
+            SHweici: ""
+        }, function() {
+            if (value && _this.data.SHselectedSubjectArr.length == 3) {
+                finishFlag = true;
+            } else {
+                finishFlag = false;
+            }
+        });
+        // if(value != this.data.SHscore){
+        //   this.setData({
+        //     SHweici:0,
+        //   })
+        //   finishFlag = false;
+        // }  
+                this.setData({
             SHscore: value,
             finishFlag: finishFlag
         });
@@ -224,6 +278,7 @@ Page({
         var cityId = this.data.cityId;
         var userScore = wx.getStorageSync("userScore");
         var inputScore = this.data.SHscore;
+        var SHweici = this.data.SHweici;
         var flag = void 0;
         if (userScore.total) {
             //有初始化选择数据
@@ -236,7 +291,7 @@ Page({
                 flag = userScore.total == inputScore && JSsub1 == this.data.JSselectedSubject1 && JSsub2 == this.data.JSselectedSubject2 && JSlevel1 == this.data.JSselectedLevel1 && JSlevel2 == this.data.JSselectedLevel2 ? true : false;
             } else if (cityId === 842 || cityId === 843) {
                 var tempArr = this.data.SHselectedSubjectArr;
-                flag = userScore.total == inputScore && JSON.stringify(userScore.chooseSubjects.sort()) === JSON.stringify(tempArr.sort()) ? true : false;
+                flag = userScore.total == inputScore && userScore.rank == SHweici && JSON.stringify(userScore.chooseSubjects.sort()) === JSON.stringify(tempArr.sort()) ? true : false;
             } else {
                 flag = userScore.total == inputScore && userScore.courseType == this.data.traditionSelected ? true : false;
             }
@@ -292,6 +347,41 @@ Page({
             });
             return;
         }
+        if (this.data.cityId === 834 && totalScore < 403) {
+            wx.showToast({
+                title: "您的成绩暂无匹配招生计划",
+                icon: "none"
+            });
+            return;
+        }
+        if (this.data.cityId === 847 && totalScore < 130) {
+            wx.showToast({
+                title: "您的成绩在“第二段”无匹配招生计划",
+                icon: "none"
+            });
+            return;
+        }
+        if (this.data.cityId === 843 && totalScore < 244) {
+            wx.showToast({
+                title: "您的成绩暂无匹配招生计划",
+                icon: "none"
+            });
+            return;
+        }
+        if (this.data.cityId === 835 && totalScore < 405) {
+            wx.showToast({
+                title: "您的成绩暂无匹配招生计划",
+                icon: "none"
+            });
+            return;
+        }
+        if (this.data.cityId === 853 && totalScore < 425) {
+            wx.showToast({
+                title: "您的成绩暂无匹配招生计划",
+                icon: "none"
+            });
+            return;
+        }
         if (totalScore > provinceTotalScore) {
             wx.showToast({
                 title: "总分不能大于" + provinceTotalScore + "分",
@@ -302,11 +392,6 @@ Page({
         }
         //对比所选数据是否发生变化
                 if (this.dataEqual()) {
-            // wx.showToast({
-            //   title: '与之前选择项相同，无需更改',
-            //   icon: 'none',
-            //   duration: 2000
-            // })
             wx.navigateBack({
                 detal: 1
             });
@@ -315,10 +400,17 @@ Page({
         wx.showLoading({
             title: "创建成绩中"
         });
-        //先查批次  上海浙江除外
-                if (this.data.cityId === 842 || this.data.cityId === 843) {
+        if (this.options && this.options.update) {
+            this.update();
+        }
+        //先查批次  上海浙江山东北京天津除外
+                if (this.data.newGaokaoPro) {
+            if (this.data.newGaokaoPro) {
+                wx.setStorageSync("clearZyTable", true);
+                wx.setStorageSync("isRefresh", true);
+            }
             courseType = -1;
-            that.insertUserScore(userNumId, provinceNumId, total, rank, 0, scoreType, courseType, chooseSubjects, chooseLevelList);
+            that.insertUserScore(userNumId, provinceNumId, total, this.data.SHweici, 0, scoreType, courseType, chooseSubjects, chooseLevelList);
         } else {
             courseType = that.data.traditionSelected;
             api.getRightBatch("TZY/Func/GetRightBatch", "POST", provinceId, totalScore, course).then(function(res) {
@@ -329,6 +421,7 @@ Page({
     //公共的插入成绩方法
     insertUserScore: function insertUserScore(userNumId, provinceNumId, total, rank, batch, scoreType, courseType, chooseSubjects, chooseLevelList) {
         var that = this;
+        if (rank == "") rank = 0;
         api.insertUserScore("Users/Scores/Insert", "POST", userNumId, provinceNumId, total, rank, batch, scoreType, courseType, chooseSubjects, chooseLevelList).then(function(res) {
             wx.hideLoading();
             if (res.isSuccess) {
@@ -340,10 +433,60 @@ Page({
                     duration: 2e3
                 });
             }
+            var SA_chooseLevelList = "";
+            var SA_chooseSubjects = "";
+            switch (parseInt(provinceNumId)) {
+              case 1:
+                SA_chooseLevelList = chooseLevelList[0].name + "|" + chooseLevelList[0].value + "|" + chooseLevelList[1].name + "|" + chooseLevelList[1].value;
+                break;
+
+              case 842:
+                SA_chooseSubjects = chooseSubjects[0] + "|" + chooseSubjects[1] + "|" + chooseSubjects[2];
+                break;
+
+              case 843:
+                SA_chooseSubjects = chooseSubjects[0] + "|" + chooseSubjects[1] + "|" + chooseSubjects[2];
+                break;
+
+              case 847:
+                SA_chooseSubjects = chooseSubjects[0] + "|" + chooseSubjects[1] + "|" + chooseSubjects[2];
+                break;
+
+              case 834:
+                SA_chooseSubjects = chooseSubjects[0] + "|" + chooseSubjects[1] + "|" + chooseSubjects[2];
+                break;
+
+              case 835:
+                SA_chooseSubjects = chooseSubjects[0] + "|" + chooseSubjects[1] + "|" + chooseSubjects[2];
+                break;
+
+              case 853:
+                SA_chooseSubjects = chooseSubjects[0] + "|" + chooseSubjects[1] + "|" + chooseSubjects[2];
+                break;
+            }
+            var data = {
+                SA_chooseLevelList: SA_chooseLevelList,
+                SA_chooseSubjects: SA_chooseSubjects,
+                provinceNumId: provinceNumId,
+                total: total,
+                rank: rank,
+                scoreType: scoreType,
+                courseType: courseType
+            };
+            app.sensors.track("AddScoreResult", sensors.AddScoreResult(data, res.isSuccess, res.message));
         });
+    },
+    // 成绩更换上一页，数据刷新---先临时浙江
+    update: function update() {
+        var pages = getCurrentPages();
+        var prevPage = pages[pages.length - this.options.prevPage];
+        //上一个页面
+                prevPage.update = true;
     },
     //根据插入成绩的id查找最新的成绩信息
     getUserScore: function getUserScore(numId, batch) {
+        var _this2 = this;
+        var that = this;
         api.GetScore("Users/Scores/Get?numId=" + numId, "POST").then(function(res) {
             if (res.isSuccess) {
                 var userScore = {
@@ -361,6 +504,13 @@ Page({
                     key: "userScore",
                     data: userScore
                 });
+                if (that.data.newGaokaoPro) {
+                    var pages = getCurrentPages();
+                    var prevPage = pages[pages.length - _this2.options.prevPage];
+                    prevPage.setData({
+                        rank: res.result.rank
+                    });
+                }
                 wx.navigateBack({
                     delta: 1
                 });
@@ -446,6 +596,37 @@ Page({
         }
         this.setData({
             ZJtestSubject: ZJtestSubject,
+            finishFlag: finishFlag
+        });
+    },
+    //山东选择科目
+    SDtestSubject: function SDtestSubject(e) {
+        var name = e.currentTarget.dataset.name;
+        var SDtestSubject = this.data.SDtestSubject;
+        var SHselectedSubjectArr = this.data.SHselectedSubjectArr;
+        var finishFlag = void 0;
+        SDtestSubject.forEach(function(ele) {
+            if (ele.name == name) {
+                if (SHselectedSubjectArr.indexOf(ele.name) == -1) {
+                    if (SHselectedSubjectArr.length === 3) return;
+                    SHselectedSubjectArr.push(ele.name);
+                } else {
+                    SHselectedSubjectArr.forEach(function(el, index) {
+                        if (el == ele.name) {
+                            SHselectedSubjectArr.splice(index, 1);
+                        }
+                    });
+                }
+                ele.flag = !ele.flag;
+            }
+        });
+        if (this.data.SHscore && SHselectedSubjectArr.length === 3) {
+            finishFlag = true;
+        } else {
+            finishFlag = false;
+        }
+        this.setData({
+            SDtestSubject: SDtestSubject,
             finishFlag: finishFlag
         });
     },
@@ -624,14 +805,14 @@ Page({
         });
     },
     hidePopup: function hidePopup() {
-        var _this = this;
+        var _this3 = this;
         this.setData({
             "popup.wrapAnimate": "wrapAnimateOut",
             "popup.bgOpacity": .7,
             "popup.popupAnimate": "popupAnimateOut"
         });
         setTimeout(function() {
-            _this.setData({
+            _this3.setData({
                 "popup.popupFlag": false
             });
         }, 200);
@@ -658,8 +839,24 @@ Page({
             tempProvince = "ZJisShow";
             break;
 
+          case 847:
+            tempProvince = "SDisShow";
+            break;
+
           case 1:
             tempProvince = "JSisShow";
+            break;
+
+          case 834:
+            tempProvince = "BJisShow";
+            break;
+
+          case 835:
+            tempProvince = "TJisShow";
+            break;
+
+          case 853:
+            tempProvince = "HNisShow";
             break;
 
           default:
@@ -677,6 +874,7 @@ Page({
                 this.setData({
                     finishFlag: true,
                     SHscore: userScore.total,
+                    SHweici: userScore.rank,
                     SHtestSubject: this.data.SHtestSubject,
                     SHselectedSubjectArr: userScore.chooseSubjects
                 });
@@ -691,7 +889,23 @@ Page({
                 this.setData({
                     finishFlag: true,
                     SHscore: userScore.total,
+                    SHweici: userScore.rank,
                     ZJtestSubject: this.data.ZJtestSubject,
+                    SHselectedSubjectArr: userScore.chooseSubjects
+                });
+            } else if (cityId == 847 || cityId == 834 || cityId == 835 || cityId == 853) {
+                this.data.SDtestSubject.forEach(function(ele) {
+                    userScore.chooseSubjects.forEach(function(el) {
+                        if (ele.name === el) {
+                            ele.flag = true;
+                        }
+                    });
+                });
+                this.setData({
+                    finishFlag: true,
+                    SHscore: userScore.total,
+                    SHweici: userScore.rank,
+                    SDtestSubject: this.data.SDtestSubject,
                     SHselectedSubjectArr: userScore.chooseSubjects
                 });
             } else if (cityId === 1) {
@@ -770,16 +984,85 @@ Page({
             userScore: userScore
         }, tempProvince, true));
     },
-    onShow: function onShow() {},
     onLoad: function onLoad(options) {
+        this.options = options;
+        this.setData({
+            newGaokaoPro: app.globalData.newGaokaoPro
+        });
         this.getStorage();
+        var pages = getCurrentPages();
+        var prevPage = pages[pages.length - this.options.prevPage];
+        prevPage.setData({
+            rankDetail: prevPage.data.rankDetail,
+            SHweici: prevPage.data.rank
+        });
     },
-    /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-    onReady: function onReady() {},
-    /**
-   * 用户点击右上角分享
-   */
-    onShareAppMessage: function onShareAppMessage() {}
+    //智能填入
+    intellectInput: function intellectInput() {
+        var _this4 = this;
+        if (!this.data.SHscore) {
+            wx.showToast({
+                title: "输入成绩后,智能填入位次",
+                icon: "none"
+            });
+            return;
+        }
+        this.request(function(res) {
+            // let finishFlag = false;
+            if (res.result.lowestRank <= 0) {
+                wx.showToast({
+                    title: "你当前分数过低，无法匹配模考位次",
+                    icon: "none",
+                    duration: 2e3
+                });
+            }
+            // if (res.result.lowestRank>0 && this.data.SHscore && this.data.SHselectedSubjectArr.length === 3){
+            //   finishFlag = true
+            // }
+                        _this4.setData({
+                SHweici: res.result.lowestRank,
+                "userScore.rank": res.result.lowestRank
+            });
+        });
+        if (this.data.cityId == 834 || this.data.cityId == 835 || this.data.cityId == 853) {
+            var finishFlag = void 0;
+            if (this.data.SHscore && this.data.SHselectedSubjectArr.length === 3) {
+                finishFlag = true;
+            } else {
+                finishFlag = false;
+            }
+            this.setData({
+                finishFlag: finishFlag
+            });
+        }
+    },
+    request: function request(fnc) {
+        var data = {
+            cityId: wx.getStorageSync("cityId").cityId,
+            score: this.data.SHscore
+        };
+        api.getRank("ScoreLines/YFYD/GetByScore", "POST", data).then(function(res) {
+            return fnc(res);
+        });
+    },
+    toast: function toast() {
+        var _this5 = this;
+        if (!this.data.SHscore) {
+            wx.showToast({
+                title: "输入成绩后,智能填入位次",
+                icon: "none"
+            });
+            return;
+        }
+        this.request(function(res) {
+            _this5.setData({
+                rankDetail: res.result
+            });
+        });
+        this.selectComponent("#toast")._showTap();
+    },
+    hideDataInfo: function hideDataInfo() {
+        var that = this;
+        that.selectComponent("#toast").hidePopupFunc();
+    }
 });

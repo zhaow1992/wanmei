@@ -1,5 +1,5 @@
 <view style="position:absolute;top:{{top}};left:{{left}};padding-top:2.5vw;z-index:2" wx:if="{{flag}}">
     <view class="dropDown-wrapper {{dropDownAnimate}}">
-        <view bindtap="_chooseEvent" data-value="{{item.value}}" style="{{index==items.length-1?'border:none;':''}}{{value==item.value?'color:#E9302D;':''}}" wx:for="{{items}}">{{item.name}}</view>
+        <view bindtap="_chooseEvent" data-value="{{item.value}}" style="{{index==items.length-1?'border:none;':''}}{{value==item.value?'color:#E9302D;':''}}" wx:for="{{items}}" wx:key="index">{{item.name}}</view>
     </view>
 </view>

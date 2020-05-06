@@ -99,6 +99,53 @@ page {
     margin-left: 4.5vw;
 }
 
+.mycolu {
+    padding: 0!important;
+    border-radius: 16rpx;
+    margin: 20rpx 32rpx;
+}
+
+.mycolu .title {
+    width: 68rpx;
+    border-right: 1rpx solid #e9e9e9;
+    padding-right: 32rpx;
+    padding-left: 30rpx;
+}
+
+.colucon {
+    padding-left: 32rpx;
+}
+
+.showAllColu {
+    width: 100%;
+    height: 74rpx;
+    line-height: 74rpx;
+    border-radius: 0 0 16rpx 16rpx;
+}
+
+.arrow {
+    align-items: center;
+    width: 1.87vw;
+    margin-left: 26rpx;
+    padding-right: 30rpx;
+}
+
+.coluname {
+    line-height: 40rpx;
+    margin-bottom: 4rpx;
+}
+
+.nocolu {
+    padding: 30rpx;
+    line-height: 1.5;
+}
+
+.addcolu {
+    padding: 8rpx 15rpx;
+    border-radius: 28rpx;
+    line-height: 1;
+}
+
 .body-wrapper {
     margin-top: 2.67vw;
 }
@@ -106,6 +153,7 @@ page {
 .body-item {
     padding: 3.47vw 4.3vw;
     position: relative;
+    overflow: hidden;
 }
 
 .body-item>image:first-of-type {

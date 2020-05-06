@@ -4,6 +4,7 @@ var api = require("../../utils/api.js");
 
 Page({
     data: {
+        share: false,
         recommendMajorLoading: false,
         //测评推荐loading
         hotList: [],
@@ -57,15 +58,26 @@ Page({
     },
     onLoad: function onLoad(options) {
         var that = this;
-        this.onceInit = true;
-        this.cityId = wx.getStorageSync("cityId").cityId;
-        this.UserId = wx.getStorageSync("userInfo")[0].UserId;
-        var majorsList = wx.getStorageSync("majorsList");
-        if (majorsList) {
-            this.setData({
-                allMajorLoading: false,
-                majorsList: majorsList
+        if (options && options.share) {
+            that.setData({
+                share: true
             });
+        }
+        this.onceInit = true;
+        this.userInfo = wx.getStorageSync("userInfo");
+        if (this.userInfo) {
+            this.cityId = wx.getStorageSync("cityId").cityId;
+            this.UserId = this.userInfo[0].UserId;
+            var majorsList = wx.getStorageSync("majorsList");
+            if (majorsList) {
+                this.setData({
+                    allMajorLoading: false,
+                    majorsList: majorsList
+                });
+            }
+        } else {
+            this.cityId = 1;
+            this.loginPopup();
         }
         //报考热度本科前三
         //就业前景本科前三
@@ -73,50 +85,65 @@ Page({
         this.queryMajorsHotRanking(2);
         this.professionOrientation();
     },
+    loginPopup: function loginPopup() {
+        this.selectComponent("#loginPopup")._showTap();
+    },
     // 获取用户最新一次专业定位五合一测评详情
     professionOrientation: function professionOrientation() {
         var that = this;
-        api.professionOrientation("Evaluation/Result/ProfessionOrientation/GetByUserId", "POST", that.UserId).then(function(res) {
-            that.setData({
-                changeTab: that.onceInit ? "" : "changeAnimate",
-                recommendMajorLoading: false
-            }, function() {
-                var majorCodes = [];
-                if (res.result.majors != null && res.result.majors.length > 0) {
-                    for (var i = 0; i < res.result.majors.length; i++) {
-                        majorCodes.push(res.result.majors[i].majorCode);
+        if (this.userInfo) {
+            api.professionOrientation("Evaluation/Result/ProfessionOrientation/GetByUserId", "POST", that.UserId).then(function(res) {
+                that.setData({
+                    changeTab: that.onceInit ? "" : "changeAnimate",
+                    recommendMajorLoading: false
+                }, function() {
+                    var majorCodes = [];
+                    if (res.result.majors != null && res.result.majors.length > 0) {
+                        for (var i = 0; i < res.result.majors.length; i++) {
+                            majorCodes.push(res.result.majors[i].majorCode);
+                        }
+                        that.majorSubOpenCollegeCount(res.result.majors, majorCodes);
                     }
-                    that.majorSubOpenCollegeCount(res.result.majors, majorCodes);
-                }
-                if (that.onceInit) {
-                    that.setData({
-                        recommendMajor: res.result,
-                        showLoad: false
-                    }, function() {
-                        that.getSwiperH();
-                    });
-                } else {
-                    setTimeout(function() {
+                    if (that.onceInit) {
                         that.setData({
                             recommendMajor: res.result,
                             showLoad: false
                         }, function() {
                             that.getSwiperH();
                         });
-                    }, 400);
-                }
-            });
-            setTimeout(function() {
-                that.setData({
-                    changeTab: ""
+                    } else {
+                        setTimeout(function() {
+                            that.setData({
+                                recommendMajor: res.result,
+                                showLoad: false
+                            }, function() {
+                                that.getSwiperH();
+                            });
+                        }, 400);
+                    }
                 });
-                app.resetOnce(that, "oneClick");
-            }, 800);
-        });
+                setTimeout(function() {
+                    that.setData({
+                        changeTab: ""
+                    });
+                    app.resetOnce(that, "oneClick");
+                }, 800);
+            });
+        } else {
+            var recommendMajor = {};
+            recommendMajor.id = null;
+            console.log(recommendMajor);
+            that.setData({
+                recommendMajor: recommendMajor,
+                showLoad: false
+            }, function() {
+                that.getSwiperH();
+            });
+        }
     },
     goCeping: function goCeping() {
         wx.switchTab({
-            url: "/pages/ceping/ceping"
+            url: "/pages/cepingIndex/cepingIndex"
         });
     },
     majorSubOpenCollegeCount: function majorSubOpenCollegeCount(majors, majorCodes) {

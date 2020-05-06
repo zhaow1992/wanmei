@@ -1,0 +1,570 @@
+@import "../zjMatchMajor/zjMatchMajor.wxss";
+
+@import "../jiangsuRecommend/jiangsuRecommend.wxss";
+
+.shaixuan-container {
+    position: fixed;
+    top: 0;
+    left: 100vw;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    z-index: 5;
+}
+
+.shaixuan-container .shaixuan-wrap {
+    width: 100%;
+    height: 100%;
+}
+
+.shaixuan-animate {
+    animation: shaixuan 0.5s ease forwards;
+}
+
+@-webkit-keyframes shaixuan {
+    0% {
+    }
+
+    100% {
+        left: 0;
+    }
+}
+
+@keyframes shaixuan {
+    0% {
+    }
+
+    100% {
+        left: 0;
+    }
+}
+
+page {
+    background: #F8F5F4;
+    overflow: visible;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+}
+
+.info-wrapper {
+    padding: 0 2.7vw;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.item-wrapper {
+    width: 30vw;
+    margin-top: 3vw;
+    height: 12vw;
+    white-space: nowrap;
+}
+
+.icon-wrapper {
+    width: 6.4vw;
+    height: 6.4vw;
+    border-radius: 100%;
+    justify-content: space-around;
+}
+
+.icon-wrapper>image {
+    width: 4vw;
+    height: 4vw;
+}
+
+.text-wrapper {
+    margin-left: 2.7vw;
+    line-height: 1.5;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90%;
+    align-items: flex-start;
+    width: 20vw;
+}
+
+.head {
+    width: 100%;
+    height: 80rpx;
+}
+
+.tip {
+    position: fixed;
+    left: 0;
+    right: 0;
+    padding: 0 20rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 24rpx;
+    color: #999999;
+    z-index: 999;
+    background: #FFFFFF;
+    box-sizing: border-box;
+    border-bottom: 1rpx solid #F8F5F4;
+}
+
+.bottomBtn {
+    height: 88rpx;
+    border-radius: 44rpx;
+    background: #fff;
+    border: 1rpx solid #e9302d;
+    color: #E9302D;
+    margin: 30rpx 0;
+}
+
+.save-btn {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 100%;
+    background-image: linear-gradient(-52deg,#E9302D 1%,#FF5053 100%);
+    box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);
+    color: #fff;
+    text-align: center;
+    position: fixed;
+    bottom: 104rpx;
+    right: 40rpx;
+    justify-content: space-around;
+    z-index: 1;
+}
+
+.createZhiyuan {
+    right: 5vw;
+    bottom: 32vw;
+    width: 120rpx;
+    height: 120rpx;
+}
+
+.csb-btn {
+    width: 120rpx;
+    height: 120rpx;
+    line-height: 120rpx;
+}
+
+@-webkit-keyframes chong {
+    0% {
+        right: 5vw;
+        bottom: 37vw;
+        opacity: 0;
+    }
+
+    100% {
+        right: 5vw;
+        bottom: 59vw;
+        opacity: 1;
+    }
+}
+
+@keyframes chong {
+    0% {
+        right: 5vw;
+        bottom: 37vw;
+        opacity: 0;
+    }
+
+    100% {
+        right: 5vw;
+        bottom: 59vw;
+        opacity: 1;
+    }
+}
+
+.chongHide {
+    animation: chongHide 0.4s ease-in forwards;
+}
+
+@-webkit-keyframes chongHide {
+    0% {
+        right: 5vw;
+        bottom: 59vw;
+        opacity: 1;
+    }
+
+    100% {
+        right: 5vw;
+        bottom: 37vw;
+        opacity: 0;
+    }
+}
+
+@keyframes chongHide {
+    0% {
+        right: 5vw;
+        bottom: 59vw;
+        opacity: 1;
+    }
+
+    100% {
+        right: 5vw;
+        bottom: 37vw;
+        opacity: 0;
+    }
+}
+
+.shou {
+    animation: shou 0.2s ease-out forwards;
+}
+
+@-webkit-keyframes shou {
+    0% {
+        right: 5vw;
+        bottom: 37vw;
+        opacity: 0;
+    }
+
+    100% {
+        right: 23vw;
+        bottom: 54vw;
+        opacity: 1;
+    }
+}
+
+@keyframes shou {
+    0% {
+        right: 5vw;
+        bottom: 37vw;
+        opacity: 0;
+    }
+
+    100% {
+        right: 23vw;
+        bottom: 54vw;
+        opacity: 1;
+    }
+}
+
+.shouHide {
+    animation: shouHide 0.3s ease-in forwards;
+}
+
+@-webkit-keyframes shouHide {
+    0% {
+        right: 23vw;
+        bottom: 54vw;
+        opacity: 1;
+    }
+
+    100% {
+        right: 5vw;
+        bottom: 37vw;
+        opacity: 0;
+    }
+}
+
+@keyframes shouHide {
+    0% {
+        right: 23vw;
+        bottom: 54vw;
+        opacity: 1;
+    }
+
+    100% {
+        right: 5vw;
+        bottom: 37vw;
+        opacity: 0;
+    }
+}
+
+.bao {
+    animation: bao 0.3s ease-out forwards;
+}
+
+@-webkit-keyframes bao {
+    0% {
+        right: 5vw;
+        bottom: 37vw;
+        opacity: 0;
+    }
+
+    100% {
+        right: 28vw;
+        bottom: 37vw;
+        opacity: 1;
+    }
+}
+
+@keyframes bao {
+    0% {
+        right: 5vw;
+        bottom: 37vw;
+        opacity: 0;
+    }
+
+    100% {
+        right: 28vw;
+        bottom: 37vw;
+        opacity: 1;
+    }
+}
+
+.baoHide {
+    animation: baoHide 0.2s ease-in forwards;
+}
+
+@-webkit-keyframes baoHide {
+    0% {
+        right: 28vw;
+        bottom: 37vw;
+        opacity: 1;
+    }
+
+    100% {
+        right: 5vw;
+        bottom: 37vw;
+        opacity: 0;
+    }
+}
+
+@keyframes baoHide {
+    0% {
+        right: 28vw;
+        bottom: 37vw;
+        opacity: 1;
+    }
+
+    100% {
+        right: 5vw;
+        bottom: 37vw;
+        opacity: 0;
+    }
+}
+
+.moren {
+    animation: moren 0.4s ease-out forwards;
+}
+
+@-webkit-keyframes moren {
+    0% {
+        right: 5vw;
+        bottom: 37vw;
+        opacity: 0;
+    }
+
+    100% {
+        right: 23vw;
+        bottom: 20vw;
+        opacity: 1;
+    }
+}
+
+@keyframes moren {
+    0% {
+        right: 5vw;
+        bottom: 37vw;
+        opacity: 0;
+    }
+
+    100% {
+        right: 23vw;
+        bottom: 20vw;
+        opacity: 1;
+    }
+}
+
+.morenHide {
+    animation: morenHide 0.1s ease-in forwards;
+}
+
+@-webkit-keyframes morenHide {
+    0% {
+        right: 23vw;
+        bottom: 20vw;
+        opacity: 1;
+    }
+
+    100% {
+        right: 5vw;
+        bottom: 37vw;
+        opacity: 0;
+    }
+}
+
+@keyframes morenHide {
+    0% {
+        right: 23vw;
+        bottom: 20vw;
+        opacity: 1;
+    }
+
+    100% {
+        right: 5vw;
+        bottom: 37vw;
+        opacity: 0;
+    }
+}
+
+.collegesList {
+    border-bottom: 1px solid #dedddb;
+    padding: 0 0 0 52rpx;
+    padding-bottom: 15rpx;
+    margin-top: 16rpx;
+}
+
+.moreBox {
+    width: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 146rpx;
+    justify-content: center;
+}
+
+.more {
+    width: 32rpx;
+    height: 32rpx;
+    justify-content: center;
+}
+
+.up_icon,.down_icon {
+    width: 28rpx;
+    height: 14rpx;
+}
+
+.itemCells {
+    align-items: center;
+    padding: 20rpx 0;
+    padding-right: 32rpx;
+    border-top: 1rpx dotted #eee;
+}
+
+.itemCells1 {
+    align-items: center;
+    padding: 15rpx 0;
+    padding-right: 32rpx;
+    border-top: 1rpx dotted #eee;
+}
+
+.tag {
+    left: 0;
+    top: 32rpx;
+    width: 40rpx;
+    height: 32rpx;
+    text-align: center;
+    color: #fff;
+    line-height: 32rpx;
+}
+
+.tag>image {
+    width: 100%;
+    height: 100%;
+}
+
+.tag>text {
+    position: absolute;
+    left: 45%;
+    top: 0;
+    z-index: 99;
+    transform: translateX(-50%);
+}
+
+.delCollegeMask {
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.35);
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+}
+
+.delCollegeMask .content {
+    top: 38%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    padding: 60rpx 44rpx;
+    border-radius: 16rpx;
+    box-sizing: border-box;
+}
+
+.delCollegeMask .tools {
+    margin-top: 72rpx;
+}
+
+.delCollegeMask .tools>view {
+    width: 236rpx;
+    height: 72rpx;
+    line-height: 72rpx;
+    border: 1rpx solid #E9302D;
+    border-radius: 18px;
+}
+
+.delCollegeMask.show {
+    animation: showDel 0.3s ease-in forwards;
+}
+
+@-webkit-keyframes showDel {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes showDel {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.delCollegeMask.hide {
+    animation: hideDel 0.3s ease-in forwards;
+}
+
+@-webkit-keyframes hideDel {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes hideDel {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.del {
+    top: 48rpx;
+    right: 76rpx;
+}
+
+.menubox {
+    top: 50rpx;
+    right: 90rpx;
+}
+
+.changeaddress {
+    box-shadow: 0 0 5rpx 5rpx #eee;
+    padding: 10rpx 0;
+}
+
+.changeaddress>view {
+    padding: 0 30rpx;
+}
+
+.delIcon {
+    width: 130rpx;
+    height: 80rpx;
+    margin-top: 5rpx;
+}
+
+.nodata {
+    position: fixed;
+    top: 42%;
+    left: 50%;
+    width: 200rpx;
+    transform: translateX(-50%);
+}

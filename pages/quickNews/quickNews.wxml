@@ -1,10 +1,10 @@
-<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<navigationcustomtop id="navigationcustom" navigationText="{{navigationText}}"></navigationcustomtop>
 <view class="container" style="min-height:{{containerHeight}}px;">
     <loading wx:if="{{showLoad}}"></loading>
     <block wx:else>
         <view class="borderTop">
             <view class="content-wrapper" wx:for="{{quickNews}}">
-                <view class="flex" style="{{index==quickNews.length-1?'':'border-bottom:1px solid #f0eff5;'}}justify-content:space-between;padding:4.8vw 0;">
+                <view class="flex" style="{{index==quickNews.length-1?'':'border-bottom:1rpx solid #f0eff5;'}}justify-content:space-between;padding:4.8vw 0;">
                     <view class="zhejiang-info-color point-font" style="width:20vw;">
                         <text>{{item.creationTime}}</text>
                     </view>

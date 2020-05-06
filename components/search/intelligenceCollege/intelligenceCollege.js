@@ -17,6 +17,7 @@ Component({
             var ucode = e.currentTarget.dataset.ucode;
             try {
                 var JSZixuanList = wx.getStorageSync("JSZixuanList");
+                var userInfo = wx.getStorageSync("userInfo");
                 if (JSZixuanList) {
                     for (var i = 0; i < JSZixuanList.length; i++) {
                         if (JSZixuanList[i].uCode == ucode) {
@@ -29,58 +30,70 @@ Component({
                             break;
                         } else {
                             if (i == JSZixuanList.length - 1) {
-                                try {
-                                    var userScore = wx.getStorageSync("userScore");
-                                    if (userScore) {
-                                        var pro = userScore.provinceNumId;
-                                        var batch = userScore.batch;
-                                        var course = userScore.courseType;
-                                        var total = userScore.total;
-                                        var chooseLevel = [];
-                                        if (pro == 1) {
-                                            chooseLevel = userScore.chooseLevelList[0].value + "," + userScore.chooseLevelList[1].value;
-                                        }
-                                        var _Rank = userScore.rank;
-                                        api.getRecommendZixuanV2("TZY/Recommendation/DoManualFilloutForApp", "POST", pro, batch, course, ucode, total, _Rank).then(function(res) {
-                                            try {
+                                if (userInfo[0].UserType > 1 || userInfo[0].UserType <= 1 && JSZixuanList.length < 3) {
+                                    try {
+                                        var userScore = wx.getStorageSync("userScore");
+                                        if (userScore) {
+                                            var pro = userScore.provinceNumId;
+                                            var batch = userScore.batch;
+                                            var course = userScore.courseType;
+                                            var total = userScore.total;
+                                            var chooseLevel = [];
+                                            if (pro == 1) {
+                                                chooseLevel = userScore.chooseLevelList[0].value + "," + userScore.chooseLevelList[1].value;
+                                            }
+                                            var _Rank = userScore.rank;
+                                            api.getRecommendZixuanV2("TZY/Recommendation/DoManualFilloutForApp", "POST", pro, batch, course, ucode, total, _Rank).then(function(res) {
                                                 var JSZixuanList = wx.getStorageSync("JSZixuanList");
-                                                if (JSZixuanList) {
-                                                    var tagsArr = res.result.tags.split(" ");
-                                                    var tags = "";
-                                                    for (var _i = 0; _i < tagsArr.length; _i++) {
-                                                        if (tagsArr[_i] == "211" || tagsArr[_i] == "985" || tagsArr[_i] == "双一流") {
-                                                            tags += tagsArr[_i] + " ";
+                                                try {
+                                                    if (JSZixuanList) {
+                                                        var tagsArr = res.result.tags.split(" ");
+                                                        var tags = "";
+                                                        for (var _i = 0; _i < tagsArr.length; _i++) {
+                                                            if (tagsArr[_i] == "211" || tagsArr[_i] == "985" || tagsArr[_i] == "双一流") {
+                                                                tags += tagsArr[_i] + " ";
+                                                            }
                                                         }
-                                                    }
-                                                    res.result.tags = tags;
-                                                    JSZixuanList.push(res.result);
-                                                    wx.setStorage({
-                                                        key: "JSZixuanList",
-                                                        data: JSZixuanList
-                                                    });
-                                                } else {
-                                                    if (res.result.uCode != null) {
-                                                        var JSZixuanList = [];
+                                                        res.result.tags = tags;
                                                         JSZixuanList.push(res.result);
                                                         wx.setStorage({
                                                             key: "JSZixuanList",
                                                             data: JSZixuanList
                                                         });
+                                                    } else {
+                                                        if (res.result.uCode != null) {
+                                                            var JSZixuanList = [];
+                                                            JSZixuanList.push(res.result);
+                                                            wx.setStorage({
+                                                                key: "JSZixuanList",
+                                                                data: JSZixuanList
+                                                            });
+                                                        }
                                                     }
-                                                }
-                                            } catch (e) {}
-                                            wx.hideLoading();
-                                            wx.showToast({
-                                                title: "选择成功",
-                                                icon: "none",
-                                                duration: 2e3
+                                                } catch (e) {}
+                                                wx.hideLoading();
+                                                wx.showToast({
+                                                    title: "选择成功",
+                                                    icon: "none",
+                                                    duration: 2e3
+                                                });
+                                                wx.navigateBack({
+                                                    delta: 1
+                                                });
                                             });
-                                            wx.navigateBack({
-                                                delta: 1
-                                            });
-                                        });
-                                    }
-                                } catch (e) {}
+                                        }
+                                    } catch (e) {}
+                                } else {
+                                    wx.hideLoading();
+                                    wx.showToast({
+                                        title: "选择成功",
+                                        icon: "none",
+                                        duration: 2e3
+                                    });
+                                    wx.navigateBack({
+                                        delta: 1
+                                    });
+                                }
                             }
                         }
                     }
@@ -99,8 +112,9 @@ Component({
                                     var tagsArr = res.result.tags.split(" ");
                                     var tags = "";
                                     for (var _i2 = 0; _i2 < tagsArr.length; _i2++) {
-                                        if (tagsArr[_i2] == "211" || tagsArr[_i2] == "985" || tagsArr == "双一流") {
-                                            tags += tagsArr[_i2] + " ";
+                                        var newTags = tagsArr[_i2].replace(/\s/g, "");
+                                        if (newTags == "211" || newTags == "985" || newTags == "双一流") {
+                                            tags += newTags + " ";
                                         }
                                     }
                                     res.result.tags = tags;

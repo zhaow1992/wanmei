@@ -3,6 +3,7 @@
         "wux-sticky-item": "/components/sticky/sticky-item/index",
         "wux-sticky": "/components/sticky/sticky/index",
         "dropdown": "/components/dropDownMenu/dropDownMenu",
+        "loginPopup": "/components/loginPopup/loginPopup",
         "serverfail": "/components/serverFail/serverFail",
         "bottomFrame": "../../components/bottomFrame/bottomFrame",
         "topMenu": "../../components/topMenu/topMenu",

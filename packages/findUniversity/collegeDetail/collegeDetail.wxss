@@ -2,6 +2,15 @@ page {
     background: #f8f5f4;
 }
 
+.disciplineBlock-Text {
+    padding: 8rpx 2.13vw;
+}
+
+.disciplineBlock-Border {
+    border-radius: 5.47vw;
+    border: 1rpx solid #ccc;
+}
+
 .collegeMomentPicture {
     width: 100vw;
     height: 29.39vh;

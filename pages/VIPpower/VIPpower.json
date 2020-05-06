@@ -1,6 +1,9 @@
 {
     "navigationBarTitleText": "开通VIP",
+    "backgroundTextStyle": "dark",
+    "enablePullDownRefresh": true,
     "usingComponents": {
+        "popupcomponents": "/components/popup/popup",
         "serverfail": "/components/serverFail/serverFail",
         "bottomFrame": "../../components/bottomFrame/bottomFrame",
         "topMenu": "../../components/topMenu/topMenu",

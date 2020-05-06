@@ -21,8 +21,9 @@
             <image catchtap="_hideTap" src="../../image/icon_close_alt2.png"></image>
             <image src="../../image/active-shareSuccess.png"></image>
             <view class="title-font">您砍了 {{bargainPrice}} 元</view>
-            <view>{{statusText}}</view>
-            <button class="title-font btnAnimate popup-wrapper-button" openType="share" style="">{{shareButtonText}}</button>
+            <view style="color:#999;font-size:3.2vw;margin-top:2.13vw;">{{statusText}}</view>
+            <slot wx:if="{{shareButtonText=='我也要0元购'}}"></slot>
+            <button class="title-font btnAnimate popup-wrapper-button" openType="share" wx:else>{{shareButtonText}}</button>
         </view>
     </view>
     <view wx:elif="{{popupType=='overtime'}}">

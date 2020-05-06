@@ -3,8 +3,8 @@
 
 .navigationCustomTopMain {
     text-align: center;
-    border-bottom: 1px solid #f0eff5;
-    box-shadow: 0px 1px 1px 0px #f0eff5;
+    border-bottom: 1rpx solid #f0eff5;
+    box-shadow: 0px 1rpx 1rpx 0px #f0eff5;
     font-size: 8.44vw;
 }
 

@@ -161,7 +161,7 @@ Page({
         } catch (e) {}
     },
     scrollShouToLower: function scrollShouToLower() {
-        //守下拉加载
+        //稳下拉加载
         var that = this;
         if (that.data.showShouMore == true) return;
         that.setData({
@@ -422,7 +422,7 @@ Page({
                         shanghaiBaoList: [],
                         shCollegeListArr: []
                     });
-                    _api2.default.shangHaiRecommendRanks("ScoreLines/YFYD/QueryRankPosition", "POST", 842, newUserScore.total).then(function(res) {
+                    _api2.default.shangHaiRecommendRanks("ScoreLines/YFYD/QueryRankPosition", "POST", 842, newUserScore.total, newUserScore.rank).then(function(res) {
                         that.loadDataChong(cityId, newUserScore.rank, newUserScore.chooseLevelOrSubjects, "", "", res.result.maxRankingM, res.result.minRankingM, 1, 1);
                         that.loadDataShou(cityId, newUserScore.rank, newUserScore.chooseLevelOrSubjects, "", "", res.result.maxRankingM, res.result.minRankingM, 2, 1);
                         that.loadDataBao(cityId, newUserScore.rank, newUserScore.chooseLevelOrSubjects, "", "", res.result.maxRankingM, res.result.minRankingM, 3, 1);
@@ -455,7 +455,7 @@ Page({
             if (userScore) {
                 if (userScore.provinceNumId == 842) {} else if (userScore.provinceNumId == 843) {
                     wx.redirectTo({
-                        url: "../collegeRecommend/collegeRecommend"
+                        url: "../zhejiangRecommend/zhejiangRecommend"
                     });
                     return;
                 } else {
@@ -492,7 +492,7 @@ Page({
                     userScore: userScore,
                     userInfo: userInfo
                 });
-                _api2.default.shangHaiRecommendRanks("ScoreLines/YFYD/QueryRankPosition", "POST", 842, userScore.total).then(function(res) {
+                _api2.default.shangHaiRecommendRanks("ScoreLines/YFYD/QueryRankPosition", "POST", 842, userScore.total, userScore.rank).then(function(res) {
                     var screenWidth = that.data.screenWidth;
                     var rankWaiFrom = res.result.maxRanking;
                     var rankWaiTo = res.result.minRanking;
@@ -668,12 +668,15 @@ Page({
             });
         } else {
             cityList[0].st = false;
+            var count = 0;
             for (var i = 1; i < cityList.length; i++) {
                 var flag = !cityList[i].st;
                 if (cityId == cityList[i].cityId) {
                     cityList[i].st = flag;
                 }
+                if (cityList[i].st == false) count++;
             }
+            if (count == cityList.length - 1) cityList[0].st = true;
             that.setData({
                 showBtn: true
             });
@@ -697,12 +700,15 @@ Page({
             });
         } else {
             batchList[0].st = false;
+            var count = 0;
             for (var i = 1; i < batchList.length; i++) {
                 var flag = !batchList[i].st;
                 if (batchName == batchList[i].name) {
                     batchList[i].st = flag;
                 }
+                if (batchList[i].st == false) count++;
             }
+            if (count == batchList.length - 1) batchList[0].st = true;
             that.setData({
                 showBtn: true
             });

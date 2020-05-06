@@ -19,10 +19,21 @@ Component({
         value: {
             type: Number,
             value: null
+        },
+        type: {
+            type: String,
+            value: ""
         }
     },
     data: {
         dropDownAnimate: ""
+    },
+    attached: function attached() {
+        if (this.data.type == "year") {
+            this.setData({
+                items: this.data.items.reverse()
+            });
+        }
     },
     methods: {
         toggerDropDown: function toggerDropDown() {
@@ -55,7 +66,6 @@ Component({
             }, 500);
         },
         _chooseEvent: function _chooseEvent(e) {
-            console.log(e);
             this.setData({
                 value: e.currentTarget.dataset.value
             });

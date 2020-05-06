@@ -18,6 +18,8 @@ var app = getApp();
 
 var api = require("../../utils/api.js");
 
+var sensors = require("../../utils/sensors.js");
+
 var radar = {
     mW: 360,
     mH: 240,
@@ -84,6 +86,13 @@ var curve = {
 var cake = {
     mW: 360,
     mH: 280,
+    outSpot: .06 * 180,
+    //伸出去点的长度
+    outLine: 40,
+    //伸出去线的长度
+    signR: .001 * 180,
+    textSpace: .03 * 300,
+    //文字上下与线的间距
     mCenter: 180,
     hCenter: 140,
     //中心点
@@ -113,6 +122,7 @@ var hollandList = [ {
 
 Page((_Page = {
     data: {
+        newGaokaoPro: false,
         share: false,
         holland: "",
         mbti: "",
@@ -170,6 +180,11 @@ Page((_Page = {
     },
     onShareAppMessage: function onShareAppMessage() {
         var that = this;
+        var data = {
+            SA_share_type: "测评报告",
+            SA_share_content: "我正在测[专业定位测评]推荐你也来测一测吧!"
+        };
+        app.sensors.track("ShareClick", sensors.ShareClick(data));
         return {
             title: "我正在测[专业定位测评]推荐你也来测一测吧!",
             path: "/pages/cepingIndex/cepingIndex",
@@ -178,6 +193,9 @@ Page((_Page = {
     },
     onLoad: function onLoad(options) {
         var that = this;
+        that.setData({
+            newGaokaoPro: app.globalData.newGaokaoPro
+        });
         if (options && options.isHide) {
             this.setData({
                 isHide: true,
@@ -215,7 +233,7 @@ Page((_Page = {
         var _this = this;
         var that = this;
         var id = that.data.id;
-        api.professionOrientationRes("Evaluation/Result/ProfessionOrientation/GetByScoreId?id=" + id, "POST").then(function(res) {
+        api.professionOrientationRes("Evaluation/Result/ProfessionOrientation/Get?id=" + id, "POST").then(function(res) {
             var holland = res.result.holland;
             holland.celebrities.map(function(item) {
                 var _iteratorNormalCompletion = true;
@@ -252,7 +270,15 @@ Page((_Page = {
             //   result: "AEI",
             //   s: 15
             // }
-                        var hollandPatriarch = res.result.hollandPatriarch || "";
+                        that.isPatriarch = res.result.isPatriarch;
+            //是否是家长
+                        that.sex = res.result.sex;
+            //家长性别
+                        that.setData({
+                isPatriarch: res.result.isPatriarch,
+                sex: res.result.sex
+            });
+            var hollandPatriarch = res.result.hollandPatriarch || "";
             var careerAnchorPatriarch = res.result.careerAnchorPatriarch || "";
             var mbti = res.result.mbti;
             var midas = res.result.midas;
@@ -265,7 +291,7 @@ Page((_Page = {
                 });
             });
             mbti.explanationsList = explanationsList;
-            res.result.recommendMajors.map(function(item) {
+            res.result.majors.map(function(item) {
                 item.majorName = item.majorName.length > 6 ? item.majorName.substring(0, 6) + "..." : item.majorName;
             });
             radar.radarData = [ [ "社会型(S)", holland.s ], [ "艺术型(A)", holland.a ], [ "研究型(I)", holland.i ], [ "现实型(R)", holland.r ], [ "常规型(C)", holland.c ], [ "企业型(E)", holland.e ] ];
@@ -274,15 +300,18 @@ Page((_Page = {
             line.curveData = [ midas.averagePowerResult[0].avgScore, midas.averagePowerResult[1].avgScore, midas.averagePowerResult[2].avgScore, midas.averagePowerResult[3].avgScore, midas.averagePowerResult[4].avgScore, midas.averagePowerResult[5].avgScore, midas.averagePowerResult[6].avgScore, midas.averagePowerResult[7].avgScore ], 
             curve.curveData = [ [ "自主型", careerAnchor.au ], [ "技术型", careerAnchor.tf ], [ "挑战型", careerAnchor.ch ], [ "管理型", careerAnchor.gm ], [ "服务型", careerAnchor.sv ], [ "创造型", careerAnchor.ec ], [ "安全型", careerAnchor.se ], [ "生活型", careerAnchor.ls ] ];
             cake.cakeData = [ course.english, course.politics, course.biology, course.chinese, course.history, course.chemistry, course.math, course.geography, course.physics ];
-            majorListArr = res.result.recommendMajors;
+            majorListArr = res.result.majors;
             if (res.result.hollandPatriarch) {
                 radar.radarDataParent = [ [ "社会型(S)", hollandPatriarch.s ], [ "艺术型(A)", hollandPatriarch.a ], [ "研究型(I)", hollandPatriarch.i ], [ "现实型(R)", hollandPatriarch.r ], [ "常规型(C)", hollandPatriarch.c ], [ "企业型(E)", hollandPatriarch.e ] ];
             }
             if (res.result.careerAnchorPatriarch) {
                 curve.crueDataParent = [ [ "自主型", careerAnchorPatriarch.au ], [ "技术型", careerAnchorPatriarch.tf ], [ "挑战型", careerAnchorPatriarch.ch ], [ "管理型", careerAnchorPatriarch.gm ], [ "服务型", careerAnchorPatriarch.sv ], [ "创造型", careerAnchorPatriarch.ec ], [ "安全型", careerAnchorPatriarch.se ], [ "生活型", careerAnchorPatriarch.ls ] ];
             }
+            if (that.data.newGaokaoPro) {
+                res.result.course.courseAdvantage = res.result.course.courseAdvantage.replace(/\(.*?\)/g, "");
+            }
             that.setData({
-                reportType: res.result.reportType,
+                reportType: res.result.type,
                 holland: holland,
                 mbti: mbti,
                 midas: midas,
@@ -290,7 +319,7 @@ Page((_Page = {
                 course: course,
                 hollandPatriarch: hollandPatriarch,
                 careerAnchorPatriarch: careerAnchorPatriarch,
-                majorList: res.result.recommendMajors,
+                majorList: res.result.majors,
                 "radar.result": {
                     result: holland.result,
                     title: holland.comprehensiveResult == null ? "" : holland.comprehensiveResult.title,
@@ -313,12 +342,20 @@ Page((_Page = {
                     title: course.comprehensiveResult.title,
                     body: course.comprehensiveResult.body
                 },
-                studentInfo: [ wx.getStorageSync("sex") == 1 ? "男" : "女", wx.getStorageSync("course") == -1 ? "" : wx.getStorageSync("course") == 1 ? "文科" : "理科", _this.parseTime(res.result.testTime) ],
                 showLoad: false
             }, function() {
                 that.startDraw();
                 wx.hideLoading();
             });
+            if (that.data.newGaokaoPro) {
+                that.setData({
+                    studentInfo: [ wx.getStorageSync("sex") == 1 ? "男" : "女", _this.parseTime(res.result.testTime) ]
+                });
+            } else {
+                that.setData({
+                    studentInfo: [ wx.getStorageSync("sex") == 1 ? "男" : "女", wx.getStorageSync("course") == -1 ? "" : wx.getStorageSync("course") == 1 ? "文科" : "理科", _this.parseTime(res.result.testTime) ]
+                });
+            }
         });
     },
     //时间转换
@@ -350,6 +387,27 @@ Page((_Page = {
         //饼图
         },
     // ***************************雷达图开始-兴趣维度解析***********************
+    // drawType(reportType, radCtx){
+    //   const that = this;
+    //   var radarData = radar.radarData;
+    //   var radarDataParent = radar.radarDataParent;
+    //   switch (reportType){
+    //     case 0:
+    //       that.drawRegion(radarData, 'rgba(245,103,103,0.3)', radCtx); //设置数据
+    //       that.drawCircle(radarData, '#F56767', radCtx); //设置节点
+    //       break;
+    //     case '父亲':
+    //       that.drawRegion(radarData, 'rgba(245,103,103,0.3)', radCtx); //设置数据
+    //       that.drawCircle(radarData, '#F56767', radCtx); //设置节点
+    //       break;
+    //     case '母亲':
+    //       that.drawRegion(radarData, 'rgba(245,103,103,0.3)', radCtx); //设置数据
+    //       that.drawCircle(radarData, '#F56767', radCtx); //设置节点
+    //       break;
+    //   }
+    //   that.drawRegion(radarData, 'rgba(245,103,103,0.3)', radCtx); //设置数据
+    //   that.drawCircle(radarData, '#F56767', radCtx); //设置节点
+    // },
     // 雷达图
     drawRadar: function drawRadar(radCtx) {
         var that = this;
@@ -359,19 +417,23 @@ Page((_Page = {
                 that.drawEdge(radCtx);
         //画六边形
                 that.drawLinePoint(radCtx);
-        if (that.data.reportType == 1 || that.data.reportType == 2) {
-            that.drawRegion(radarData, "rgba(245,103,103,0.3)", radCtx);
-            //设置数据
-                        that.drawCircle(radarData, "#F56767", radCtx);
-            //设置节点
-                }
-        if (that.data.reportType == 3 || that.data.reportType == 4) {
-            that.drawRegion(radarDataParent, "rgba(255,178,114,0.3)", radCtx);
-            //设置数据
-                        that.drawCircle(radarDataParent, "#FFB272", radCtx);
-            //设置节点
-                }
-        that.drawTextCans(radarData, radCtx);
+        // that.drawType(parseInt(that.data.reportType),radCtx);
+                var bgColor = "rgba(245,103,103,0.3)";
+        var spotColor = "#F56767";
+        if (this.isPatriarch) {
+            if (this.sex == 1) {
+                bgColor = "rgba(255,140,91,0.4)";
+                spotColor = "#ff8c5b";
+            } else {
+                bgColor = "rgba(253,198,34,0.4)";
+                spotColor = "#FDC622";
+            }
+        }
+        that.drawRegion(radarData, bgColor, radCtx);
+        //设置数据
+                that.drawCircle(radarData, spotColor, radCtx);
+        //设置节点
+                that.drawTextCans(radarData, radCtx);
         //设置文本数据
                 radCtx.draw(false, function(e) {
             wx.canvasToTempFilePath({
@@ -722,6 +784,7 @@ Page((_Page = {
     },
     // 绘制曲线图->平均水平
     drawLineCurve: function drawLineCurve(mData, lineCtx) {
+        console.log(mData);
         line.points = [];
         for (var i = 0; i < mData.length; i++) {
             lineCtx.beginPath();
@@ -755,17 +818,43 @@ Page((_Page = {
         this.drawCurveBg(ctx);
         this.drawCurvePoint(ctx);
         this.drawCurveText(cruveData, ctx);
-        if (that.data.reportType == 1 || that.data.reportType == 2) {
-            this.drawCurveCircle(cruveData, "#EB533E", ctx);
-            this.drawCurveRegion(cruveData, "rgba(235,83,62,0.4)", ctx);
-            //设置数据
-                }
-        if (that.data.reportType == 3 || that.data.reportType == 4) {
-            this.drawCurveRegion(crueDataParent, "rgba(255,178,114,0.4)", ctx);
-            //设置数据
-                        this.drawCurveCircle(crueDataParent, "#FFB272", ctx);
+        var bgColor = "rgba(235,83,62,0.4)";
+        var spotColor = "#EB533E";
+        if (this.isPatriarch) {
+            if (this.sex == 1) {
+                bgColor = "rgba(255,140,91,0.4)";
+                spotColor = "#FF8C5B";
+            } else {
+                bgColor = "rgba(253,198,34,0.4)";
+                spotColor = "#FDC622";
+            }
         }
-        ctx.draw(false, function(e) {
+        this.drawCurveCircle(cruveData, spotColor, ctx);
+        this.drawCurveRegion(cruveData, bgColor, ctx);
+        //设置数据
+        // switch (parseInt(that.data.reportType)) {
+        //   case 1:
+        //     this.drawCurveCircle(cruveData, '#EB533E', ctx);
+        //     this.drawCurveRegion(cruveData, 'rgba(235,83,62,0.4)', ctx); //设置数据
+        //     break;
+        //   case 3:
+        //     this.drawCurveRegion(cruveData, 'rgba(255,178,114,0.4)', ctx) //设置数据
+        //     this.drawCurveCircle(cruveData, '#FFB272', ctx);
+        //     break;
+        //   case 2:
+        //     this.drawCurveCircle(cruveData, '#EB533E', ctx);
+        //     this.drawCurveRegion(cruveData, 'rgba(235,83,62,0.4)', ctx); //设置数据
+        //     this.drawCurveRegion(crueDataParent, 'rgba(255,178,114,0.4)', ctx) //设置数据
+        //     this.drawCurveCircle(crueDataParent, '#FFB272', ctx);
+        //     break;
+        //   case 4:
+        //     this.drawCurveCircle(crueDataParent, '#EB533E', ctx);
+        //     this.drawCurveRegion(crueDataParent, 'rgba(235,83,62,0.4)', ctx); //设置数据
+        //     this.drawCurveRegion(cruveData, 'rgba(255,178,114,0.4)', ctx) //设置数据
+        //     this.drawCurveCircle(cruveData, '#FFB272', ctx);
+        //     break;
+        // }
+                ctx.draw(false, function(e) {
             wx.canvasToTempFilePath({
                 x: 0,
                 y: 0,
@@ -882,8 +971,8 @@ Page((_Page = {
     var data = cake.cakeData;
     this.drawCakeCircle(data, ctx);
     //绘制各个学科扇形图
-        this.drawCakeLine(data, ctx);
-    ctx.draw(false, function(e) {
+    // this.drawCakeLine(data,ctx);
+        ctx.draw(false, function(e) {
         wx.canvasToTempFilePath({
             x: 0,
             y: 0,
@@ -902,7 +991,10 @@ Page((_Page = {
         });
     });
 }), _defineProperty(_Page, "drawCakeCircle", function drawCakeCircle(data, ctx) {
+    var oldOutY = 0;
+    var oldDir = "right";
     var colorArr = [ "#FF8D8C", "#FFCD56", "#48AAEE", "#37A1EB", "#86D5FF", "#C8ECFF", "#FFD9DA", "#FFCACA", "#FFACAB" ];
+    var angleArr = [];
     for (var i = 0; i < 9; i++) {
         //每一次画一次需要开启一个新的路径,不然颜色会重了;
         ctx.beginPath();
@@ -911,27 +1003,94 @@ Page((_Page = {
         //  设置起点
                 ctx.moveTo(cake.mCenter, cake.hCenter);
         //画出了一个扇形 
-                ctx.arc(cake.mCenter, cake.hCenter, data[i] * 13, i * (2 / 9) * Math.PI, (i + 1) * (2 / 9) * Math.PI);
+                ctx.arc(cake.mCenter, cake.hCenter, data[i] * 12, i * (2 / 9) * Math.PI, (i + 1) * (2 / 9) * Math.PI);
         //ctx.arc(cake.mCenter, cake.hCenter, 90,i*(2/9)*Math.PI, (i+1)*(2/9)* Math.PI);
         //填充
-                ctx.fill();
+                angleArr.push({
+            startAngle: i * (2 / 9) * Math.PI,
+            angle: (i + 1) * (2 / 9) * Math.PI - i * (2 / 9) * Math.PI
+        });
+        ctx.fill();
     }
     ctx.beginPath();
     ctx.fillStyle = "#ffffff";
     ctx.arc(cake.mCenter, cake.hCenter, 20, 0, 2 * Math.PI);
     ctx.fill();
-}), _defineProperty(_Page, "drawCakeLine", function drawCakeLine(data, ctx) {
-    var text = cake.cakeText;
-    var colorArr = [ "#FF8D8C", "#FFCD56", "#48AAEE", "#37A1EB", "#86D5FF", "#C8ECFF", "#FFD9DA", "#FFCACA", "#FFACAB" ];
-    for (var i = 0; i < 9; i++) {
+    drawLineText();
+    function drawLineText() {
+        angleArr.forEach(function(item, i) {
+            drawArcLine(item.startAngle, item.angle, i);
+            //绘制点线
+                });
+    }
+    function drawArcLine(startAngle, angle, index) {
+        var text = cake.cakeText;
+        /*计算点出去的坐标*/        var edge = data[index] * 12;
+        var edgeX = Math.cos(startAngle + angle / 2) * edge;
+        var edgeY = Math.sin(startAngle + angle / 2) * edge;
+        var outX = cake.mCenter + edgeX;
+        var outY = cake.hCenter + edgeY;
+        /*计算线出去的坐标*/        var edge1 = data[index] * 12 * 1.3;
+        var edgeX1 = Math.cos(startAngle + angle / 2) * edge1;
+        var edgeY1 = Math.sin(startAngle + angle / 2) * edge1;
+        var outX1 = cake.mCenter + edgeX1;
+        var outY1 = cake.hCenter + edgeY1;
         ctx.beginPath();
-        ctx.rect(15 + i * 40, 250, 10, 5);
-        ctx.setFillStyle(colorArr[i]);
-        ctx.fill();
-        ctx.setFillStyle("#9b9b9b");
+        var dir = "right";
+        if (outX1 > cake.mCenter) {
+            dir = "right";
+        } else {
+            dir = "left";
+        }
+        ctx.setStrokeStyle(colorArr[index]);
         ctx.setFontSize(10);
-        //设置字体
-                ctx.fillText(text[i], 11 + i * 40, 270);
+        ctx.setTextBaseline("middle");
+        if (Math.abs(outY - oldOutY) > 10 || dir != oldDir) {
+            ctx.arc(outX - cake.signR / 2, outY - cake.signR / 2, cake.signR, 0, 2 * Math.PI);
+        }
+        ctx.setFillStyle(colorArr[index]);
+        ctx.fill();
+        ctx.moveTo(outX - cake.signR / 2, outY - cake.signR / 2);
+        ctx.lineTo(outX1, outY1);
+        oldOutY = outY;
+        oldDir = dir;
+        if (dir == "right") {
+            /*右*/
+            if (data[index] * 12 > 60) {
+                ctx.lineTo(cake.mCenter + data[index] * 12 * 1.3, outY1);
+            }
+            ctx.stroke();
+            ctx.setFillStyle(colorArr[index]);
+            ctx.setTextAlign("left");
+            if (data[index] * 12 > 60) {
+                if (parseInt(Math.abs(Math.sin(startAngle + angle / 2))) >= 1) {
+                    ctx.fillText(text[index], outX1 + 5, outY1);
+                } else {
+                    ctx.fillText(text[index], cake.mCenter + data[index] * 12 * 1.3 + 5, outY1);
+                }
+            } else {
+                ctx.fillText(text[index], outX1 + Math.cos(startAngle + angle / 2), outY1 > cake.hCenter ? outY1 + 7 : outY1 - 7);
+            }
+        } else {
+            /*左*/
+            if (data[index] * 12 > 60) {
+                ctx.lineTo(data[index] * 12, outY1);
+            }
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.setFillStyle(colorArr[index]);
+            ctx.setTextAlign("right");
+            // const leftRatioW = ctx.measureText(text[index]).width;
+                        if (data[index] * 12 > 60) {
+                if (parseInt(Math.abs(Math.sin(startAngle + angle / 2))) >= 1) {
+                    ctx.fillText(text[index], outX1 - 5, outY1);
+                } else {
+                    ctx.fillText(text[index], data[index] * 12 - 5, outY1);
+                }
+            } else {
+                ctx.fillText(text[index], outX1 - Math.cos(startAngle + angle / 2), outY1 > cake.hCenter ? outY1 + 7 : outY1 - 7);
+            }
+        }
     }
 }), _defineProperty(_Page, "swiperTab", function swiperTab(e) {
     var index = e.currentTarget.dataset.index;
@@ -955,10 +1114,4 @@ Page((_Page = {
     wx.navigateTo({
         url: url
     });
-}), _defineProperty(_Page, "scrollbottom", function scrollbottom() {
-    if (!this.data.isHide) {
-        this.setData({
-            current: 1
-        });
-    }
 }), _Page));

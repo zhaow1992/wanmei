@@ -9,11 +9,14 @@
         <view class="wrapper" wx:else>
             <view style="overflow:hidden;background:#f8f5f4;padding-bottom:3vw;">
                 <view class="wrapper-top" style="background:#fff;">
-                    <form reportSubmit bindsubmit="goActivityBargain" wx:if="{{bargainGetStatus==true}}">
-                        <button formType="submit" style="padding:0;margin:0;border-radius:0">
-                            <image class="header_bg" src="../../image/activityBargain.png"></image>
+                    <block wx:if="{{bargainGetStatus==true}}">
+                        <button bindgetuserinfo="getUserInfo" hoverClass="btnHover" openType="getUserInfo" style="padding:0;margin:0;border-radius:0;font-size:0;" wx:if="{{avatarUrl==''}}">
+                            <image class="header_bg" src="http://wmei-appfile.cn-bj.ufileos.com/0yg/activityBanner.png"></image>
                         </button>
-                    </form>
+                        <navigator hoverClass="btnHover" style="padding:0;margin:0;border-radius:0;font-size:0;" url="/packages/activityBargain/index/index" wx:else>
+                            <image class="header_bg" src="http://wmei-appfile.cn-bj.ufileos.com/0yg/activityBanner.png"></image>
+                        </navigator>
+                    </block>
                     <view bindtap="goDetail" data-type="pay" style="background:#f8f5f4" wx:else>
                         <image class="header_bg" src="{{bannerImage[bgImage].PictureUrl}}"></image>
                     </view>
@@ -31,7 +34,7 @@
                                 </view>
                             </picker>
                         </view>
-                        <block wx:if="{{!shangHaiShow&&!zheJiangShow}}">
+                        <block wx:if="{{!newGaokaoPro}}">
                             <view class="wl-choose-wrapper" wx:if="{{courseFlag==true}}">
                                 <view class="wl-choose" data-value="1" wx:if="{{checkedValue==1}}">
                                     <image class="wl-choose-icon" src="../../image/major_selected.png"></image>文科</view>
@@ -54,7 +57,7 @@
                             </view>
                         </block>
                     </view>
-                    <block wx:if="{{!shangHaiShow&&!zheJiangShow}}">
+                    <block wx:if="{{!newGaokaoPro}}">
                         <view class="tuijian-center content-font" style="{{isGaokaoFlag==true?'padding-top:0vw':''}}">
                             <block wx:if="{{isGaokaoFlag==false}}"></block>
                             <block wx:if="{{isGaokaoFlag==false}}">
@@ -114,7 +117,7 @@
                                 <input bindinput="enterInput" class="fen2-font" data-type="weiFen" disabled="{{changeGKScoreFlag}}" maxlength="6" placeholder="{{isGaokaoFlag==true?'输入高考位次':'输入位次'}}" type="number" value="{{weiFen==0?'':weiFen}}"></input>位</view>
                         </view>
                         <view class="shangHaiBottom">
-                            <view bindtap="{{changeGKScoreFlag==true?'':'chooseShangHaiSubject'}}" class="{{item.st==true?'shangHaiBottom-items-checked':'shangHaiBottom-items'}} zhejiang-content-color" data-name="{{item.name}}" wx:for="{{shangHaiSubject}}">{{item.name}}
+                            <view bindtap="{{changeGKScoreFlag==true?'':'chooseShangHaiSubject'}}" class="{{item.st==true?'shangHaiBottom-items-checked':'shangHaiBottom-items'}} zhejiang-content-color" data-name="{{item.name}}" wx:for="{{shangHaiSubject}}" wx:key="index">{{item.name}}
                     <image src="../../image/subject_checked_icon.png" wx:if="{{item.st==true}}"></image>
                             </view>
                         </view>
@@ -124,15 +127,63 @@
                             <view>
                                 <input bindinput="enterInput" class="fen2-font" data-type="getFen" disabled="{{changeGKScoreFlag}}" maxlength="3" placeholder="{{isGaokaoFlag==true?'输入高考分':'输入分数'}}" type="number" value="{{getFen==0?'':getFen}}"></input>分</view>
                             <view>
-                                <input bindinput="enterInput" class="fen2-font" data-type="weiFen" disabled="{{changeGKScoreFlag}}" maxlength="6" placeholder="{{isGaokaoFlag==true?'输入高考位次':'输入位次'}}" type="number" value="{{weiFen==0?'':weiFen}}"></input>位</view>
+                                <input bindinput="enterInput" class="fen2-font" data-type="weiFen" disabled="{{changeGKScoreFlag}}" maxlength="6" placeholder="{{isGaokaoFlag==true?'输入高考位次':'输入位次(非必填)'}}" type="number" value="{{weiFen==0?'':weiFen}}"></input>位</view>
                         </view>
                         <view class="shangHaiBottom">
-                            <view bindtap="{{changeGKScoreFlag==true?'':'chooseZheJiangSubject'}}" class="{{item.st==true?'zheJiangBottom-items-checked':'zheJiangBottom-items'}} zhejiang-content-color {{cityId==843?'zjItem':''}}" data-name="{{item.name}}" wx:for="{{zheJiangSubject}}">{{item.name}}
+                            <view bindtap="{{changeGKScoreFlag==true?'':'chooseZheJiangSubject'}}" class="{{item.st==true?'zheJiangBottom-items-checked':'zheJiangBottom-items'}} zhejiang-content-color {{cityId==843?'zjItem':''}}" data-name="{{item.name}}" wx:for="{{zheJiangSubject}}" wx:key="index">{{item.name}}
                     <image src="../../image/subject_checked_icon.png" wx:if="{{item.st==true}}"></image>
                             </view>
                         </view>
                     </view>
-                    <view class="report flex textAlign whiteFontColor oneFontSize {{cityId==842||cityId==843?'noOneReport':''}}" wx:if="{{cityId==842||cityId==843}}">
+                    <view class="content-font" wx:if="{{shanDongShow}}">
+                        <view class="shangHaiTop">
+                            <view style="width:90%">
+                                <input bindinput="enterInput" class="fen2-font" data-type="getFen" disabled="{{changeGKScoreFlag}}" maxlength="3" placeholder="{{isGaokaoFlag==true?'输入高考分':'输入分数'}}" type="number" value="{{getFen==0?'':getFen}}"></input>分
+                </view>
+                        </view>
+                        <view class="shangHaiBottom">
+                            <view bindtap="{{changeGKScoreFlag==true?'':'chooseShanDongSubject'}}" class="{{item.st==true?'zheJiangBottom-items-checked':'zheJiangBottom-items'}} zhejiang-content-color {{cityId==843?'zjItem':''}}" data-name="{{item.name}}" wx:for="{{shanDongSubject}}" wx:key="index">{{item.name}}
+                    <image src="../../image/subject_checked_icon.png" wx:if="{{item.st==true}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="content-font" wx:if="{{beijingShow}}">
+                        <view class="shangHaiTop">
+                            <view style="width:90%">
+                                <input bindinput="enterInput" class="fen2-font" data-type="getFen" disabled="{{changeGKScoreFlag}}" maxlength="3" placeholder="{{isGaokaoFlag==true?'输入高考分':'输入分数'}}" type="number" value="{{getFen==0?'':getFen}}"></input>分
+                </view>
+                        </view>
+                        <view class="shangHaiBottom">
+                            <view bindtap="{{changeGKScoreFlag==true?'':'choosebeijingSubject'}}" class="{{item.st==true?'zheJiangBottom-items-checked':'zheJiangBottom-items'}} zhejiang-content-color {{cityId==834?'zjItem':''}}" data-name="{{item.name}}" wx:for="{{beijingSubject}}" wx:key="index">{{item.name}}
+                    <image src="../../image/subject_checked_icon.png" wx:if="{{item.st==true}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="content-font" wx:if="{{tianjinShow}}">
+                        <view class="shangHaiTop">
+                            <view style="width:90%">
+                                <input bindinput="enterInput" class="fen2-font" data-type="getFen" disabled="{{changeGKScoreFlag}}" maxlength="3" placeholder="{{isGaokaoFlag==true?'输入高考分':'输入分数'}}" type="number" value="{{getFen==0?'':getFen}}"></input>分
+                </view>
+                        </view>
+                        <view class="shangHaiBottom">
+                            <view bindtap="{{changeGKScoreFlag==true?'':'choosetianjinSubject'}}" class="{{item.st==true?'zheJiangBottom-items-checked':'zheJiangBottom-items'}} zhejiang-content-color {{cityId==835?'zjItem':''}}" data-name="{{item.name}}" wx:for="{{tianjinSubject}}" wx:key="index">{{item.name}}
+                    <image src="../../image/subject_checked_icon.png" wx:if="{{item.st==true}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="content-font" wx:if="{{hainanShow}}">
+                        <view class="shangHaiTop">
+                            <view style="width:90%">
+                                <input bindinput="enterInput" class="fen2-font" data-type="getFen" disabled="{{changeGKScoreFlag}}" maxlength="3" placeholder="{{isGaokaoFlag==true?'输入高考分':'输入分数'}}" type="number" value="{{getFen==0?'':getFen}}"></input>分
+                </view>
+                        </view>
+                        <view class="shangHaiBottom">
+                            <view bindtap="{{changeGKScoreFlag==true?'':'choosehainanSubject'}}" class="{{item.st==true?'zheJiangBottom-items-checked':'zheJiangBottom-items'}} zhejiang-content-color {{cityId==853?'zjItem':''}}" data-name="{{item.name}}" wx:for="{{hainanSubject}}" wx:key="index">{{item.name}}
+                    <image src="../../image/subject_checked_icon.png" wx:if="{{item.st==true}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="report flex textAlign whiteFontColor oneFontSize {{newGaokaoPro?'noOneReport':''}}" wx:if="{{newGaokaoPro}}">
                         <view bindtap="commonTuijian" class="recommendBtn" data-ZNTBorYJTB="0" hoverClass="btnHover">
                             <image class="recommend-icon" src="../../image/recommend-icon.png"></image> 智能推荐</view>
                     </view>
@@ -191,8 +242,8 @@
                     </view>
                 </view>
                 <view style="padding:0 22rpx">
-                    <view class="menu flex {{cityId==842||cityId==843?'noAdmission':''}}">
-                        <view bindtap="goDetail" class="flex flexjsbetween itemBackColor" data-type="pability" hoverClass="itemHover" openType="navigate" wx:if="{{!(cityId==842||cityId==843)}}">
+                    <view class="menu flex {{newGaokaoPro?'noAdmission':''}}">
+                        <view bindtap="goDetail" class="flex flexjsbetween itemBackColor" data-type="pability" hoverClass="itemHover" openType="navigate" wx:if="{{!newGaokaoPro}}">
                             <view>
                                 <view class="twoFontSize oneFontColor bold">测录取概率</view>
                                 <view class="fiveFontSize twoFontColor" style="margin-top:8rpx">{{numberNum.pability}}人使用</view>
@@ -215,18 +266,54 @@
                         </view>
                     </view>
                 </view>
-                <view bindtap="goQuickNews" class="wmkx flex" wx:if="{{quickNewsFlag.length>0}}">
-                    <image class="wmkx-bg" src="/image/wmkx-bg.png"></image>
+                <view bindtap="goQuickNews" class="XYKX flex" wx:if="{{quickNewsFlag.length>0}}">
+                    <image class="xykx-bg" src="/image/xykx-bg.png"></image>
                     <view class="">
-                        <image class="wmkx-tx" src="/image/wmkx-tx.png"></image>
+                        <image class="xykx-tx" src="/image/xykx-tx.png"></image>
                         <text class="word threeFontSize">{{quickNewsFlag[0].updateContent}}</text>
                     </view>
                     <image class="more" src="/image/more.png"></image>
                 </view>
+                <view class="fc whiteColor" style="padding:0 32rpx;margin-top:20rpx;">
+                    <view class="fr ac jsb" style="padding:30rpx 0;">
+                        <view class="fourFontSize oneFontColor" style="font-weight:bold;">高考资讯</view>
+                        <view bindtap="moreNews" class="threeFontColor threeFontSize">更多</view>
+                    </view>
+                    <view class="fc">
+                        <view bindtap="newsDetail" class="fr ac jsb bottomBorder" data-fromsource="{{item.fromSource}}" data-id="{{item.numId}}" data-img="{{item.previewImageUrl}}" data-provinceid="{{item.provinceId}}" data-time="{{item.creationTime}}" data-title="{{item.title}}" hoverClass="btnHover" style="padding:30rpx 0" wx:for="{{newsList}}" wx:key="index">
+                            <view class="fc" style="width:{{item.previewImageUrl?'420rpx':'100%'}};">
+                                <view class="oneFontColor oneFontSize textOmit" style="font-weight:bold;">{{item.title}}</view>
+                                <view class="threeFontColor threeFontSize twoRowsOmit" style="margin-top:12rpx;height:72rpx;">{{item.summary}}</view>
+                                <view class="threeFontSize threeFontColor fr ac jsb">
+                                    <view>{{item.creationTime}}</view>
+                                    <view class="fr ac">
+                                        <image src="/image/classRoom_eye.png" style="width:28rpx;height:22rpx;"></image>
+                                        <view style="margin-left:10rpx;">{{item.hits}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                            <image src="{{item.previewImageUrl?item.previewImageUrl:'/image/collegeBanner.png'}}" style="width:220rpx;height:148rpx;border-radius:10rpx;" wx:if="{{item.previewImageUrl}}"></image>
+                        </view>
+                    </view>
+                </view>
+                <view style="display:flex;justify-content:space-around;background:#f0eff5;" wx:if="{{isMore}}">
+                    <view class="threeFontSize" style="display:flex;align-items:center;">
+                        <image src="../../image/loading.gif" style="width:4vw;height:4vw;margin-right:2vw;line-height:2;"></image> 数据加载中...</view>
+                </view>
+                <view class="threeFontSize" style="background:#f0eff5;text-align:center;line-height:2;" wx:if="{{!isMore}}">- 我也是有底线的 -</view>
             </view>
         </view>
     </block>
 </block>
+<view catchtouchmove="true" wx:if="{{activityFlag&&bargainGetStatus==true}}">
+    <view catchtap="hidePopup" class="wrap {{wrapAnimate}}" style="background:rgba(0,0,0,{{bgOpacity}});z-index:10;"></view>
+    <image catchtap="hidePopup" src="../../image/activityClose.png" style="width:9.1vw;height:9.1vw;position:fixed;top:19vh;right:9vw;padding:4vw;margin:0;z-index:11"></image>
+    <view class="{{popupAnimate}} popup-wrapper" style="background:none;">
+        <image src="http://wmei-appfile.cn-bj.ufileos.com/0yg/activityPopup.png" style="width:73vw;height:73vw;"></image>
+        <button bindgetuserinfo="getUserInfo" hoverClass="btnHover" openType="getUserInfo" style="width:66.7vw;color:#fff;height:12vw;line-height:12vw;text-align:center;margin:9.5vw auto 0;background: #FF5053;box-shadow: 0 10px 20px 0 rgba(255,80,83,0.30);border-radius:12vw;font-size:34rpx;" wx:if="{{avatarUrl==''}}">立即抢购</button>
+        <navigator bindtap="hidePopup" hoverClass="btnHover" style="width:66.7vw;color:#fff;height:12vw;line-height:12vw;text-align:center;margin:9.5vw auto 0;background: #FF5053;box-shadow: 0 10px 20px 0 rgba(255,80,83,0.30);border-radius:12vw;font-size:34rpx;" url="/packages/activityBargain/index/index" wx:else>立即抢购</navigator>
+    </view>
+</view>
 <view wx:if="{{isGaokao.Flag}}">
     <view catchtap="hideIsGaokaoPopup" class="wrap {{isGaokao.wrapAnimate}}" style="background:rgba(0,0,0,{{isGaokao.bgOpacity}});"></view>
     <view class="{{isGaokao.popupAnimate}} popup-wrapper threeFontSize fourFontColor" style="line-height:2;">

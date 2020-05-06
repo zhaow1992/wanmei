@@ -1,0 +1,657 @@
+<navigationcustomtop navigationText="智能填报"></navigationcustomtop>
+<view class="filter">
+    <view class="swiper-tab twoFontSize threeFontColor">
+        <view bindtap="swichNav" class=" {{currentTab==0?'oneFontSize fourFontColor':''}}" data-current="0" style="{{currentTab==0?'border-bottom:5rpx solid #'+color+';color:#'+color+';':''}}">专业优先</view>
+        <view bindtap="swichNav" class=" {{currentTab==1?'oneFontSize fourFontColor':''}}" data-current="1" style="{{currentTab==1?'border-bottom:5rpx solid #'+color+';color:#'+color+';':''}}">院校优先</view>
+        <view bindtap="swichNav" class=" {{currentTab==2?'oneFontSize fourFontColor':''}}" data-current="2" style="{{currentTab==2?'border-bottom:5rpx solid #'+color+';color:#'+color+';':''}}">自主填报</view>
+        <view bindtap="shaixuan" class="flex fourFontColor twoFontSize" hoverClass="btnHover" style="visibility:{{currentTab==2?'hidden':''}}">
+            <view style="{{shaixuan.num>0?'color:#E9302D':''}}">筛选</view>
+            <view class="fiveFontSize shaixuan-num" wx:if="{{shaixuan.num>0}}">{{shaixuan.num}}</view>
+            <image mode="widthFix" src="/image/siftCollege.png" style="width:24rpx;height:24rpx;margin-left:10rpx;" wx:else></image>
+        </view>
+    </view>
+    <view class="fr ac {{currentTab!=2?'jsb':''}}">
+        <view bindtap="changeScore" class="flex fourFontColor twoFontSize scorewrapper" hoverClass="btnHover">
+            <view>{{score.totalScore}}分</view>
+            <view>{{score.rank?score.rank:'-'}}位</view>
+            <view>{{score.chooseLevel}}</view>
+            <image mode="widthFix" src="../image/choose_score_icon.png" style="width:22rpx;height:22rpx;"></image>
+        </view>
+        <view bindtap="addMajor" class="flex fourFontColor twoFontSize" hoverClass="btnHover" style="margin-right:32rpx;" wx:if="{{currentTab!=2}}">
+            <image src="/image/search.png" style="width:28rpx;height: 28rpx;margin-right:10rpx;"></image>
+            <view>院校/专业</view>
+            <view class="pop checkedBackColor whiteFontColor fr ac jc" wx:if="{{keywords.length+uCodes.length>0}}">{{keywords.length+uCodes.length>10?'···':keywords.length+uCodes.length}}</view>
+        </view>
+    </view>
+</view>
+<swiper bindchange="swichNav" class="swiper-wrapper" current="{{currentTab}}" style="height:{{HInfo.swiperH}}px;">
+    <swiper-item>
+        <view class="flex" id="cwb" style="padding:14rpx 32rpx;justify-content:space-between;">
+            <view class="flex threeFontSize">
+                <view bindtap="chooseCWB" class="CWB {{item.animate}}" data-index="{{index}}" hoverClass="btnHover" style="background:{{item.bgColor}};" wx:for="{{CWBList}}" wx:key="index">{{item.name}}</view>
+            </view>
+        </view>
+        <swiper bindchange="changeCWB" class="swiper-wrapper" current="{{CWBIndex}}" style="height:{{HInfo.swiperH}}px;">
+            <swiper-item catchtouchmove="forbidMove" wx:for="{{3}}" wx:for-index="swiperIndex" wx:key="index">
+                <scroll-view scrollY bindscrolltolower="scrollCollegeToLower" style="height:{{HInfo.scrollH}}px;">
+                    <view class="flex" style="height:100%;justify-content:space-around;" wx:if="{{swiperIndex==0?CCollegeList.showLoad:swiperIndex==1?WCollegeList.showLoad:BCollegeList.showLoad}}">
+                        <image mode="widthFix" src="/image/loading_icon1.gif" style="width: 28.06vw;height: 25.14vw;"></image>
+                    </view>
+                    <block wx:else>
+                        <block wx:if="{{swiperIndex==0?CCollegeList.collegeList.length>0:swiperIndex==1?WCollegeList.collegeList.length>0:BCollegeList.collegeList.length>0}}">
+                            <view class="recommendList zhejiang-content-color collegeChongName" style="position:relative;margin:0 auto">
+                                <view class="fr threeFontSize threeFontColor zhejiang-content-color collegeChongName" data-index="{{index}}" data-type="1" data-uCode="{{item.uCode}}" style="position:relative;padding:4vw;background:#fff;border-radius:15rpx;margin-bottom:30rpx" wx:for="{{swiperIndex==0?CCollegeList.collegeList:swiperIndex==1?WCollegeList.collegeList:BCollegeList.collegeList}}" wx:key="index">
+                                    <view class="fourFontSize oneFontColor" style="padding-bottom: 70rpx">{{item.probability}}<text class="threeFontSize">%</text>
+                                    </view>
+                                    <view style="position:absolute;top:2.8vw;right:2.8vw;background:rgba(255,255,255,0.5)"></view>
+                                    <view class="fc">
+                                        <view style="width:560rpx;margin-left:30rpx;border-bottom:1rpx dashed #E9E9E9;padding-bottom:28rpx;">
+                                            <view class="fr ac jsb">
+                                                <view catchtap="showScorePlan" class="oneFontSize bold oneFontColor" data-index="{{index}}" style="width:395rpx;">{{item.professionName}}</view>
+                                                <view catchtap="tianbaoZY" class="tb {{item.st?'whiteFontColor':''}}" data-collegeCode="{{item.collegeCode}}" data-collegename="{{item.collegeName}}" data-colleges="{{item}}" data-item="{{item}}" data-majorcode="{{item.majorCode}}" data-uCode="{{item.uCode}}" style="margin-right:30rpx;background:{{item.st?swiperIndex==0?'#FF5053 ':swiperIndex==1?'#F7BA00':'#76CF27':''}}" wx:if="{{item.isFit}}">{{item.st?'已填':'填报'}}</view>
+                                                <view class="fc threeFontSize" style="color:#cccccc;width:100rpx;" wx:if="{{!item.isFit}}">
+                                                    <view>选科要求不符</view>
+                                                    <view>无法填报</view>
+                                                </view>
+                                            </view>
+                                            <view class="threeFontSize threeFontColor fr ac" style="margin:8rpx 0 6rpx 0;">
+                                                <text>{{item.year}}计划  {{item.planNum1?item.planNum1:'-'}}/{{item.planNum2?item.planNum2:'-'}}/{{item.planNum3?item.planNum3:'-'}}</text>
+                                                <rich-text class="threeFontSize threeFontColor" nodes="{{item.chooseCns}}" style="margin-left:14rpx;"></rich-text>
+                                            </view>
+                                            <view class="fr ac threeFontColor">
+                                                <view class="threeFontSize threeFontColor fr ac">代码 {{item.professionCode}}</view>
+                                                <text style="margin-left:14rpx;" wx:if="{{!item.isBen}}">专科</text>
+                                                <text style="margin-left:14rpx;">{{item.learnYear}}</text>
+                                                <text style="margin-left:14rpx;">{{item.cost}}</text>
+                                            </view>
+                                        </view>
+                                        <view bindtap="showCollegeDetail" class="threeFontColor threeFontSize" data-collegecode="{{item.collegeCode}}" data-collegeid="{{item.collegeId}}" data-index="{{index}}" data-isBen="{{item.isBen}}" style="margin-left:30rpx;padding-top:20rpx">
+                                            <text class="oneFontColor">{{item.collegeName}}</text>{{item.levels}}  代码 {{item.collegeCode}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                            <block wx:if="{{isVIP}}">
+                                <view class="threeFontColor threeFontSize flex" style="text-align:center;line-height:3;justify-content:space-around;" wx:if="{{swiperIndex==0?CCollegeList.loadMore:swiperIndex==1?WCollegeList.loadMore:BCollegeList.loadMore}}">
+                                    <view class="flex">
+                                        <image src="/image/loading.gif" style="width:30rpx;height:30rpx;margin-right:16rpx;"></image>
+                                        <view>正在加载更多的数据...</view>
+                                    </view>
+                                </view>
+                                <view class="threeFontColor threeFontSize" style="text-align:center;line-height:3;padding-bottom:60rpx" wx:else>- 我也是有底线的 -</view>
+                            </block>
+                            <view class="recommendList zhejiang-content-color collegeChongName" style="position:relative;" wx:else>
+                                <view class="flex" style="background:white;padding:6vw 4vw;box-shadow: 0 0 5px 2px rgba(0,0,0,0.03);">
+                                    <view class="content-font" style="line-height:2;width:100%;">
+                                        <block wx:if="{{system=='ios'}}">
+                                            <view class="btn-font oneFontColor" style="margin-top:4vw;text-align:center;font-size:5vw">您还不是VIP,无法查看完整推荐</view>
+                                            <view class="threeFontColor" style="text-align:center">各大VIP特权功能等你发现</view>
+                                            <view class="flex" style="justify-content:space-around;margin-top: 20rpx;">
+                                                <view class="flex oneFontSize">
+                                                    <view bindtap="goBindCard" class="cardBtn bindCard" hoverClass="btnHover">绑定会员卡</view>
+                                                    <button bindtap="{{banApplyCard?'':'applyCard'}}" class="cardBtn oneFontSize applyCard" disabled="{{applyCardLoading}}" hoverClass="btnHover" loading="{{applyCardLoading}}" style="{{banApplyCard?'background:#9b9b9b':''}}">{{banApplyCard?'重新申请（'+applyCardTime+'秒）':'申请会员卡'}}</button>
+                                                </view>
+                                            </view>
+                                        </block>
+                                        <block wx:else>
+                                            <view class="btn-font oneFontColor" style="margin-top:4vw;text-align:center;font-size:5vw">开通VIP,查看完整推荐</view>
+                                            <view class="threeFontColor" style="text-align:center">各大VIP特权功能等你发现</view>
+                                            <view bindtap="commonTuijian" class="recommend-btn oneFontSize" hoverClass="btnHover" style="margin:5vw auto 0;color:#fff;background:#{{color}};box-shadow:none;">开通VIP</view>
+                                        </block>
+                                    </view>
+                                </view>
+                            </view>
+                        </block>
+                        <block wx:else>
+                            <view class="twoFontSize fourFontColor flex" style="height:100%;justify-content:space-around;" wx:if="{{shaixuan.num==0}}">
+                                <view style="text-align:center;">
+                                    <image mode="widthFix" src="/image/no-data.png" style="width:214rpx;height:214rpx;"></image>
+                                    <view style="margin-top:26rpx;">没有找到推荐的院校</view>
+                                </view>
+                            </view>
+                            <view class="twoFontSize fourFontColor flex" style="height:100%;justify-content:space-around;" wx:else>
+                                <view style="text-align:center;">
+                                    <image mode="widthFix" src="/image/no-data.png" style="width:214rpx;height:214rpx;"></image>
+                                    <view style="margin-top:26rpx;">抱歉，未找到匹配结果</view>
+                                    <view class="threeFontSize threeFontColor" style="margin-top:8rpx;">(志愿梯度原因，可查看其它维度)</view>
+                                    <view bindtap="clearShaixuan" class="clearSX" hoverClass="btnHover">清空筛选条件</view>
+                                </view>
+                            </view>
+                        </block>
+                    </block>
+                </scroll-view>
+            </swiper-item>
+        </swiper>
+    </swiper-item>
+    <swiper-item>
+        <scroll-view scrollY bindscrolltolower="scrollCollegeToLower" style="height:{{HInfo.scrollH}}px;">
+            <view class="flex" style="height:100%;justify-content:space-around;" wx:if="{{firstCollegeList.showLoad}}">
+                <image mode="widthFix" src="/image/loading_icon1.gif" style="width: 28.06vw;height: 25.14vw;"></image>
+            </view>
+            <block wx:else>
+                <block wx:if="{{firstCollegeList.collegeList.length>0}}">
+                    <view class="twoFontColor threeFontSize" style="margin-top:20rpx;margin-left:40rpx">共 {{collegeNum}} 所院校</view>
+                    <view class="threeFontSize threeFontColor recommendList zhejiang-content-color collegeChongName" style="position:relative;" wx:if="{{isVIP?true:index<10}}" wx:for="{{firstCollegeList.collegeList}}" wx:key="index">
+                        <view style="position:absolute;top:2.8vw;right:2.8vw;background:rgba(255,255,255,0.5)"></view>
+                        <view bindtap="collegeUp" class="flex" data-index="{{index}}" data-type="1" data-uCode="{{item.uCode}}" style="padding:6vw 4vw;background:#fff;box-shadow: 0 0 5px 2px rgba(0,0,0,0.03);">
+                            <view style="width:490rpx;">
+                                <view catchtap="showCollegeDetail" class="flex" data-collegecode="{{item.collegeCode}}" data-collegeid="{{item.collegeId}}" data-index="{{index}}" data-isBen="{{item.isBen}}" hoverClass="btnHover" style="align-items:flex-end;">
+                                    <view class="oneFontSize bold oneFontColor">{{item.collegeName}}
+                        <text class="threeFontSize threeFontColor" style="font-weight:normal;"> {{item.levels}}</text>
+                                    </view>
+                                </view>
+                                <view class="threeFontColor" style="margin-top:20rpx;"> {{item.classify?item.classify:'-'}} / {{item.provinceName?item.provinceName:'-'}} / {{item.collegeType?item.collegeType=='0'?'私立':item.collegeType=='1'?'公立':'':''}} / {{item.belong?item.belong:'-'}}</view>
+                                <view class="threeFontColor" style="margin-top:10rpx;">排名 {{item.rankOfCn}} / 代码 {{item.collegeCode}}</view>
+                            </view>
+                            <view bindtap="majorOpen" data-index="{{index}}" data-open="{{item.majorOpen}}" data-swiperidx="{{0}}" hoverClass="btnHover" style="text-align:center;">
+                                <view class="twoFontSize bold">{{item.fitCount}}</view>
+                                <view class="flex fourFontColor">
+                                    <view class="fourFontColor">匹配专业</view>
+                                    <image class="rightBtn" mode="widthFix" src="/image/openList.png" wx:if="{{!item.majorOpen}}"></image>
+                                    <image mode="widthFix" src="/image/down_icon.png" style="width:20rpx;height:10rpx;margin-left:11rpx;" wx:else></image>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="major-wrapper majorOpen fr {{item.professions.length-majorindex==1?'radius':''}}" id="major{{index}}{{majorindex}}" style="position:relative;border-top:1px solid #e9e9e9;" wx:if="{{item.majorOpen}}" wx:for="{{item.professions}}" wx:for-index="majorindex" wx:for-item="professions" wx:key="index">
+                            <view class="fc ac">
+                                <view class="oneFontColor fourFontSize">{{professions.probability}}<text class="threeFontSize">%</text>
+                                </view>
+                                <view class="fiveFontSize fr ac jc whiteFontColor" style="border-radius:6rpx;width:30rpx;height:30rpx;background:{{professions.recommendType==1?'#FF5053':professions.recommendType==2?'#F7BA00':'#76CF27'}}">{{professions.recommendType==1?'冲':professions.recommendType==2?'稳':'保'}}</view>
+                            </view>
+                            <view style="margin-left:30rpx;width:380rpx;">
+                                <view catchtap="showScorePlan" class="twoFontSize oneFontColor bold" data-index="{{index}}" data-majorindex="{{majorindex}}">{{professions.professionName}}</view>
+                                <view class="threeFontSize threeFontColor fr ac" style="margin:8rpx 0 6rpx 0;">
+                                    <text>{{professions.year}}计划 {{professions.planNum1?professions.planNum1:'-'}}/{{professions.planNum2?professions.planNum2:'-'}}/{{iprofessionsem.planNum3?professions.planNum3:'-'}}</text>
+                                    <rich-text class="threeFontSize threeFontColor" nodes="{{professions.chooseCns}}" style="margin-left:14rpx;"></rich-text>
+                                </view>
+                                <view class="threeFontSize threeFontColor fr">
+                                    <text>代码:{{professions.professionCode}}</text>
+                                    <text style="margin-left:14rpx;" wx:if="{{!professions.isBen}}">专科</text>
+                                    <text style="margin-left:14rpx;">{{professions.learnYear}}</text>
+                                    <text style="margin-left:14rpx;">{{professions.cost}}</text>
+                                </view>
+                            </view>
+                            <view catchtap="tianbaoZY" class="absoluteStyle fill {{professions.st?'whiteFontColor':''}}" data-collegeCode="{{item.collegeCode}}" data-collegename="{{item.collegeName}}" data-colleges="{{item}}" data-item="{{professions}}" data-majorcode="{{professions.majorCode}}" data-uCode="{{item.uCode}}" data-wish="{{item.wishSuggest}}" style="background:{{professions.st?professions.recommendType==1?'#FF5053':professions.recommendType==2?'#F7BA00':'#76CF27':''}}" wx:if="{{professions.isFit}}">{{professions.st?'已填':'填报'}}</view>
+                            <view class="fc threeFontSize" style="color:#cccccc;width:100rpx;" wx:if="{{!professions.isFit}}">
+                                <view>选科要求不符</view>
+                                <view>无法填报</view>
+                            </view>
+                        </view>
+                    </view>
+                    <block wx:if="{{isVIP}}">
+                        <view class="threeFontColor threeFontSize flex" style="text-align:center;line-height:3;justify-content:space-around;" wx:if="{{firstCollegeList.loadMore}}">
+                            <view class="flex">
+                                <image src="/image/loading.gif" style="width:30rpx;height:30rpx;margin-right:16rpx;"></image>
+                                <view>正在加载更多的数据...</view>
+                            </view>
+                        </view>
+                        <view class="threeFontColor threeFontSize" style="text-align:center;line-height:3;padding-bottom:60rpx" wx:else>- 我也是有底线的 -</view>
+                    </block>
+                    <view class="recommendList zhejiang-content-color collegeChongName" style="position:relative;" wx:else>
+                        <view class="flex whiteColor" style="padding:6vw 4vw;box-shadow: 0 0 5px 2px rgba(0,0,0,0.03);">
+                            <view class="content-font" style="line-height:2;width:100%;">
+                                <block wx:if="{{system=='ios'}}">
+                                    <view class="btn-font oneFontColor" style="margin-top:4vw;text-align:center;font-size:5vw">您还不是VIP,无法查看完整推荐</view>
+                                    <view class="threeFontColor" style="text-align:center">各大VIP特权功能等你发现</view>
+                                    <view class="flex" style="justify-content:space-around;margin-top: 20rpx;">
+                                        <view class="flex oneFontSize">
+                                            <view bindtap="goBindCard" class="cardBtn bindCard" hoverClass="btnHover">绑定会员卡</view>
+                                            <button bindtap="{{banApplyCard?'':'applyCard'}}" class="cardBtn oneFontSize applyCard" disabled="{{applyCardLoading}}" hoverClass="btnHover" loading="{{applyCardLoading}}" style="{{banApplyCard?'background:#9b9b9b':''}}">{{banApplyCard?'重新申请（'+applyCardTime+'秒）':'申请会员卡'}}</button>
+                                        </view>
+                                    </view>
+                                </block>
+                                <block wx:else>
+                                    <view class="btn-font oneFontColor" style="margin-top:4vw;text-align:center;font-size:5vw">开通VIP,查看完整推荐</view>
+                                    <view class="threeFontColor" style="text-align:center">各大VIP特权功能等你发现</view>
+                                    <view bindtap="commonTuijian" class="recommend-btn oneFontSize" hoverClass="btnHover" style="margin:5vw auto 0;color:#fff;background:#{{color}};box-shadow:none;">开通VIP</view>
+                                </block>
+                            </view>
+                        </view>
+                    </view>
+                </block>
+                <block wx:else>
+                    <view class="twoFontSize fourFontColor flex" style="height:100%;justify-content:space-around;" wx:if="{{shaixuan.num==0}}">
+                        <view style="text-align:center;">
+                            <image mode="widthFix" src="/image/no-data.png" style="width:214rpx;height:214rpx;"></image>
+                            <view style="margin-top:26rpx;">没有找到推荐的院校</view>
+                        </view>
+                    </view>
+                    <view class="twoFontSize fourFontColor flex" style="height:100%;justify-content:space-around;" wx:else>
+                        <view style="text-align:center;">
+                            <image mode="widthFix" src="/image/no-data.png" style="width:214rpx;height:214rpx;"></image>
+                            <view style="margin-top:26rpx;">抱歉，未找到匹配结果</view>
+                            <view class="threeFontSize threeFontColor" style="margin-top:8rpx;">(志愿梯度原因，可查看其它维度)</view>
+                            <view bindtap="clearShaixuan" class="clearSX" hoverClass="btnHover">清空筛选条件</view>
+                        </view>
+                    </view>
+                </block>
+            </block>
+        </scroll-view>
+    </swiper-item>
+    <swiper-item>
+        <scroll-view scrollY style="height:{{HInfo.scrollH}}px;">
+            <view class="threeFontSize threeFontColor college-wrapper">
+                <view class="oneFontSize oneFontColor bold">3步轻松搞定</view>
+                <view class="flex step-wrapper">
+                    <view class="step-item" wx:for="{{3}}" wx:key="index">
+                        <view class="fourFontSize item">{{index+1}}</view>
+                        <view class="twoFontSize oneFontColor">{{index==0?'搜大学':index==1?'选专业':'预览志愿表'}}</view>
+                    </view>
+                    <view class="itemLine"></view>
+                </view>
+                <view bindtap="goSearch" class="searchView-viewH flex searchBorder search-wrapper" hoverClass="btnHover">
+                    <view class="twoFontSize searchView twoFontColor flex">
+                        <image mode="widthFix" src="/image/publicSearchIcon.png"></image>
+                        <view>搜索意向院校</view>
+                    </view>
+                </view>
+            </view>
+            <view class="threeFontSize threeFontColor recommendList zhejiang-content-color collegeChongName" style="position:relative;" wx:for="{{ZCollegeList.collegeList}}" wx:key="index">
+                <view style="position:absolute;top:2.8vw;right:2.8vw;background:rgba(255,255,255,0.5)"></view>
+                <view bindtap="collegeUp" class="flex" data-index="{{index}}" data-type="1" data-uCode="{{item.uCode}}" style="padding:6vw 4vw;background:#fff;box-shadow: 0 0 5px 2px rgba(0,0,0,0.03);">
+                    <view style="width:490rpx;">
+                        <view catchtap="showCollegeDetail" class="flex" data-collegecode="{{item.collegeCode}}" data-collegeid="{{item.collegeId}}" data-index="{{index}}" data-isBen="{{item.isBen}}" hoverClass="btnHover" style="align-items:flex-end;">
+                            <view class="oneFontSize bold oneFontColor">{{item.collegeName}}
+                  <text class="threeFontSize threeFontColor" style="font-weight:normal;"> {{item.levels}}</text>
+                            </view>
+                        </view>
+                        <view class="threeFontColor" style="margin-top:20rpx;"> {{item.classify?item.classify:'-'}} / {{item.provinceName?item.provinceName:'-'}} / {{item.collegeType?item.collegeType=='0'?'私立':item.collegeType=='1'?'公立':'':''}} / {{item.belong?item.belong:'-'}}</view>
+                        <view class="threeFontColor" style="margin-top:10rpx;">排名 {{item.rankOfCn}} / 代码 {{item.collegeCode}}</view>
+                    </view>
+                    <view bindtap="majorOpen" data-index="{{index}}" data-open="{{item.majorOpen}}" data-swiperidx="{{0}}" hoverClass="btnHover" style="text-align:center;">
+                        <view class="twoFontSize bold">{{item.professions.length==0?'-':item.professions.length}}</view>
+                        <view class="flex fourFontColor">
+                            <view class="fourFontColor">匹配专业</view>
+                            <image class="rightBtn" mode="widthFix" src="/image/openList.png" wx:if="{{!item.majorOpen}}"></image>
+                            <image mode="widthFix" src="/image/down_icon.png" style="width:20rpx;height:10rpx;margin-left:11rpx;" wx:else></image>
+                        </view>
+                    </view>
+                </view>
+                <view class="major-wrapper majorOpen fr {{item.professions.length-majorindex==1?'radius':''}}" id="major{{index}}{{majorindex}}" style="position:relative;border-top:1px solid #e9e9e9;" wx:if="{{item.majorOpen}}" wx:for="{{item.professions}}" wx:for-index="majorindex" wx:for-item="professions" wx:key="index">
+                    <view class="fc ac">
+                        <view class="oneFontColor fourFontSize">{{professions.probability}}<text class="threeFontSize">%</text>
+                        </view>
+                        <view class="fiveFontSize fr ac jc whiteFontColor" style="border-radius:6rpx;width:30rpx;height:30rpx;background:#2792CF">自</view>
+                    </view>
+                    <view style="margin-left:30rpx;width:390rpx;">
+                        <view catchtap="showScorePlan" class="twoFontSize oneFontColor bold" data-index="{{index}}" data-majorcode="{{professions.majorCode}}" data-majorindex="{{majorindex}}">{{professions.professionName}}</view>
+                        <view class="threeFontSize threeFontColor fr ac" style="margin:8rpx 0 6rpx 0;">
+                            <text>{{professions.year}}计划 {{professions.planNum1?professions.planNum1:'-'}}/{{professions.planNum2?professions.planNum2:'-'}}/{{iprofessionsem.planNum3?professions.planNum3:'-'}}</text>
+                            <rich-text class="threeFontSize threeFontColor" nodes="{{professions.chooseCns}}" style="margin-left:14rpx;"></rich-text>
+                        </view>
+                        <view class="threeFontSize threeFontColor fr">
+                            <text>代码:{{professions.professionCode}}</text>
+                            <text style="margin-left:14rpx;" wx:if="{{!professions.isBen}}">专科</text>
+                            <text style="margin-left:14rpx;">{{professions.learnYear}}</text>
+                            <text style="margin-left:14rpx;">{{professions.cost}}</text>
+                        </view>
+                    </view>
+                    <view catchtap="tianbaoZY" class="absoluteStyle fill {{professions.st?'whiteFontColor':''}}" data-collegeCode="{{item.collegeCode}}" data-collegename="{{item.collegeName}}" data-colleges="{{item}}" data-item="{{professions}}" data-majorcode="{{professions.majorCode}}" data-uCode="{{item.uCode}}" data-wish="{{item.wishSuggest}}" style="background:{{professions.st?'#2792CF':''}}">{{professions.st?'已填':'填报'}}</view>
+                </view>
+                <view class="textAlign threeFontSize threeFontColor tips flex" style="margin-top:20rpx" wx:if="{{item.majorOpen}}">
+                    <text></text> 以上为该院校的招生专业 <text></text>
+                </view>
+            </view>
+            <view class="recommendList zhejiang-content-color collegeChongName" style="position:relative;display:{{isShowViewCount?'block':'none'}}" wx:if="{{!isVIP}}">
+                <view class="flex whiteColor" style="padding:6vw 4vw;box-shadow: 0 0 5px 2px rgba(0,0,0,0.03);">
+                    <view class="content-font" style="line-height:2;width:100%;">
+                        <block wx:if="{{system=='ios'}}">
+                            <view class="btn-font oneFontColor" style="margin-top:4vw;text-align:center;font-size:5vw">剩余 {{count}} 次免费查看</view>
+                            <view class="threeFontColor" style="text-align:center">开通VIP 无限次查看数据</view>
+                            <view class="flex" style="justify-content:space-around;margin-top: 20rpx;">
+                                <view class="flex oneFontSize">
+                                    <view bindtap="goBindCard" class="cardBtn bindCard" hoverClass="btnHover">绑定会员卡</view>
+                                    <button bindtap="{{banApplyCard?'':'applyCard'}}" class="cardBtn oneFontSize applyCard" disabled="{{applyCardLoading}}" hoverClass="btnHover" loading="{{applyCardLoading}}" style="{{banApplyCard?'background:#9b9b9b':''}}">{{banApplyCard?'重新申请（'+applyCardTime+'秒）':'申请会员卡'}}</button>
+                                </view>
+                            </view>
+                        </block>
+                        <block wx:else>
+                            <view class="btn-font oneFontColor" style="margin-top:4vw;text-align:center;font-size:5vw">剩余 {{count}} 次免费查看</view>
+                            <view class="threeFontColor" style="text-align:center">开通VIP 无限次查看数据</view>
+                            <view bindtap="commonTuijian" class="recommend-btn oneFontSize" hoverClass="btnHover" style="margin:5vw auto 0;color:#fff;background:#{{color}};box-shadow:none;">开通VIP</view>
+                        </block>
+                    </view>
+                </view>
+            </view>
+        </scroll-view>
+    </swiper-item>
+</swiper>
+<bottomFrame custom="true" id="framedirect">
+    <view style="height:1000rpx;">
+        <view class="flex" style="justify-content:space-around;min-height:1000rpx;" wx:if="{{collegeDetail.showLoad}}">
+            <image mode="widthFix" src="/image/loading_icon1.gif" style="width: 28.06vw;height: 25.14vw;"></image>
+        </view>
+        <block wx:else>
+            <view class="fourFontSize oneFontColor bold" slot="title">{{collegeDetail.detail.collegeName}}
+        <text class="threeFontColor threeFontSize" style="margin-left:20rpx;font-weight:normal;" wx:if="{{collegeDetail.detail.levels}}">{{collegeDetail.detail.levels}}</text>
+            </view>
+            <view class="threeFontColor threeFontSize" style="margin-top:10rpx;">代码 {{collegeDetail.detail.collegeCode}} / {{collegeDetail.detail.classify}} / {{collegeDetail.detail.provinceName}} / {{collegeDetail.detail.collegeType}}</view>
+            <view class="flex" style="justify-content:space-between;margin-top:50rpx;">
+                <view class="oneFontColor twoFontSize bold">{{collegeDetail.detail.planYear}}招生计划</view>
+                <view bindtap="dataInfoPopup" class="flex" hoverClass="btnHover">
+                    <image class="question-icon" mode="widthFix" src="/image/question.png"></image>
+                    <view class="threeFontSize twoFontColor">数据说明</view>
+                </view>
+            </view>
+            <view class="flex threeFontSize fourFontColor" style="line-height:1;padding:20rpx;background:#fafafa;margin-top:20rpx;">
+                <view style="width:300rpx;">专业名称</view>
+                <view class="textCenter" style="width:130rpx;">选科</view>
+                <view class="textCenter" style="width:110rpx;">计划段</view>
+                <view class="textCenter" style="width:120rpx;">学制/学费</view>
+            </view>
+            <scroll-view scrollY class="popup-content-wrapper">
+                <view class="flex threeFontSize fourFontColor" style="line-height:1.5;padding:20rpx;{{index%2?'background:#fafafa;':''}}{{!item.isFit?'color:#ccc;':''}}" wx:for="{{collegeDetail.detail.professions}}" wx:key="index">
+                    <view bindtap="goMajorDetail" data-majorcode="{{item.majorCode}}" hoverClass="btnHover" style="width:260rpx;padding-right:40rpx;">{{item.professionName}}</view>
+                    <view class="textCenter" style="width:130rpx;">
+                        <view>{{item.chooseCns}}</view>
+                        <view class="fiveFontSize noMatch" wx:if="{{!item.isFit}}">不匹配</view>
+                    </view>
+                    <view class="textCenter" style="width:110rpx;">{{item.planNum}}</view>
+                    <view class="textCenter" style="width:120rpx;">{{item.learnYear}}/{{item.cost}}</view>
+                </view>
+            </scroll-view>
+            <view bindtap="goCollegeDetail" class="goCollegeDetail" hoverClass="btnHover">院校详情</view>
+        </block>
+    </view>
+</bottomFrame>
+<view style="width:100vw;height:100vh;background:rgba(0,0,0,0.3);position:fixed;top:0;left:0;" wx:if="{{shaixuan.flag}}"></view>
+<view class="shaixuan-container content-font {{shaixuan.animate}}" style="background:rgba(0,0,0,0)" wx:if="{{shaixuan.flag}}">
+    <view bindtap="shaixuanClose" class="shaixuan-wrap"></view>
+    <view class="shaixuan-content" style="top:{{HInfo.navH}}px;height:{{HInfo.shaixuanH}}px;padding:0;width:76.3vw;">
+        <scroll-view scrollY style="height:{{HInfo.shaixuanH-80}}px;padding:2.7vw;width:70.9vw;">
+            <view class="pro-wrapper" style="margin-top:2vw">
+                <view class="flex" style="justify-content:space-between;">
+                    <view>所在省份
+            <text class="threeFontColor fiveFontSize">（多选）</text>
+                    </view>
+                </view>
+                <view class="flex cityList">
+                    <view bindtap="chooseCityArr" class="city-wrapper fourFontColor" data-id="{{item.numId}}" data-index="{{index}}" style="margin-right:1.2vw;{{item.st?'color:#fff;background:#FF5053':''}}" wx:for="{{shaixuan.cityList}}" wx:key="index">{{item.fLetter}} {{item.name}}</view>
+                </view>
+            </view>
+            <view class="classtype-wrapper" style="margin-top:2vw">
+                <view class="flex" style="justify-content:space-between">
+                    <view>院校类型
+            <text class="threeFontColor fiveFontSize">（多选）</text>
+                    </view>
+                </view>
+                <view class="flex classtypeList" style="column-count:3">
+                    <view bindtap="classifyArr" class="city-wrapper fourFontColor" data-index="{{index}}" style="margin-right:1.2vw;{{item.st?'color:#fff;background:#FF5053':''}}" wx:for="{{shaixuan.classifyList}}" wx:key="index">{{item.name}}</view>
+                </view>
+            </view>
+            <view class="classtype-wrapper" style="margin-top:2vw">
+                <view class="flex" style="justify-content:space-between">
+                    <view>热门标签
+            <text class="threeFontColor fiveFontSize">（多选）</text>
+                    </view>
+                </view>
+                <view class="flex classtypeList" style="column-count:3">
+                    <view bindtap="hotType" class="city-wrapper fourFontColor" data-index="{{index}}" style="margin-right:1.2vw;{{item.st?'color:#fff;background:#FF5053':''}}" wx:for="{{shaixuan.hotType}}" wx:key="index">{{item.name}}</view>
+                </view>
+            </view>
+            <view class="classtype-wrapper" style="margin-top:2vw">
+                <view class="flex" style="justify-content:space-between">
+                    <view>办学性质</view>
+                </view>
+                <view class="flex classtypeList" style="column-count:3">
+                    <view bindtap="collegeType" class="city-wrapper fourFontColor" data-index="{{index}}" style="margin-right:1.2vw;{{item.st?'color:#fff;background:#FF5053':''}}" wx:for="{{shaixuan.collegeType}}" wx:key="index">{{item.name}}</view>
+                </view>
+            </view>
+            <view class="classtype-wrapper" style="margin-top:2vw">
+                <view class="flex" style="justify-content:space-between">
+                    <view>中外合作</view>
+                </view>
+                <view class="flex classtypeList" style="column-count:3">
+                    <view bindtap="foreignType" class="city-wrapper fourFontColor" data-index="{{index}}" style="margin-right:1.2vw;{{item.st?'color:#fff;background:#FF5053':''}}" wx:for="{{shaixuan.foreignType}}" wx:key="index">{{item.name}}</view>
+                </view>
+            </view>
+            <view style="margin-top:2vw;">
+                <view>位次区间</view>
+                <view class="sliderHCon">
+                    <view class="twoSlider">
+                        <view class="select-construct">
+                            <view class="select-area">
+                                <view class="slider-container">
+                                    <view class="leftSlider sliderPrice" style="left:{{leftSliderWidthX}};">
+                                        <view class="sliderView {{current==1?'active':''}}">
+                      {{slider1Value*scale}}
+                    </view>
+                                    </view>
+                                    <slider bindchange="changed" bindchanging="changing" catchtouchstart="changeStart" class="slider-left" color="#e9302d" data-idx="1" max="{{slider1Max}}" min="{{min}}" selectedColor="#e5e5e5" style="width:{{slider1W+'%'}};" value="{{slider1Value}}"></slider>
+                                    <view class="rightSlider sliderPrice" style="left:{{rightSliderWidthX}};">
+                                        <view class="sliderView {{current==2?'active':''}}" wx:if="{{slider2Value!==0}}">
+                      {{slider2Value*scale}}
+                    </view>
+                                    </view>
+                                    <slider bindchange="changed" bindchanging="changing" catchtouchstart="changeStart" class="slider-right" color="#e5e5e5" data-idx="2" max="{{max}}" min="{{slider2Min}}" selectedColor="#e9302d" style="width:{{slider2W+'%'}};" value="{{slider2Value}}" wx:if="{{!change}}"></slider>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="showmaxmin">
+                        <text class="minValue">{{min}}</text>
+                        <text class="maxValue">{{max}}</text>
+                    </view>
+                </view>
+            </view>
+        </scroll-view>
+        <view class="shaixuan-btn-wrapper flex twoFontSize" id="shaixuan-btn-wrapper" style="width:50.6vw;right:2.4vw;bottom:2.4vw;">
+            <view bindtap="chongzhi" class="chongzhi" hoverClass="btnHover" style="box-sizing: border-box;border: 1px solid #FF5053;color: #FF5053;border-right:none;">重置</view>
+            <view bindtap="queren" class="queren" hoverClass="btnHover" style="box-sizing: border-box;background:#FF5053;">确定</view>
+        </view>
+    </view>
+</view>
+<popupcomponents bind:hideTapPage="hideTapIndex" id="hide">
+    <image src=""></image>
+    <image src="/image/active-shareSuccess.png" style="width:30vw;height:30vw"></image>
+    <view>恭喜您申请成功，请注意短信查收</view>
+    <view bindtap="hideTapIndex" class="fourFontSize oneFontColor" hoverClass="btnHover" style="border-top:1rpx solid #f8f5f4;margin-top:6.4vw;position: relative;top: 8vw;padding-top: 4vw;">我知道了</view>
+    <view></view>
+</popupcomponents>
+<popupcomponents bind:hideTapPage="hideDataInfo" id="dataInfo">
+    <image src=""></image>
+    <view>数据说明</view>
+    <view class="threeFontSize fourFontColor" style="padding: 32rpx;text-align: left;">
+        <view>{{configuration}}</view>
+    </view>
+    <view></view>
+</popupcomponents>
+<topMenu bind:hideEvent="hide" id="topMenu">
+    <view style="height:418rpx;background:#F8F5F4;padding:0 32rpx">
+        <view class="oneFontSize oneFontColor" style="padding-top:50rpx;">根据用户“模拟总分”预估全省排名</view>
+        <view class="fr ac ipt jsb" style="margin-top:20rpx;">
+            <view class="fr ac">
+                <image src="/image/search_image.png" style="width:28rpx;height:32rpx;margin-left:30rpx;"></image>
+                <input bindinput="rankInput" class="oneFontSize oneFontColor" placeholder="输入预测位次" placeholderClass="oneFontSize twoFontColor" style="margin-left:30rpx;" type="number" value="{{rnak}}"></input>
+            </view>
+            <view class="oneFontSize threeFontColor" style="margin-right:30rpx;">位</view>
+        </view>
+        <view class="fr ac jsb oneFontSize" style="margin-top:70rpx;">
+            <view bindtap="hide" class="fr ac jc btn checkedColor" style="border: 1rpx solid #E9302D;">再想想</view>
+            <view catchtap="confirm" class="fr ac jc btn checkedBackColor whiteFontColor">确认</view>
+        </view>
+    </view>
+</topMenu>
+<view catchtap="goZyTable" class="twoFontSize flex save-btn" hoverClass="btnHover">
+    <view>
+        <view>预览</view>
+        <view>志愿表</view>
+    </view>
+    <view class="popup fiveFontSize" wx:if="{{zyTableNum>0}}">{{zyTableNum}}</view>
+</view>
+<bottomFrame custom="true" id="majorDetail">
+    <view style="height:1000rpx;">
+        <view class="flex" style="justify-content:space-around;min-height:1000rpx;" wx:if="{{smallDetailLoad}}">
+            <image mode="widthFix" src="/image/loading_icon1.gif" style="width: 28.06vw;height: 25.14vw;"></image>
+        </view>
+        <block wx:else>
+            <view class="fourFontSize oneFontColor bold" slot="title">{{majorDetail.name}}</view>
+            <scroll-view scrollY class="popup-content-wrapper" style="height:800rpx;">
+                <view class="flex" style="justify-content:space-around;flex-wrap:wrap;">
+                    <view class="flex" style="width:300rpx;margin-top:40rpx;">
+                        <view class="major-icon flex" style="background-image: linear-gradient(180deg, #7FDF15 10%, #7ED321 100%);">
+                            <image class="major-image" mode="widthFix" src="../image/icon1.png"></image>
+                        </view>
+                        <view>
+                            <view class="oneFontSize oneFontColor">{{majorDetail.typeId==0?'本科':'专科'}}</view>
+                            <view class="threeFontSize threeFontColor">学历层次</view>
+                        </view>
+                    </view>
+                    <view class="flex" style="width:300rpx;margin-top:40rpx;">
+                        <view class="major-icon flex" style="background-image: linear-gradient(159deg, #9988FF 3%, #7D47FE 90%);">
+                            <image class="major-image" mode="widthFix" src="../image/icon2.png"></image>
+                        </view>
+                        <view>
+                            <view class="oneFontSize oneFontColor">{{majorDetail.year==0?'-':majorDetail.year}}</view>
+                            <view class="threeFontSize threeFontColor">修业年限</view>
+                        </view>
+                    </view>
+                    <view class="flex" style="width:300rpx;margin-top:40rpx;" wx:if="{{majorDetail.typeId==0}}">
+                        <view class="major-icon flex" style="background-image: linear-gradient(-13deg, #2EC893 15%, #8BE39A 99%);">
+                            <image class="major-image" mode="widthFix" src="../image/icon3.png"></image>
+                        </view>
+                        <view>
+                            <view class="oneFontSize oneFontColor">{{majorDetail.degree==''?'-':majorDetail.degree}}</view>
+                            <view class="threeFontSize threeFontColor">授予学位</view>
+                        </view>
+                    </view>
+                    <view class="flex" style="width:300rpx;margin-top:40rpx;">
+                        <view class="major-icon flex" style="background-image: linear-gradient(-22deg, #FEA12C 0%, #FFDE4F 92%);">
+                            <image class="major-image" mode="widthFix" src="../image/icon4.png"></image>
+                        </view>
+                        <view>
+                            <view class="oneFontSize oneFontColor">{{majorDetail.male==0?'-':majorDetail.male}} : {{majorDetail.female==0?'-':majorDetail.female}}</view>
+                            <view class="threeFontSize threeFontColor">男女比例</view>
+                        </view>
+                    </view>
+                    <view class="flex" style="width:300rpx;margin-top:40rpx;" wx:if="{{majorDetail.typeId==1}}">
+                        <view class="major-icon flex" style="background-image: linear-gradient(154deg, #66A6FF 0%, #018AFE 99%);">
+                            <image class="major-image" mode="widthFix" src="../image/icon4.png"></image>
+                        </view>
+                        <view>
+                            <view class="oneFontSize oneFontColor">{{majorDetail.wkRatio==0?'-':majorDetail.wkRatio}} : {{majorDetail.lkRatio==0?'-':majorDetail.lkRatio}}</view>
+                            <view class="threeFontSize threeFontColor">文理比例</view>
+                        </view>
+                    </view>
+                </view>
+                <block wx:if="{{majorDetail.typeId==0}}">
+                    <view class="oneFontSize oneFontColor maj-pop-title">专业简介</view>
+                    <view class="no-data textAlign twoFontColor" wx:if="{{majorDetail.introduction==''||majorDetail.introduction==null}}">
+                        <image src="/image/part-no-data.png"></image>
+                        <view class="threeFontColor twoFontSize">暂无数据</view>
+                    </view>
+                    <view class="twoFontSize twoFontColor maj-pop-con" wx:else>{{majorDetail.introduction}}</view>
+                    <view class="oneFontSize oneFontColor maj-pop-title">学科要求</view>
+                    <view class="no-data textAlign twoFontColor" wx:if="{{majorDetail.subjectRequirement==''||majorDetail.subjectRequirement==null}}">
+                        <image src="/image/part-no-data.png"></image>
+                        <view class="threeFontColor twoFontSize">暂无数据</view>
+                    </view>
+                    <view class="twoFontSize twoFontColor maj-pop-con" wx:else>{{majorDetail.subjectRequirement}}</view>
+                    <view class="oneFontSize oneFontColor maj-pop-title">考研方向</view>
+                    <view class="no-data textAlign twoFontColor" wx:if="{{majorDetail.progressions==''||majorDetail.progressions==null}}">
+                        <image src="/image/part-no-data.png"></image>
+                        <view class="threeFontColor twoFontSize">暂无数据</view>
+                    </view>
+                    <view class="twoFontSize twoFontColor maj-pop-con" wx:else>{{majorDetail.progressions}}</view>
+                </block>
+                <block wx:else>
+                    <view class="oneFontSize oneFontColor maj-pop-title">培养目标</view>
+                    <view class="no-data textAlign twoFontColor" wx:if="{{majorDetail.objective==''||majorDetail.objective==null}}">
+                        <image src="/image/part-no-data.png"></image>
+                        <view class="threeFontColor twoFontSize">暂无数据</view>
+                    </view>
+                    <view class="twoFontSize twoFontColor maj-pop-con" wx:else>{{majorDetail.objective}}</view>
+                    <view class="oneFontSize oneFontColor maj-pop-title">核心课程</view>
+                    <view class="no-data textAlign twoFontColor" wx:if="{{majorDetail.majorCourse==''||majorDetail.majorCourse==null}}">
+                        <image src="/image/part-no-data.png"></image>
+                        <view class="threeFontColor twoFontSize">暂无数据</view>
+                    </view>
+                    <view class="twoFontSize twoFontColor maj-pop-con" wx:else>{{majorDetail.majorCourse}}</view>
+                    <view class="oneFontSize oneFontColor maj-pop-title">专升本方向</view>
+                    <view class="no-data textAlign twoFontColor" wx:if="{{majorDetail.zsbDirection==''||majorDetail.zsbDirection==null}}">
+                        <image src="/image/part-no-data.png"></image>
+                        <view class="threeFontColor twoFontSize">暂无数据</view>
+                    </view>
+                    <view class="twoFontSize twoFontColor maj-pop-con" wx:else>{{majorDetail.zsbDirection}}</view>
+                </block>
+            </scroll-view>
+            <view bindtap="majorDetail" class="goCollegeDetail" hoverClass="btnHover">专业详情</view>
+        </block>
+    </view>
+</bottomFrame>
+<bottomFrame custom="true" id="middleDetail">
+    <view style="height:1000rpx;">
+        <view class="flex" style="justify-content:space-around;min-height:1000rpx;" wx:if="{{middleDetailLoad}}">
+            <image mode="widthFix" src="/image/loading_icon1.gif" style="width: 28.06vw;height: 25.14vw;"></image>
+        </view>
+        <block wx:else>
+            <view class="fourFontSize oneFontColor bold" slot="title">{{smallMajorList.middleMajor.name}}</view>
+            <view class="threeFontSize twoFontColor" style="line-height:3">包含专业 {{smallMajorList.smallMajorList.length}} 个</view>
+            <scroll-view scrollY style="height:800rpx;">
+                <view bindtap="showSmallDetail" class="whiteColor" data-majorcode="{{item.code}}" hoverClass="btnHover" wx:for="{{smallMajorList.smallMajorList}}" wx:key="index">
+                    <view class="flex" style="padding:2vw 0;justify-content:space-between;border-bottom:1rpx solid #e9e9e9;">
+                        <view class="flex" style="flex-direction:column;align-items:flex-start;">
+                            <view class="oneFontSize oneFontColor">{{item.name}}</view>
+                            <view class="threeFontSize twoFontColor">学制：{{item.learnYear}}年</view>
+                        </view>
+                        <view class="flex">
+                            <image class="moreArrowIconWH" src="/image/openList.png" style="margin-left:2.7vw;"></image>
+                        </view>
+                    </view>
+                </view>
+            </scroll-view>
+        </block>
+    </view>
+</bottomFrame>
+<bottomFrame custom="true" id="showScorePlan">
+    <view style="height:800rpx;">
+        <scroll-view scrollY style="height:640rpx;">
+            <view class="majorList-wrapper">
+                <view class="flex" style="justify-content:space-between;">
+                    <view class="threeFontSize" data-majorcode="{{item.majorCode}}" hoverClass="btnHover">
+                        <view class="oneFontColor oneFontSize bold" style="width:510rpx;">{{item.professionName}}</view>
+                        <view class="threeFontColor fr ac" style="margin-top:8rpx;">
+                            <view>{{item.learnYear}} {{item.cost}}</view>
+                            <rich-text nodes="{{item.chooseCns}}" style="margin-left:8rpx;"></rich-text>
+                            <view style="margin-left:8rpx;"> 代码 {{item.professionCode}}  {{item.collegeType}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="twoFontSize oneFontColor fourFontColor" style="margin-top:30rpx;">{{item.year}}计划数 {{item.planNum1==0?'-':item.planNum1}}/{{item.planNum2==0?'-':item.planNum2}}/{{item.planNum3==0?'-':item.planNum3}}</view>
+                <view wx:if="{{item.enterHis==null}}">
+                    <view class="flex newMajor-wrapper">
+                        <image class="newMajor-img" mode="widthFix" src="../image/newMajor.png"></image>
+                        <view>
+                            <view class="oneFontSize oneFontColor bold">新开专业
+                  <text class="threeFontSize twoFontColor" style="font-weight:normal;">（缺乏数据参考，谨慎选择）</text>
+                            </view>
+                            <view class="threeFontSize twoFontColor" style="margin-top:8rpx;">今年首次计划</view>
+                        </view>
+                    </view>
+                </view>
+                <view wx:else>
+                    <view class="flex threeFontSize fourFontColor" style="line-height:1;padding:20rpx;background:#fafafa;margin-top:20rpx;">
+                        <view style="width:140rpx;"></view>
+                        <view class="textCenter" style="width:180rpx;" wx:for="{{item.enterHis}}" wx:for-index="enterHisIndex" wx:for-item="enterHis" wx:key="index">{{item.historyStartYear-enterHisIndex}}</view>
+                    </view>
+                    <view class="flex threeFontSize fourFontColor" style="line-height:1;padding:20rpx;">
+                        <view style="width:140rpx;">计划数</view>
+                        <view class="textCenter" style="width:180rpx;" wx:for="{{item.enterHis}}" wx:for-index="enterHisIndex" wx:for-item="enterHis" wx:key="index">{{enterHis.pn?enterHis.pn:'-'}}</view>
+                    </view>
+                    <view class="flex threeFontSize fourFontColor" style="line-height:1;padding:20rpx;background:#fafafa;">
+                        <view style="width:140rpx;">录取数</view>
+                        <view class="textCenter" style="width:180rpx;" wx:for="{{item.enterHis}}" wx:for-index="enterHisIndex" wx:for-item="enterHis" wx:key="index">{{enterHis.en}}</view>
+                    </view>
+                    <view class="flex threeFontSize fourFontColor" style="line-height:1;padding:20rpx;">
+                        <view style="width:140rpx;">最低分</view>
+                        <view class="textCenter" style="width:180rpx;" wx:for="{{item.enterHis}}" wx:for-index="enterHisIndex" wx:for-item="enterHis" wx:key="index">{{enterHis.ms==0?'-':enterHis.ms}}</view>
+                    </view>
+                    <view class="flex threeFontSize fourFontColor" style="line-height:1;padding:20rpx;background:#fafafa;">
+                        <view style="width:140rpx;">最低位次</view>
+                        <view class="textCenter" style="width:180rpx;" wx:for="{{item.enterHis}}" wx:for-index="enterHisIndex" wx:for-item="enterHis" wx:key="index">{{enterHis.ls==0?'-':enterHis.ls}}</view>
+                    </view>
+                </view>
+            </view>
+        </scroll-view>
+        <view bindtap="goMajorDetail" class="goCollegeDetail" data-majorcode="{{item.majorCode}}" hoverClass="btnHover">专业详情</view>
+    </view>
+</bottomFrame>

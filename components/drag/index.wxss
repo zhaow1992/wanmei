@@ -1,0 +1,137 @@
+@import "../search/intelligenceMajor/intelligenceMajor.wxss";
+
+.item-wrap {
+    position: relative;
+}
+
+.item-wrap .item {
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}
+
+.item-wrap .item.itemTransition {
+    transition: transform 0.3s;
+    transition: transform 0.3s,-webkit-transform 0.3s;
+}
+
+.item-wrap .item.zIndex {
+    z-index: 2;
+}
+
+.item-wrap .item.cur {
+    transition: initial;
+}
+
+.item-wrap .item.fixed {
+    z-index: 0!important;
+}
+
+.info {
+    position: relative;
+    padding-top: 100%;
+    background: #ffffff;
+}
+
+.info__item {
+    position: absolute;
+    border: 1rpx solid #ebedf0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    padding: 10rpx;
+    box-sizing: border-box;
+}
+
+.info__item .image {
+    width: 100%;
+    height: 100%;
+}
+
+.cell {
+    display: flex;
+    padding: 20rpx;
+    border-bottom: 1rpx solid #ebedf0;
+    background: #FFFFFF;
+}
+
+.cell__hd {
+    font-size: 0;
+}
+
+.cell__hd .image {
+    width: 160rpx;
+    height: 160rpx;
+    margin-right: 20rpx;
+    border-radius: 12rpx;
+}
+
+.cell__bd {
+    flex: 1;
+}
+
+.cell__bd .name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    word-break: break-all;
+    font-size: 28rpx;
+    margin-bottom: 12rpx;
+}
+
+.cell__bd .des {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    word-break: break-all;
+    color: #666666;
+    font-size: 24rpx;
+}
+
+.idx {
+    width: 36rpx;
+    height: 36rpx;
+    line-height: 36rpx;
+    border-radius: 4rpx;
+}
+
+.itemCells {
+    margin-bottom: 8px;
+    padding-top: 34rpx;
+    padding-bottom: 24rpx;
+}
+
+.drag {
+    width: 32rpx;
+    height: 32rpx;
+}
+
+.hover {
+    box-shadow: 0 0 10px rgba(0,0,0,.4);
+}
+
+.bxbtn {
+    height: 32rpx;
+    width: 68rpx;
+    border-radius: 4rpx;
+    background: #E9E9E9;
+    color: #9B9B9B;
+}
+
+.move {
+    right: 30rpx;
+    top: 28rpx;
+}
+
+.changeaddress {
+    box-shadow: 0 0 5rpx 5rpx #eee;
+    padding: 10rpx 0;
+}
+
+.changeaddress>view {
+    padding: 0 30rpx;
+}

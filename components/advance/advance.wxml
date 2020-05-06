@@ -1,0 +1,18 @@
+<view class="ul re">
+    <view class="li li{{item.id}}" style="padding-left:{{item.subset.length>0?50:20}}rpx" wx:if="{{treedata.length>0}}" wx:for="{{treedata}}" wx:key="index">
+        <view class="dai bb">
+            <view catchtap="toggle" class="plus" data-level="{{item.level}}" data-type="{{item.type}}" wx:if="{{item.subset!=undefined&&item.subset!=null&&item.subset.length>0}}">
+                <view class="changeImg">
+                    <image src="/packages/advanceBatch/image/open.png" wx:if="{{!item.st}}"></image>
+                    <image src="/packages/advanceBatch/image/close.png" wx:else></image>
+                </view>
+            </view>
+        </view>
+        <view bindtap="{{item.subset.length>0?'toggle':'myInfo'}}" class="span span{{item.id}} re" data-level="{{item.level}}" data-type="{{item.type}}" style="background-color:{{item.deathtime==null?'':'#9f9f9f'}}">
+            <view class="name" style="color:{{item.st&&item.subset.length==0?'#e9302d':''}}">{{item.type}}</view>
+        </view>
+        <view class="ul" data-id="{{item.level}}" data-pid="{{item.pid}}" hidden="{{!item.st}}" wx:if="{{item.subset!=undefined&&item.subset!=null&&item.subset.length>0}}">
+            <advance bind:setCurrentType="setCurrentType" lastType="{{lastType}}" treedata="{{item.subset}}"></advance>
+        </view>
+    </view>
+</view>

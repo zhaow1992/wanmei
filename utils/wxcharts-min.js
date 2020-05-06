@@ -724,8 +724,22 @@ function drawRadarDataPoints(t, e, i, a) {
     };
 }
 
-function drawCanvas(t, e) {
-    e.draw();
+function drawCanvas(t, e, fn) {
+    // e.draw();
+    e.draw(false, function() {
+        wx.canvasToTempFilePath({
+            x: 0,
+            y: 0,
+            width: t.width,
+            height: t.height,
+            destWidth: 720,
+            destHeight: 480,
+            canvasId: t.canvasId,
+            success: function success(res) {
+                fn(res.tempFilePath);
+            }
+        });
+    });
 }
 
 function Animation(t) {
@@ -749,7 +763,7 @@ function Animation(t) {
     _a = _a.bind(this), e(_a, 17);
 }
 
-function drawCharts(t, e, i, a) {
+function drawCharts(t, e, i, a, fn) {
     var n = this, o = e.series, r = e.categories;
     o = fillSeriesColor(o, i);
     var s = calLegendData(o, e, i), l = s.legendHeight;
@@ -771,7 +785,9 @@ function drawCharts(t, e, i, a) {
                 var s = drawLineDataPoints(o, e, i, a, t), l = s.xAxisPoints, h = s.calPoints, c = s.eachSpacing;
                 n.chartData.xAxisPoints = l, n.chartData.calPoints = h, n.chartData.eachSpacing = c, 
                 drawXAxis(r, e, i, a), drawLegend(e.series, e, i, a), drawYAxis(o, e, i, a), drawToolTipBridge(e, i, a, t), 
-                drawCanvas(e, a);
+                drawCanvas(e, a, function(res) {
+                    fn(res);
+                });
             },
             onAnimationFinish: function onAnimationFinish() {
                 n.event.trigger("renderComplete");
@@ -926,7 +942,8 @@ Animation.prototype.stop = function() {
 
 var Charts = function Charts(t) {
     t.title = t.title || {}, t.subtitle = t.subtitle || {}, t.yAxis = t.yAxis || {}, 
-    t.xAxis = t.xAxis || {}, t.extra = t.extra || {}, t.legend = !1 !== t.legend, t.animation = !1 !== t.animation;
+    t.xAxis = t.xAxis || {}, t.extra = t.extra || {}, t.legend = !1 !== t.legend;
+    // t.animation = !1 !== t.animation;
     var e = assign({}, config);
     e.yAxisTitleWidth = !0 !== t.yAxis.disabled && t.yAxis.title ? e.yAxisTitleWidth : 0, 
     e.pieChartLinePadding = !1 === t.dataLabel ? 0 : e.pieChartLinePadding, e.pieChartTextPadding = !1 === t.dataLabel ? 0 : e.pieChartTextPadding, 
@@ -935,7 +952,12 @@ var Charts = function Charts(t) {
         currentOffset: 0,
         startTouchX: 0,
         distance: 0
-    }, drawCharts.call(this, t.type, t, e, this.context);
+    }, this.img = function(fn) {
+        drawCharts.call(this, t.type, t, e, this.context, function(res) {
+            console.log(res);
+            fn(res);
+        });
+    };
 };
 
 Charts.prototype.updateData = function() {
@@ -944,7 +966,7 @@ Charts.prototype.updateData = function() {
     this.opts.title = assign({}, this.opts.title, t.title || {}), this.opts.subtitle = assign({}, this.opts.subtitle, t.subtitle || {}), 
     drawCharts.call(this, this.opts.type, this.opts, this.config, this.context);
 }, Charts.prototype.stopAnimation = function() {
-    this.animationInstance && this.animationInstance.stop();
+    // this.animationInstance && this.animationInstance.stop()
 }, Charts.prototype.addEventListener = function(t, e) {
     this.event.addEventListener(t, e);
 }, Charts.prototype.getCurrentDataIndex = function(t) {

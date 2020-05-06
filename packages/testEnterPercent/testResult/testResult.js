@@ -12,6 +12,8 @@ var app = getApp();
 
 var wxCharts = require("../../../utils/wxcharts-min.js");
 
+var sensors = require("../../../utils/sensors.js");
+
 var canvasWidth = 360;
 
 var screenWidth = 360;
@@ -89,7 +91,9 @@ Page({
         collegeLogo: "/image/collegeLogo.png",
         advice: "-",
         majorCurrect: 0,
-        fractions: []
+        fractions: [],
+        canvasImg: "",
+        showProportion: true
     },
     onUnload: function onUnload() {
         scoreLine = [];
@@ -101,13 +105,16 @@ Page({
         });
     },
     chooseCollege: function chooseCollege() {
+        wx.navigateBack({
+            delta: 1
+        });
         // wx.redirectTo({
         //   url: '../searchCollege/searchCollege'
         // });
-        wx.navigateTo({
-            url: "/pages/globalSearch/globalSearch?mode=test&course=" + course + "&batch=" + batch + "&&cityid=" + provinceId
-        });
-    },
+        // wx.navigateTo({
+        //   url: `/pages/globalSearch/globalSearch?mode=test&course=${course}&batch=${batch}&&cityid=${provinceId}`,
+        // });
+        },
     // 选择热门专业占比 
     chooseMajor: function chooseMajor(e) {
         var index = e.currentTarget.dataset.index;
@@ -119,6 +126,11 @@ Page({
     },
     onShareAppMessage: function onShareAppMessage(res) {
         var that = this;
+        var data = {
+            SA_share_type: "录取概率报告",
+            SA_share_content: "[" + that.data.data.probability * 100 + "%] 我的[" + that.data.data.collegeName + "]录取分析报告"
+        };
+        app.sensors.track("ShareClick", sensors.ShareClick(data));
         if (res.from === "button") {}
         return {
             title: "[" + that.data.data.probability * 100 + "%] 我的[" + that.data.data.collegeName + "]录取分析报告",
@@ -184,6 +196,25 @@ Page({
                 collegeLogo: data.collegeLogoUrl,
                 data: data
             });
+            var SA_type = "平时成绩";
+            var SA_value = data.totalScore;
+            var SA_subject = data.course == 0 ? "理科" : "文科";
+            var SA_batch = data.batchName;
+            var SA_code = collegeId;
+            var SA_name = data.collegeName;
+            var SA_probability_value = data.probability * 100;
+            var SA_current = false;
+            var SA_data = {
+                SA_type: SA_type,
+                SA_value: SA_value,
+                SA_subject: SA_subject,
+                SA_batch: SA_batch,
+                SA_code: SA_code,
+                SA_name: SA_name,
+                SA_probability_value: SA_probability_value,
+                SA_current: SA_current
+            };
+            app.sensors.track("QTestResult", sensors.QTestResult(SA_data));
         });
     },
     // 获取院校录取概率详情
@@ -247,6 +278,13 @@ Page({
                 });
             }
             ring = professionFractions;
+            ring.map(function(item) {
+                if (item.proportion == 0) {
+                    that.setData({
+                        showProportion: false
+                    });
+                }
+            });
             that.drawScoreCanvas();
             that.drawScoreLine();
             if (professionFractions.length > 0) {
@@ -278,48 +316,55 @@ Page({
     },
     // 等效分图
     drawScoreCanvas: function drawScoreCanvas() {
+        var that = this;
         var ctx = wx.createCanvasContext("scoreCanvas");
-        drawRunto();
-        drawText();
-        drawPosition();
-        // 绘制跑到
-                function drawRunto() {
-            ctx.drawImage("/packages/testEnterPercent/image/runway.png", 0, 0, canvasWidth, canvasWidth * .438);
-        }
-        // 绘制文字
-                function drawText() {
-            ctx.setFontSize(screenWidth * .032);
-            ctx.setFillStyle("#F8F5F4");
-            ctx.setTextAlign("left");
-            ctx.fillText(scoreCanvasText[2], screenWidth * .027, screenWidth * .09);
-            ctx.fillText(scoreCanvasText[1], screenWidth * .027, screenWidth * .14);
-            ctx.fillText(scoreCanvasText[0], screenWidth * .027, screenWidth * .27);
-            ctx.fillText(scoreCanvasText[3], screenWidth * .027, screenWidth * .32);
-            ctx.stroke();
-        }
         // 绘制三个点+位置
-                function drawPosition() {
-            var minScore = screenWidth * .3;
-            var maxScore = screenWidth * .65;
-            var myScore = 0;
-            if (score[2] > score[1]) {
-                myScore = screenWidth * .75;
-            } else if (score[2] < score[0]) {
-                myScore = screenWidth * .2;
-            } else {
-                myScore = screenWidth * .3175 + screenWidth * .35 / (score[1] - score[0]) * (score[2] - score[0]);
-            }
-            ctx.drawImage("/packages/testEnterPercent/image/minSocre.png", minScore, screenWidth * .035, screenWidth * .139, screenWidth * .104);
-            ctx.drawImage("/packages/testEnterPercent/image/maxScore.png", maxScore, screenWidth * .035, screenWidth * .139, screenWidth * .104);
-            ctx.drawImage("/packages/testEnterPercent/image/myScore.png", myScore, screenWidth * .246, screenWidth * .08, screenWidth * .069);
-            ctx.setTextAlign("center");
-            ctx.fillText(score[0], minScore + screenWidth * .139 / 2, screenWidth * .17, screenWidth * .139);
-            ctx.fillText(score[1], maxScore + screenWidth * .139 / 2, screenWidth * .17, screenWidth * .139);
-            ctx.setFillStyle("#F6DC65");
-            ctx.fillText(score[2], myScore + screenWidth * .08 / 2, screenWidth * .345, screenWidth * .08);
-            ctx.stroke();
+                var minScore = screenWidth * .3;
+        var maxScore = screenWidth * .65;
+        var myScore = 0;
+        if (score[2] > score[1]) {
+            myScore = screenWidth * .75;
+        } else if (score[2] < score[0]) {
+            myScore = screenWidth * .2;
+        } else {
+            myScore = screenWidth * .3175 + screenWidth * .35 / (score[1] - score[0]) * (score[2] - score[0]);
         }
-        ctx.draw();
+        ctx.drawImage("/packages/testEnterPercent/image/runway.png", 0, 0, canvasWidth, canvasWidth * .438);
+        ctx.drawImage("/packages/testEnterPercent/image/minSocre.png", minScore, screenWidth * .035, screenWidth * .139, screenWidth * .104);
+        ctx.drawImage("/packages/testEnterPercent/image/maxScore.png", maxScore, screenWidth * .035, screenWidth * .139, screenWidth * .104);
+        ctx.drawImage("/packages/testEnterPercent/image/myScore.png", myScore, screenWidth * .246, screenWidth * .08, screenWidth * .069);
+        // 绘制文字
+                ctx.setFillStyle("#F8F5F4");
+        ctx.setTextAlign("center");
+        ctx.fillText(score[0].toString(), minScore + screenWidth * .139 / 2, screenWidth * .17);
+        ctx.fillText(score[1].toString(), maxScore + screenWidth * .139 / 2, screenWidth * .17);
+        ctx.setFillStyle("#F6DC65");
+        ctx.fillText(score[2].toString(), myScore + screenWidth * .08 / 2, screenWidth * .345);
+        ctx.stroke();
+        ctx.setFontSize(screenWidth * .032);
+        ctx.setFillStyle("#F8F5F4");
+        ctx.setTextAlign("left");
+        ctx.fillText(scoreCanvasText[2], screenWidth * .027, screenWidth * .09);
+        ctx.fillText(scoreCanvasText[1], screenWidth * .027, screenWidth * .14);
+        ctx.fillText(scoreCanvasText[0], screenWidth * .027, screenWidth * .27);
+        ctx.fillText(scoreCanvasText[3], screenWidth * .027, screenWidth * .32);
+        ctx.stroke();
+        ctx.draw(false, function(e) {
+            wx.canvasToTempFilePath({
+                x: 0,
+                y: 0,
+                width: that.data.scoreCanvasW,
+                height: that.data.scoreLineCanvasH,
+                destWidth: 720,
+                destHeight: 480,
+                canvasId: "scoreCanvas",
+                success: function success(res) {
+                    that.setData({
+                        scoreImg: res.tempFilePath
+                    });
+                }
+            });
+        });
     },
     // 热门专业占比
     drawMajorCanvas: function drawMajorCanvas() {
@@ -386,8 +431,9 @@ Page({
     },
     drawScoreLine: function drawScoreLine() {
         var that = this;
+        var charts = "";
         if (scoreLine.length == 2) {
-            new wxCharts({
+            charts = new wxCharts({
                 canvasId: "barCanvas",
                 type: "line",
                 dataLabel: true,
@@ -411,7 +457,7 @@ Page({
                 height: that.data.scoreLineCanvasH
             });
         } else if (scoreLine.length == 3) {
-            new wxCharts({
+            charts = new wxCharts({
                 canvasId: "barCanvas",
                 type: "line",
                 dataLabel: true,
@@ -438,7 +484,7 @@ Page({
                 height: that.data.scoreLineCanvasH
             });
         } else if (scoreLine.length == 4) {
-            new wxCharts({
+            charts = new wxCharts({
                 canvasId: "barCanvas",
                 type: "line",
                 dataLabel: true,
@@ -468,7 +514,7 @@ Page({
                 height: that.data.scoreLineCanvasH
             });
         } else if (scoreLine.length == 5) {
-            new wxCharts({
+            charts = new wxCharts({
                 canvasId: "barCanvas",
                 type: "line",
                 dataLabel: true,
@@ -501,7 +547,7 @@ Page({
                 height: that.data.scoreLineCanvasH
             });
         } else {
-            new wxCharts({
+            charts = new wxCharts({
                 canvasId: "barCanvas",
                 type: "line",
                 dataLabel: true,
@@ -522,6 +568,14 @@ Page({
                 height: that.data.scoreLineCanvasH
             });
         }
+        charts.img(function(res) {
+            if (res) {
+                that.setData({
+                    canvasImg: res
+                });
+                return;
+            }
+        });
     },
     transformAngle: function transformAngle(data) {
         /*返回的数据内容包含弧度的*/

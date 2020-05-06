@@ -17,12 +17,16 @@ page {
 }
 
 .history {
-    padding: 12rpx 24rpx;
-    border: 1px solid #EFEFF4;
+    padding: 0 24rpx;
+    background: #F7F7F7;
+    border-radius: 30rpx;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 185rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    text-align: center;
 }
 
 .tab-item {
@@ -42,7 +46,6 @@ page {
 .more {
     height: 80rpx;
     background: #FAFAFA;
-    margin: 0 30rpx;
 }
 
 .lab {

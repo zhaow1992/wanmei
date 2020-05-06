@@ -41,25 +41,24 @@
                 </view>
                 <view class="subject-bottom-wrapper point-font">
                     <image src="../../image/classRoom_eye.png"></image>
-                    <view class="video-hot-color">{{item.hits}}</view>
+                    <view class="threeFontColor">{{item.hits}}</view>
                 </view>
             </view>
         </view>
         <view class="newClassWrapper">
             <view class="newClassTitle video-title-color">最新课程</view>
-            <view bindtap="goDetail" class="newClass-wrapper" data-numId="{{item.numId}}" data-type="zxkc" hoverClass="listHover" wx:for="{{newClassList}}">
-                <image class="newClass-left" lazyLoad="{{true}}" src="{{item.pictureUrl}}" style="background:#f0eff5"></image>
-                <view class="newClass-right">
-                    <text class="newClassRight">
-                        <text class="title-font newClass-right-title video-title-color">{{item.title}}</text>
-                        <text class="newClass-right-content">
-{{item.introduction}}</text>
+            <view bindtap="goDetail" class="newClass-wrapper" data-numId="{{item.numId}}" data-type="zxkc" hoverClass="listHover" style="align-items:stretch;" wx:for="{{newClassList}}">
+                <image class="newClass-left" lazyLoad="{{true}}" mode="widthFix" src="{{item.pictureUrl}}" style="background:#f0eff5;width:44vw;height:38vw;"></image>
+                <view class="newClass-right " style="display:flex;flex-direction:column;justify-content:space-between;">
+                    <text>
+                        <text class="oneFontSize newClass-right-title oneFontColor titleOmit">{{item.title}}</text>
+                        <text class="newClass-right-content contentOmit threeFontSize twoFontColor">{{item.introduction}}</text>
                     </text>
                     <view class="newClass-right-bottom">
-                        <view class="point-font video-hot-color">{{item.videoItemCount}}课时</view>
-                        <view class="subject-bottom-wrapper point-font" style="margin:0">
-                            <image src="../../image/classRoom_eye.png"></image>
-                            <view>{{item.hit}}</view>
+                        <view class="threeFontSize threeFontColor">{{item.videoItemCount}}课时</view>
+                        <view class="subject-bottom-wrapper threeFontSize" style="margin:0">
+                            <image mode="widthFix" src="../../image/classRoom_eye.png" style="width:4vw;height:3vw;"></image>
+                            <view class="threeFontColor">{{item.hit}}</view>
                         </view>
                     </view>
                 </view>

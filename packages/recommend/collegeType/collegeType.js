@@ -3,7 +3,7 @@ Page({
         usertype: 0,
         batchList: [ {
             name: "不限",
-            st: false
+            st: true
         }, {
             name: "综合",
             st: false
@@ -44,7 +44,7 @@ Page({
             name: "其他",
             st: false
         } ],
-        showBtn: false
+        showBtn: true
     },
     onLoad: function onLoad(options) {
         var that = this;
@@ -87,19 +87,24 @@ Page({
                 showBtn: true
             });
         } else {
-            batchList[0].st = false;
+            batchList[0].st = true;
             for (var i = 1; i < batchList.length; i++) {
                 var flag = !batchList[i].st;
                 if (batchName == batchList[i].name) {
                     batchList[i].st = flag;
                 }
             }
+            batchList.map(function(i, index) {
+                if (i.st && index > 0) {
+                    batchList[0].st = false;
+                }
+            });
             that.setData({
                 showBtn: true
             });
         }
         that.setData({
-            batchList: that.data.batchList
+            batchList: batchList
         });
     },
     quedingChoose: function quedingChoose() {

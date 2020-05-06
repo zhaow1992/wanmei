@@ -1,4 +1,4 @@
-@import "../collegeList/collegeList.wxss";
+@import "../intelligenceMajor/intelligenceMajor.wxss";
 
 .chooseStyle {
     width: 15vw;

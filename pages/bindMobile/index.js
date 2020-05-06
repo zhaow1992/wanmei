@@ -1,5 +1,7 @@
 var api = require("../../utils/api.js");
 
+var sensors = require("../../utils/sensors.js");
+
 var app = getApp();
 
 Page({
@@ -30,104 +32,19 @@ Page({
             url: "/pages/commonWebPage/commonWebPage?typePage=1"
         });
     },
-    //Users/Socials/BindMobile
-    //Users
-    undapeMobile: function undapeMobile() {
-        //更新手机 
-        wx.showLoading({
-            title: "数据同步加载中"
-        });
-        var that = this;
-        if (that.data.bindCard == true) {
-            var Mobile = that.data.getMobile;
-            var MobileAuthCode = this.data.yanzhengma;
-            var NewPassword = this.data.password;
-            var CardNo = that.data.CardNo;
-            var CardPassWord = that.data.CardPassword;
-            api.bindCardAndMobileByMiniApp("v2/bindCardAndMobileByMiniApp", "POST", CardNo, CardPassWord, that.data.userid, Mobile, MobileAuthCode, that.data.password, that.data.cityId).then(function(res) {
-                if (res.Results.length > 0) {
-                    var userArr = [];
-                    userArr.push({
-                        MobilePhone: res.Results[0].User.MobilePhone ? res.Results[0].User.MobilePhone : null,
-                        UserId: res.Results[0].User.Id,
-                        Province: res.Results[0].User.Province ? res.Results[0].User.Province : null,
-                        City: res.Results[0].User.City ? res.Results[0].User.City : null,
-                        County: res.Results[0].User.County ? res.Results[0].User.County : null,
-                        UserType: res.Results[0].UserType,
-                        UserScoreCount: res.Results[0].UserScoreCount,
-                        IsGaokao: res.Results[0].IsGaokao,
-                        IsTestAccount: res.Results[0].User.IsTestAccount,
-                        SchoolId: res.Results[0].User.SchoolId,
-                        schoolName: res.Results[0].User.schoolName,
-                        GKYear: res.Results[0].User.GKYear,
-                        UserPermissionProvince: res.Results[0].User.UserPermissionProvince
-                    });
-                    wx.setStorageSync("userInfo", userArr);
-                    wx.reLaunch({
-                        url: "../index/index"
-                    });
-                } else {
-                    wx.showToast({
-                        title: res.Message,
-                        icon: "none",
-                        duration: 2e3
-                    });
-                }
-            });
-        } else {
-            var userid = this.data.userid;
-            var mobilePhone = this.data.getMobile;
-            var yanzhengma = this.data.yanzhengma;
-            var password = this.data.password;
-            api.updateMobile("v2/updateMobile", "POST", userid, mobilePhone, yanzhengma, password).then(function(res) {
-                if (res.Results.length > 0) {
-                    var userArr = [];
-                    userArr.push({
-                        MobilePhone: res.Results[0].User.MobilePhone ? res.Results[0].User.MobilePhone : null,
-                        UserId: res.Results[0].User.Id,
-                        Province: res.Results[0].User.Province ? res.Results[0].User.Province : null,
-                        City: res.Results[0].User.City ? res.Results[0].User.City : null,
-                        County: res.Results[0].User.County ? res.Results[0].User.County : null,
-                        UserType: res.Results[0].UserType,
-                        UserScoreCount: res.Results[0].UserScoreCount,
-                        IsGaokao: res.Results[0].IsGaokao,
-                        IsTestAccount: res.Results[0].User.IsTestAccount,
-                        SchoolId: res.Results[0].User.SchoolId,
-                        GKYear: res.Results[0].User.GKYear,
-                        UserPermissionProvince: res.Results[0].User.UserPermissionProvince
-                    });
-                    wx.setStorageSync("userInfo", userArr);
-                    if (res.Results[0].UserScore != null && res.Results[0].UserScore.Id == 0) {} else {
-                        wx.setStorageSync("userScore", res.Results[0].UserScore);
-                    }
-                    wx.hideLoading();
-                    wx.reLaunch({
-                        url: "../index/index"
-                    });
-                } else {
-                    wx.hideLoading();
-                    wx.showToast({
-                        title: res.Message,
-                        icon: "none",
-                        duration: 2e3
-                    });
-                }
-            });
-        }
-    },
     bindUserMobile: function bindUserMobile(openId, socialLoginType, mobile, password, mobileAuthCode, sourceType, accountType, device) {
         var that = this;
         api.bindUserMobile("Users/Socials/BindMobile", "POST", openId, socialLoginType, mobile, password, mobileAuthCode, sourceType, accountType, device).then(function(res) {
             if (res.isSuccess) {
-                that.setData({
-                    bindCheckedFlag: false
-                });
-                wx.switchTab({
-                    url: "/pages/index/index",
-                    success: function success(res) {
-                        wx.hideLoading();
-                    }
-                });
+                var data = {
+                    user_id: res.result.numId,
+                    //用户ID
+                    is_success: res.isSuccess,
+                    //是否成功
+                    fail_reason: res.message
+                };
+                app.sensors.track("registerResult", sensors.registerResult(data));
+                that.getUserBrief(res.result.numId);
             } else {
                 wx.showToast({
                     title: res.message,
@@ -136,6 +53,77 @@ Page({
                 that.setData({
                     showLoad: false,
                     bindCheckedFlag: false
+                });
+            }
+        });
+    },
+    // 获取用户信息
+    getUserBrief: function getUserBrief(UserId) {
+        var that = this;
+        api.getUserBrief("Users/GetBrief", "POST", UserId, true).then(function(res) {
+            if (res.isSuccess) {
+                var url = "";
+                that.setData({
+                    bindCheckedFlag: false
+                });
+                // if (res.result.gkYear != 0 && res.result.provinceId != 0) {
+                                if (that.options && that.options.bargainid) {
+                    //砍价活动分享进来跳转
+                    url = "/packages/activityBargain/index/index?activitybargain=" + that.options.activitybargain + "&bargainid=" + that.options.bargainid + "&shareuserid=" + that.options.shareuserid;
+                    wx.redirectTo({
+                        url: url
+                    });
+                } else {
+                    if (res.result.gkYear != 0 && res.result.provinceId != 0) {
+                        if (that.options && that.options.source == "activity") {
+                            //首页->砍价活动进来跳转
+                            url = "/packages/activityBargain/index/index?source=activity";
+                            wx.redirectTo({
+                                url: url
+                            });
+                        } else {
+                            //正常首页跳转
+                            url = "/pages/index/index";
+                            wx.reLaunch({
+                                url: url
+                            });
+                        }
+                    } else {
+                        if (that.options && that.options.source == "activity") {
+                            //首页->砍价活动进来跳转完善信息
+                            // url = '/pages/ImproveGKInformation/index?source=activity&id=' + res.result.id
+                            url = "/packages/activityBargain/index/index?source=activity";
+                        } else {
+                            //正常跳转完善信息
+                            url = "/pages/ImproveGKInformation/index?id=" + res.result.id;
+                        }
+                        wx.redirectTo({
+                            url: url,
+                            success: function success(res) {
+                                wx.hideLoading();
+                            }
+                        });
+                    }
+                }
+                // }else{
+                //   if (that.options && that.options.bargainid) { //砍价活动进来跳转
+                //     url = '/pages/ImproveGKInformation/index?activitybargain=' + that.options.activitybargain + '&bargainid=' + that.options.bargainid + '&shareuserid=' + that.options.shareuserid+'&id='+res.result.id
+                //   } else if (that.options && that.options.source =='activity'){ //首页->砍价活动进来跳转完善信息
+                //     url = '/pages/ImproveGKInformation/index?source=activity&id=' + res.result.id
+                //   } else { //正常跳转完善信息
+                //     url = '/pages/ImproveGKInformation/index?id=' + res.result.id
+                //   }
+                //   wx.redirectTo({
+                //     url: url,
+                //     success: function (res) {
+                //       wx.hideLoading();
+                //     }
+                //   })
+                // }
+                        } else {
+                wx.showToast({
+                    title: res.message,
+                    icon: "none"
                 });
             }
         });
@@ -208,7 +196,8 @@ Page({
     onLoad: function onLoad(options) {
         var that = this;
         //  var userid = options.userId;
-                that.selectComponent("#navigationcustom").setNavigationAll("高考填志愿", false);
+                that.options = options;
+        that.selectComponent("#navigationcustom").setNavigationAll("高考填志愿", false);
         that.setData({
             serverfail: false,
             showLoad: false

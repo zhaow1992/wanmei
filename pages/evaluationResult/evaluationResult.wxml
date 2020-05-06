@@ -8,9 +8,9 @@
 </view>
 <swiper bindchange="change" current="{{current}}" style="height:{{isHide?windowHeight-40:windowHeight-90}}px;">
     <swiper-item>
-        <scroll-view bindscrolltolower="scrollbottom" scrollY="{{true}}" style="height:{{isHide?windowHeight-40:windowHeight-90}}px;">
+        <scroll-view scrollY="{{true}}" style="height:{{isHide?windowHeight-40:windowHeight-90}}px;">
             <view class="studentInfo fr ac jsa itemBackColor">
-                <view class="twoFontSize twoFontColor" wx:for="{{studentInfo}}">{{item}}</view>
+                <view class="twoFontSize twoFontColor" wx:for="{{studentInfo}}" wx:key="index">{{item}}</view>
             </view>
             <view class="itemBackColor mt30" style="padding-bottom:30rpx;">
                 <view class="title-font fourFontSize oneFontColor">一、兴趣维度解析</view>
@@ -20,19 +20,23 @@
                     <image class="radarCanvas" src="{{radar.imagePath}}" style="width:720rpx;"></image>
                 </view>
                 <view class="fr ac jc">
-                    <view class="case-item" wx:if="{{reportType==1||reportType==2}}">
+                    <view class="case-item" wx:if="{{!isPatriarch}}">
                         <view class="lab" style="background:#F56767"></view>
                         <view class="threeFontSize">学生</view>
                     </view>
-                    <view class="case-item" wx:if="{{reportType==3||reportType==4}}">
-                        <view class="lab" style="background:#FFB272"></view>
-                        <view class="threeFontSize">家长</view>
+                    <view class="case-item" wx:elif="{{sex==1}}">
+                        <view class="lab" style="background:#FF8C5B"></view>
+                        <view class="threeFontSize">父亲</view>
+                    </view>
+                    <view class="case-item" wx:else>
+                        <view class="lab" style="background:#FDC622"></view>
+                        <view class="threeFontSize">母亲</view>
                     </view>
                 </view>
                 <view class="txt bottomBorder fr jc threeFontSize threeFontColor">蛛网图中，得分越接近六边形边角区域说明你的兴趣特点越典型。</view>
                 <view class="twoFontSize ml30 mt30">代表人物</view>
                 <view class="fr jsb ac bottomBorder" style="padding:40rpx 30rpx 50rpx 30rpx;">
-                    <view class="fc ac" style="width:330rpx;height:450rpx" wx:for="{{holland.celebrities}}">
+                    <view class="fc ac" style="width:330rpx;height:450rpx" wx:for="{{holland.celebrities}}" wx:key="index">
                         <view class="fc ac jc">
                             <image class="avatar" src="{{item.imagePath}}"></image>
                             <view class="fourFontColor twoFontSize" style="margin-top:12rpx;">{{item.name}}({{item.type}})</view>
@@ -40,7 +44,7 @@
                         <view class="twoFontColor fiveFontSize mt20" style="width:200rpx;margin-top:18rpx;">{{item.text}}</view>
                     </view>
                 </view>
-                <view class="" wx:for="{{holland.celebrities}}">
+                <view class="" wx:for="{{holland.celebrities}}" wx:key="index">
                     <view class="twoFontSize ml30 mt30">{{item.allType}}</view>
                     <view class="detail mt20">
                         <view class="fr ac">
@@ -48,7 +52,7 @@
                             <view class="twoFontSize ml20">共同特征:</view>
                         </view>
                         <view class="mt20">
-                            <view wx:for="{{item.explanation.features}}" wx:for-index="idx" wx:for-item="itm">
+                            <view wx:for="{{item.explanation.features}}" wx:for-index="idx" wx:for-item="itm" wx:key="index">
                                 <view class="fourFontColor threeFontSize " style="line-height:40rpx;">{{idx+1}}、{{itm}}</view>
                             </view>
                         </view>
@@ -71,7 +75,7 @@
                             <view class="twoFontSize ml20">喜欢的活动:</view>
                         </view>
                         <view class="mt20">
-                            <view wx:for="{{item.explanation.favorites}}" wx:for-index="i" wx:for-item="it">
+                            <view wx:for="{{item.explanation.favorites}}" wx:for-index="i" wx:for-item="it" wx:key="index">
                                 <view class="fourFontColor threeFontSize " style="line-height:40rpx;">{{i+1}}、{{it}}</view>
                             </view>
                         </view>
@@ -88,7 +92,7 @@
                 <view class="txt fr jc threeFontSize threeFontColor" style="padding:0 30rpx;">倾向示意图表示四个维度分别的倾向程度。从中间往两侧看，条越长，倾向越明显。</view>
                 <view class="detail mt20">
                     <view class="mt20">
-                        <view wx:for="{{mbti.explanationsList}}" wx:for-index="idx" wx:for-item="itm">
+                        <view wx:for="{{mbti.explanationsList}}" wx:for-index="idx" wx:for-item="itm" wx:key="index">
                             <view class="fourFontColor threeFontSize fr">
                                 <view class="lab" style="background:#E9302D;margin-top:10rpx"></view>
                                 <view style="line-height:40rpx;width:600rpx;">{{itm}}</view>
@@ -107,7 +111,7 @@
                 <view class="detail" style="margin-top:60rpx">
                     <view class="twoFontColor twoFontSize" style="line-height:40rpx;width:600rpx;">{{midas.comprehensiveResult.body}}</view>
                 </view>
-                <view class="fc" wx:for="{{midas.averagePowerResult}}">
+                <view class="fc" wx:for="{{midas.averagePowerResult}}" wx:key="index">
                     <view class="fr ac jsb mt40" style="padding:0 30rpx;">
                         <view class="fr ac">
                             <image src="../../image/icon_yynl@2x.png" style="width:32rpx;height:28rpx" wx:if="{{index==0}}"></image>
@@ -142,13 +146,17 @@
                     <image class="curveCanvas" src="{{curve.imagePath}}" style="width:720rpx;"></image>
                 </view>
                 <view class="fr ac jc">
-                    <view class="case-item" wx:if="{{reportType==1||reportType==2}}">
+                    <view class="case-item" wx:if="{{!isPatriarch}}">
                         <view class="lab" style="background:#F56767"></view>
                         <view class="threeFontSize">学生</view>
                     </view>
-                    <view class="case-item" wx:if="{{reportType==3||reportType==4}}">
-                        <view class="lab" style="background:#FFB272"></view>
-                        <view class="threeFontSize">家长</view>
+                    <view class="case-item" wx:elif="{{sex==1}}">
+                        <view class="lab" style="background:#FF8C5B"></view>
+                        <view class="threeFontSize">父亲</view>
+                    </view>
+                    <view class="case-item" wx:else>
+                        <view class="lab" style="background:#FDC622"></view>
+                        <view class="threeFontSize">母亲</view>
                     </view>
                 </view>
                 <view class="mt40">
@@ -157,7 +165,7 @@
                     </view>
                 </view>
                 <view class="fourFontColor twoFontSize mt30" style="padding:0 30rpx;">
-                    <view wx:for="{{careerAnchorList}}">
+                    <view wx:for="{{careerAnchorList}}" wx:key="index">
                         <view style="margin-bottom:20rpx;">{{item}}</view>
                     </view>
                 </view>
@@ -180,28 +188,36 @@
     <swiper-item wx:if="{{!isHide}}">
         <scroll-view scrollY="{{true}}" style="height:{{windowHeight-90}}px;">
             <view class="case-box threeFontColor threeFontSize">
-                <view class="case-item" wx:if="{{reportType==1||reportType==2||reportType==4}}">
+                <view class="case-item" wx:if="{{reportType==0||reportType==1||reportType==2||reportType==3||reportType==5||reportType==8}}">
                     <view class="lab" style="background:#F56767"></view>
-                    <view class="">学生</view>
+                    <view>学生</view>
                 </view>
-                <view class="case-item" wx:if="{{reportType==2||reportType==3||reportType==4}}">
-                    <view class="lab" style="background:#FFB272"></view>
-                    <view class="">家长</view>
+                <view class="case-item" wx:if="{{reportType==0||reportType==2||reportType==4||reportType==5||reportType==6||reportType==9}}">
+                    <view class="lab" style="background:#FF8C5B"></view>
+                    <view>父亲</view>
+                </view>
+                <view class="case-item" wx:if="{{reportType==0||reportType==3||reportType==6||reportType==7||reportType==8||reportType==9}}">
+                    <view class="lab" style="background:#FDC622"></view>
+                    <view>母亲</view>
                 </view>
             </view>
-            <view bindtap="classDetail" class="list-item fr ac itemBackColor" data-code="{{item.majorCode}}" wx:for="{{majorList}}">
+            <view bindtap="classDetail" class="list-item fr ac itemBackColor" data-code="{{item.majorCode}}" wx:for="{{majorList}}" wx:key="index">
                 <view class="title" style="{{index+1>3?'color:#9B9B9B':'color: #E9302D;'}}">
-                          {{index+1}}
-                      </view>
+            {{index+1}}
+          </view>
                 <view class="twoFontSize oneFontColor ml30" style="width:200rpx;">{{item.majorName}}</view>
                 <view class="fc ml30">
-                    <view class="fr ac" wx:if="{{item.degree>0}}">
-                        <view class="progress1" style="width:{{item.degree*2}}rpx"></view>
-                        <view class="fiveFontSize threeFontColor ml10">{{item.degree}}%</view>
+                    <view class="fr ac" wx:if="{{item.studentDegree>0}}">
+                        <view class="progress1" style="width:{{item.studentDegree*2}}rpx"></view>
+                        <view class="fiveFontSize threeFontColor ml10">{{item.studentDegree}}%</view>
                     </view>
-                    <view class="fr ac" wx:if="{{item.patriarchDegree>0}}">
-                        <view class="progress2" style="width:{{item.patriarchDegree*2}}rpx"></view>
-                        <view class="fiveFontSize threeFontColor ml10">{{item.patriarchDegree}}%</view>
+                    <view class="fr ac" wx:if="{{item.fatherDegree>0}}">
+                        <view class="progress2" style="width:{{item.fatherDegree*2}}rpx"></view>
+                        <view class="fiveFontSize threeFontColor ml10">{{item.fatherDegree}}%</view>
+                    </view>
+                    <view class="fr ac" wx:if="{{item.motherDegree>0}}">
+                        <view class="progress3" style="width:{{item.motherDegree*2}}rpx"></view>
+                        <view class="fiveFontSize threeFontColor ml10">{{item.motherDegree}}%</view>
                     </view>
                 </view>
             </view>

@@ -90,7 +90,7 @@
 
 .baocun {
     position: fixed;
-    bottom: 5vw;
+    bottom: 22vw;
     right: 7vw;
     border-radius: 100%;
     color: #fff;
@@ -98,4 +98,32 @@
     width: 15vw;
     height: 15vw;
     line-height: 15vw;
+}
+
+.changeIndex {
+    right: 50rpx;
+    bottom: 40rpx;
+}
+
+.update {
+    position: fixed;
+    bottom: 4vw;
+    right: 7vw;
+    border-radius: 100%;
+    color: #fff;
+    text-align: center;
+    width: 15vw;
+    height: 15vw;
+    line-height: 15vw;
+}
+
+.collegeMoveUp>image {
+    width: 20rpx;
+    height: 18rpx;
+    transform: rotate(-180deg);
+}
+
+.collegeMoveDown>image {
+    width: 20rpx;
+    height: 18rpx;
 }

@@ -2,6 +2,8 @@ var app = getApp();
 
 var api = require("./../api.js");
 
+var sensors = require("./../../../utils/sensors.js");
+
 var curve = {
     points: []
 };
@@ -85,6 +87,11 @@ Page({
     },
     onShareAppMessage: function onShareAppMessage(res) {
         var that = this;
+        var data = {
+            SA_share_type: "职业介绍",
+            SA_share_content: "我正在看" + that.data.jobDesc.name + "的介绍"
+        };
+        app.sensors.track("ShareClick", sensors.ShareClick(data));
         if (res.from === "button") {}
         return {
             title: "我正在看" + that.data.jobDesc.name + "的介绍",
@@ -299,10 +306,12 @@ Page({
                     // })
                                 }
                 var value = "";
-                value = "从事的工作主要包括：";
-                res.result.infoDetail = res.result.infoDetail.replace(new RegExp(value, "g"), '<span style="font-size:28rpx;color:#212121;margin:8px 0;display:inline-block;">从事的工作主要包括：</span>');
-                value = "下列工种归入本职业：";
-                res.result.infoDetail = res.result.infoDetail.replace(new RegExp(value, "g"), '<span style="font-size:28rpx;color:#212121;margin:8px 0;display:inline-block;">下列工种归入本职业：</span>');
+                if (res.result.infoDetail) {
+                    value = "从事的工作主要包括：";
+                    res.result.infoDetail = res.result.infoDetail.replace(new RegExp(value, "g"), '<span style="font-size:28rpx;color:#212121;margin:8px 0;display:inline-block;">从事的工作主要包括：</span>');
+                    value = "下列工种归入本职业：";
+                    res.result.infoDetail = res.result.infoDetail.replace(new RegExp(value, "g"), '<span style="font-size:28rpx;color:#212121;margin:8px 0;display:inline-block;">下列工种归入本职业：</span>');
+                }
                 that.setData({
                     jobDesc: res.result,
                     pageIndex: 1,
@@ -401,7 +410,13 @@ Page({
                                 that.setData({
                     workSituation: res.result.detail
                 }, function() {
-                    that.drawLine(res.result.detail.experience);
+                    if (res.result.detail.experience.length > 0) {
+                        that.drawLine(res.result.detail.experience);
+                    } else {
+                        that.setData({
+                            salaryInfo: 1
+                        });
+                    }
                     var edu = that.arrInit(res.result.detail, "edu");
                     var seniority = that.arrInit(res.result.detail, "seniority");
                     var salaryScale = that.arrInit(res.result.detail, "salaryScale");
@@ -641,7 +656,12 @@ Page({
     },
     // 绘制曲线背景
     drawCurvePath: function drawCurvePath(path, ctx) {
-        var point = getControlPoint(path);
+        var point = [];
+        if (path.length > 2) {
+            point = getControlPoint(path);
+        } else {
+            point = path;
+        }
         ctx.beginPath();
         var gradient = ctx.createLinearGradient(300, 100, 300, 160);
         gradient.addColorStop("0", "rgba(243,153,0,0.22)");

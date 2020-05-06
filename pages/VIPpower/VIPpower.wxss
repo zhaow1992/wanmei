@@ -14,3 +14,35 @@
     color: #fff;
     margin-top: 15vw;
 }
+
+.cardBtn {
+    height: 80rpx;
+    border-radius: 80rpx;
+    line-height: 80rpx;
+    text-align: center;
+    border: 1rpx solid #e9302d;
+}
+
+.bindCard {
+    width: 240rpx;
+    color: #e9302d;
+    box-sizing: border-box;
+}
+
+.popup-wrapper {
+    padding: 0!important;
+    opacity: 0.6!important;
+}
+
+.applyCard {
+    width: 340rpx;
+    color: #fff;
+    background: linear-gradient(to left,#E9302D,#FF5053);
+    margin-left: 20rpx;
+    border: none;
+    padding: 0;
+}
+
+button[disabled] {
+    color: #fff!important;
+}

@@ -35,7 +35,7 @@
                     <view bindtap="gorelationPost" class="job-list flex flexjsbetween" data-index="{{index}}" data-name="{{item.name}}" hoverClass="listHover" wx:for="{{jobDesc.relationPost}}" wx:key="{{index}}">
                         <text class="oneFontColor oneFontSize">{{item.name}}</text>
                         <view>
-                            <text class="twoFontSize threeFontColor">{{item.salaryMin}}-{{item.salaryMax}}/月</text>
+                            <text class="twoFontSize threeFontColor" wx:if="{{item.salaryMax!=0}}">{{item.salaryMin}}-{{item.salaryMax}}/月</text>
                             <image src="/image/openList.png"></image>
                         </view>
                     </view>
@@ -72,7 +72,7 @@
                 <view class="salary-info">
                     <view class="flex flexjsbetween">
                         <text class="title fourFontSize oneFontColor bold">薪资情况</text>
-                        <view class="changeTab threeFontSize flex">
+                        <view class="changeTab threeFontSize flex" wx:if="{{workSituation.experience.length!==0}}">
                             <view bindtap="changeTab" class="threeFontColor {{salaryInfo==0?'active':''}}" data-current="0" data-type="salaryinfo">按趋势</view>
                             <view bindtap="changeTab" class="threeFontColor {{salaryInfo==1?'active':''}}" data-current="1" data-type="salaryinfo">按分布</view>
                         </view>
@@ -80,7 +80,7 @@
                     <view class="relativeStyle" hidden="true" style="display:{{salaryInfo==0&&workSituation.experience.length!==0?'block':none}}">
                         <image class="salaryAddImg" src="{{salaryAddImg}}"></image>
                     </view>
-                    <view class="relativeStyle" hidden="true" style="display:{{salaryInfo==1&&workSituation.experience.length!==0?'block':none}}">
+                    <view class="relativeStyle" hidden="true" style="display:{{salaryInfo==1?'block':none}}">
                         <canvas canvasId="salaryScale" style="width:{{pieData.pieW}}px;height:{{pieData.pieH}}px;margin:auto;"></canvas>
                     </view>
                 </view>

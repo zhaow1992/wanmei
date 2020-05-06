@@ -8,8 +8,8 @@
             <view class="twoFontColor twoFontSize">分数</view>
             <view bindtap="goCreateScore" class="fourFontColor oneFontSize flex flexjsbetween" style="width:63.2vw;">
                 <view class="flex">
-                    <view style="margin-right:2vw;" wx:if="{{cityId!=842&&cityId!=843}}">{{course==0?'理科':'文科'}}</view>
-                    <view class="threeFontColor" wx:if="{{score==null}}">创建成绩</view>
+                    <view style="margin-right:2vw;" wx:if="{{cityId!=842&&cityId!=843&&!newGaokaoPro}}">{{course==0?'理科':'文科'}}</view>
+                    <view class="threeFontColor" wx:if="{{score==null}}">前往首页创建成绩</view>
                     <view wx:else>{{score}}</view>
                 </view>
                 <image class="moreArrowWH" src="/image/right_logo.png"></image>

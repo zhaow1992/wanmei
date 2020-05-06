@@ -1,5 +1,5 @@
 .wrapAnimate {
-    animation: wrapAnimate 0.5s ease-in-out forwards;
+    animation: wrapAnimate 0.3s ease-in-out forwards;
 }
 
 @-webkit-keyframes wrapAnimate {
@@ -21,7 +21,7 @@
 }
 
 .wrapAnimateOut {
-    animation: wrapAnimateOut 0.4s ease-in-out forwards;
+    animation: wrapAnimateOut 0.2s ease-in-out forwards;
 }
 
 @-webkit-keyframes wrapAnimateOut {
@@ -45,7 +45,7 @@
 }
 
 .frameAnimate {
-    animation: frameAnimate 0.5s ease forwards;
+    animation: frameAnimate 0.3s ease forwards;
 }
 
 @-webkit-keyframes frameAnimate {
@@ -69,7 +69,7 @@
 }
 
 .frameAnimateOut {
-    animation: frameAnimateOut 0.4s ease forwards;
+    animation: frameAnimateOut 0.2s ease forwards;
 }
 
 @-webkit-keyframes frameAnimateOut {

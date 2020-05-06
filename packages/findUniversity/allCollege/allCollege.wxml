@@ -70,7 +70,7 @@
                 </view>
             </scroll-view>
             <view class="flex operationItemWH twoFontSize" style="width:70.93vw;margin:0 auto;justify-content:flex-end;">
-                <view bindtap="resetSelectTap" class="operationBtnWH flex flexjscenter" style="border-radius:26.67vw 0 0 26.67vw;border: 1px solid #E9302D;box-sizing:border-box;">
+                <view bindtap="resetSelectTap" class="operationBtnWH flex flexjscenter" style="border-radius:26.67vw 0 0 26.67vw;border: 1rpx solid #E9302D;box-sizing:border-box;">
                     <view class="checkedColor">重置</view>
                 </view>
                 <view bindtap="confirmSelectTap" class="operationBtnWH flex flexjscenter" style="border-radius:0 26.67vw 26.67vw 0;background-image: linear-gradient(-52deg, #E9302D 1%, #FF5053 100%);color: #fff;">
@@ -92,19 +92,22 @@
         <view class="allPageBGcolor cutLineWH"></view>
         <view bindtap="goCollegeDetail" class="itemBackColor" data-id="{{index}}" hoverClass="listHover" style="margin:0 0 2.13vw 0;" wx:for="{{collegeList}}" wx:for-item="collegeListSingle" wx:key="unique">
             <view class="collegeListCardSingle pageItemWidth flex cardBorder textPadding threeFontSize">
-                <image class="collegeLogo" src="{{collegeListSingle.collegeIcon}}"></image>
+                <image class="collegeLogo" src="{{collegeListSingle.logoUrl}}"></image>
                 <view>
                     <view>
-                        <view class="oneFontSize oneFontWidth">{{collegeListSingle.name}}
-                <text class="terraceBorderText fiveFontSize checkedColor" style="vertical-align:middle;border:1px solid #9b9b9b;color:#9b9b9b;" wx:for="{{collegeListSingle.collegeTerrace}}" wx:key="unique">{{item}}</text>
+                        <view class="oneFontSize oneFontWidth">
+                {{collegeListSingle.cnName}}
+                <text class="terraceBorderText fiveFontSize checkedColor" style="vertical-align:middle;border:1rpx solid #9b9b9b;color:#9b9b9b;" wx:if="{{collegeListSingle.is985==1}}">985</text>
+                            <text class="terraceBorderText fiveFontSize checkedColor" style="vertical-align:middle;border:1rpx solid #9b9b9b;color:#9b9b9b;" wx:if="{{collegeListSingle.is211==1}}">211</text>
+                            <text class="terraceBorderText fiveFontSize checkedColor" style="vertical-align:middle;border:1rpx solid #9b9b9b;color:#9b9b9b;" wx:if="{{collegeListSingle.firstClass}}">双一流</text>
                         </view>
                     </view>
                     <view class="twoFontColor threeFontSize flex flexjsbetween" style="margin:1.33vw 0 0 0;">
-                        <view>{{collegeListSingle.collegeTag}}</view>
+                        <view>{{collegeListSingle.classify?collegeListSingle.classify:'-'}} / {{collegeListSingle.belong?collegeListSingle.belong:'-'}} / {{collegeListSingle.typeDName?collegeListSingle.typeDName:'-'}}</view>
                         <view class="flex">
                             <image mode="widthFix" src="/image/city.png" style="height:2.93vw;width:2.4vw;margin-right:1.07vw;"></image>
                             <view>
-                  {{collegeListSingle.city}}
+                  {{collegeListSingle.provinceName}}
                 </view>
                         </view>
                     </view>

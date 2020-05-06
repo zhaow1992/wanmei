@@ -1,0 +1,8 @@
+@import "../intelligenceMajor/intelligenceMajor.wxss";
+
+.addBtn {
+    width: 104rpx;
+    height: 48rpx;
+    background: #e9302d;
+    border-radius: 32rpx;
+}

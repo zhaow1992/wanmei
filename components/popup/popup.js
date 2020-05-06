@@ -6,8 +6,11 @@ Component({
     options: {
         multipleSlots: true
     },
-    /* 组件的属性列表 */
     properties: {
+        share: {
+            type: Boolean,
+            value: false
+        },
         popupText: {
             type: String,
             value: ""
@@ -53,9 +56,6 @@ Component({
             value: "确定"
         }
     },
-    /**
-   * 组件的初始数据
-   */
     data: {
         wrapAnimateMajor: "wrapAnimate",
         bgOpacityMajor: 0,
@@ -63,22 +63,7 @@ Component({
         bargainGetStatus: "",
         popupAnimateMajor: "popupAnimate"
     },
-    /*组件的方法列表*/
     methods: {
-        addFormid: function addFormid(e) {
-            if (e.detail.formId == "the formId is a mock one") {
-                formidArrOld.push("");
-            } else {
-                formidArrOld.push(e.detail.formId);
-            }
-            while (formidArrOld.length == 5) {
-                formidArr = formidArrOld.join(",");
-                formidArrOld = [];
-            }
-        },
-        returnFormid: function returnFormid() {
-            return formidArr;
-        },
         _showTap: function _showTap() {
             this.setData({
                 wrapAnimateMajor: "wrapAnimate",
@@ -104,15 +89,13 @@ Component({
             }, 200);
         },
         /*
-         * 内部私有方法建议以下划线开头
-         * triggerEvent 用于触发事件
-         */
+    * 内部私有方法建议以下划线开头
+    * triggerEvent 用于触发事件
+    */
         _cancelEvent: function _cancelEvent() {
-            //触发取消回调
             this.triggerEvent("cancelEvent");
         },
         _confirmEvent: function _confirmEvent() {
-            //触发成功回调
             this.triggerEvent("confirmEvent");
         }
     }

@@ -1,0 +1,324 @@
+@import "../jiangsuRecommend/jiangsuRecommend.wxss";
+
+@import "../zhejiangRecommend/zhejiangRecommend.wxss";
+
+.ipt {
+    width: 686rpx;
+    height: 104rpx;
+    background: #ffffff;
+    border-radius: 16rpx;
+}
+
+.btn {
+    width: 324rpx;
+    height: 80rpx;
+    border-radius: 40rpx;
+}
+
+.scorewrapper {
+    padding: 20rpx 10rpx;
+}
+
+.scorewrapper>view {
+    margin-right: 10rpx;
+    line-height: 1;
+}
+
+.pop {
+    width: 32rpx;
+    height: 32rpx;
+    border-radius: 16rpx;
+}
+
+.CWB-icon {
+    left: 35rpx;
+}
+
+.fill1 {
+    top: 5vw;
+    line-height: 44rpx;
+    right: 6vw;
+    border: 1rpx solid #eee;
+    border-radius: 30rpx;
+    padding: 0rpx 30rpx;
+}
+
+.recommendList {
+    background: inherit;
+}
+
+.major-wrapper {
+    background-color: #fff;
+}
+
+.major-wrapper.radius {
+    border-radius: 0 0 8px 8px;
+}
+
+.tips {
+    justify-content: center;
+    align-items: center;
+}
+
+.tips>text {
+    display: inline-block;
+    width: 20rpx;
+    height: 0;
+    margin: 0 15rpx;
+    border: 1rpx dotted #979797;
+}
+
+.showMask {
+    width: 100vw;
+    height: 100vh;
+    padding: 48rpx 32rpx;
+    box-sizing: border-box;
+}
+
+.title {
+    line-height: 48rpx;
+}
+
+.listing {
+    display: inline-block;
+    margin-top: 50rpx;
+    line-height: 44rpx;
+}
+
+.startFill {
+    width: 94%;
+    height: 88rpx;
+    line-height: 88rpx;
+    bottom: 50rpx;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);
+    border-radius: 46rpx;
+}
+
+.previewForm.active1 {
+    animation: previewForm .3s ease-in-out forwards;
+}
+
+.previewForm.visited {
+    animation: closePreviewAnimation .3s ease-in-out forwards;
+}
+
+@-webkit-keyframes previewForm {
+    0% {
+        bottom: -70vh;
+    }
+
+    100% {
+        bottom: 0;
+    }
+}
+
+@keyframes previewForm {
+    0% {
+        bottom: -70vh;
+    }
+
+    100% {
+        bottom: 0;
+    }
+}
+
+@-webkit-keyframes closePreviewAnimation {
+    0% {
+        bottom: 0;
+    }
+
+    100% {
+        bottom: -70vh;
+    }
+}
+
+@keyframes closePreviewAnimation {
+    0% {
+        bottom: 0;
+    }
+
+    100% {
+        bottom: -70vh;
+    }
+}
+
+.mark {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 99;
+}
+
+.mark.active1 {
+    position: fixed;
+}
+
+.previewForm .header>image {
+    width: 24rpx;
+    height: 24rpx;
+    padding: 20rpx;
+}
+
+.more {
+    width: 32rpx;
+    height: 32rpx;
+    vertical-align: middle;
+    margin-top: -4rpx;
+}
+
+.list {
+    height: 45px;
+}
+
+.del {
+    right: 54rpx;
+}
+
+.delIcon {
+    width: 130rpx;
+    height: 80rpx;
+    margin-top: 5rpx;
+}
+
+.delCollegeMask {
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.35);
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+}
+
+.delCollegeMask .content {
+    top: 38%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    padding: 60rpx 44rpx;
+    border-radius: 16rpx;
+    box-sizing: border-box;
+}
+
+.delCollegeMask .tools {
+    margin-top: 72rpx;
+}
+
+.delCollegeMask .tools>view {
+    width: 236rpx;
+    height: 72rpx;
+    line-height: 72rpx;
+    border: 1rpx solid #E9302D;
+    border-radius: 18px;
+}
+
+.delCollegeMask.show {
+    animation: showDel 0.3s ease-in forwards;
+}
+
+@-webkit-keyframes showDel {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes showDel {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.delCollegeMask.hide {
+    animation: hideDel 0.3s ease-in forwards;
+}
+
+@-webkit-keyframes hideDel {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes hideDel {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.listR .count {
+    margin-right: 2rpx;
+}
+
+.listIndex {
+    width: 52rpx;
+    height: 52rpx;
+    line-height: 52rpx;
+    border-radius: 16rpx;
+    background: #E9302D;
+}
+
+.cwbtype {
+    width: 225rpx;
+    right: 18rpx;
+    bottom: 20rpx;
+}
+
+.cwbtype .chong>text::before {
+    content: '';
+    display: inline-block;
+    width: 12rpx;
+    height: 12rpx;
+    margin-right: 10rpx;
+    border-radius: 50%;
+    background-color: #FF5053;
+    vertical-align: middle;
+}
+
+.cwbtype .wen>text::before {
+    content: '';
+    display: inline-block;
+    width: 12rpx;
+    height: 12rpx;
+    margin-right: 10rpx;
+    border-radius: 50%;
+    background-color: #F7BA00;
+    vertical-align: middle;
+}
+
+.cwbtype .bao>text::before {
+    content: '';
+    display: inline-block;
+    width: 12rpx;
+    height: 12rpx;
+    margin-right: 10rpx;
+    border-radius: 50%;
+    background-color: #76CF27;
+    vertical-align: middle;
+}
+
+.collegeRate {
+    left: 8rpx;
+    top: 40rpx;
+}
+
+.majorNum {
+    color: #212121;
+}

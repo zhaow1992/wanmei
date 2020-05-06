@@ -1,4 +1,4 @@
-<navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
+<navigationcustomtop id="navigationcustom" navigationText="{{navigationText}}"></navigationcustomtop>
 <loading wx:if="{{showLoad}}"></loading>
 <block wx:else>
     <serverfail bind:confirmEvent="_confirmEvent" id="serverfail" wx:if="{{serverfail==true}}"></serverfail>

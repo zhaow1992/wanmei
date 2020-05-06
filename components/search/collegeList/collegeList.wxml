@@ -1,7 +1,11 @@
-<view bindtap="{{item.isThisProvinceEnroll?'chooseCity':''}}" class="fr jsb ac whiteColor" data-collegeid="{{item.numId}}" data-index="{{index}}" data-item="{{item}}" hoverClass="listHover" style="height:120rpx;padding:0 4.3vw;border-bottom:1px solid #e9e9e9;" wx:if="{{collegeList.length>0}}" wx:for="{{collegeList}}">
+<view bindtap="chooseCity" class="fr jsb ac whiteColor {{item.type==1||item.type==2?'disabled':''}}" data-collegeid="{{item.numId}}" data-index="{{index}}" data-item="{{item}}" hoverClass="listHover" style="height:120rpx;padding:0 4.3vw;border-bottom:1px solid #e9e9e9;" wx:if="{{collegeList.length>0}}" wx:for="{{collegeList}}">
     <view class="oneFontSize onFontColor">{{item.collegeName||item.cnName}}</view>
     <image mode="widthFix" src="/image/moreArrow.png" style="width:2.22vw;height:2.22vw;" wx:if="{{item.isThisProvinceEnroll}}"></image>
-    <view class="threeFontSize threeFontColor" wx:else>对本省不招生</view>
+    <view class="threeFontSize threeFontColor" wx:else>
+        <view wx:if="{{item.type==1}}">本省份不招生</view>
+        <view wx:if="{{item.type==2}}">本批次不招生</view>
+        <image mode="widthFix" src="/image/moreArrow.png" style="width:2.22vw;height:2.22vw;" wx:if="{{item.type==3}}"></image>
+    </view>
 </view>
 <view class="fc ac" style="margin-top:50rpx;" wx:if="{{collegeList.length==0}}">
     <image src="/image/recommend_noFount.png" style="width:214rpx;height:214rpx;"></image>

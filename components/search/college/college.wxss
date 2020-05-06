@@ -1,4 +1,4 @@
-@import "../collegeList/collegeList.wxss";
+@import "../intelligenceMajor/intelligenceMajor.wxss";
 
 .logo {
     width: 68rpx;

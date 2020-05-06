@@ -340,3 +340,13 @@ page {
     right: 0;
     padding: 20px 20px 20px 20px;
 }
+
+.float {
+    display: flex;
+    align-items: center;
+}
+
+.float>text {
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}

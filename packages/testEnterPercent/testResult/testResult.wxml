@@ -7,14 +7,20 @@
                 <image class="collegeIcon" src="{{collegeLogo}}"></image>
                 <view class="flexjsbetween flex" style="width:67.73vw;margin-left:4vw;">
                     <view>
-                        <view class="oneFontColor oneFontSize" style="padding-bottom:1.07vw;">{{collegeName}}</view>
-                        <view class="twoFontColor threeFontSize">{{course}} / {{score}} / {{batch}}</view>
+                        <view class="oneFontColor oneFontSize" style="padding-bottom:1.07vw;">
+                            {{collegeName}}
+                        </view>
+                        <view class="twoFontColor threeFontSize">
+                            {{course}} / {{score}} / {{batch}}
+                        </view>
                     </view>
                     <view>
                         <view style="color: #FF5053;font-size:3.73vw;" wx:if="{{isNewly}}">新增院校</view>
                         <block wx:else>
-                            <view style="font-size: 6.67vw;color: #FF5053;text-align:center;">{{percent}}</view>
-                            <view class="threeFontColor threeFontSize textAlign">录取概率 </view>
+                            <view style="font-size: 6.67vw;color: #FF5053;text-align:center;">
+                                {{percent}}
+                            </view>
+                            <view class="threeFontColor threeFontSize textAlign">录取概率</view>
                         </block>
                     </view>
                 </view>
@@ -31,7 +37,8 @@
             <view class="twoFontColor threeFontSize">院校往年“录取分”估算成当年的“等效分”</view>
         </view>
         <view style="padding:5.33vw 0;">
-            <canvas canvasId="scoreCanvas" style="width:{{scoreCanvasW}}px;height:{{scoreCanvasH}}px;"></canvas>
+            <image src="{{scoreImg}}" style="width:{{scoreCanvasW}}px;height:{{scoreLineCanvasH}}px;"></image>
+            <canvas canvasId="scoreCanvas" style="width:360px;position:absolute;left:-10000px"></canvas>
             <view></view>
         </view>
         <view style="height:28.53vw;padding-bottom:5.33vw;">
@@ -47,7 +54,7 @@
                     </view>
                     <view class="flex">
                         <view class="checkedBackColor" style="height:1.6vw;width:1.6vw;border-radius:100%;"></view>
-                        <view style="margin-left:2.67vw;"> 由于每年高考试卷难度有别，录取分数存在一定波动。</view>
+                        <view style="margin-left:2.67vw;">由于每年高考试卷难度有别，录取分数存在一定波动。</view>
                     </view>
                 </view>
             </view>
@@ -56,10 +63,11 @@
     <view class="cutLineWH allPageBGcolor"></view>
     <view class="pageItemWidth itemBackColor">
         <view class="flex flexjsbetween oneFontColor fourFontSize" style="padding-top:4vw;">
-        历年录取分
-    </view>
+            历年录取分
+        </view>
         <view style="padding:5.33vw 0;">
-            <canvas canvasId="barCanvas" style="width:{{scoreCanvasW}}px;height:{{scoreLineCanvasH}}px;"></canvas>
+            <canvas canvasId="barCanvas" style="width:{{scoreCanvasW}}px;height:{{scoreLineCanvasH}}px;position:fixed;top:100000px"></canvas>
+            <image src="{{canvasImg}}" style="width:{{scoreCanvasW}}px;height:{{scoreLineCanvasH}}px;"></image>
             <view class="flex flexjscenter threeFontSize oneFontColor" style="flex-wrap:wrap;">
                 <view class="flex" style="margin-top:3vw;margin-right:5.6vw;" wx:for="{{fractions}}">
                     <view class="batchPintWH" style="background:#{{index==0?'BBF08A':index==1?'6CDCDF':index==2?'FFB46E':index==3?'50D2A0':'4B9BFF'}};margin-right:1.6vw;"></view>
@@ -77,10 +85,13 @@
                 <view class="threeFontSize fourFontColor">
                     <view class="flex" style="padding-bottom:2.67vw;">
                         <view class="checkedBackColor" style="height:1.6vw;width:1.6vw;border-radius:100%;"></view>
-                        <view class="tipText">{{resYear}}年该院校在{{province}}{{batch}}总招生为
-                <text class="checkedColor">{{enrolment}}</text>人。其中{{course}}录取
-                <text class="checkedColor">{{enterNum}}</text>人（占{{enterPercent}}）；
-            </view>
+                        <view class="tipText">
+                            {{resYear}}年该院校在{{province}}{{batch}}总招生为
+                            <text class="checkedColor">{{enrolment}}</text>
+                            人。其中{{course}}录取
+                            <text class="checkedColor">{{enterNum}}</text>
+                            人（占{{enterPercent}}）；
+                        </view>
                     </view>
                     <view class="flex" style="padding-bottom:2.67vw;">
                         <view class="checkedBackColor" style="height:1.6vw;width:1.6vw;border-radius:100%;"></view>
@@ -92,7 +103,7 @@
         </view>
     </view>
     <view class="cutLineWH allPageBGcolor"></view>
-    <view class="itemBackColor" wx:if="{{scoreList.length>0}}">
+    <view class="itemBackColor" wx:if="{{scoreList.length>0&&showProportion}}">
         <view class="flex flexjsbetween pageItemWidth" style="padding-top:4vw;">
             <view class="oneFontColor fourFontSize">热门专业占比</view>
             <view class="twoFontColor threeFontSize">来源：{{resYear}}年专业录取数据</view>
@@ -103,7 +114,9 @@
                 <canvas canvasId="ringCheckedCanvas" style="width:{{ringCanvasW}}px;height:{{ringCanvasW}}px;margin:auto;position:absolute;"></canvas>
                 <canvas canvasId="ringSplit" style="width:{{ringCanvasW}}px;height:{{ringCanvasW}}px;margin:auto;position:absolute;"></canvas>
             </view>
-            <view class="twoFontSize oneFontColor" style="text-align:center;margin:5vw 0;">TOP5专业占比</view>
+            <view class="twoFontSize oneFontColor" style="text-align:center;margin:5vw 0;">
+                TOP5专业占比
+            </view>
             <view>
                 <view class="threeFontColor threeFontSize flex pageItemWidth" style="line-height:3;">
                     <view style="width:13.6vw;height:1px;"></view>
@@ -116,8 +129,12 @@
                 <view class="twoFontSize">
                     <view bindtap="chooseMajor" class="flex" data-index="{{index}}" style="height:12.8vw;{{index%2==0?'background:#FAFAFA;':'background: #fff;'}}" wx:for="{{scoreList}}">
                         <view class="pageItemWidth flex">
-                            <view class="{{index==majorCurrect?'checkedColor':''}} textAlign" style="margin-right:5.33vw;height:4.53vw;width:8.27vw;border-radius:4.53vw;line-height:4.53vw;{{index==majorCurrect?'background:#FFE4E5;':'background:#E9E9E9;'}}">{{index+1}} </view>
-                            <view class="textOmit {{index==majorCurrect?'checkedColor':''}}" style="width:46.13vw;padding-right:3.2vw;">{{item.professionName}}</view>
+                            <view class="{{index==majorCurrect?'checkedColor':''}} textAlign" style="margin-right:5.33vw;height:4.53vw;width:8.27vw;border-radius:4.53vw;line-height:4.53vw;{{index==majorCurrect?'background:#FFE4E5;':'background:#E9E9E9;'}}">
+                                {{index+1}}
+                            </view>
+                            <view class="textOmit {{index==majorCurrect?'checkedColor':''}}" style="width:46.13vw;padding-right:3.2vw;">
+                                {{item.professionName}}
+                            </view>
                             <view class="flex flexjsbetween" style="width:28.53vw;">
                                 <view class="textAlign" style="width:9.6vw">{{item.minScore}}</view>
                                 <view class="textAlign" style="width:9.6vw">{{item.enterNum}}</view>
@@ -140,7 +157,7 @@
                     </view>
                     <view class="flex" style="padding-bottom:2.67vw;">
                         <view class="checkedBackColor" style="height:1.6vw;width:1.6vw;border-radius:100%;"></view>
-                        <view class="tipText">“专业”是否“中外合作”或其它特别说明； </view>
+                        <view class="tipText">“专业”是否“中外合作”或其它特别说明；</view>
                     </view>
                     <view class="flex">
                         <view class="checkedBackColor" style="height:1.6vw;width:1.6vw;border-radius:100%;"></view>
@@ -154,8 +171,12 @@
     <view class="operationItemWH"></view>
     <view class="operationItemWH whiteColor twoFontSize" style="position: fixed;bottom: 0;display:flex;align-items:center;box-shadow: 0 4px 4px 4px rgba(0,0,0,0.05);" wx:if="{{share==false}}">
         <view class="whiteFontColor flexjsbetween" style="display:flex;width:95.2vw;margin:0 2.4vw;height:11.73vw;">
-            <view bindtap="goCollegeDetail" class="checkedColor flex flexjscenter borderBox" style="width:45.33vw;border-radius:5.87vw;border: 1px solid #FE3B39;">了解院校</view>
-            <view bindtap="chooseCollege" class="flex flexjscenter" style="width:45.33vw;border-radius:5.87vw;background-image: linear-gradient(-52deg, #E9302D 1%, #FF5053 100%);">换个院校</view>
+            <view bindtap="goCollegeDetail" class="checkedColor flex flexjscenter borderBox" style="width:45.33vw;border-radius:5.87vw;border: 1px solid #FE3B39;">
+                了解院校
+            </view>
+            <view bindtap="chooseCollege" class="flex flexjscenter" style="width:45.33vw;border-radius:5.87vw;background-image: linear-gradient(-52deg, #E9302D 1%, #FF5053 100%);">
+                换个院校
+            </view>
         </view>
     </view>
 </block>

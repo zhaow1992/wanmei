@@ -26,6 +26,17 @@ Page({
         college: []
     },
     disciplineTap: function disciplineTap(e) {
+        var majorCode = e.currentTarget.dataset.code;
+        if (!majorCode) return;
+        if (majorCode.length == 4) {
+            wx.navigateTo({
+                url: "/packages/selectMajor/middleMajorDetail/middleMajorDetail?majorcode=" + majorCode
+            });
+        } else {
+            wx.navigateTo({
+                url: "/packages/selectMajor/majorDetail/majorDetail?majorcode=" + majorCode + "&cityid=" + this.cityId
+            });
+        }
         // const that = this;
         // let id = e.currentTarget.id;
         // that.setData({
@@ -34,7 +45,7 @@ Page({
         //     showSmallFrame: true
         // })
         // this.showFrame();
-    },
+        },
     caculateWomanWidth: function caculateWomanWidth(percent) {
         return 30.67 * percent;
     },
@@ -88,6 +99,7 @@ Page({
         });
     },
     onLoad: function onLoad(options) {
+        this.cityId = wx.getStorageSync("cityId").cityId;
         var that = this;
         that.InstitutesGet(options.collegeid);
         var college = that.data.college;

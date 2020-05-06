@@ -28,7 +28,7 @@
     border-radius: 16rpx;
 }
 
-.inputBox>image {
+.editimage {
     position: absolute;
     top: 40rpx;
     left: -8rpx;
@@ -96,7 +96,7 @@
     width: 90%;
     line-height: 88rpx;
     border-radius: 44rpx;
-    z-index: 99;
+    z-index: 0;
 }
 
 .popup-wrapper {
@@ -477,4 +477,23 @@
 .disabled {
     background-image: linear-gradient(137deg,#ffa5a6 0%,#fa9596 100%);
     pointer-events: none;
+}
+
+.ques {
+    position: absolute;
+    top: 42rpx;
+    right: 15rpx;
+}
+
+.txt {
+    position: absolute;
+    top: 30rpx;
+    right: 65rpx;
+}
+
+.btnclose {
+    width: 218rpx;
+    height: 72rpx;
+    background: linear-gradient(-52deg,#E9302D 1%,#FF5053 100%);
+    border-radius: 36rpx;
 }

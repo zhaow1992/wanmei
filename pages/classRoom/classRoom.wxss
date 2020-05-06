@@ -66,3 +66,27 @@
     padding: 0 2vw;
     border-bottom: 1px solid #f0eff5;
 }
+
+.titleOmit {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    line-height: 1.5;
+}
+
+.contentOmit {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.newClass-right-content {
+    font-size: 22rpx;
+    color: #a1a1a1;
+}

@@ -1,9 +1,21 @@
 <navigationcustomtop id="navigationcustom" navigationCustomCapsuleHeight="{{navigationCustomCapsuleHeight}}" navigationCustomStatusHeight="{{navigationCustomStatusHeight}}" navigationText="{{navigationText}} "></navigationcustomtop>
 <view class="content-wrapper content-font VIPpower">
     <image src="../../image/VIPpower.png"></image>
-    <view>您没有权限查看数据</view>
-    <view class="point-font">请登录VIP账号</view>
+    <view class="btn-font oneFontColor">您没有权限查看数据</view>
+    <view class="threeFontColor">请登录VIP账号</view>
     <view bindtap="payBtn" class="recommend-btn oneFontSize" style="margin:8vw 0 3vw 0;width:91.4vw;" wx:if="{{!isIos}}">开通VIP</view>
-    <view bindtap="noPay" class="recommend-btn oneFontSize" style="margin:8vw 0 3vw 0;width:91.4vw;opacity:0.6;" wx:else>{{payBtnText}}</view>
+    <view class="flex" style="justify-content:space-around;margin-top: 20rpx;" wx:else>
+        <view class="flex oneFontSize">
+            <view bindtap="goBindCard" class="cardBtn bindCard" hoverClass="btnHover">绑定会员卡</view>
+            <button bindtap="{{banApplyCard?'':'applyCard'}}" class="cardBtn oneFontSize applyCard" disabled="{{applyCardLoading}}" hoverClass="btnHover" loading="{{applyCardLoading}}" style="{{banApplyCard?'background:#9b9b9b':''}}">{{banApplyCard?'重新申请（'+applyCardTime+'秒）':'申请会员卡'}}</button>
+        </view>
+    </view>
     <view bindtap="mobileBtn" class="info btn-font" style="margin-top:5vw" wx:if="{{mobile==true}}">登 录</view>
 </view>
+<popupcomponents bind:hideTapPage="hideTapIndex" id="hide">
+    <image src=""></image>
+    <image src="/image/active-shareSuccess.png" style="width:30vw;height:30vw"></image>
+    <view>恭喜您申请成功，请注意短信查收</view>
+    <view bindtap="hideTapIndex" class="fourFontSize oneFontColor" hoverClass="btnHover" style="border-top:1rpx solid #f8f5f4;margin-top:6.4vw;position: relative;top: 8vw;padding-top: 4vw;">我知道了</view>
+    <view></view>
+</popupcomponents>

@@ -1,7 +1,8 @@
 <view class="container" style="background:#fff;">
     <view style="position:relative;">
         <image mode="widthFix" src="../image/scoreLine_banner.jpg" style="width:100vw;height:50vw;"></image>
-        <image bindtap="returnTap" class="absoluteStyle" src="/image/return.png" style="width:2.67vw;height:4.8vw;padding:35px 7vw;top:0;left:0;"></image>
+        <image bindtap="returnTap" class="absoluteStyle" src="/image/return.png" style="width:2.67vw;height:4.8vw;padding:35px 7vw;top:0;left:0;" wx:if="{{!share}}"></image>
+        <image bindtap="homeIconButtonTap" class="absoluteStyle" mode="widthFix" src="/image/return-Home.png" style="width: 20px;height:20px;padding:35px 7vw;top:0;left:0;z-index:10;" wx:else></image>
     </view>
     <view bindtap="goSearch" class="pageItemWidth searchView-viewH flex" style="background:#fff;border:none;box-shadow: 0 0 5px 4px rgba(64,64,64,0.05);height:13.3vw;border-radius:8px;position:relative;top:-9vw;">
         <view class="twoFontSize searchView twoFontColor">
@@ -13,7 +14,7 @@
         <image bindtap="clearjilu" src="/image/laji_icon.png" style="width:3.73vw;height:3.73vw"></image>
     </view>
     <scroll-view scrollY style="height:80vh;" wx:if="{{collegeList.length>0}}">
-        <navigator bindtap="chooseCity" class="flex" data-collegeid="{{item.numId||item.collegeId}}" data-index="{{index}}" style="padding:0 4.3vw;justify-content:space-between;border-bottom:1px solid #e9e9e9;background:#fff;" url="../index/index?current=score&title={{item.cnName||item.collegeName}}&collegeId={{item.numId||item.collegeId}}" wx:for="{{collegeList}}">
+        <navigator bindtap="chooseCity" class="flex" data-collegeid="{{item.numId||item.collegeId}}" data-index="{{index}}" style="padding:0 4.3vw;justify-content:space-between;border-bottom:1rpx solid #e9e9e9;background:#fff;" url="../index/index?source=分数线首页&current=score&title={{item.cnName||item.collegeName}}&collegeId={{item.numId||item.collegeId}}" wx:for="{{collegeList}}">
             <view style="line-height:3.5;">{{item.cnName||item.collegeName}}</view>
             <image mode="widthFix" src="/image/right_logo.png" style="width:2.22vw;height:2.22vw;"></image>
         </navigator>
@@ -25,3 +26,4 @@
         </view>
     </view>
 </view>
+<loginPopup id="loginPopup" wrapFlag="true"></loginPopup>

@@ -16,6 +16,17 @@ function _interopRequireDefault(obj) {
     };
 }
 
+function _toConsumableArray(arr) {
+    if (Array.isArray(arr)) {
+        for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+            arr2[i] = arr[i];
+        }
+        return arr2;
+    } else {
+        return Array.from(arr);
+    }
+}
+
 function _defineProperty(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -30,17 +41,24 @@ function _defineProperty(obj, key, value) {
     return obj;
 }
 
+var sa = require("./../../utils/sensorsdata.min.js");
+
+var sensors = require("./../../utils/sensors.js");
+
 var app = getApp();
 
 var formidArrOld = [];
 
 var formidArr = [];
 
+var pn = 1;
+
 Page({
     xianChaError: false,
     tmpYear: 2020,
     scoreType: 1,
     data: {
+        newGaokaoPro: false,
         numberNum: {
             pability: 58794,
             chooseSub: 18524,
@@ -125,6 +143,14 @@ Page({
         //浙江
         jiangSuShow: false,
         //江苏
+        shanDongShow: false,
+        //山东
+        beijingSHow: false,
+        //北京
+        tianjinSHow: false,
+        //天津
+        hainanSHow: false,
+        //海南
         fenClass: true,
         cityName: "北京",
         history: [ "A+", "A", "B+", "B", "C", "D" ],
@@ -181,6 +207,86 @@ Page({
             st: false
         } ],
         //浙江科目
+        shanDongSubject: [ {
+            name: "物理",
+            st: false
+        }, {
+            name: "化学",
+            st: false
+        }, {
+            name: "生物",
+            st: false
+        }, {
+            name: "历史",
+            st: false
+        }, {
+            name: "地理",
+            st: false
+        }, {
+            name: "政治",
+            st: false
+        } ],
+        //山东科目
+        beijingSubject: [ {
+            name: "物理",
+            st: false
+        }, {
+            name: "化学",
+            st: false
+        }, {
+            name: "生物",
+            st: false
+        }, {
+            name: "历史",
+            st: false
+        }, {
+            name: "地理",
+            st: false
+        }, {
+            name: "政治",
+            st: false
+        } ],
+        //北京科目
+        tianjinSubject: [ {
+            name: "物理",
+            st: false
+        }, {
+            name: "化学",
+            st: false
+        }, {
+            name: "生物",
+            st: false
+        }, {
+            name: "历史",
+            st: false
+        }, {
+            name: "地理",
+            st: false
+        }, {
+            name: "政治",
+            st: false
+        } ],
+        //天津科目
+        hainanSubject: [ {
+            name: "物理",
+            st: false
+        }, {
+            name: "化学",
+            st: false
+        }, {
+            name: "生物",
+            st: false
+        }, {
+            name: "历史",
+            st: false
+        }, {
+            name: "地理",
+            st: false
+        }, {
+            name: "政治",
+            st: false
+        } ],
+        //海南科目
         GaoKaoTotal: 0,
         // 高考总分
         cityFlag: false,
@@ -202,6 +308,8 @@ Page({
         //浙江分（data）
         zheJiangWei: 0,
         //浙江位（data）
+        shanDongFen: 0,
+        //山东分(data)
         historyKemu: "历史",
         //历史科目
         historyValue: "A+",
@@ -222,22 +330,23 @@ Page({
         //上海科目选择数组（data）
         zheJiangSubjectArr: [],
         //浙江科目选择数组（data）
+        shanDongSubjectArr: [],
+        //山东科目选择数组（data）
+        beijingSubjectArr: [],
+        //北京科目选择数组（data）
+        tianjinSubjectArr: [],
+        //天津科目选择数组（data）
+        hainanSubjectArr: [],
+        //海南科目选择数组（data）
         weiFen: 0,
         //上海、浙江位次/排名
         jiangSu: "",
         shangHai: "",
-        zheJiang: ""
+        zheJiang: "",
+        shanDong: "",
+        newsList: [],
+        isMore: true
     },
-    // 新推送-------------试
-    // click(e){
-    //   console.log(e)
-    //   wx.requestSubscribeMessage({
-    //     tmplIds: ['82BzHB0Fy366PQRJYqH1PzOlJmvMgDxfnp2vZ5PFxrc'],
-    //     success(res) { 
-    //       console.log(res)
-    //     }
-    //   })
-    // },
     goDetail: function goDetail(e) {
         var that = this;
         if (!this.data.loginFlag) {
@@ -285,6 +394,7 @@ Page({
 
             //招生计划
                       case "piciPlan":
+            app.sensors.track("BatchLineView", sensors.BatchLineView());
             wx.navigateTo({
                 url: "/pages/commonWebPage/commonWebPage?typePage=4"
             });
@@ -328,34 +438,53 @@ Page({
             year: 2019,
             course: wx.getStorageSync("userInfo")[0].courseType
         };
-        var fillterData = wx.getStorageSync("advanceData");
-        if (fillterData) {
-            if (fillterData.length == 0) {
+        _api2.default.getPreFraction("Configuration/PreFraction/Get?provinceId=" + data.provinceId, "POST").then(function(r) {
+            if (r.result.isOpened) {
+                console.log(r.result.years);
+                wx.navigateTo({
+                    url: "/packages/advanceBatch/index/index?year=" + JSON.stringify(r.result.years)
+                });
+                // api.getQueryFilter('TZY/PreFraction/QueryFilter', "POST", data).then(res => {
+                //     wx.setStorageSync('advanceData', res.result);
+                //     wx.navigateTo({
+                //       url: `/packages/advanceBatch/index/index?year=${r.result.years[0]}`,
+                //     })
+                // })
+                        } else {
                 wx.showToast({
                     title: "暂未开放",
                     icon: "none"
                 });
-            } else {
-                wx.navigateTo({
-                    url: "/packages/advanceBatch/index/index"
-                });
             }
-        } else {
-            _api2.default.getQueryFilter("TZY/PreFraction/QueryFilter", "POST", data).then(function(res) {
-                if (res.result.length == 0) {
-                    wx.showToast({
-                        title: "暂未开放",
-                        icon: "none"
-                    });
-                } else {
-                    wx.setStorageSync("advanceData", res.result);
-                    wx.navigateTo({
-                        url: "/packages/advanceBatch/index/index"
-                    });
-                }
-            });
-        }
-    },
+        });
+        // let fillterData = wx.getStorageSync('advanceData');
+        // if(fillterData){
+        //   if(fillterData.length == 0){
+        //     wx.showToast({
+        //       title: '暂未开放',
+        //       icon: 'none'
+        //     })
+        //   }else{
+        //     wx.navigateTo({
+        //       url: '/packages/advanceBatch/index/index',
+        //     })
+        //   }
+        // }else{
+        //   api.getQueryFilter('TZY/PreFraction/QueryFilter', "POST", data).then(res => {
+        //     if (res.result.length == 0) {
+        //       wx.showToast({
+        //         title: '暂未开放',
+        //         icon: 'none'
+        //       })
+        //     } else {
+        //       wx.setStorageSync('advanceData', res.result);
+        //       wx.navigateTo({
+        //         url: '/packages/advanceBatch/index/index',
+        //       })
+        //     }
+        //   })
+        // }
+        },
     // 去招生计划
     goPlan: function goPlan() {
         wx.navigateTo({
@@ -407,6 +536,9 @@ Page({
             cityId: provinceId
         });
         this.setIndexFlag(provinceId);
+        this.provinceId = provinceId;
+        pn = 1;
+        this.getNews();
     },
     //未开通
     showToast: function showToast() {
@@ -435,7 +567,7 @@ Page({
                     chooseLevelList.push(twoLevel);
                     that.insertUserScore(totalScore, 0, res.result.batch, that.scoreType, course, [], chooseLevelList);
                 } else {
-                    that.insertUserScore(totalScore, parseInt(that.data.weiFen), res.result.batch, that.scoreType, course, [], []);
+                    that.insertUserScore(totalScore, 0, res.result.batch, that.scoreType, course, [], []);
                 }
             }
         });
@@ -445,8 +577,50 @@ Page({
         var that = this;
         var userNumId = that.userInfo.UserId;
         var provinceNumId = that.userInfo.Province;
+        if (!rank) rank = 0;
         _api2.default.insertUserScore("Users/Scores/Insert", "POST", userNumId, provinceNumId, total, rank, batch, scoreType, courseType, chooseSubjects, chooseLevelList).then(function(res) {
-            //isSuccess
+            var SA_chooseLevelList = "";
+            var SA_chooseSubjects = "";
+            switch (parseInt(provinceNumId)) {
+              case 1:
+                SA_chooseLevelList = chooseLevelList[0].name + "|" + chooseLevelList[0].value + "|" + chooseLevelList[1].name + "|" + chooseLevelList[1].value;
+                break;
+
+              case 842:
+                SA_chooseSubjects = chooseSubjects[0] + "|" + chooseSubjects[1] + "|" + chooseSubjects[2];
+                break;
+
+              case 843:
+                SA_chooseSubjects = chooseSubjects[0] + "|" + chooseSubjects[1] + "|" + chooseSubjects[2];
+                break;
+
+              case 847:
+                SA_chooseSubjects = chooseSubjects[0] + "|" + chooseSubjects[1] + "|" + chooseSubjects[2];
+                break;
+
+              case 834:
+                SA_chooseSubjects = chooseSubjects[0] + "|" + chooseSubjects[1] + "|" + chooseSubjects[2];
+                break;
+
+              case 835:
+                SA_chooseSubjects = chooseSubjects[0] + "|" + chooseSubjects[1] + "|" + chooseSubjects[2];
+                break;
+
+              case 853:
+                SA_chooseSubjects = chooseSubjects[0] + "|" + chooseSubjects[1] + "|" + chooseSubjects[2];
+                break;
+            }
+            var data = {
+                SA_chooseLevelList: SA_chooseLevelList,
+                SA_chooseSubjects: SA_chooseSubjects,
+                provinceNumId: provinceNumId,
+                total: total,
+                rank: rank,
+                scoreType: scoreType,
+                courseType: courseType
+            };
+            wx.hideLoading();
+            app.sensors.track("AddScoreResult", sensors.AddScoreResult(data, res.isSuccess, res.message));
             wx.hideLoading();
             if (res.isSuccess) {
                 that.GetScore(res.result.numId, batch);
@@ -460,12 +634,203 @@ Page({
             }
         });
     },
+    abbrZJSubject: function abbrZJSubject(sub) {
+        var newSub = "";
+        for (var i = 0, j = sub.length; i < j; i++) {
+            switch (sub[i]) {
+              case "物理":
+                newSub += "物";
+                break;
+
+              case "生物":
+                newSub += "生";
+                break;
+
+              case "化学":
+                newSub += "化";
+                break;
+
+              case "技术":
+                newSub += "技";
+                break;
+
+              case "历史":
+                newSub += "史";
+                break;
+
+              case "地理":
+                newSub += "地";
+                break;
+
+              case "政治":
+                newSub += "政";
+                break;
+            }
+        }
+        return newSub;
+    },
+    abbrSHSubject: function abbrSHSubject(sub) {
+        var newSub = "";
+        for (var i = 0, j = sub.length; i < j; i++) {
+            switch (sub[i]) {
+              case "思想政治":
+                newSub += "政";
+                break;
+
+              case "历史":
+                newSub += "史";
+                break;
+
+              case "地理":
+                newSub += "地";
+                break;
+
+              case "生命科学":
+                newSub += "生";
+                break;
+
+              case "物理":
+                newSub += "物";
+                break;
+
+              case "化学":
+                newSub += "化";
+                break;
+            }
+        }
+        return newSub;
+    },
+    abbrSDSubject: function abbrSDSubject(sub) {
+        var newSub = "";
+        for (var i = 0, j = sub.length; i < j; i++) {
+            switch (sub[i]) {
+              case "物理":
+                newSub += "物";
+                break;
+
+              case "生物":
+                newSub += "生";
+                break;
+
+              case "化学":
+                newSub += "化";
+                break;
+
+              case "历史":
+                newSub += "史";
+                break;
+
+              case "地理":
+                newSub += "地";
+                break;
+
+              case "政治":
+                newSub += "政";
+                break;
+            }
+        }
+        return newSub;
+    },
+    abbrBJSubject: function abbrBJSubject(sub) {
+        var newSub = "";
+        for (var i = 0, j = sub.length; i < j; i++) {
+            switch (sub[i]) {
+              case "物理":
+                newSub += "物";
+                break;
+
+              case "生物":
+                newSub += "生";
+                break;
+
+              case "化学":
+                newSub += "化";
+                break;
+
+              case "历史":
+                newSub += "史";
+                break;
+
+              case "地理":
+                newSub += "地";
+                break;
+
+              case "政治":
+                newSub += "政";
+                break;
+            }
+        }
+        return newSub;
+    },
+    abbrTJSubject: function abbrTJSubject(sub) {
+        var newSub = "";
+        for (var i = 0, j = sub.length; i < j; i++) {
+            switch (sub[i]) {
+              case "物理":
+                newSub += "物";
+                break;
+
+              case "生物":
+                newSub += "生";
+                break;
+
+              case "化学":
+                newSub += "化";
+                break;
+
+              case "历史":
+                newSub += "史";
+                break;
+
+              case "地理":
+                newSub += "地";
+                break;
+
+              case "政治":
+                newSub += "政";
+                break;
+            }
+        }
+        return newSub;
+    },
+    abbrHNSubject: function abbrHNSubject(sub) {
+        var newSub = "";
+        for (var i = 0, j = sub.length; i < j; i++) {
+            switch (sub[i]) {
+              case "物理":
+                newSub += "物";
+                break;
+
+              case "生物":
+                newSub += "生";
+                break;
+
+              case "化学":
+                newSub += "化";
+                break;
+
+              case "历史":
+                newSub += "史";
+                break;
+
+              case "地理":
+                newSub += "地";
+                break;
+
+              case "政治":
+                newSub += "政";
+                break;
+            }
+        }
+        return newSub;
+    },
     // 通过成绩numId获取单个成绩（创建成绩返回成绩numId）
     GetScore: function GetScore(numId, batch) {
         var that = this;
         _api2.default.GetScore("Users/Scores/Get?numId=" + numId, "POST").then(function(res) {
             var data = res.result;
             var scoreData = {
+                numId: numId,
                 total: data.total,
                 rank: data.rank,
                 provinceNumId: data.provinceNumId,
@@ -476,6 +841,43 @@ Page({
                 courseType: data.courseTypeId,
                 batch: batch
             };
+            var SA_level = "";
+            var SA_select = "";
+            switch (parseInt(res.result.provinceNumId)) {
+              case 1:
+                SA_level = res.result.chooseLevelFormat[0].name + "" + res.result.chooseLevelFormat[0].value + " " + res.result.chooseLevelFormat[1].name + "" + res.result.chooseLevelFormat[1].value;
+                break;
+
+              case 842:
+                SA_select = that.abbrSHSubject(res.result.chooseSubjectsFormat);
+                break;
+
+              case 843:
+                SA_select = that.abbrZJSubject(res.result.chooseSubjectsFormat);
+                break;
+
+              case 847:
+                SA_select = that.abbrSDSubject(res.result.chooseSubjectsFormat);
+                break;
+
+              case 834:
+                SA_select = that.abbrBJSubject(res.result.chooseSubjectsFormat);
+                break;
+
+              case 835:
+                SA_select = that.abbrTJSubject(res.result.chooseSubjectsFormat);
+                break;
+
+              case 853:
+                SA_select = that.abbrHNSubject(res.result.chooseSubjectsFormat);
+                break;
+            }
+            sa.setProfile({
+                score_course_level: SA_level,
+                score_course_select: SA_select,
+                exam_score_value: res.result.total,
+                exam_score_rank: res.result.rank
+            });
             wx.setStorageSync("userScore", scoreData);
             wx.hideLoading();
             switch (data.provinceNumId) {
@@ -487,7 +889,31 @@ Page({
 
               case 843:
                 wx.navigateTo({
-                    url: "/packages/recommend/collegeRecommend/collegeRecommend"
+                    url: "/packages/recommend/zhejiangRecommend/zhejiangRecommend"
+                });
+                break;
+
+              case 847:
+                wx.navigateTo({
+                    url: "/packages/recommend/shanDongRecommend/shanDongRecommend"
+                });
+                break;
+
+              case 834:
+                wx.navigateTo({
+                    url: "/packages/recommend/beijingRecommend/beijingRecommend"
+                });
+                break;
+
+              case 835:
+                wx.navigateTo({
+                    url: "/packages/recommend/tianjinRecommend/tianjinRecommend"
+                });
+                break;
+
+              case 853:
+                wx.navigateTo({
+                    url: "/packages/recommend/hainanRecommend/hainanRecommend"
                 });
                 break;
 
@@ -537,8 +963,6 @@ Page({
                     batch: 0,
                     numId: res.result.numId
                 };
-                console.log("============================");
-                console.log(that.userInfo);
                 if (res.result.numId > 0) {
                     if (that.userInfo.GKYear > 2020) {
                         that.setData({
@@ -603,6 +1027,66 @@ Page({
                                 zheJiangSubject: zheJiangSubject,
                                 zheJiang: res.result.chooseLevelOrSubjects
                             });
+                        } else if (that.userInfo.Province == 847) {
+                            var shanDongSubject = that.data.shanDongSubject;
+                            if (res.result.total > 0) {
+                                for (var _i3 in res.result.chooseSubjectsFormat) {
+                                    for (var _j2 in shanDongSubject) {
+                                        if (res.result.chooseSubjectsFormat[_i3] == shanDongSubject[_j2].name) {
+                                            shanDongSubject[_j2].st = true;
+                                        }
+                                    }
+                                }
+                            }
+                            that.setData({
+                                shanDongSubject: shanDongSubject,
+                                shanDong: res.result.chooseLevelOrSubjects
+                            });
+                        } else if (that.userInfo.Province == 834) {
+                            var beijingSubject = that.data.beijingSubject;
+                            if (res.result.total > 0) {
+                                for (var _i4 in res.result.chooseSubjectsFormat) {
+                                    for (var _j3 in beijingSubject) {
+                                        if (res.result.chooseSubjectsFormat[_i4] == beijingSubject[_j3].name) {
+                                            beijingSubject[_j3].st = true;
+                                        }
+                                    }
+                                }
+                            }
+                            that.setData({
+                                beijingSubject: beijingSubject,
+                                beijing: res.result.chooseLevelOrSubjects
+                            });
+                        } else if (that.userInfo.Province == 835) {
+                            var tianjinSubject = that.data.tianjinSubject;
+                            if (res.result.total > 0) {
+                                for (var _i5 in res.result.chooseSubjectsFormat) {
+                                    for (var _j4 in tianjinSubject) {
+                                        if (res.result.chooseSubjectsFormat[_i5] == tianjinSubject[_j4].name) {
+                                            tianjinSubject[_j4].st = true;
+                                        }
+                                    }
+                                }
+                            }
+                            that.setData({
+                                tianjinSubject: tianjinSubject,
+                                tianjin: res.result.chooseLevelOrSubjects
+                            });
+                        } else if (that.userInfo.Province == 853) {
+                            var hainanSubject = that.data.hainanSubject;
+                            if (res.result.total > 0) {
+                                for (var _i6 in res.result.chooseSubjectsFormat) {
+                                    for (var _j5 in hainanSubject) {
+                                        if (res.result.chooseSubjectsFormat[_i6] == hainanSubject[_j5].name) {
+                                            hainanSubject[_j5].st = true;
+                                        }
+                                    }
+                                }
+                            }
+                            that.setData({
+                                hainanSubject: hainanSubject,
+                                hainan: res.result.chooseLevelOrSubjects
+                            });
                         }
                         wx.setStorageSync("userScore", userScore);
                         // that.goBackScore();
@@ -625,15 +1109,15 @@ Page({
                                     tmpData.historyKemu = "物理";
                                 }
                                 //第一科目的等级
-                                                                for (var _i3 in history) {
-                                    if (oneClass.value == history[_i3]) {
-                                        oneValue = _i3;
+                                                                for (var _i7 in history) {
+                                    if (oneClass.value == history[_i7]) {
+                                        oneValue = _i7;
                                     }
                                 }
                                 //第二科目的类别
-                                                                for (var _j2 in kemu[0]) {
-                                    if (twoClass.value == kemu[0][_j2]) {
-                                        kemuIndex[0] = _j2;
+                                                                for (var _j6 in kemu[0]) {
+                                    if (twoClass.value == kemu[0][_j6]) {
+                                        kemuIndex[0] = _j6;
                                     }
                                 }
                                 //第二科目的等级
@@ -691,25 +1175,71 @@ Page({
           case 1:
             tmpData.zheJiangShow = false;
             tmpData.shangHaiShow = false;
+            tmpData.beijingShow = false;
             tmpData.jiangSuShow = true;
+            tmpData.tianjinShow = false;
             break;
 
           case 842:
             tmpData.zheJiangShow = false;
             tmpData.shangHaiShow = true;
             tmpData.jiangSuShow = false;
+            tmpData.beijingShow = false;
+            tmpData.tianjinShow = false;
             break;
 
           case 843:
             tmpData.zheJiangShow = true;
             tmpData.shangHaiShow = false;
             tmpData.jiangSuShow = false;
+            tmpData.beijingShow = false;
+            tmpData.tianjinShow = false;
+            break;
+
+          case 847:
+            tmpData.zheJiangShow = false;
+            tmpData.shangHaiShow = false;
+            tmpData.jiangSuShow = false;
+            tmpData.shanDongShow = true;
+            tmpData.beijingShow = false;
+            tmpData.tianjinShow = false;
+            break;
+
+          case 834:
+            tmpData.zheJiangShow = false;
+            tmpData.shangHaiShow = false;
+            tmpData.jiangSuShow = false;
+            tmpData.shanDongShow = false;
+            tmpData.beijingShow = true;
+            tmpData.tianjinShow = false;
+            break;
+
+          case 835:
+            tmpData.zheJiangShow = false;
+            tmpData.shangHaiShow = false;
+            tmpData.jiangSuShow = false;
+            tmpData.shanDongShow = false;
+            tmpData.beijingShow = false;
+            tmpData.tianjinShow = true;
+            break;
+
+          case 853:
+            tmpData.zheJiangShow = false;
+            tmpData.shangHaiShow = false;
+            tmpData.jiangSuShow = false;
+            tmpData.shanDongShow = false;
+            tmpData.beijingShow = false;
+            tmpData.tianjinShow = false;
+            tmpData.hainanShow = true;
             break;
 
           default:
             tmpData.zheJiangShow = false;
             tmpData.shangHaiShow = false;
             tmpData.jiangSuShow = false;
+            tmpData.shanDongShow = false;
+            tmpData.beijingShow = false;
+            tmpData.tianjinShow = false;
             break;
         }
         this.setData(tmpData);
@@ -765,12 +1295,12 @@ Page({
                         });
                         wx.setStorageSync("cityId", that.cityId);
                     }
-                    if (res.result.gkYear == that.tmpYear) {
-                        that.setData({
-                            courseFlag: true
-                        });
-                    }
-                    that.setData({
+                    // if (res.result.gkYear == that.tmpYear) {
+                    //   that.setData({
+                    //     courseFlag: true
+                    //   })
+                    // }
+                                        that.setData({
                         cityFlag: true
                     });
                     var userArr = [];
@@ -797,11 +1327,35 @@ Page({
                         identityExpirationTime: result.identityExpirationTime || null,
                         userPermissionExpiryTime: result.userPermissionExpiryTime || null,
                         electiveExpiryTime: result.electiveExpiryTime || null,
-                        ziZhuExpiryTime: result.ziZhuExpiryTime || null
+                        ziZhuExpiryTime: result.ziZhuExpiryTime || null,
+                        isTiyan: result.isTiyan
                     });
                     that.userInfo = userArr[0];
+                    that.Configuration(userArr[0]);
+                    sa.setProfile({
+                        users_num_id: result.numId,
+                        users_name: result.mobilePhone,
+                        users_status: "可用",
+                        is_testid: result.capacityType,
+                        users_phone: result.mobilePhone,
+                        info_name: result.realName,
+                        // info_Identity:,
+                        info_gender: result.gender,
+                        info_province: result.provinceId,
+                        info_city: result.cityId,
+                        info_area: result.countyId,
+                        info_school: result.schoolId,
+                        info_class: "",
+                        exam_province: result.provinceId,
+                        exam_years: result.gkYear,
+                        exam_subject: result.courseType,
+                        competence_type: result.userPermissionId,
+                        // competence_date: app.transDateTime(result.userPermissionExpiryTime, "YYYY/mm/dd"),
+                        competence_status: result.userPermissionStatus
+                    });
                     //设定用户信息缓存
                                         wx.setStorageSync("userInfo", userArr);
+                    that.getNews();
                     that.setData({
                         cityId: res.result.provinceId,
                         cityName: res.result.provinceName,
@@ -820,12 +1374,14 @@ Page({
                     });
                     return;
                 }
-            } else {
+                // that.showPopup();
+                        } else {
                 that.setData({
                     showLoad: false,
                     serverfail: true
                 });
             }
+            app.sensors.track("LoginResult", sensors.LoginResult(res.isSuccess, res.message));
             wx.showTabBar();
         });
     },
@@ -899,15 +1455,16 @@ Page({
         this.onLoad();
         this.onShow();
     },
-    // bargainGetStatus: function() { //活动状态
-    //   const that = this;
-    //   api.bargainGetStatus('miniApp/bargain/getStatus', 'POST').then(res => {
-    //     that.setData({
-    //       bargainGetStatus: res.Results[0] == '1' ? true : false
-    //     })
-    //     app.globalData.bargainGetStatus = res.Results[0] == '1' ? true : false
-    //   })
-    // },
+    bargainGetStatus: function bargainGetStatus() {
+        //活动状态
+        var that = this;
+        _api2.default.bargainGetStatus("Admin/PanicBuying/Config/Get", "POST").then(function(res) {
+            that.setData({
+                bargainGetStatus: res.result.panicBuyingStatus == 1 ? true : false
+            });
+            app.globalData.bargainGetStatus = res.result.panicBuyingStatus == 1 ? true : false;
+        });
+    },
     initMemberStorage: function initMemberStorage() {
         wx.getStorage({
             key: "memberNum",
@@ -933,28 +1490,41 @@ Page({
         });
     },
     onLoad: function onLoad(options) {
+        var that = this;
+        pn = 1;
+        // if (options && options.activitybargain){
+                that.options = options;
+        // }
+                wx.getUserInfo({
+            success: function success(res) {
+                that.setData({
+                    avatarUrl: res.userInfo.avatarUrl
+                });
+            }
+        });
         this.updateMember();
+        this.bargainGetStatus();
         var accountInfo = wx.getAccountInfoSync();
         wx.hideTabBar();
         this.initMemberStorage();
-        var that = this;
-        var version = wx.getStorageSync("version");
-        if (version) {
-            if (version == "3.3") {} else {
-                wx.clearStorageSync();
-                wx.setStorage({
-                    key: "version",
-                    data: "3.3"
-                });
-            }
-        } else {
-            wx.clearStorageSync();
-            wx.setStorage({
-                key: "version",
-                data: "3.3"
-            });
-        }
-        that.selectComponent("#navigationcustom").setNavigationAll("高考填志愿", false);
+        // 强制更新缓存
+        // let version = wx.getStorageSync('version')
+        // if (version) {
+        //   if (version == '3.3') {} else {
+        //     wx.clearStorageSync()
+        //     wx.setStorage({
+        //       key: "version",
+        //       data: "3.3"
+        //     })
+        //   }
+        // } else {
+        //   wx.clearStorageSync();
+        //   wx.setStorage({
+        //     key: "version",
+        //     data: "3.3"
+        //   })
+        // }
+                that.selectComponent("#navigationcustom").setNavigationAll("高考填志愿", false);
         if (app.globalData.system == "ios") {
             that.setData({
                 payImage: "http://wmei-appfile.cn-bj.ufileos.com/weixinmp_home_banner1.png"
@@ -995,27 +1565,6 @@ Page({
                     goCeping: true
                 });
             }
-        }
-        if (options && options.activitybargain) {
-            that.setData({
-                goActivitybargain: true
-            }, function() {
-                if (options && options.bargainid) {
-                    that.setData({
-                        activityBargainId: options.bargainid,
-                        activityBargainIdFlag: true,
-                        shareuserid: options.shareuserid
-                    }, function() {
-                        wx.navigateTo({
-                            url: "../../packages/activityBargain/index/index?id=" + that.data.activityBargainId + "&shareuserid=" + that.data.shareuserid
-                        });
-                    });
-                } else {
-                    wx.navigateTo({
-                        url: "../../packages/activityBargain/index/index"
-                    });
-                }
-            });
         }
         that.setData({
             bgImage: Math.floor(Math.random() * that.data.bannerImage.length)
@@ -1090,17 +1639,26 @@ Page({
         if (userInfo) {
             that.initLogin();
             //初始化登录
+                        that.activityBargain();
+            //跳转砍价0元购
                 } else {
             if (app.globalData.initLogin) {
                 that.initLogin();
                 //初始化登录
+                                that.activityBargain();
+                //跳转砍价0元购
                         } else {
-                that.setData({
+                that.provinceId = 844;
+                that.getNews();
+                that.activityBargain();
+                //跳转砍价0元购
+                                that.setData({
                     showLoad: false
                 });
                 wx.showTabBar();
             }
         }
+        that.showPopup();
         try {
             var shareRecommend = wx.getStorageSync("shareRecommend");
             if (shareRecommend) {} else {
@@ -1110,6 +1668,32 @@ Page({
             }
         } catch (e) {}
         wx.hideLoading();
+    },
+    // 活动-砍价0元购
+    activityBargain: function activityBargain() {
+        var that = this;
+        var activityOptions = that.options;
+        if (activityOptions && activityOptions.activitybargain) {
+            that.setData({
+                goActivitybargain: true
+            }, function() {
+                if (activityOptions && activityOptions.bargainid) {
+                    that.setData({
+                        activityBargainId: activityOptions.bargainid,
+                        activityBargainIdFlag: true,
+                        shareuserid: activityOptions.shareuserid
+                    }, function() {
+                        wx.navigateTo({
+                            url: "../../packages/activityBargain/index/index?id=" + that.data.activityBargainId + "&shareuserid=" + that.data.shareuserid
+                        });
+                    });
+                } else {
+                    wx.navigateTo({
+                        url: "../../packages/activityBargain/index/index"
+                    });
+                }
+            });
+        }
     },
     // 初始化登录
     initLogin: function initLogin() {
@@ -1150,83 +1734,116 @@ Page({
     },
     onShow: function onShow() {
         var that = this;
-        try {
+        if (app.globalData.applyCardFlag) {
+            that.setData({
+                showLoad: true
+            });
             var userInfo = wx.getStorageSync("userInfo");
-            var userScore = wx.getStorageSync("userScore");
-            var chooseCity = wx.getStorageSync("chooseCity");
-            var chooseCityId = wx.getStorageSync("chooseCityId");
-            var collegeRecommendBatchGroup = wx.getStorageSync("collegeRecommendBatchGroup");
-            if (userScore && userInfo) {
-                for (var i; i < chooseCityId.length; i++) {
-                    if (chooseCityId[i] == userInfo[0].Province) {
-                        that.setData({
-                            cityName: chooseCity[i]
-                        });
-                        break;
-                    }
+            _api2.default.GetPermission("Users/GetPermission", "POST", userInfo[0].MobilePhone).then(function(res) {
+                if (res.isSuccess) {
+                    var _userInfo = wx.getStorageSync("userInfo");
+                    _userInfo[0].UserType = res.result.userPermissionId;
+                    wx.setStorageSync("userInfo", _userInfo);
+                    app.globalData.applyCardFlag = false;
+                    that.setData({
+                        showLoad: false,
+                        userInfo: _userInfo
+                    });
                 }
-                that.setData({
-                    userInfo: userInfo,
-                    userScore: userScore
-                });
-                that.loadQuickNew(userInfo[0].Province);
-                if (app.globalData.isGaokaoFlag == true) {
-                    var _gaoKaoYear = app.getGaoKaoYear();
-                    if (userInfo[0].SchoolId > 0) {
-                        that.setData({
-                            cityFlag: true
-                        });
-                    }
-                    if (userInfo[0].GKYear == _gaoKaoYear && userScore.total != 0) {
-                        that.setData({
-                            changeGKScoreFlag: true
-                        });
-                    } else {
-                        that.setData({
-                            changeGKScoreFlag: false
-                        });
-                    }
-                } else {}
-                if (userInfo[0].MobilePhone != null) {
+                that.onShowInit();
+            });
+        } else {
+            that.onShowInit();
+        }
+        if (wx.getStorageSync("isRefresh")) {
+            if (that.userInfo) {
+                this.goBackScore();
+            }
+            wx.removeStorageSync("isRefresh");
+        }
+    },
+    onShowInit: function onShowInit() {
+        var that = this;
+        var userInfo = wx.getStorageSync("userInfo");
+        var userScore = wx.getStorageSync("userScore");
+        var chooseCity = wx.getStorageSync("chooseCity");
+        var chooseCityId = wx.getStorageSync("chooseCityId");
+        var collegeRecommendBatchGroup = wx.getStorageSync("collegeRecommendBatchGroup");
+        if (userScore && userInfo) {
+            for (var i; i < chooseCityId.length; i++) {
+                if (chooseCityId[i] == userInfo[0].Province) {
+                    that.setData({
+                        cityName: chooseCity[i]
+                    });
+                    break;
+                }
+            }
+            that.setData({
+                userInfo: userInfo,
+                userScore: userScore
+            });
+            that.loadQuickNew(userInfo[0].Province);
+            var gaoKaoYear = app.getGaoKaoYear();
+            if (app.globalData.isGaokaoFlag == true) {
+                if (userInfo[0].SchoolId > 0) {
                     that.setData({
                         cityFlag: true
                     });
                 }
-                if (userScore.total == 0) {} else {
-                    wx.setStorage({
-                        key: "course",
-                        data: userScore.courseType
-                    });
+                if (userInfo[0].GKYear == gaoKaoYear && userScore.total != 0) {
                     that.setData({
-                        userScore: userScore
+                        changeGKScoreFlag: true
                     });
-                    if (userInfo[0].GKYear == gaoKaoYear && userInfo[0].MobilePhone != null) {
-                        that.setData({
-                            courseFlag: true
-                        });
-                    }
-                    if (that.data.isGaokaoFlag == true && that.data.userScore.total != 0) {
-                        that.setData({
-                            courseFlag: true
-                        });
-                    }
+                } else {
+                    that.setData({
+                        changeGKScoreFlag: false
+                    });
                 }
             }
-            if (collegeRecommendBatchGroup) {
-                wx.setStorage({
-                    key: "collegeRecommendBatchGroup",
-                    data: ""
-                });
-            } else {
-                wx.setStorage({
-                    key: "collegeRecommendBatchGroup",
-                    data: ""
+            if (userInfo[0].MobilePhone != null) {
+                that.setData({
+                    cityFlag: true
                 });
             }
-        } catch (e) {}
+            if (userScore.total == 0) {} else {
+                wx.setStorage({
+                    key: "course",
+                    data: userScore.courseType
+                });
+                that.setData({
+                    userScore: userScore
+                });
+                // if (userInfo[0].GKYear == gaoKaoYear && userInfo[0].MobilePhone != null) {
+                //   that.setData({
+                //     courseFlag: true
+                //   })
+                // }
+                // if (that.data.isGaokaoFlag == true && that.data.userScore.total != 0) {
+                //   that.setData({
+                //     courseFlag: true
+                //   })
+                // }
+                        }
+        }
+        if (collegeRecommendBatchGroup) {
+            wx.setStorage({
+                key: "collegeRecommendBatchGroup",
+                data: ""
+            });
+        } else {
+            wx.setStorage({
+                key: "collegeRecommendBatchGroup",
+                data: ""
+            });
+        }
     },
     onShareAppMessage: function onShareAppMessage(res) {
         var that = this;
+        var data = {
+            SA_share_type: "首页",
+            SA_share_content: "看看你的分数能上什么大学"
+        };
+        app.sensors.track("ShareClick", sensors.ShareClick(data));
         if (res.from === "button") {}
         return {
             title: "看看你的分数能上什么大学",
@@ -1253,7 +1870,22 @@ Page({
     onPullDownRefresh: function onPullDownRefresh() {
         //下拉加载
         var that = this;
-        this.onLoad();
+        var userInfo = wx.getStorageSync("userInfo");
+        if (userInfo) {
+            that.initLogin();
+            //初始化登录
+                } else {
+            if (app.globalData.initLogin) {
+                that.initLogin();
+                //初始化登录
+                        } else {
+                that.setData({
+                    showLoad: false
+                });
+                wx.stopPullDownRefresh();
+                wx.showTabBar();
+            }
+        }
         this.onShow();
     },
     enterInput: function enterInput(e) {
@@ -1390,9 +2022,9 @@ Page({
             }
         }
         var shangHai = [];
-        for (var _i4 = 0; _i4 < shangHaiSubject.length; _i4++) {
-            if (shangHaiSubject[_i4].st == true) {
-                shangHai.push(shangHaiSubject[_i4].name);
+        for (var _i8 = 0; _i8 < shangHaiSubject.length; _i8++) {
+            if (shangHaiSubject[_i8].st == true) {
+                shangHai.push(shangHaiSubject[_i8].name);
             }
         }
         shangHai = shangHai.join(",");
@@ -1439,9 +2071,9 @@ Page({
             }
         }
         var zheJiang = [];
-        for (var _i5 = 0; _i5 < zheJiangSubject.length; _i5++) {
-            if (zheJiangSubject[_i5].st == true) {
-                zheJiang.push(zheJiangSubject[_i5].name);
+        for (var _i9 = 0; _i9 < zheJiangSubject.length; _i9++) {
+            if (zheJiangSubject[_i9].st == true) {
+                zheJiang.push(zheJiangSubject[_i9].name);
             }
         }
         zheJiang = zheJiang.join(",");
@@ -1451,6 +2083,202 @@ Page({
         wx.setStorage({
             key: "zheJiangSubjectArr",
             data: that.data.zheJiangSubjectArr
+        });
+    },
+    chooseShanDongSubject: function chooseShanDongSubject(e) {
+        //选择山东科目
+        var that = this;
+        var subjectName = e.currentTarget.dataset.name;
+        var shanDongSubject = that.data.shanDongSubject;
+        var shanDongSubjectArr = [];
+        if (that.data.shanDong != null && that.data.shanDong.length) {
+            shanDongSubjectArr = that.data.shanDong.split(",");
+        }
+        for (var i in shanDongSubject) {
+            if (subjectName == shanDongSubject[i].name) {
+                var flag = !that.data.shanDongSubject[i].st;
+                if (flag == true && shanDongSubjectArr.length < 3) {
+                    that.data.shanDongSubject[i].st = flag;
+                    that.setData({
+                        shanDongSubjectArr: that.data.shanDongSubjectArr.concat(subjectName),
+                        shanDongSubject: shanDongSubject
+                    });
+                } else if (flag == false && shanDongSubjectArr.length >= 0) {
+                    that.data.shanDongSubject[i].st = flag;
+                    that.setData({
+                        shanDongSubject: shanDongSubject
+                    });
+                    for (var j in shanDongSubjectArr) {
+                        if (subjectName == shanDongSubjectArr[j]) {
+                            shanDongSubjectArr.splice(j, 1);
+                            that.setData({
+                                shanDongSubjectArr: shanDongSubjectArr
+                            });
+                        }
+                    }
+                }
+            }
+        }
+        var shanDong = [];
+        for (var _i10 = 0; _i10 < shanDongSubject.length; _i10++) {
+            if (shanDongSubject[_i10].st == true) {
+                shanDong.push(shanDongSubject[_i10].name);
+            }
+        }
+        shanDong = shanDong.join(",");
+        that.setData({
+            shanDong: shanDong
+        });
+        wx.setStorage({
+            key: "shanDongSubjectArr",
+            data: that.data.shanDongSubjectArr
+        });
+    },
+    choosebeijingSubject: function choosebeijingSubject(e) {
+        //选择北京科目
+        var that = this;
+        var subjectName = e.currentTarget.dataset.name;
+        var beijingSubject = that.data.beijingSubject;
+        var beijingSubjectArr = [];
+        if (that.data.beijing != null && that.data.beijing.length) {
+            beijingSubjectArr = that.data.beijing.split(",");
+        }
+        for (var i in beijingSubject) {
+            if (subjectName == beijingSubject[i].name) {
+                var flag = !that.data.beijingSubject[i].st;
+                if (flag == true && beijingSubjectArr.length < 3) {
+                    that.data.beijingSubject[i].st = flag;
+                    that.setData({
+                        beijingSubjectArr: that.data.beijingSubjectArr.concat(subjectName),
+                        beijingSubject: beijingSubject
+                    });
+                } else if (flag == false && beijingSubjectArr.length >= 0) {
+                    that.data.beijingSubject[i].st = flag;
+                    that.setData({
+                        beijingSubject: beijingSubject
+                    });
+                    for (var j in beijingSubjectArr) {
+                        if (subjectName == beijingSubjectArr[j]) {
+                            beijingSubjectArr.splice(j, 1);
+                            that.setData({
+                                beijingSubjectArr: beijingSubjectArr
+                            });
+                        }
+                    }
+                }
+            }
+        }
+        var beijing = [];
+        for (var _i11 = 0; _i11 < beijingSubject.length; _i11++) {
+            if (beijingSubject[_i11].st == true) {
+                beijing.push(beijingSubject[_i11].name);
+            }
+        }
+        beijing = beijing.join(",");
+        that.setData({
+            beijing: beijing
+        });
+        wx.setStorage({
+            key: "beijingSubjectArr",
+            data: that.data.beijingSubjectArr
+        });
+    },
+    choosetianjinSubject: function choosetianjinSubject(e) {
+        //选择天津科目
+        var that = this;
+        var subjectName = e.currentTarget.dataset.name;
+        var tianjinSubject = that.data.tianjinSubject;
+        var tianjinSubjectArr = [];
+        if (that.data.tianjin != null && that.data.tianjin.length) {
+            tianjinSubjectArr = that.data.tianjin.split(",");
+        }
+        for (var i in tianjinSubject) {
+            if (subjectName == tianjinSubject[i].name) {
+                var flag = !that.data.tianjinSubject[i].st;
+                if (flag == true && tianjinSubjectArr.length < 3) {
+                    that.data.tianjinSubject[i].st = flag;
+                    that.setData({
+                        tianjinSubjectArr: that.data.tianjinSubjectArr.concat(subjectName),
+                        tianjinSubject: tianjinSubject
+                    });
+                } else if (flag == false && tianjinSubjectArr.length >= 0) {
+                    that.data.tianjinSubject[i].st = flag;
+                    that.setData({
+                        tianjinSubject: tianjinSubject
+                    });
+                    for (var j in tianjinSubjectArr) {
+                        if (subjectName == tianjinSubjectArr[j]) {
+                            tianjinSubjectArr.splice(j, 1);
+                            that.setData({
+                                tianjinSubjectArr: tianjinSubjectArr
+                            });
+                        }
+                    }
+                }
+            }
+        }
+        var tianjin = [];
+        for (var _i12 = 0; _i12 < tianjinSubject.length; _i12++) {
+            if (tianjinSubject[_i12].st == true) {
+                tianjin.push(tianjinSubject[_i12].name);
+            }
+        }
+        tianjin = tianjin.join(",");
+        that.setData({
+            tianjin: tianjin
+        });
+        wx.setStorage({
+            key: "tianjinSubjectArr",
+            data: that.data.tianjinSubjectArr
+        });
+    },
+    choosehainanSubject: function choosehainanSubject(e) {
+        //选择海南科目
+        var that = this;
+        var subjectName = e.currentTarget.dataset.name;
+        var hainanSubject = that.data.hainanSubject;
+        var hainanSubjectArr = [];
+        if (that.data.hainan != null && that.data.hainan.length) {
+            hainanSubjectArr = that.data.hainan.split(",");
+        }
+        for (var i in hainanSubject) {
+            if (subjectName == hainanSubject[i].name) {
+                var flag = !that.data.hainanSubject[i].st;
+                if (flag == true && hainanSubjectArr.length < 3) {
+                    that.data.hainanSubject[i].st = flag;
+                    that.setData({
+                        hainanSubjectArr: that.data.hainanSubjectArr.concat(subjectName),
+                        hainanSubject: hainanSubject
+                    });
+                } else if (flag == false && hainanSubjectArr.length >= 0) {
+                    that.data.hainanSubject[i].st = flag;
+                    that.setData({
+                        hainanSubject: hainanSubject
+                    });
+                    for (var j in hainanSubjectArr) {
+                        if (subjectName == hainanSubjectArr[j]) {
+                            hainanSubjectArr.splice(j, 1);
+                            that.setData({
+                                hainanSubjectArr: hainanSubjectArr
+                            });
+                        }
+                    }
+                }
+            }
+        }
+        var hainan = [];
+        for (var _i13 = 0; _i13 < hainanSubject.length; _i13++) {
+            if (hainanSubject[_i13].st == true) {
+                hainan.push(hainanSubject[_i13].name);
+            }
+        }
+        hainan = hainan.join(",");
+        that.setData({
+            hainan: hainan
+        });
+        wx.setStorage({
+            key: "hainanSubjectArr",
+            data: that.data.hainanSubjectArr
         });
     },
     commonTuijian: function commonTuijian(e) {
@@ -1487,7 +2315,7 @@ Page({
         var course = 0;
         ////////////////////////////////////////////重构部分
                 var chooseSubjects = [];
-        //上海浙江 6选3
+        //上海浙江山东 6选3
                 var chooseLevelList = [];
         //江苏
                 var maxTotal = 750;
@@ -1522,14 +2350,16 @@ Page({
         }
         if (app.checkNewGaoKao(that.cityId.cityId)) {
             //新高考
-            if (that.data.weiFen == "") {
-                wx.showToast({
-                    title: "请输入位次",
-                    icon: "none",
-                    duration: 2e3
-                });
-                return;
-            } else if (that.data.weiFen < 1) {
+            if (that.data.weiFen == "" && that.cityId.cityId != 847 && that.cityId.cityId != 834 && that.cityId.cityId != 835 && that.cityId.cityId != 853) {
+                if (that.cityId.cityId == 842) {
+                    wx.showToast({
+                        title: "请输入位次",
+                        icon: "none",
+                        duration: 2e3
+                    });
+                    return;
+                }
+            } else if (that.data.weiFen < 1 && that.cityId.cityId != 847 && that.cityId.cityId != 834 && that.cityId.cityId != 835 && that.cityId.cityId != 853) {
                 wx.showToast({
                     title: "位次不得小于1",
                     icon: "none",
@@ -1565,11 +2395,20 @@ Page({
                     });
                 }
             } else if (that.cityId.cityId == 843) {
+                //浙江
+                if (this.data.getFen < 244) {
+                    wx.showToast({
+                        title: "您的成绩暂无匹配招生计划",
+                        icon: "none",
+                        duration: 2e3
+                    });
+                    return;
+                }
                 var zjSubjects = [];
                 var zheJiangSubject = that.data.zheJiangSubject;
-                for (var _i6 = 0; _i6 < zheJiangSubject.length; _i6++) {
-                    if (zheJiangSubject[_i6].st == true) {
-                        zjSubjects.push(zheJiangSubject[_i6].name);
+                for (var _i14 = 0; _i14 < zheJiangSubject.length; _i14++) {
+                    if (zheJiangSubject[_i14].st == true) {
+                        zjSubjects.push(zheJiangSubject[_i14].name);
                     }
                 }
                 if (zjSubjects.length == 3) {
@@ -1577,7 +2416,7 @@ Page({
                     if (userScore.total == that.data.getFen && that.data.weiFen == userScore.rank && that.data.zheJiang == userScore.chooseLevelOrSubjects) {
                         wx.hideLoading();
                         wx.navigateTo({
-                            url: "/packages/recommend/collegeRecommend/collegeRecommend"
+                            url: "/packages/recommend/zhejiangRecommend/zhejiangRecommend"
                         });
                     } else {
                         that.insertUserScore(parseInt(that.data.getFen), parseInt(that.data.weiFen), 0, that.scoreType, -1, zjSubjects, []);
@@ -1590,8 +2429,150 @@ Page({
                         duration: 2e3
                     });
                 }
+            } else if (that.cityId.cityId == 847) {
+                if (this.data.getFen < 130) {
+                    wx.showToast({
+                        title: "您的成绩在“第二段”无匹配招生计划",
+                        icon: "none",
+                        duration: 2e3
+                    });
+                    return;
+                }
+                var sdSubjects = [];
+                var shanDongSubject = that.data.shanDongSubject;
+                for (var _i15 = 0; _i15 < shanDongSubject.length; _i15++) {
+                    if (shanDongSubject[_i15].st == true) {
+                        sdSubjects.push(shanDongSubject[_i15].name);
+                    }
+                }
+                if (sdSubjects.length == 3) {
+                    // 创建成绩
+                    if (userScore.total == that.data.getFen && that.data.weiFen == userScore.rank && that.data.shanDong == userScore.chooseLevelOrSubjects) {
+                        wx.hideLoading();
+                        wx.navigateTo({
+                            url: "/packages/recommend/shanDongRecommend/shanDongRecommend"
+                        });
+                    } else {
+                        that.insertUserScore(parseInt(that.data.getFen), 0, 0, that.scoreType, -1, sdSubjects, []);
+                    }
+                } else {
+                    wx.hideLoading();
+                    wx.showToast({
+                        title: "请选择3个选考",
+                        icon: "none",
+                        duration: 2e3
+                    });
+                }
+            } else if (that.cityId.cityId == 834) {
+                var bjSubjects = [];
+                var beijingSubject = that.data.beijingSubject;
+                for (var _i16 = 0; _i16 < beijingSubject.length; _i16++) {
+                    if (beijingSubject[_i16].st == true) {
+                        bjSubjects.push(beijingSubject[_i16].name);
+                    }
+                }
+                if (bjSubjects.length == 3) {
+                    if (that.data.getFen < 403) {
+                        wx.showToast({
+                            title: "您的成绩暂无匹配招生计划",
+                            icon: "none"
+                        });
+                    } else {
+                        // 创建成绩
+                        if (userScore.total == that.data.getFen && that.data.weiFen == userScore.rank && that.data.beijing == userScore.chooseLevelOrSubjects) {
+                            wx.hideLoading();
+                            wx.navigateTo({
+                                url: "/packages/recommend/beijingRecommend/beijingRecommend"
+                            });
+                        } else {
+                            that.insertUserScore(parseInt(that.data.getFen), 0, 0, that.scoreType, -1, bjSubjects, []);
+                        }
+                    }
+                } else {
+                    wx.hideLoading();
+                    wx.showToast({
+                        title: "请选择3个选考",
+                        icon: "none",
+                        duration: 2e3
+                    });
+                }
+            } else if (that.cityId.cityId == 835) {
+                var tjSubjects = [];
+                var tianjinSubject = that.data.tianjinSubject;
+                for (var _i17 = 0; _i17 < tianjinSubject.length; _i17++) {
+                    if (tianjinSubject[_i17].st == true) {
+                        tjSubjects.push(tianjinSubject[_i17].name);
+                    }
+                }
+                if (tjSubjects.length == 3) {
+                    if (that.data.getFen < 405) {
+                        wx.showToast({
+                            title: "您的成绩暂无匹配招生计划",
+                            icon: "none"
+                        });
+                    } else {
+                        // 创建成绩
+                        if (userScore.total == that.data.getFen && that.data.weiFen == userScore.rank && that.data.tianjin == userScore.chooseLevelOrSubjects) {
+                            wx.hideLoading();
+                            wx.navigateTo({
+                                url: "/packages/recommend/tianjinRecommend/tianjinRecommend"
+                            });
+                        } else {
+                            that.insertUserScore(parseInt(that.data.getFen), 0, 0, that.scoreType, -1, tjSubjects, []);
+                        }
+                    }
+                } else {
+                    wx.hideLoading();
+                    wx.showToast({
+                        title: "请选择3个选考",
+                        icon: "none",
+                        duration: 2e3
+                    });
+                }
+            } else if (that.cityId.cityId == 853) {
+                //海南
+                var hnSubjects = [];
+                var hainanSubject = that.data.hainanSubject;
+                for (var _i18 = 0; _i18 < hainanSubject.length; _i18++) {
+                    if (hainanSubject[_i18].st == true) {
+                        hnSubjects.push(hainanSubject[_i18].name);
+                    }
+                }
+                if (hnSubjects.length == 3) {
+                    if (that.data.getFen < 425) {
+                        wx.showToast({
+                            title: "您的成绩暂无匹配招生计划",
+                            icon: "none"
+                        });
+                    } else {
+                        // 创建成绩
+                        if (userScore.total == that.data.getFen && that.data.weiFen == userScore.rank && that.data.hainan == userScore.chooseLevelOrSubjects) {
+                            wx.hideLoading();
+                            wx.navigateTo({
+                                url: "/packages/recommend/hainanRecommend/hainanRecommend"
+                            });
+                        } else {
+                            that.insertUserScore(parseInt(that.data.getFen), 0, 0, that.scoreType, -1, hnSubjects, []);
+                        }
+                    }
+                } else {
+                    wx.hideLoading();
+                    wx.showToast({
+                        title: "请选择3个选考",
+                        icon: "none",
+                        duration: 2e3
+                    });
+                }
             }
         } else {
+            if (that.data.checkedValue <= -1) {
+                wx.showToast({
+                    title: "请选择文理科",
+                    icon: "none",
+                    duration: 2e3
+                });
+                return;
+            }
             if (userScore && userScore.total > 0) {
                 if (that.cityId.cityId == 1) {
                     // 江苏
@@ -1608,7 +2589,8 @@ Page({
                             });
                         }
                     } else {
-                        that.getRightBatch(that.cityId.cityId, parseInt(that.data.getFen), that.userInfo.courseType);
+                        // that.getRightBatch(that.cityId.cityId, parseInt(that.data.getFen), that.userInfo.courseType);
+                        that.getRightBatch(that.cityId.cityId, parseInt(that.data.getFen), that.data.checkedValue);
                     }
                 } else {
                     // 传统
@@ -1625,11 +2607,13 @@ Page({
                             });
                         }
                     } else {
-                        that.getRightBatch(that.cityId.cityId, parseInt(that.data.getFen), that.userInfo.courseType);
+                        // that.getRightBatch(that.cityId.cityId, parseInt(that.data.getFen), that.userInfo.courseType);
+                        that.getRightBatch(that.cityId.cityId, parseInt(that.data.getFen), that.data.checkedValue);
                     }
                 }
             } else {
-                that.getRightBatch(that.cityId.cityId, parseInt(that.data.getFen), that.userInfo.courseType);
+                // that.getRightBatch(that.cityId.cityId, parseInt(that.data.getFen), that.userInfo.courseType);
+                that.getRightBatch(that.cityId.cityId, parseInt(that.data.getFen), that.data.checkedValue);
             }
         }
     },
@@ -1719,37 +2703,126 @@ Page({
                     }
                     if (userScore.total > 0) {
                         for (var i in userScore.chooseSubjects) {
-                            for (var _j3 in shangHaiSubject) {
-                                if (userScore.chooseSubjects[i] == shangHaiSubject[_j3].name) {
-                                    shangHaiSubject[_j3].st = true;
+                            for (var _j7 in shangHaiSubject) {
+                                if (userScore.chooseSubjects[i] == shangHaiSubject[_j7].name) {
+                                    shangHaiSubject[_j7].st = true;
                                 }
                             }
                         }
                     }
                     tmpScore.zheJiangShow = false;
                     tmpScore.shangHaiShow = true;
+                    tmpScore.beijingShow = false;
                     tmpScore.jiangSuShow = false;
                     tmpScore.shangHaiSubject = shangHaiSubject;
                     tmpScore.shangHai = userScore.chooseLevelOrSubjects;
                 } else if (that.userInfo.Province == 843) {
                     var zheJiangSubject = that.data.zheJiangSubject;
-                    for (var _j4 in zheJiangSubject) {
-                        zheJiangSubject[_j4].st = false;
+                    for (var _j8 in zheJiangSubject) {
+                        zheJiangSubject[_j8].st = false;
                     }
                     if (userScore.total > 0) {
-                        for (var _i7 in userScore.chooseSubjects) {
-                            for (var _j5 in zheJiangSubject) {
-                                if (userScore.chooseSubjects[_i7] == zheJiangSubject[_j5].name) {
-                                    zheJiangSubject[_j5].st = true;
+                        for (var _i19 in userScore.chooseSubjects) {
+                            for (var _j9 in zheJiangSubject) {
+                                if (userScore.chooseSubjects[_i19] == zheJiangSubject[_j9].name) {
+                                    zheJiangSubject[_j9].st = true;
                                 }
                             }
                         }
                     }
                     tmpScore.zheJiangShow = true;
                     tmpScore.shangHaiShow = false;
+                    tmpScore.beijingShow = false;
                     tmpScore.jiangSuShow = false;
                     tmpScore.zheJiangSubject = zheJiangSubject;
                     tmpScore.zheJiang = userScore.chooseLevelOrSubjects;
+                } else if (that.userInfo.Province == 847) {
+                    var shanDongSubject = that.data.shanDongSubject;
+                    for (var _j10 in shanDongSubject) {
+                        shanDongSubject[_j10].st = false;
+                    }
+                    if (userScore.total > 0) {
+                        for (var _i20 in userScore.chooseSubjects) {
+                            for (var _j11 in shanDongSubject) {
+                                if (userScore.chooseSubjects[_i20] == shanDongSubject[_j11].name) {
+                                    shanDongSubject[_j11].st = true;
+                                }
+                            }
+                        }
+                    }
+                    tmpScore.zheJiangShow = false;
+                    tmpScore.shangHaiShow = false;
+                    tmpScore.jiangSuShow = false;
+                    tmpScore.beijingShow = false;
+                    tmpScore.shanDongShow = true;
+                    tmpScore.shanDongSubject = shanDongSubject;
+                    tmpScore.shanDong = userScore.chooseLevelOrSubjects;
+                } else if (that.userInfo.Province == 834) {
+                    var beijingSubject = that.data.beijingSubject;
+                    for (var _j12 in beijingSubject) {
+                        beijingSubject[_j12].st = false;
+                    }
+                    if (userScore.total > 0) {
+                        for (var _i21 in userScore.chooseSubjects) {
+                            for (var _j13 in beijingSubject) {
+                                if (userScore.chooseSubjects[_i21] == beijingSubject[_j13].name) {
+                                    beijingSubject[_j13].st = true;
+                                }
+                            }
+                        }
+                    }
+                    tmpScore.zheJiangShow = false;
+                    tmpScore.shangHaiShow = false;
+                    tmpScore.jiangSuShow = false;
+                    tmpScore.shanDongShow = false;
+                    tmpScore.beijingShow = true;
+                    tmpScore.beijingSubject = beijingSubject;
+                    tmpScore.beijing = userScore.chooseLevelOrSubjects;
+                } else if (that.userInfo.Province == 835) {
+                    var tianjinSubject = that.data.tianjinSubject;
+                    for (var _j14 in tianjinSubject) {
+                        tianjinSubject[_j14].st = false;
+                    }
+                    if (userScore.total > 0) {
+                        for (var _i22 in userScore.chooseSubjects) {
+                            for (var _j15 in tianjinSubject) {
+                                if (userScore.chooseSubjects[_i22] == tianjinSubject[_j15].name) {
+                                    tianjinSubject[_j15].st = true;
+                                }
+                            }
+                        }
+                    }
+                    tmpScore.zheJiangShow = false;
+                    tmpScore.shangHaiShow = false;
+                    tmpScore.jiangSuShow = false;
+                    tmpScore.shanDongShow = false;
+                    tmpScore.beijingShow = false;
+                    tmpScore.tianjinShow = true;
+                    tmpScore.tianjinSubject = tianjinSubject;
+                    tmpScore.tianjin = userScore.chooseLevelOrSubjects;
+                } else if (that.userInfo.Province == 853) {
+                    var hainanSubject = that.data.hainanSubject;
+                    for (var _j16 in hainanSubject) {
+                        hainanSubject[_j16].st = false;
+                    }
+                    if (userScore.total > 0) {
+                        for (var _i23 in userScore.chooseSubjects) {
+                            for (var _j17 in hainanSubject) {
+                                if (userScore.chooseSubjects[_i23] == hainanSubject[_j17].name) {
+                                    hainanSubject[_j17].st = true;
+                                }
+                            }
+                        }
+                    }
+                    tmpScore.zheJiangShow = false;
+                    tmpScore.shangHaiShow = false;
+                    tmpScore.jiangSuShow = false;
+                    tmpScore.shanDongShow = false;
+                    tmpScore.beijingShow = false;
+                    tmpScore.tianjinShow = false;
+                    tmpScore.hainanShow = true;
+                    tmpScore.hainanSubject = hainanSubject;
+                    tmpScore.hainan = userScore.chooseLevelOrSubjects;
                 }
             } else if (that.cityId.cityId == 1) {
                 //江苏版
@@ -1766,24 +2839,19 @@ Page({
                     tmpScore.checkedValue = userScore.courseType;
                     tmpScore.checked = userScore.courseType == 1 ? true : false;
                     //第一科目类别
-                                        if (courseType == 1) {
-                        tmpScore.historyKemu = "历史";
-                    } else if (courseType == 0) {
-                        tmpScore.historyKemu = "物理";
-                    }
                     //第一科目的等级
-                                        for (var _i8 = 0; _i8 < history.length; _i8++) {
+                                        for (var _i24 = 0; _i24 < history.length; _i24++) {
                         //let politicsValue = that.data.politicsValue;
                         //var kemuValue = this.data.kemu[0][val[0]];
-                        if (oneClass.value == history[_i8]) {
-                            oneValue = _i8;
+                        if (oneClass.value == history[_i24]) {
+                            oneValue = _i24;
                             break;
                         }
                     }
                     //第二科目的类别
-                                        for (var _j6 = 0; _j6 < kemu[0].length; _j6++) {
-                        if (twoClass.name == kemu[0][_j6]) {
-                            kemuIndex[0] = _j6;
+                                        for (var _j18 = 0; _j18 < kemu[0].length; _j18++) {
+                        if (twoClass.name == kemu[0][_j18]) {
+                            kemuIndex[0] = _j18;
                             break;
                         }
                     }
@@ -1798,6 +2866,11 @@ Page({
                                         tmpScore.historyIndex = oneValue;
                     //第二科目index效验
                                         tmpScore.kemuIndex = kemuIndex;
+                }
+                if (courseType == 1) {
+                    tmpScore.historyKemu = "历史";
+                } else if (courseType == 0) {
+                    tmpScore.historyKemu = "物理";
                 }
                 tmpScore.zheJiangShow = false;
                 tmpScore.shangHaiShow = false;
@@ -1829,6 +2902,8 @@ Page({
             that.cityId = wx.getStorageSync("cityId");
             var userScore = wx.getStorageSync("userScore");
             if (typeof userInfo != "undefined") {
+                that.Configuration(userInfo);
+                that.getNews();
                 that.setData({
                     loginFlag: true
                 });
@@ -1880,16 +2955,17 @@ Page({
                 } else {
                     that.loadProLine(userInfo.Province, userInfo);
                 }
-                if (userInfo.GKYear == that.tmpYear) {
-                    that.setData({
-                        courseFlag: true
-                    });
-                }
-                that.setData({
+                // if (userInfo.GKYear == that.tmpYear) {
+                //   that.setData({
+                //     courseFlag: true
+                //   })
+                // }
+                                that.setData({
                     cityFlag: true,
                     cityName: that.cityId.provinceName,
                     cityId: that.cityId.cityId
                 });
+                // that.showPopup();
                 //登录后的综合逻辑
                                 wx.showTabBar();
             } else {
@@ -1904,15 +2980,14 @@ Page({
                     wx.showModal({
                         content: res.message,
                         confirmText: "重新加载",
-                        showCancel: false,
                         success: function success(res) {
-                            that.setData({
-                                showLoad: true
-                            });
-                            that.login(app.globalData.openid);
-                        },
-                        fail: function fail(res) {},
-                        complete: function complete(res) {}
+                            if (res.confirm) {
+                                that.setData({
+                                    showLoad: true
+                                });
+                                that.login(app.globalData.openid);
+                            } else if (res.cancel) {}
+                        }
                     });
                     return;
                 }
@@ -1924,16 +2999,19 @@ Page({
                     });
                 } else if (res.result && res.result.status == 200 && res.result.userIdDto) {
                     if (res.result.userIdDto.numId > 0) {
+                        sa.login(res.result.userIdDto.numId);
                         wx.setStorage({
                             key: "userDto",
                             data: res.result.userIdDto
                         });
                         //登录成功
                                                 var userIdDto = res.result.userIdDto;
-                        var _userInfo = wx.getStorageSync("userInfo")[0];
+                        var _userInfo2 = wx.getStorageSync("userInfo")[0];
                         that.cityId = wx.getStorageSync("cityId");
                         var userScore = wx.getStorageSync("userScore");
-                        if (typeof _userInfo != "undefined") {
+                        if (typeof _userInfo2 != "undefined") {
+                            that.Configuration(_userInfo2);
+                            that.getNews();
                             that.setData({
                                 loginFlag: true
                             });
@@ -1951,35 +3029,35 @@ Page({
                                     });
                                 }
                             }
-                            if (_userInfo.MobilePhone == "" || _userInfo.MobilePhone == null) {
+                            if (_userInfo2.MobilePhone == "" || _userInfo2.MobilePhone == null) {
                                 wx.redirectTo({
                                     url: "/pages/bindMobile/index"
                                 });
                                 return;
                             }
                             that.setData({
-                                checked: _userInfo.courseType
+                                checked: _userInfo2.courseType
                             });
                             that.setData({
-                                checked: _userInfo.courseType == 0 ? false : true,
-                                checkedValue: _userInfo.courseType
+                                checked: _userInfo2.courseType == 0 ? false : true,
+                                checkedValue: _userInfo2.courseType
                             });
-                            that.userInfo = _userInfo;
-                            if (_userInfo.userPermissionProvinceId != null) {
-                                that.loadQuickNew(_userInfo.userPermissionProvinceId);
+                            that.userInfo = _userInfo2;
+                            if (_userInfo2.userPermissionProvinceId != null) {
+                                that.loadQuickNew(_userInfo2.userPermissionProvinceId);
                             }
-                            that.gaoKaoIsOpened(_userInfo.Province, _userInfo);
+                            that.gaoKaoIsOpened(_userInfo2.Province, _userInfo2);
                             var _gaokaoScore = wx.getStorageSync("gaokaoScore");
                             // 加载省控线
                                                         if (_gaokaoScore) {} else {
-                                that.loadProLine(_userInfo.Province, _userInfo);
+                                that.loadProLine(_userInfo2.Province, _userInfo2);
                             }
-                            if (_userInfo.GKYear == that.tmpYear) {
-                                that.setData({
-                                    courseFlag: true
-                                });
-                            }
-                            that.setData({
+                            // if (userInfo.GKYear == that.tmpYear) {
+                            //   that.setData({
+                            //     courseFlag: true
+                            //   })
+                            // }
+                                                        that.setData({
                                 cityFlag: true,
                                 cityName: that.cityId.provinceName,
                                 cityId: that.cityId.cityId
@@ -2063,20 +3141,132 @@ Page({
                     that.setData({
                         zheJiangShow: true,
                         shangHaiShow: false,
+                        beijingShow: false,
                         jiangSuShow: false
+                    });
+                } else if (cityId == 847) {
+                    wx.getStorage({
+                        key: "shanDongSubjectArr",
+                        success: function success(res) {
+                            that.setData({
+                                shanDongSubjectArr: res.data
+                            });
+                            for (var i = 0; i < res.data.length; i++) {
+                                for (var j = 0; j < that.data.shanDongSubject.length; j++) {
+                                    if (res.data[i] == that.data.shanDongSubject[j].name) {
+                                        that.data.shanDongSubject[j].st = true;
+                                        that.setData({
+                                            shanDongSubject: that.data.shanDongSubject
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    that.setData({
+                        zheJiangShow: false,
+                        shangHaiShow: false,
+                        jiangSuShow: false,
+                        beijingShow: false,
+                        shanDongShow: true
+                    });
+                } else if (cityId == 834) {
+                    wx.getStorage({
+                        key: "beijingSubjectArr",
+                        success: function success(res) {
+                            that.setData({
+                                beijingSubjectArr: res.data
+                            });
+                            for (var i = 0; i < res.data.length; i++) {
+                                for (var j = 0; j < that.data.beijingSubject.length; j++) {
+                                    if (res.data[i] == that.data.beijingSubject[j].name) {
+                                        that.data.beijingSubject[j].st = true;
+                                        that.setData({
+                                            beijingSubject: that.data.beijingSubject
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    that.setData({
+                        zheJiangShow: false,
+                        shangHaiShow: false,
+                        jiangSuShow: false,
+                        shanDongShow: false,
+                        beijingShow: true
+                    });
+                } else if (cityId == 835) {
+                    wx.getStorage({
+                        key: "tianjinSubjectArr",
+                        success: function success(res) {
+                            that.setData({
+                                tianjinSubjectArr: res.data
+                            });
+                            for (var i = 0; i < res.data.length; i++) {
+                                for (var j = 0; j < that.data.tianjinSubject.length; j++) {
+                                    if (res.data[i] == that.data.tianjinSubject[j].name) {
+                                        that.data.tianjinSubject[j].st = true;
+                                        that.setData({
+                                            tianjinSubject: that.data.tianjinSubject
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    that.setData({
+                        zheJiangShow: false,
+                        shangHaiShow: false,
+                        jiangSuShow: false,
+                        shanDongShow: false,
+                        beijingShow: false,
+                        tianjinShow: true
+                    });
+                } else if (cityId == 853) {
+                    wx.getStorage({
+                        key: "hainanSubjectArr",
+                        success: function success(res) {
+                            that.setData({
+                                hainanSubjectArr: res.data
+                            });
+                            for (var i = 0; i < res.data.length; i++) {
+                                for (var j = 0; j < that.data.hainanSubject.length; j++) {
+                                    if (res.data[i] == that.data.hainanSubject[j].name) {
+                                        that.data.hainanSubject[j].st = true;
+                                        that.setData({
+                                            hainanSubject: that.data.hainanSubject
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    that.setData({
+                        zheJiangShow: false,
+                        shangHaiShow: false,
+                        jiangSuShow: false,
+                        shanDongShow: false,
+                        beijingShow: false,
+                        tianjinShow: false,
+                        hainanShow: true
                     });
                 } else if (cityId == 1) {
                     //江苏
                     that.setData({
                         zheJiangShow: false,
                         shangHaiShow: false,
-                        jiangSuShow: true
+                        jiangSuShow: true,
+                        beijingShow: false,
+                        shanDongShow: false
                     });
                 } else {
                     that.setData({
                         shangHaiShow: false,
                         zheJiangShow: false,
-                        jiangSuShow: false
+                        jiangSuShow: false,
+                        beijingShow: false,
+                        shanDongShow: false
                     });
                 }
             }
@@ -2171,24 +3361,20 @@ Page({
             url: "../../packages/activityBargain/index/index?formid=" + formidArr
         });
     },
-    // userInfoGoActivityBargain(e) {
-    //   const that = this;
-    //   wx.getUserInfo({
-    //     success: function(res) {
-    //       if (e.detail.errMsg != "the formId is a mock one") {
-    //         var formId = e.detail.formId;
-    //         wx.navigateTo({
-    //           url: '../../packages/activityBargain/index/index?formid=' + formId,
-    //         })
-    //       } else {
-    //         wx.navigateTo({
-    //           url: '../../packages/activityBargain/index/index',
-    //         })
-    //       }
-    //     },
-    //     fail: function() {}
-    //   })
-    // },
+    getUserInfo: function getUserInfo(e) {
+        var that = this;
+        if (e.detail.userInfo) {
+            this.setData({
+                avatarUrl: e.detail.userInfo.avatarUrl
+            });
+            wx.navigateTo({
+                url: "/packages/activityBargain/index/index",
+                success: function success() {
+                    that.hidePopup();
+                }
+            });
+        }
+    },
     showIsGaokaoPopup: function showIsGaokaoPopup() {
         var that = this;
         that.setData({
@@ -2213,5 +3399,107 @@ Page({
     },
     callMobile: function callMobile() {
         app.callMobile();
+    },
+    //首页新闻资讯
+    getNews: function getNews() {
+        var _this = this;
+        var Province = this.provinceId;
+        var userInfo = wx.getStorageSync("userInfo");
+        if (userInfo) {
+            Province = userInfo[0].Province;
+        }
+        var json = {
+            provinceId: Province,
+            versionId: 2,
+            articleType: -1,
+            showHomePage: 0,
+            showHomePageFocus: 0,
+            showNewsPage: 0,
+            showNewsPageFocus: 0,
+            showNewsPageBanner: 0,
+            sortType: 1,
+            pageIndex: pn,
+            pageSize: 10
+        };
+        if (!this.data.isMore) return;
+        var list = this.data.newsList;
+        _api2.default.getNews("News/Query", "POST", json).then(function(res) {
+            if (res.result.items.length == 0) {
+                _this.setData({
+                    isMore: false
+                });
+            }
+            res.result.items.map(function(i) {
+                i.summary = i.summary.length > 28 ? i.summary.substring(0, 28) + "..." : i.summary;
+                var creationTime = app.transDateTime(i.creationTime);
+                // i.creationTime = creationTime.replace(/-/g, '/');
+                                i.creationTime = app.getDateDiff(creationTime, i.title);
+            });
+            if (pn > 1) {
+                list = [].concat(_toConsumableArray(list), _toConsumableArray(res.result.items));
+            } else {
+                list = res.result.items;
+            }
+            _this.setData({
+                newsList: list
+            });
+        });
+    },
+    //资讯详情
+    newsDetail: function newsDetail(e) {
+        var _e$currentTarget$data = e.currentTarget.dataset, id = _e$currentTarget$data.id, img = _e$currentTarget$data.img, title = _e$currentTarget$data.title, fromsource = _e$currentTarget$data.fromsource, time = _e$currentTarget$data.time, provinceid = _e$currentTarget$data.provinceid;
+        wx.navigateTo({
+            url: "/pages/commonWebPage/commonWebPage?numId=" + id + "&typePage=5&img=" + img + "&title=" + title + "&fromSource=" + fromsource + "&time=" + time + "&provinceId=" + provinceid
+        });
+    },
+    //更多新闻资讯
+    moreNews: function moreNews() {
+        var provinceId = this.provinceId;
+        var userInfo = wx.getStorageSync("userInfo");
+        if (userInfo) {
+            provinceId = userInfo[0].Province;
+        }
+        wx.navigateTo({
+            url: "/packages/news/index/index?provinceid=" + provinceId
+        });
+    },
+    //下拉加载更多
+    onReachBottom: function onReachBottom() {
+        pn++;
+        this.getNews();
+    },
+    // 判断是否是新高考省份
+    Configuration: function Configuration(userInfo) {
+        var that = this;
+        that.GetDescByProvince(userInfo.Province);
+        _api2.default.Configuration("Configuration/ScoreLines/GetByProvince", "POST", userInfo.Province).then(function(res) {
+            if (res.isSuccess) {
+                app.globalData.newGaokaoPro = res.result.isOpenNewVersion;
+                that.newGaokaoPro = res.result.isOpenNewVersion;
+                that.setData({
+                    newGaokaoPro: res.result.isOpenNewVersion
+                });
+                /**
+         * that.newGaokaoPro==true  是高考省份
+         * userInfo.GKYear  高考年份不等于2020
+         * 
+         */                if (that.newGaokaoPro || userInfo.GKYear != that.tmpYear) {
+                    that.setData({
+                        courseFlag: false
+                    });
+                } else {
+                    that.setData({
+                        courseFlag: true
+                    });
+                }
+            }
+        });
+    },
+    // 通过省份Id获取分数线配置的说明
+    GetDescByProvince: function GetDescByProvince(Province) {
+        var that = this;
+        _api2.default.GetDescByProvince("Configuration/ScoreLines/GetDescByProvince", "POST", Province).then(function(res) {
+            app.globalData.infoConfig = res.result;
+        });
     }
 });

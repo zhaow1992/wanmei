@@ -13,7 +13,7 @@
     <view class="whiteColor fourFontColor">
         <view class="flex threeFontSize " style="padding:1.86vw 0 1.86vw 23.73vw;">
             <view wx:for="{{collegeTerrace}}" wx:key="unique">
-                <view class="terraceBorder checkedColor" style="border:1px solid #9b9b9b;padding:0 0.5vw;color:#9b9b9b;">
+                <view class="terraceBorder checkedColor" style="border:1rpx solid #9b9b9b;padding:0 0.5vw;color:#9b9b9b;">
                     <view style="padding:0 1.67vw;">{{item}}</view>
                 </view>
             </view>
@@ -91,11 +91,11 @@
             <view class="fourFontSize">院校排名</view>
         </view>
         <view class="flex flexjsaround" style="padding:4.8vw 0 0 0;">
-            <view class="flex rankBlockWH flexjscenter" style="align-items:flex-start;border: 1px solid #CCCCCC;border-radius:2.13vw;box-sizing:border-box;" wx:for="{{rankName}}" wx:key="unique">
+            <view class="flex rankBlockWH flexjscenter" style="align-items:flex-start;border: 1rpx solid #CCCCCC;border-radius:2.13vw;box-sizing:border-box;" wx:for="{{rankName}}" wx:key="unique">
                 <view class=" textAlign">
                     <view class="flex flexjscenter" style="font-size:5.33vw;color: #FE3B39;height:10.67vw;">{{item.value}}</view>
                     <view class="flex flexjscenter">
-                        <view style="height:1px;border-bottom:1px dotted #CCCCCC;width:10.67vw;box-sizing:border-box"></view>
+                        <view style="height:1rpx;border-bottom:1rpx dotted #CCCCCC;width:10.67vw;box-sizing:border-box"></view>
                     </view>
                     <view class="flex flexjscenter" style="height:6.13vw;">
                         <view class="fourFontColor threeFontSize textAlign" wx:if="{{item.type==1}}">武书连</view>
@@ -108,25 +108,25 @@
             </view>
         </view>
     </view>
-    <view class="allPageBGcolor cutLineWH" wx:if="{{nationalDiscipline[0]!=''&&privinceDiscipline[0]!=''}}"></view>
-    <view class="whiteColor" style="padding:4vw 4.27vw 3.47vw 4.27vw;" wx:if="{{nationalDiscipline[0]!=''&&privinceDiscipline[0]!=''}}">
+    <view class="allPageBGcolor cutLineWH" wx:if="{{nationalDiscipline[0]!=''||privinceDiscipline[0]!=''}}"></view>
+    <view class="whiteColor" style="padding:4vw 4.27vw 3.47vw 4.27vw;" wx:if="{{nationalDiscipline[0]!=''||privinceDiscipline[0]!=''}}">
         <view class="flex collegeTitleFlex">
             <view class="fourFontSize">特色专业</view>
             <view bindtap="moreSpecialTap" class="threeFontSize threeFontColor">更多</view>
         </view>
         <view style="padding:4.8vw 0 3.47vw 0;" wx:if="{{nationalDiscipline[0]!=''}}">
             <view class="threeFontSize" style="color: #999;">国家特色专业</view>
-            <view class="flex" style="flex-wrap:wrap;padding-top:1.33vw;">
-                <view bindtap="showMediumSubjectTap" class="disciplineBlock-border" id="{{index}}" style="margin:2.13vw 2.13vw 0 0" wx:for="{{nationalDiscipline}}" wx:key="unique">
-                    <view class="threeFontSize twoFontColor disciplineBlock-text flex">{{item}}</view>
+            <view class="flex" style="flex-wrap:wrap;padding-top:1.33vw;overflow:hidden;">
+                <view bindtap="showMediumSubjectTap" class="disciplineBlock-Border" id="{{index}}" style="margin:2.13vw 2.13vw 0 0" wx:for="{{nationalDiscipline}}" wx:key="unique">
+                    <view class="threeFontSize twoFontColor disciplineBlock-Text flex">{{item}}</view>
                 </view>
             </view>
         </view>
         <view wx:if="{{privinceDiscipline[0]!=''}}">
             <view class="threeFontSize" style="color: #999;">省特色专业</view>
-            <view class="flex" style="flex-wrap:wrap;padding-top:1.33vw">
-                <view bindtap="showMediumSubjectTap" class="disciplineBlock-border " id="{{index}}" style="margin:2.13vw 2.13vw 0 0" wx:for="{{privinceDiscipline}}" wx:key="unique">
-                    <view class="threeFontSize twoFontColor disciplineBlock-text flex">{{item}}</view>
+            <view class="flex" style="flex-wrap:wrap;padding-top:1.33vw;overflow:hidden;">
+                <view bindtap="showMediumSubjectTap" class="disciplineBlock-Border " id="{{index}}" style="margin:2.13vw 2.13vw 0 0" wx:for="{{privinceDiscipline}}" wx:key="unique">
+                    <view class="threeFontSize twoFontColor disciplineBlock-Text flex">{{item}}</view>
                 </view>
             </view>
         </view>
@@ -148,7 +148,7 @@
     <view class="operationItemWH"></view>
     <view class="operationItemWH whiteColor twoFontSize" style="position: fixed;bottom: 0;display:flex;align-items:center;box-shadow: 0 4px 4px 4px rgba(0,0,0,0.05);" wx:if="{{share==false&&bottomTap==true}}">
         <view class="whiteFontColor" style="display:flex;width:95.2vw;margin: 1.87vw 2.4vw;justify-content:space-around;height:10.67vw;">
-            <view bindtap="goEnrolPlan" class="checkedColor flex flexjscenter borderBox" hoverClass="btnHover" style="width:47.6vw;border-radius:5.6vw 0 0 5.6vw;border: 1px solid #FE3B39;">招生计划</view>
+            <view bindtap="goEnrolPlan" class="checkedColor flex flexjscenter borderBox" hoverClass="btnHover" style="width:47.6vw;border-radius:5.6vw 0 0 5.6vw;border: 1rpx solid #FE3B39;">招生计划</view>
             <view bindtap="goScoreLine" class="flex flexjscenter" hoverClass="btnHover" style="width:47.6vw;border-radius:0 5.6vw 5.6vw 0;background-image: linear-gradient(-52deg, #E9302D 1%, #FF5053 100%);">历年分数线</view>
         </view>
     </view>

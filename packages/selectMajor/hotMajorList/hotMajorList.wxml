@@ -13,7 +13,7 @@
             <view class="whiteColor" style="line-height:3.5;">
                 <view class="list">
                     <view bindtap="goMajorDetail" class="listPadding" data-majorcode="{{item.majorCode}}" hoverClass="listHover" wx:for="{{hotList}}">
-                        <view class="flex list-item" style="{{index==hotList.length-1?'':'border-bottom:1px solid #E9E9E9;'}}">
+                        <view class="flex list-item" style="{{index==hotList.length-1?'':'border-bottom:1rpx solid #E9E9E9;'}}">
                             <view style="position:relative;width:8.5vw;height:8.53vw;line-height:1.5;">
                                 <image mode="" src="/image/{{index==0?'hotRank1':index==1?'hotRank2':'hotRank3'}}.png" style="width:100%;height:100%;position:absolute;" wx:if="{{index<=2}}"></image>
                                 <view class="fourFontSize threeFontColor" style="height:8.5vw;line-height:8.5vw;text-align:center;" wx:else>{{index+1}}</view>
@@ -21,7 +21,6 @@
                             <view class="flex" style="justify-content:space-between;margin-left:2.7vw;width:87%;">
                                 <view class="oneFontSize oneFontColor textOmit" style="width:48vw;">{{item.professionName}}</view>
                                 <view class="flex">
-                                    <view class="twoFontSize twoFontColor" wx:if="{{item.countOfCollege>0&&isBOrZ==0}}">{{item.countOfCollege==0?'-':item.countOfCollege}}所开设院校</view>
                                     <image class="moreIcon" src="/image/openList.png"></image>
                                 </view>
                             </view>

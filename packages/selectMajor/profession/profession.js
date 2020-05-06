@@ -17,6 +17,7 @@ var app = getApp();
 var api = require("./../api.js");
 
 Page({
+    count: 0,
     data: {
         showLoad: true,
         requestFlag: true,

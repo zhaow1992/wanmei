@@ -26,7 +26,8 @@ function _defineProperty(obj, key, value) {
 
 var app = getApp();
 
-//var tmpdata = require("../../../tmpdata");
+var sensors = require("./../../../utils/sensors.js");
+
 var that;
 
 Page((_Page = {
@@ -383,6 +384,9 @@ Page((_Page = {
             var batch = that.data.shaixuanCollege.batch;
             var courseType = that.data.shaixuanCollege.courseType;
             var totalScore = that.data.shaixuanCollege.totalScore;
+            if (provinceId == 847) {
+                totalScore = 0;
+            }
             var isBen = that.data.degreeChecked;
             var collegeType = that.data.createChecked;
             var tags = {
@@ -404,6 +408,9 @@ Page((_Page = {
                 if (that.data.cityList[_i].checked == true) {
                     provinceIds.push(that.data.cityList[_i].id);
                 }
+            }
+            if (app.globalData.newGaokaoPro) {
+                totalScore = 0;
             }
             _api2.default.RecommendationQueryColleges("TZY/Recommendation/QueryColleges", "POST", code, pn, provinceId, batch, courseType, totalScore, tags, classify, isBen, collegeType, provinceIds).then(function(res) {
                 if (res.result.items.length > 0) {
@@ -683,137 +690,6 @@ Page((_Page = {
     wx.navigateTo({
         url: "/pages/globalSearch/globalSearch?mode=college"
     });
-}), _defineProperty(_Page, "redirect", function redirect(e) {
-    //点击跳转到详情
-    var that = this;
-    var id = e.currentTarget.dataset.id;
-    var name = e.currentTarget.dataset.name;
-    var indexCls = e.currentTarget.dataset.cls;
-    var ucode = e.currentTarget.dataset.ucode;
-    var cls = this.data.cls;
-    var flag = this.data.flag;
-    if (flag == 1) {
-        if (cls == "zhaodaxue") {
-            wx.navigateTo({
-                url: "../collegeDetail/collegeDetail?id=" + id
-            });
-        } else if (cls == "fenshuxian") {
-            var scoreLineArr = that.data.scoreLineArr;
-            var flag1 = false;
-            var flag2 = false;
-            if (scoreLineArr.length > 0) {
-                if (scoreLineArr.length < 5) {
-                    for (var i = 0; i < that.data.collegeList.length; i++) {
-                        if (that.data.collegeList[i].CollegeId == id) {
-                            for (var j = 0; j < scoreLineArr.length; j++) {
-                                if (scoreLineArr[j].CollegeId == that.data.collegeList[i].CollegeId) {
-                                    scoreLineArr.splice(j, 1);
-                                    scoreLineArr.unshift(that.data.collegeList[i]);
-                                    flag1 = true;
-                                    break;
-                                }
-                            }
-                            if (flag1 == false) {
-                                scoreLineArr.unshift(that.data.collegeList[i]);
-                            }
-                            break;
-                        }
-                    }
-                } else {
-                    for (var _i3 = 0; _i3 < that.data.collegeList.length; _i3++) {
-                        if (that.data.collegeList[_i3].CollegeId == id) {
-                            for (var _j = 0; _j < scoreLineArr.length; _j++) {
-                                if (scoreLineArr[_j].CollegeId == that.data.collegeList[_i3].CollegeId) {
-                                    scoreLineArr.splice(_j, 1);
-                                    scoreLineArr.unshift(that.data.collegeList[_i3]);
-                                    flag2 = true;
-                                    break;
-                                }
-                            }
-                            if (flag2 == false) {
-                                scoreLineArr.splice(4, 1);
-                                scoreLineArr.unshift(that.data.collegeList[_i3]);
-                            }
-                            break;
-                        }
-                    }
-                }
-                that.setData({
-                    scoreLineArr: scoreLineArr
-                });
-                wx.setStorage({
-                    key: "collegeScoreLineList",
-                    data: scoreLineArr
-                });
-            } else {
-                for (var _i4 = 0; _i4 < that.data.collegeList.length; _i4++) {
-                    if (that.data.collegeList[_i4].CollegeId == id) {
-                        scoreLineArr.unshift(that.data.collegeList[_i4]);
-                        break;
-                    }
-                }
-                that.setData({
-                    scoreLineArr: scoreLineArr
-                });
-                wx.setStorage({
-                    key: "collegeScoreLineList",
-                    data: scoreLineArr
-                });
-            }
-            try {
-                var cityId = wx.getStorageSync("cityId");
-                if (cityId) {
-                    if (cityId.cityId == 843) {
-                        if (ucode == null) {
-                            wx.navigateTo({
-                                url: "../scoreDetailV2/scoreDetailV2?noplan=true&name=" + name
-                            });
-                        } else {
-                            wx.navigateTo({
-                                url: "../scoreDetailV2/scoreDetailV2?ucode=" + ucode + "&collegeid=" + id + "&name=" + name
-                            });
-                        }
-                    } else if (cityId.cityId == 842) {
-                        wx.navigateTo({
-                            url: "../scoreDetail/scoreDetail?id=" + id + "&name=" + name
-                        });
-                    } else {
-                        wx.navigateTo({
-                            url: "../scoreDetailV2Common/scoreDetailV2Common?collegeid=" + id + "&name=" + name
-                        });
-                    }
-                }
-            } catch (e) {}
-        }
-    } else if (flag == 2) {
-        var code = e.currentTarget.dataset.majorcode;
-        if (code.length == 4) {
-            wx.navigateTo({
-                url: "../majorList/majorList?code=" + code
-            });
-        } else {
-            wx.navigateTo({
-                url: "../majorDetail/majorDetail?majorId=" + id + "&majorName=" + name
-            });
-        }
-    } else if (flag == 0) {
-        if (indexCls == 1) {
-            wx.navigateTo({
-                url: "../collegeDetail/collegeDetail?id=" + id
-            });
-        } else if (indexCls == 2) {
-            var _code = e.currentTarget.dataset.majorcode;
-            if (_code.length == 4) {
-                wx.navigateTo({
-                    url: "../majorList/majorList?code=" + _code
-                });
-            } else {
-                wx.navigateTo({
-                    url: "../majorDetail/majorDetail?majorId=" + id + "&majorName=" + name
-                });
-            }
-        }
-    }
 }), _defineProperty(_Page, "resetSelectTap", function resetSelectTap() {
     var that = this;
     var universityType = that.data.universityType;
@@ -823,11 +699,11 @@ Page((_Page = {
     for (var i in universityType) {
         universityType[i].checked = false;
     }
-    for (var _i5 in cityList) {
-        cityList[_i5].checked = false;
+    for (var _i3 in cityList) {
+        cityList[_i3].checked = false;
     }
-    for (var _i6 in selectTerrace) {
-        selectTerrace[_i6].checked = false;
+    for (var _i4 in selectTerrace) {
+        selectTerrace[_i4].checked = false;
     }
     that.typeCount = 0;
     that.locateCount = 0;
@@ -885,7 +761,26 @@ Page((_Page = {
     var that = this;
     if (!app.checkOnce(that, "oneClick")) return;
     var index = e.currentTarget.dataset.id;
-    var numId = that.data.collegeList[index].collegeId;
+    var collegeList = that.data.collegeList[index];
+    var numId = collegeList.collegeId;
+    var SA_code = numId;
+    var SA_name = collegeList.collegeName;
+    var SA_province = collegeList.provinceName;
+    var SA_isBen = "";
+    var SA_level = collegeList.tags.join("|");
+    var SA_classify = collegeList.classify;
+    var SA_type = collegeList.type;
+    var SA_num = index;
+    var data = {
+        SA_code: SA_code,
+        SA_name: SA_name,
+        SA_province: SA_province,
+        SA_isBen: SA_isBen,
+        SA_level: SA_level,
+        SA_classify: SA_classify,
+        SA_type: SA_type,
+        SA_num: SA_num
+    };
     wx.navigateTo({
         url: "/packages/findUniversity/collegeDetail/collegeDetail?numId=" + numId
     });

@@ -4,16 +4,14 @@
     border-radius: 100px;
     text-align: center;
     line-height: 12.5vw;
-    background: #e9302d;
+    background-image: linear-gradient(-52deg,#E9302D 1%,#FF5053 100%);
+    box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);
     color: #fff;
     margin: auto;
     position: absolute;
     top: 0;
     left: 0;
     z-index: 2;
-}
-
-.popupTitleText {
 }
 
 .wrapAnimate {
@@ -187,10 +185,10 @@
     border-radius: 100px;
     text-align: center;
     line-height: 12.5vw;
-    background: #e9302d;
+    background-image: linear-gradient(-52deg,#E9302D 1%,#FF5053 100%);
+    box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);
     color: #fff;
     margin: auto;
-    box-shadow: 0 5px 10px 0 rgba(233,48,45,0.3);
     margin-top: 4.3vw;
 }
 
@@ -200,7 +198,8 @@
     color: #fff;
     line-height: 12.5vw;
     text-align: center;
-    background: #e9302d;
+    background-image: linear-gradient(-52deg,#E9302D 1%,#FF5053 100%);
+    box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);
     margin: 0;
     padding: 0;
     border-radius: 12.5vw;
@@ -221,7 +220,7 @@
 }
 
 .title-font {
-    font-size: 4.17vw;
+    font-size: 4.53vw;
 }
 
 .btnAnimate {

@@ -12,6 +12,7 @@ var app = getApp();
 
 Page({
     data: {
+        newGaokaoPro: false,
         system: "android",
         payBtnText: app.globalData.payBtnText,
         xianzhi: false,
@@ -39,13 +40,13 @@ Page({
         });
     },
     goCreateScore: function goCreateScore() {
-        // wx.switchTab({
-        //   url: '/pages/index/index',
-        // })
-        wx.navigateTo({
-            url: "/pages/changeAchievement/changeAchievement"
+        wx.switchTab({
+            url: "/pages/index/index"
         });
-    },
+        // wx.navigateTo({
+        //   url: '/pages/changeAchievement/changeAchievement',
+        // })
+        },
     testStart: function testStart() {
         var that = this;
         //college
@@ -87,10 +88,14 @@ Page({
                 duration: 1500
             });
         } else {
-            if (that.data.batchFlag) {
-                batch = that.data.batch;
+            if (that.data.newGaokaoPro) {
+                batch = 1;
             } else {
-                batch = that.data.scoreBatch;
+                if (that.data.batchFlag) {
+                    batch = that.data.batch;
+                } else {
+                    batch = that.data.scoreBatch;
+                }
             }
             wx.navigateTo({
                 url: "../testResult/testResult?rank=" + rank + "&course=" + course + "&score=" + score + "&batch=" + batch + "&cityid=" + cityId + "&insert=true&ucode=" + app.globalData.probabilityInfo.collegeUcode + "&collegeid=" + app.globalData.probabilityInfo.collegeId
@@ -100,6 +105,7 @@ Page({
     },
     // 跳搜索大学      
     goSearchCollege: function goSearchCollege() {
+        var batch = wx.getStorageSync("userScore").batch || 0;
         if (this.data.cityId == 843 || this.data.cityId == 842) {
             wx.showToast({
                 title: "政策原因，新高考省份暂不支持此功能",
@@ -134,7 +140,8 @@ Page({
         this.setData({
             currect: index,
             batch: batch,
-            batchFlag: true
+            batchFlag: true,
+            college: "输入目标大学…"
         });
         this.hideFrame();
     },
@@ -168,11 +175,15 @@ Page({
         var that = this;
         that.setData({
             system: app.globalData.system,
-            payBtnText: app.globalData.payBtnText
+            payBtnText: app.globalData.payBtnText,
+            newGaokaoPro: app.globalData.newGaokaoPro
         });
         if (options && options.route == "pay") {
             route = 2;
         }
+    },
+    onUnload: function onUnload() {
+        app.globalData.probabilityInfo.collegeName = "";
     },
     onShow: function onShow() {
         var that = this;

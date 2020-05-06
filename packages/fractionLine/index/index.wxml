@@ -42,7 +42,7 @@
                             </view>
                         </view>
                     </view>
-                    <view style="border-bottom: 1px solid #E9E9E9;">
+                    <view style="border-bottom: 1rpx solid #E9E9E9;">
                         <view class="twoFontColor threeFontSize flex pageItemWidth" style="height:12vw">
                             <view class="collegeLineWidth-first">招生批次</view>
                             <view class="collegeLineWidth-second textAlign">{{listThreeName}}</view>
@@ -87,13 +87,13 @@
                         </view>
                     </view>
                     <view class="operationItemWH pageItemWidth flexjsbetween whiteColor flex" style="position: fixed;bottom: 1vw;left: 50%;transform: translate(-50%);" wx:if="{{manyDirect}}">
-                        <view bindtap="showDirectTap" class="flex" style="width:91.47vw;height:10.67vw;border-radius:26.67vw;border: 1px solid #F66666;">
+                        <view bindtap="showDirectTap" class="flex" style="width:91.47vw;height:10.67vw;border-radius:26.67vw;border: 1rpx solid #F66666;">
                             <view class="twoFontColor flex textAlign" style="width:14.67vw;font-size:2.67vw;">
                                 <view style="margin:0 2.67vw 0 4vw">招生方向</view>
                             </view>
                             <view style="height:5.07vw;border: 0.5px solid #F66666;"></view>
                             <view class="flex flexjscenter checkedColor twoFontSize" style="width:76.53vw;">{{direct}}
-                  <image class="tabDownWH" src="/image/tabDown.png" style="margin-left:1.87vw;transform: rotate(180deg)"></image>
+                <image class="tabDownWH" src="/image/tabDown.png" style="margin-left:1.87vw;transform: rotate(180deg)"></image>
                             </view>
                         </view>
                     </view>
@@ -111,7 +111,7 @@
                                 </view>
                                 <view bindtap="chooseMajorYear" class="changeBlockWH whiteColor relativeStyle flex flexjscenter" data-itemtype="major" style="border:1px solid #F8F5F4;border-radius:3.73vw;width:auto;padding:0 3.47vw;margin-right:2.67vw" wx:if="{{majorYear}}">
                                     <view class="fourFontColor">{{majorYear}}</view>
-                                    <dropdown bind:chooseEvent="chooseYearItem" id="majorYearDrop" items="{{yearList}}" top="7.47vw"></dropdown>
+                                    <dropdown bind:chooseEvent="chooseYearItem" id="majorYearDrop" items="{{yearList}}" top="7.47vw" type="year" value="{{yearIndex}}"></dropdown>
                                     <image class="tabDownWH" src="/image/tabDown.png" style="margin-left:1.07vw" wx:if="{{yearList.length>1}}"></image>
                                 </view>
                                 <view bindtap="chooseBatch" class="changeBlockWH whiteColor relativeStyle flex flexjscenter" data-itemtype="major" style="border:1px solid #F8F5F4;border-radius:3.73vw;width:auto;padding:0 3.47vw;margin-right:2.67vw" wx:if="{{batchName&&cityId!=843}}">
@@ -131,7 +131,7 @@
                             </view>
                         </view>
                     </view>
-                    <view style="border-bottom:1px solid #E9E9E9;">
+                    <view style="border-bottom:1rpx solid #E9E9E9;">
                         <view class="twoFontColor threeFontSize flex pageItemWidth" style="height:12vw" wx:if="{{cityId=='843'}}">
                             <view class="planWidth-major" style="width:25.06vw;">专业名称</view>
                             <view class="textAlign" style="width:23.6vw">选科</view>
@@ -234,7 +234,12 @@
                                 <image mode="widthFix" src="/image/VIPpower.png" style="width:35vw;height:35vw;"></image>
                                 <view>您没有权限查看数据</view>
                                 <view bindtap="goPay" class="recommend-btn oneFontSize" style="margin-top:4vw;" wx:if="{{system!='ios'}}">开通VIP</view>
-                                <view class="recommend-btn oneFontSize" style="margin-top:4vw;opacity:0.6;" wx:else>{{payBtnText}}</view>
+                                <view class="flex" style="justify-content:space-around;margin-top: 20rpx;" wx:else>
+                                    <view class="flex oneFontSize">
+                                        <view bindtap="goBindCard" class="cardBtn bindCard" hoverClass="btnHover">绑定会员卡</view>
+                                        <button bindtap="{{banApplyCard?'':'applyCard'}}" class="cardBtn oneFontSize applyCard" disabled="{{applyCardLoading}}" hoverClass="btnHover" loading="{{applyCardLoading}}" style="{{banApplyCard?'background:#9b9b9b':''}}">{{banApplyCard?'重新申请（'+applyCardTime+'秒）':'申请会员卡'}}</button>
+                                    </view>
+                                </view>
                             </view>
                         </view>
                     </view>
@@ -252,7 +257,7 @@
                         </view>
                     </view>
                     <view class="operationItemWH pageItemWidth flexjsbetween whiteColor flex" style="position: fixed;bottom: 1vw;left: 50%;transform: translate(-50%);" wx:if="{{manyDirect}}">
-                        <view bindtap="showDirectTap" class="flex" style="width:91.47vw;height:10.67vw;border-radius:26.67vw;border: 1px solid #F66666;">
+                        <view bindtap="showDirectTap" class="flex" style="width:91.47vw;height:10.67vw;border-radius:26.67vw;border: 1rpx solid #F66666;">
                             <view class="twoFontColor flex textAlign" style="width:14.67vw;font-size:2.67vw;">
                                 <view style="margin:0 2.67vw 0 4vw">招生方向</view>
                             </view>
@@ -295,7 +300,7 @@
                             </view>
                         </view>
                     </view>
-                    <view style="border-bottom:1px solid #E9E9E9;">
+                    <view style="border-bottom:1rpx solid #E9E9E9;">
                         <view class="twoFontColor threeFontSize flex pageItemWidth" style="height:12vw" wx:if="{{cityId!='843'&&cityId!='842'}}">
                             <view class="planWidth-major" style="{{cityId=='843'?'width:36vw':'width:55.8vw;'}}">专业名称</view>
                             <view bindtap="planNumTap" class="textAlign flex" data-type="traditionalplan" style="width:16.27vw;">
@@ -378,7 +383,12 @@
                                 <image mode="widthFix" src="/image/VIPpower.png" style="width:35vw;height:35vw;"></image>
                                 <view>您没有权限查看数据</view>
                                 <view bindtap="goPay" class="recommend-btn oneFontSize" style="margin-top:4vw;" wx:if="{{system!='ios'}}">开通VIP</view>
-                                <view class="recommend-btn oneFontSize" style="margin-top:4vw;opacity:0.6;" wx:else>{{payBtnText}}</view>
+                                <view class="flex" style="justify-content:space-around;margin-top: 20rpx;" wx:else>
+                                    <view class="flex oneFontSize">
+                                        <view bindtap="goBindCard" class="cardBtn bindCard" hoverClass="btnHover">绑定会员卡</view>
+                                        <button bindtap="{{banApplyCard?'':'applyCard'}}" class="cardBtn oneFontSize applyCard" disabled="{{applyCardLoading}}" hoverClass="btnHover" loading="{{applyCardLoading}}" style="{{banApplyCard?'background:#9b9b9b':''}}">{{banApplyCard?'重新申请（'+applyCardTime+'秒）':'申请会员卡'}}</button>
+                                    </view>
+                                </view>
                             </view>
                         </view>
                     </view>
@@ -396,7 +406,7 @@
                         </view>
                     </view>
                     <view class="operationItemWH pageItemWidth flexjsbetween whiteColor flex" style="position: fixed;bottom: 1vw;left: 50%;transform: translate(-50%);" wx:if="{{manyDirect}}">
-                        <view bindtap="showDirectTap" class="flex" style="width:91.47vw;height:10.67vw;border-radius:26.67vw;border: 1px solid #F66666;">
+                        <view bindtap="showDirectTap" class="flex" style="width:91.47vw;height:10.67vw;border-radius:26.67vw;border: 1rpx solid #F66666;">
                             <view class="twoFontColor flex textAlign" style="width:14.67vw;font-size:2.67vw;">
                                 <view style="margin:0 2.67vw 0 4vw">招生方向</view>
                             </view>
@@ -429,48 +439,24 @@
     <view catchtap="hidePopup" class="wrap {{popup.wrapAnimate}}" style="background:rgba(0,0,0,{{popup.bgOpacity}});"></view>
     <view class="{{popup.popupAnimate}} popup-wrapper">
         <image catchtap="hidePopup" src="/image/icon_close_alt2.png" style="width:4vw;height:4vw;position:absolute;top:2vw;right:2vw;padding:4vw;margin:0;"></image>
-        <view style="border-bottom: 1px solid #eee;line-height: 3;font-size: 4.5vw;margin-top: 2vw;">数据说明</view>
+        <view style="border-bottom: 1rpx solid #eee;line-height: 3;font-size: 4.5vw;margin-top: 2vw;">数据说明</view>
         <view style="text-align:left;padding:4.3vw;line-height:2;font-size:2.7vw">
             <block wx:if="{{cityId==843}}">
-                <block wx:if="{{currentTab==0}}">
-                    <view>1、{{yearList[0].name}}年计划数已根据6月份出版的《{{provinceName}}省招生计划》更新；</view>
-                    <view>2、{{yearList[0].name}}年专业录取相关数据将在考试院公布后即时更新；</view>
-                    <view>3、2012-{{yearList[0].name}}各院校录取数据，参考各省市出版的填报指南以及各本专科院校的官网历年录取数据；</view>
-                    <view>4、我们的数据与各省考试院发布的数据一致，由于各省市加分政策，院校官网对征集志愿数据的显示等原因，会与院校官网存在不一致情况，建议以各省考试院发布的数据为准。</view>
-                </block>
-                <block wx:else>
-                    <view>1、{{planYear}}年计划数已根据6月份出版的《{{provinceName}}省招生计划》更新；</view>
-                    <view>2、{{planYear}}年专业录取相关数据将在考试院公布后即时更新；</view>
-                    <view>3、2012-{{planYear}}各院校录取数据，参考各省市出版的填报指南以及各本专科院校的官网历年录取数据；</view>
-                    <view>4、我们的数据与各省考试院发布的数据一致，由于各省市加分政策，院校官网对征集志愿数据的显示等原因，会与院校官网存在不一致情况，建议以各省考试院发布的数据为准；</view>
-                    <view>5、专业标签所对应的"国家一级、国家二级、国家特色、国家重点、省市一级、省市二级、省市特色、省市重点"仅提供和普通专业的区分，只做参考，不作推荐；</view>
-                    <view>6、因部分院校个别专业发生过征集，故专业录取分数线比院校分数线低属于正常情况，请知悉。</view>
-                </block>
+                <text wx:if="{{currentTab==0}}">{{desc.professionScoreLineDescription}}</text>
+                <text wx:else>{{desc.collegePlanDescription}}</text>
             </block>
             <block wx:else>
-                <block wx:if="{{cityId==842}}">
-                    <block wx:if="{{currentTab==2}}">
-                        <view>1、{{planYear}}年招生计划已更新；</view>
-                        <view>2、2012-{{planYear}}各院校录取数据，参考各省市出版的填报指南以及各本专科院校的官网历年录取数据。</view>
-                    </block>
-                    <block wx:else>
-                        <view>1、2012-{{yearList[0].name}}各院校录取数据，参考各省市出版的填报指南以及各本专科院校的官网历年录取数据；</view>
-                        <view>2、我们的数据与各省考试院发布的数据一致，由于各省市加分政策，院校官网对征集志愿数据的显示等原因，会与院校官网存在不一致的情况，建议以各省考试院发布的数据为准。</view>
-                    </block>
-                </block>
-                <block wx:else>
-                    <block wx:if="{{currentTab==2}}">
-                        <view>1、{{planYear}}年计划数已根据6月份出版的《{{provinceName}}省招生计划》更新；</view>
-                        <view>2、{{yearList[0].name}}-{{planYear}}各院校录取数据，参考各省市出版的填报指南以及各本专科院校的官网历年录取数据。</view>
-                    </block>
-                    <block wx:else>
-                        <view>1、{{planYear}}年计划数已根据6月份出版的《{{provinceName}}省招生计划》更新；</view>
-                        <view>2、{{yearList[yearList.length-1].name}}年专业录取相关数据将在考试院公布后即时更新；</view>
-                        <view>3、{{yearList[0].name}}-{{yearList[yearList.length-1].name}}各院校录取数据，参考各省市出版的填报指南以及各本专科院校的官网历年录取数据；</view>
-                        <view>4、我们的数据与各省考试院发布的数据一致，由于各省市加分政策，院校官网对征集志愿数据的显示等原因，会与院校官网存在不一致情况，建议以各省考试院发布的数据为准。</view>
-                    </block>
-                </block>
+                <text wx:if="{{currentTab==0}}">{{desc.collegeScoreLineDescription}}</text>
+                <text wx:elif="{{currentTab==1}}">{{desc.professionScoreLineDescription}}</text>
+                <text wx:else>{{desc.collegePlanDescription}}</text>
             </block>
         </view>
     </view>
 </view>
+<popupcomponents bind:hideTapPage="hideTapIndex" id="hide">
+    <image src=""></image>
+    <image src="/image/active-shareSuccess.png" style="width:30vw;height:30vw"></image>
+    <view>恭喜您申请成功，请注意短信查收</view>
+    <view bindtap="hideTapIndex" class="fourFontSize oneFontColor" hoverClass="btnHover" style="border-top:1rpx solid #f8f5f4;margin-top:6.4vw;position: relative;top: 8vw;padding-top: 4vw;">我知道了</view>
+    <view></view>
+</popupcomponents>

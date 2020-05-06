@@ -10,6 +10,8 @@ function _interopRequireDefault(obj) {
 
 var app = getApp();
 
+var sensors = require("./../../utils/sensors.js");
+
 Page({
     options: {},
     cityId: 0,
@@ -248,18 +250,36 @@ Page({
     updateUserGaoKaoInfo: function updateUserGaoKaoInfo(id, provinceNumId, examYear, couseType) {
         var that = this;
         _api2.default.updateUserGaoKaoInfo("Users/UpdateGaoKaoInfo", "POST", id, provinceNumId, examYear, couseType).then(function(res) {
+            var data = {
+                provinceNumId: provinceNumId,
+                examYear: examYear,
+                couseType: couseType
+            };
+            app.sensors.track("ExamInfoResult", sensors.ExamInfoResult(data, res.isSuccess, res.message));
             if (res.result == "True") {
+                var url = "";
+                if (that.options && that.options.bargainid) {
+                    //分享->砍价活动->跳转砍价活动
+                    url = "/packages/activityBargain/index/index?activitybargain=" + that.options.activitybargain + "&bargainid=" + that.options.bargainid + "&shareuserid=" + that.options.shareuserid;
+                    wx.redirectTo({
+                        url: url
+                    });
+                } else if (that.options && that.options.source == "activity") {
+                    //首页->砍价活动->跳转砍价活动
+                    url = "/packages/activityBargain/index/index?source=activity";
+                    wx.redirectTo({
+                        url: url
+                    });
+                } else {
+                    //正常跳转
+                    url = "/pages/index/index";
+                    wx.switchTab({
+                        url: url
+                    });
+                }
                 //完善成功
-                wx.switchTab({
-                    url: "/pages/index/index",
-                    success: function success(res) {},
-                    fail: function fail(res) {},
-                    complete: function complete(res) {}
-                });
-                wx.setStorageSync("cityId", that.cityId);
+                                wx.setStorageSync("cityId", that.cityId);
                 that.selectComponent("#framemodal").hideFrame();
-            } else {
-                //失败
             }
         });
     },
@@ -277,8 +297,8 @@ Page({
     //检测按钮可用
     checkButton: function checkButton() {
         var that = this;
-        //#e9302d
-                if (app.checkNewGaoKao(that.cityId.cityId)) {
+        console.log(that.isOpenNewVersion);
+        if (that.isOpenNewVersion) {
             //新高考
             that.disabledBtn = false;
             that.setData({
@@ -287,7 +307,6 @@ Page({
         } else {
             //传统版
             if (that.data.courseId > -1) {
-                //btnBColor
                 that.disabledBtn = false;
                 that.setData({
                     courseFlag: true
@@ -295,7 +314,6 @@ Page({
             } else {
                 that.disabledBtn = true;
                 that.setData({
-                    // btnBColor: "",
                     courseFlag: true
                 });
             }
@@ -311,24 +329,26 @@ Page({
             cityListShow: false
         });
     },
-    /**点击城市
-   * 
+    /*
+    点击城市
    */
     chooseCityTap: function chooseCityTap(e) {
         var that = this;
         var index = e.currentTarget.id;
-        var tmpData = {
-            course: -1,
-            GKProvince: that.data.cityList[index].name.substr(2)
-        };
-        that.cityIndex = index;
-        that.cityId = {
-            cityId: that.data.cityList[index].id,
-            provinceName: tmpData.GKProvince
-        };
-        that.selectComponent("#frameprovince").hideFrame();
-        that.setData(tmpData);
-        that.checkButton();
+        if (that.cityId.cityId != that.data.cityList[index].id) {
+            var tmpData = {
+                courseId: -1,
+                GKProvince: that.data.cityList[index].name.substr(2)
+            };
+            that.cityIndex = index;
+            that.cityId = {
+                cityId: that.data.cityList[index].id,
+                provinceName: tmpData.GKProvince
+            };
+            that.Configuration(that.data.cityList[index].id);
+            that.selectComponent("#frameprovince").hideFrame();
+            that.setData(tmpData);
+        }
     },
     //省份选择
     provinceTap: function provinceTap() {
@@ -356,12 +376,14 @@ Page({
             });
             return;
         } else if (that.disabledBtn) {
-            wx.showToast({
-                title: "请选择考生科类",
-                icon: "none",
-                duration: 2e3
-            });
-            return;
+            if (that.isOpenNewVersion) {} else {
+                wx.showToast({
+                    title: "请选择考生科类",
+                    icon: "none",
+                    duration: 2e3
+                });
+                return;
+            }
         }
         if (that.cityId.cityId == 842 || that.cityId.cityId == 834 || that.cityId.cityId == 854 || that.cityId.cityId == 835) {
             //： 北京 上海 天津 重庆
@@ -440,6 +462,7 @@ Page({
     ////////////////////////////////////////////
     onLoad: function onLoad(options) {
         var that = this;
+        that.options = options;
         var userid = options.userId;
         that.selectComponent("#navigationcustom").setNavigationAll("", false);
         // that.setData({ userid: userid });
@@ -584,5 +607,21 @@ Page({
             GKYear: yearArr[0].text
         });
         // that.checkButton();
-        }
+        },
+    Configuration: function Configuration(pro) {
+        var that = this;
+        _api2.default.Configuration("Configuration/ScoreLines/GetByProvince", "POST", pro).then(function(res) {
+            that.isOpenNewVersion = res.result.isOpenNewVersion;
+            if (res.result.isOpenNewVersion) {
+                that.setData({
+                    courseFlag: !res.result.isOpenNewVersion
+                });
+            } else {
+                that.setData({
+                    courseFlag: true
+                });
+            }
+            that.checkButton();
+        });
+    }
 });

@@ -66,20 +66,102 @@
             </view>
         </view>
     </view>
+    <view class="relativeStyle mycolu  body-item itemBackColor" wx:if="{{cityId!=842}}">
+        <block wx:if="{{tableList.length>0}}">
+            <navigator class="flex flexjsbetween bottomBorder" hoverClass="listHover" openType="navigate" style="padding:30rpx 0" url="/packages/recommend/zhejiangVolunteer/zhejiangVolunteer?numId={{tableList[0].numId}}&title={{tableList[0].num}}" wx:if="{{cityId==843}}">
+                <view class="flex">
+                    <view class="bold title twoFontSize fourFontColor">我的志愿</view>
+                    <view class="colucon">
+                        <view class="coluname twoFontSize oneFontColor">志愿表{{tableList[0].num}}</view>
+                        <view class="threeFontSize threeFontColor">{{tableList[0].totalScore}}分 {{tableList[0].ranking?tableList[0].ranking:'-'}}位 {{tableList[0].remark}}</view>
+                    </view>
+                </view>
+                <view class="flex">
+                    <image class="arrow" mode="widthFix" src="./../../image/moreArrow.png" style="height:10px"></image>
+                </view>
+            </navigator>
+            <navigator class="flex flexjsbetween bottomBorder" hoverClass="listHover" openType="navigate" style="padding:30rpx 0" url="/packages/recommend/shanDongVolunteer/shanDongVolunteer?numId={{tableList[0].id}}&title={{tableList[0].num}}" wx:elif="{{cityId==847}}">
+                <view class="flex">
+                    <view class="bold title twoFontSize fourFontColor">我的志愿</view>
+                    <view class="colucon">
+                        <view class="coluname twoFontSize oneFontColor">志愿表{{tableList[0].num}}</view>
+                        <view class="threeFontSize threeFontColor">{{tableList[0].totalScore}}分 {{tableList[0].ranking?tableList[0].ranking+'位':'-位'}} {{tableList[0].chooseSubject}}</view>
+                    </view>
+                </view>
+                <view class="flex">
+                    <image class="arrow" mode="widthFix" src="./../../image/moreArrow.png" style="height:10px"></image>
+                </view>
+            </navigator>
+            <navigator class="flex flexjsbetween bottomBorder" hoverClass="listHover" openType="navigate" style="padding:30rpx 0" url="/packages/recommend/beijingVolunteer/beijingVolunteer?numId={{tableList[0].id}}" wx:elif="{{cityId==834}}">
+                <view class="flex">
+                    <view class="bold title twoFontSize fourFontColor">我的志愿</view>
+                    <view class="colucon">
+                        <view class="coluname twoFontSize oneFontColor">志愿表{{zyTableNum}}</view>
+                        <view class="threeFontSize threeFontColor">{{tableList[0].totalScore}}分 {{tableList[0].ranking?tableList[0].ranking+'位':'-位'}} {{tableList[0].chooseSubject}}</view>
+                    </view>
+                </view>
+                <view class="flex">
+                    <image class="arrow" mode="widthFix" src="./../../image/moreArrow.png" style="height:10px"></image>
+                </view>
+            </navigator>
+            <navigator class="flex flexjsbetween bottomBorder" hoverClass="listHover" openType="navigate" style="padding:30rpx 0" url="/packages/recommend/tianjinVolunteer/tianjinVolunteer?numId={{tableList[0].id}}" wx:elif="{{cityId==835}}">
+                <view class="flex">
+                    <view class="bold title twoFontSize fourFontColor">我的志愿</view>
+                    <view class="colucon">
+                        <view class="coluname twoFontSize oneFontColor">志愿表{{zyTableNum}}</view>
+                        <view class="threeFontSize threeFontColor">{{tableList[0].totalScore}}分 {{tableList[0].ranking?tableList[0].ranking+'位':'-位'}} {{tableList[0].chooseSubject}} {{tableList[0].abType?tableList[0].abType:''}}</view>
+                    </view>
+                </view>
+                <view class="flex">
+                    <image class="arrow" mode="widthFix" src="./../../image/moreArrow.png" style="height:10px"></image>
+                </view>
+            </navigator>
+            <navigator class="flex flexjsbetween bottomBorder" hoverClass="listHover" openType="navigate" style="padding:30rpx 0" url="/packages/recommend/hainanVolunteer/hainanVolunteer?numId={{tableList[0].id}}" wx:elif="{{cityId==853}}">
+                <view class="flex">
+                    <view class="bold title twoFontSize fourFontColor">我的志愿</view>
+                    <view class="colucon">
+                        <view class="coluname twoFontSize oneFontColor">志愿表{{tableList[0].num}}</view>
+                        <view class="threeFontSize threeFontColor">{{tableList[0].totalScore}}分 {{tableList[0].ranking?tableList[0].ranking+'位':'-位'}} {{tableList[0].chooseSubject}} {{tableList[0].abType?tableList[0].abType:''}}</view>
+                    </view>
+                </view>
+                <view class="flex">
+                    <image class="arrow" mode="widthFix" src="./../../image/moreArrow.png" style="height:10px"></image>
+                </view>
+            </navigator>
+            <navigator class="flex flexjsbetween bottomBorder" hoverClass="listHover" openType="navigate" style="padding:30rpx 0" url="/pages/ZYTableCommonDetail/ZYTableCommonDetail?id={{tableList[0].numId}}" wx:else>
+                <view class="flex">
+                    <view class="bold title twoFontSize fourFontColor">我的志愿</view>
+                    <view class="colucon">
+                        <view class="coluname twoFontSize oneFontColor">志愿表{{tableList.length}}</view>
+                        <view class="threeFontSize threeFontColor">{{tableList[0].courseType==='0'?'理科':'文科'}} {{tableList[0].batchName}} {{tableList[0].totalScore}}分 {{tableList[0].ranking==0?'-':tableList.ranking}}位</view>
+                    </view>
+                </view>
+                <view class="flex">
+                    <view>
+                        <view class="threeFontSize threeFontColor">靠谱率</view>
+                        <view>
+                            <text class="fourFontSize checkedColor">{{tableList[0].reliableRate}}</text>
+                            <text class="threeFontSize checkedColor">%</text>
+                        </view>
+                    </view>
+                    <image class="arrow" mode="widthFix" src="./../../image/moreArrow.png" style="height:10px"></image>
+                </view>
+            </navigator>
+            <view bindtap="goDetail" class="showAllColu itemBackColor textAlign fourFontColor threeFontSize" data-type="myVish" hoverClass="listHover">查看全部 ({{zyTableNum}})</view>
+        </block>
+        <view class="nocolu flex flexjsbetween" wx:else>
+            <view class="oneFontColor twoFontSize">
+                <view>你还没有生成过志愿表</view>
+                <view>快来模拟一下吧</view>
+            </view>
+            <navigator class="buttonBorder checkedColor threeFontSize addcolu" openType="switchTab" url="/pages/index/index">
+                <text class="twoFontSize">+</text> 志愿表</navigator>
+        </view>
+    </view>
     <view class="oneFontSize oneFontColor body-wrapper pageItemWidth borderTwo itemBackColor" style="overflow:hidden;">
         <view bindtap="goDetail" class="flex body-item bottomBorder" data-type="card" hoverClass="listHover">
             <image mode="widthFix" src="/image/bindCard_icon.png" style="height:10px"></image>
             <view>会员卡绑定</view>
-            <image mode="widthFix" src="./../../image/moreArrow.png" style="height:10px"></image>
-        </view>
-        <view bindtap="goDetail" class="flex body-item bottomBorder" data-type="myVish" hoverClass="listHover" wx:if="{{cityId!=842&&cityId!=843}}">
-            <image mode="widthFix" src="/image/syjc.png" style="height:10px"></image>
-            <view>我的志愿</view>
-            <image mode="widthFix" src="./../../image/moreArrow.png" style="height:10px"></image>
-        </view>
-        <view bindtap="goDetail" class="flex body-item bottomBorder" data-type="myChooseSub" hoverClass="listHover">
-            <image mode="widthFix" src="/image/syjc.png" style="height:10px"></image>
-            <view>我的选科</view>
             <image mode="widthFix" src="./../../image/moreArrow.png" style="height:10px"></image>
         </view>
         <view bindtap="goDetail" class="flex body-item" data-type="myPro" hoverClass="listHover">
@@ -90,13 +172,18 @@
     </view>
     <view class="oneFontSize oneFontColor body-wrapper pageItemWidth borderTwo itemBackColor" style="overflow:hidden;">
         <navigator class="flex body-item bottomBorder" hoverClass="listHover" url="/pages/commonWebPage/commonWebPage?typePage=2">
-            <image mode="widthFix" src="/image/aboutwmzy.png" style="height:10px"></image>
+            <image mode="widthFix" src="/image/aboutWMZY.png" style="height:10px"></image>
             <view>关于完美志愿</view>
             <image mode="widthFix" src="/image/moreArrow.png" style="height:10px"></image>
         </navigator>
         <navigator class="flex body-item" hoverClass="listHover" url="/pages/commonWebPage/commonWebPage?typePage=1">
             <image mode="widthFix" src="/image/fwtk.png" style="height:10px"></image>
             <view>服务条款及免责声明</view>
+            <image mode="widthFix" src="/image/moreArrow.png" style="height:10px"></image>
+        </navigator>
+        <navigator class="flex body-item" hoverClass="listHover" style="border-top:1px solid #e9e9e9;" url="/pages/ActiveWishCome/ActiveWishCome?showUrl=http://toc.cn-bj.ufileos.com/20200114142513_1737.png&wishName=完美志愿" wx:if="{{mobile=='18645887808'||mobile=='15000596443'||mobile=='17530151392'||mobile=='18238983678'||mobile=='17600287150'||mobile=='15000645414'||mobile=='13764578873'||mobile=='13917479177'}}">
+            <image mode="widthFix" src="/image/aboutWMZY.png" style="height:10px"></image>
+            <view>春节祝福</view>
             <image mode="widthFix" src="/image/moreArrow.png" style="height:10px"></image>
         </navigator>
     </view>

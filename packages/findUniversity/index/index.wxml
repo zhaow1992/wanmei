@@ -51,12 +51,13 @@
                     <image class="collegeLogo" src="{{collegeListSingle.logoUrl}}"></image>
                     <view>
                         <view>
-                            <view class="oneFontSize oneFontWidth">{{collegeListSingle.collegeName}}
-                  <text class="terraceBorderText fiveFontSize checkedColor" style="vertical-align:middle;border:1px solid #9b9b9b;color:#9b9b9b;" wx:for="{{collegeListSingle.tags}}" wx:key="unique">{{item}}</text>
+                            <view class="oneFontSize oneFontWidth">
+                  {{collegeListSingle.collegeName}}
+                  <text class="terraceBorderText fiveFontSize checkedColor" style="vertical-align:middle;border:1rpx solid #9b9b9b;color:#9b9b9b;" wx:for="{{collegeListSingle.tags}}" wx:key="unique">{{item}}</text>
                             </view>
                         </view>
                         <view class="twoFontColor threeFontSize flex flexjsbetween" style="margin:1.33vw 0 0 0;">
-                            <view>{{collegeListSingle.classify}} / {{collegeListSingle.belong}} / {{collegeListSingle.type}}</view>
+                            <view>{{collegeListSingle.classify?collegeListSingle.classify:'-'}} / {{collegeListSingle.belong?collegeListSingle.belong:'-'}} / {{collegeListSingle.type}}</view>
                             <view class="flex">
                                 <image mode="widthFix" src="../image/city.png" style="height:2.93vw;width:2.4vw;margin-right:1.07vw;"></image>
                                 <view>

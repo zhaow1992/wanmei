@@ -1,0 +1,45 @@
+<navigationcustomtop navigationText="添加专业"></navigationcustomtop>
+<view class="fr tab whiteColor" id="head">
+    <view bindtap="checkTab" class="fc ac jc tabItem" data-index="{{index}}" wx:for="{{tab}}">
+        <view class="{{index==current?'oneFontSize fourFontColor':'twoFontSize threeFontColor'}}">{{item}}</view>
+        <view class="line" wx:if="{{index==current}}"></view>
+    </view>
+</view>
+<swiper bindchange="changeSwiper" class="whiteColor" current="{{current}}" style="height:{{swiperH}}px">
+    <swiper-item>
+        <view class="relativeStyle searchWrapper flex">
+            <view bindtap="goSearch" class=" searchView-viewH flex searchBorder twoFontSize twoFontColor">请输入专业名称</view>
+            <view class="twoFontSize searchView twoFontColor absoluteStyle">
+                <image src="/image/search.png"></image>
+            </view>
+        </view>
+        <view class="content fr ac warp">
+            <view class="keyword-item twoFontColor threeFontSize fr ac" wx:for="{{listData}}">
+                <view>{{item}}</view>
+                <image bindtap="del" data-index="{{index}}" data-name="{{item}}" src="/image/icon_close_alt2.png" style="width:20rpx;height:20rpx;margin-left:20rpx;"></image>
+            </view>
+        </view>
+    </swiper-item>
+    <swiper-item class="">
+        <scroll-view scrollY bindscrolltolower="getmore" style="height:{{swiperH}}px">
+            <view class="headtop fr ac">根据《专业定位测评》结果，推荐以下专业</view>
+            <view class="threeFontSize twoFontColor fr ac whiteColor num">
+                    已添加专业<text class="oneFontColor">{{choseNum}}</text>个
+                </view>
+            <view>
+                <view style="margin:0 32rpx;" wx:for="{{majorList}}">
+                    <view class="fr ac jsb cellitem">
+                        <view>
+                            <view class="oneFontColor oneFontSize">{{item.majorName}}</view>
+                            <view class="twoFontColor threeFontSize" style="margin-top:14rpx;">专业匹配度{{item.degree}}%</view>
+                        </view>
+                        <view bindtap="chose" data-index="{{index}}">
+                            <view class="circle" wx:if="{{!item.st}}"></view>
+                            <image src="/image/course_Checked.png" style="width:30rpx;height:30rpx;" wx:if="{{item.st}}"></image>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </scroll-view>
+    </swiper-item>
+</swiper>

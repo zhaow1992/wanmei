@@ -1,0 +1,92 @@
+page {
+    background: #F8F5F4;
+}
+
+.tab {
+    height: 100rpx;
+    border: 1rpx solid #E9E9E9;
+}
+
+.tabItem {
+    width: 50%;
+}
+
+.line {
+    width: 76rpx;
+    height: 6rpx;
+    border-radius: 6rpx;
+    background: #E9302D;
+    margin-top: 20rpx;
+}
+
+.searchWrapper {
+    justify-content: space-around;
+    padding: 20rpx 2.13vw;
+}
+
+.searchBorder {
+    background: #eee;
+    border: none;
+    width: 96%;
+}
+
+.searchView-viewH {
+    width: 100%;
+    height: 68rpx;
+    line-height: 68rpx;
+    text-align: left;
+    padding-left: 80rpx;
+    box-sizing: border-box;
+}
+
+.searchView {
+    left: 20rpx;
+    top: 40rpx;
+}
+
+.searchView>image {
+    width: 30rpx;
+    height: 32rpx;
+}
+
+.content {
+    padding: 0 32rpx;
+}
+
+.keyword-item {
+    padding: 0 28rpx;
+    border-radius: 30rpx;
+    height: 60rpx;
+    background: #F7F7F7;
+    margin-right: 24rpx;
+    margin-bottom: 24rpx;
+}
+
+.headtop {
+    background: #FFEFDA;
+    width: 100%;
+    height: 64rpx;
+    color: #FF6C00;
+    font-size: 24rpx;
+    padding-left: 32rpx;
+}
+
+.num {
+    border: 1rpx solid #E9E9E9;
+    padding-left: 32rpx;
+    margin-top: 16rpx;
+    height: 84rpx;
+}
+
+.cellitem {
+    height: 150rpx;
+    border-bottom: 1rpx solid #E9E9E9;
+}
+
+.circle {
+    width: 30rpx;
+    height: 30rpx;
+    border-radius: 15rpx;
+    border: 1rpx solid #cccccc;
+    font-size: 10rpx;
+}

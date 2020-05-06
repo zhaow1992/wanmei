@@ -74,8 +74,8 @@ page {
 }
 
 .title {
+    line-height: 120rpx;
     font-size: 44rpx;
-    width: 50rpx;
 }
 
 .list-item {
@@ -92,7 +92,13 @@ page {
 
 .progress2 {
     height: 16rpx;
-    background: #FFB272;
+    background: #FF8C5B;
+    border-radius: 12px;
+}
+
+.progress3 {
+    height: 16rpx;
+    background: #FDC622;
     border-radius: 12px;
 }
 
@@ -176,4 +182,5 @@ page {
     height: 10rpx;
     border-radius: 16rpx;
     background: #E9E9E9;
+    overflow: hidden;
 }

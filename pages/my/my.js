@@ -32,7 +32,9 @@ Page({
         userScore: false,
         permission: "可使用 3 项功能服务",
         vipIcon: "./../../image/usertype1.png",
-        naviText: "开通VIP"
+        naviText: "开通VIP",
+        mobile: "",
+        zyTableNum: 0
     },
     // 各功能跳转详情
     goDetail: function goDetail(e) {
@@ -50,19 +52,10 @@ Page({
 
             //会员卡绑定
                       case "myVish":
-            wx.navigateTo({
-                url: "/packages/userSystem/ZYTableReport/ZYTableReport"
-            });
+            this.goZyTableList();
             break;
 
             //我的志愿
-                      case "myChooseSub":
-            wx.navigateTo({
-                url: "/pages/myChooseSubject/myChooseSubject"
-            });
-            break;
-
-            //会员卡绑定
                       case "myPro":
             wx.navigateTo({
                 url: "/packages/userSystem/questionFeedBack/questionFeedBack"
@@ -77,6 +70,11 @@ Page({
             break;
             //问题反馈
                 }
+    },
+    goZyTableList: function goZyTableList() {
+        wx.navigateTo({
+            url: "/packages/userSystem/ZYTableReport/ZYTableReport"
+        });
     },
     loginPopup: function loginPopup() {
         this.selectComponent("#loginPopup")._showTap();
@@ -107,11 +105,57 @@ Page({
         var userInfo = wx.getStorageSync("userInfo");
         if (userInfo) {
             that.setData({
-                loginFlag: true
+                loginFlag: true,
+                mobile: userInfo[0].MobilePhone
             });
             that.userInfo = userInfo[0];
             that.cityId = userInfo[0].Province;
             that.initUserInfo(that.userInfo);
+        }
+    },
+    // 加载志愿表
+    loadQueryRecord: function loadQueryRecord(numId, cityId) {
+        var that = this;
+        var isGaokaoFlag = app.globalData.isGaokaoFlag;
+        if (cityId == 834 || cityId == 835 || cityId == 853) {
+            var data = {
+                userNumId: numId,
+                // "provinceNumId": this.data.cityId,
+                isOpened: isGaokaoFlag,
+                pageIndex: 1,
+                pageSize: 10
+            };
+            var url = void 0;
+            if (cityId == 834) {
+                url = "Users/ZyTable/BeiJing/Query";
+            } else if (cityId == 835) {
+                url = "Users/ZyTable/TianJin/Query";
+            } else if (cityId == 853) {
+                url = "Users/ZyTable/HaiNan/Query";
+            }
+            _api2.default.BJzyTableQuery(url, "POST", data).then(function(res) {
+                if (res.isSuccess && res.result.items.length > 0) {
+                    res.result.items[0].chooseSubject = res.result.items[0].chooseSubject.split(",").join("/");
+                    res.result.items[0].chooseSubject = res.result.items[0].chooseSubject.replace("物理", "物").replace("化学", "化").replace("生物", "生").replace("技术", "技").replace("历史", "史").replace("地理", "地").replace("政治", "政");
+                    that.setData({
+                        tableList: res.result.items,
+                        zyTableNum: res.result.totalCount
+                    });
+                } else {
+                    that.setData({
+                        tableList: []
+                    });
+                }
+            });
+        } else {
+            _api2.default.ZyTableQuery("Users/ZyTable/Query", "POST", numId, cityId, isGaokaoFlag, 1).then(function(res) {
+                if (res.isSuccess && res.result.length > 0) {
+                    that.setData({
+                        tableList: res.result,
+                        zyTableNum: res.result.totalCount
+                    });
+                }
+            });
         }
     },
     getUserScoreByNumId: function getUserScoreByNumId(userNumId, provinceNumId, isGaoKao, isFillProvinceName) {
@@ -184,20 +228,10 @@ Page({
             if (res.result) {
                 that.setData({
                     reportCount: res.result.reportCount,
-                    // cepingCount: res.result.evaluationCount,
+                    cepingCount: res.result.evaluationCount,
                     studyCount: res.result.studyCount
                 });
             } else {}
-        });
-    },
-    getCepingCount: function getCepingCount(numId) {
-        var that = this;
-        _api2.default.queryRecord("Evaluation/QueryRecord", "POST", numId).then(function(res) {
-            if (res.isSuccess) {
-                that.setData({
-                    cepingCount: res.result.totalCount
-                });
-            }
         });
     },
     initUserInfo: function initUserInfo(userInfo) {
@@ -247,28 +281,28 @@ Page({
         try {
             var userInfo = wx.getStorageSync("userInfo");
             if (userInfo) {
-                var _vipType = userInfo[0].UserType;
-                if (_vipType == "1") {
+                var _vipType = parseInt(userInfo[0].UserType);
+                if (_vipType == 1) {
                     //普通用户处理
                     //可使用 3 项功能服务
                     tmpData.naviText = "开通VIP";
                     tmpData.vipIcon = "./../../image/usertype1.png";
                     tmpData.permission = "可使用 3 项特权功能";
                     tmpData.overTime = "";
-                } else if (_vipType == "2") {
+                } else if (_vipType == 2) {
                     //体验用户
                     tmpData.naviText = "开通VIP";
                     tmpData.vipIcon = "./../../image/usertype4.png";
                     tmpData.permission = "体验到期日 " + userInfo[0].identityExpirationTime.substr(0, 10);
                     tmpData.overTime = "你将会失去6项VIP特权哦";
                     //还要区分是否高考版
-                                } else if (_vipType == "3") {
+                                } else if (_vipType == 3) {
                     tmpData.naviText = "查看";
                     tmpData.vipIcon = "./../../image/usertype2.png";
                     tmpData.permission = "可使用 6 项特权功能";
                     tmpData.lookUrl = lookUrl + "?vipType=3";
                     tmpData.overTime = userInfo[0].userPermissionExpiryTime == null ? "" : "会员到期日 " + userInfo[0].userPermissionExpiryTime.substr(0, 10);
-                } else if (_vipType == "14") {
+                } else if (_vipType == 14) {
                     tmpData.naviText = "查看";
                     tmpData.vipIcon = "./../../image/usertype3.png";
                     tmpData.permission = "可使用 7 项特权功能";
@@ -284,7 +318,6 @@ Page({
         var userInfo = wx.getStorageSync("userInfo");
         if (userInfo) {
             that.getUserStatisticsCount(userInfo[0].UserId);
-            that.getCepingCount(userInfo[0].UserId);
             that.getUserPermission(userInfo[0].MobilePhone);
             var cityId = wx.getStorageSync("cityId");
             that.setData({
@@ -337,9 +370,58 @@ Page({
                     that.getUserScoreByNumId(userInfo[0].UserId, cityId.cityId, true, true);
                 }
             }
+            if (userInfo[0].Province != 842 && userInfo[0].Province != 843 && userInfo[0].Province != 847) {
+                that.loadQueryRecord(userInfo[0].UserId, userInfo[0].Province);
+            } else {
+                if (userInfo[0].Province == 843) {
+                    that.loadZJZyTable(userInfo[0].UserId);
+                } else if (userInfo[0].Province == 847) {
+                    that.loadSDZyTable(userInfo[0].UserId);
+                }
+            }
         } else {
             that.loginPopup();
         }
+    },
+    // 【浙江版】分页获取用户志愿表列表
+    loadZJZyTable: function loadZJZyTable(UserId) {
+        var that = this;
+        var data = {
+            userNumId: UserId,
+            isOpened: false,
+            pageIndex: 1
+        };
+        _api2.default.loadZJZyTable("Users/ZyTable/ZheJiang/Query", "POST", data).then(function(res) {
+            if (res.isSuccess) {
+                res.result.map(function(i) {
+                    i.remark = i.remark.split(",").join("/").replace("物理", "物").replace("化学", "化").replace("生物", "生").replace("技术", "技").replace("历史", "史").replace("地理", "地").replace("政治", "政");
+                });
+                that.setData({
+                    tableList: res.result,
+                    zyTableNum: res.result.length
+                });
+            }
+        });
+    },
+    // 【山东版】分页获取用户志愿表列表
+    loadSDZyTable: function loadSDZyTable(UserId) {
+        var _this = this;
+        var data = {
+            userNumId: UserId,
+            provinceNumId: 847,
+            isOpened: app.globalData.isGaokaoFlag,
+            pageIndex: 1,
+            pageSize: 10
+        };
+        _api2.default.loadSDZyTable("Users/ZyTable/NewGaoKao/Query", "POST", data).then(function(res) {
+            res.result.items.map(function(i) {
+                i.chooseSubject = i.chooseSubject.split(",").join("/").replace("物理", "物").replace("化学", "化").replace("生物", "生").replace("技术", "技").replace("历史", "史").replace("地理", "地").replace("政治", "政");
+            });
+            _this.setData({
+                tableList: res.result.items,
+                zyTableNum: res.result.totalCount
+            });
+        });
     },
     // 打电话给客服
     callMobile: function callMobile() {

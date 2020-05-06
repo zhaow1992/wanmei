@@ -30,7 +30,7 @@
             <view class="point-font info" style="position:absolute;top:10vw;left:8vw;{{item.probabilityAlias=='风险极大'?'color:#c0361f':item.probabilityAlias=='风险大'?'color:#e85533':item.probabilityAlias=='风险大'?'color:#e85533':item.probabilityAlias=='风险适中'?'color:#ff7800':item.probabilityAlias=='风险小'?'color:#3ec020':''}}">{{item.probabilityAlias}}</view>
         </view>
         <view style="padding:2vw 4.8vw 2vw 0;position:relative">
-            <view bindtap="collegeUp" class="title-font oneFontColor" data-index="{{index}}" data-uCode="{{item.uCode}}" style="width:55vw;line-height:1.5;margin-top:2vw">{{item.alias}}
+            <view bindtap="collegeUp" class="title-font oneFontColor bold" data-index="{{index}}" data-uCode="{{item.uCode}}" style="width:55vw;line-height:1.5;margin-top:2vw">{{item.alias}}
           <text class="fiveFontSize threeFontColor">{{item.tags}}</text>
             </view>
             <view class="point-font">
@@ -50,6 +50,14 @@
                     </view>
                 </view>
             </view>
+            <view class="changeIndex absoluteStyle" wx:if="{{!share}}">
+                <view catchtap="collegeMoveUp" class="collegeMoveUp" data-collegeindex="{{index}}" wx:if="{{item.number!==1}}">
+                    <image src="/image/tabDown.png"></image>
+                </view>
+                <view catchtap="collegeMoveDown" class="collegeMoveDown" data-collegeindex="{{index}}" wx:if="{{item.number!==tableList.colleges.length}}">
+                    <image src="/image/tabDown.png"></image>
+                </view>
+            </view>
         </view>
         <view class="borderTop" style="position:relative;padding:2vw 0" wx:for="{{item.professions}}" wx:for-index="majorIndex" wx:for-item="professions">
             <view class="title-font video-content-color" style="position:absolute;top:2vw;left:-12vw" wx:if="{{professions.probability>=0}}">
@@ -61,11 +69,11 @@
             </view>
             <view>
                 <view class="flex" style="justify-content:space-between">
-                    <view bindtap="majorUp" class="video-title-color title-font" data-code="{{professions.code}}" data-collegename="{{item.alias}}" data-cost="{{professions.cost}}" data-extended="{{professions.extended}}" data-learyear="{{professions.learYear}}" data-majorcode="{{professions.majorCode}}" data-plannum="{{professions.planNum}}" data-planyear="{{professions.scoreLineYear}}" data-probability="{{professions.probability}}" data-professionname="{{professions.alias}}" style="line-height:1.5;width:62vw">{{professions.alias}}</view>
+                    <view bindtap="majorUp" class="video-title-color title-font bold" data-code="{{professions.code}}" data-collegename="{{item.alias}}" data-cost="{{professions.cost}}" data-extended="{{professions.extended}}" data-learyear="{{professions.learYear}}" data-majorcode="{{professions.majorCode}}" data-plannum="{{professions.planNum}}" data-planyear="{{professions.scoreLineYear}}" data-probability="{{professions.probability}}" data-professionname="{{professions.alias}}" data-year="{{professions.year}}" style="line-height:1.5;width:62vw">{{professions.alias}}</view>
                 </view>
                 <view class="flex point-font">
                     <view style="width:14vw">学制：{{professions.learYear.length>0?professions.learYear:'-'}}年</view>
-                    <view>学费：{{professions.cost.length>0?professions.cost:'-'}}</view>
+                    <view>学费：{{professions.cost.length>0&&professions.cost!=0?professions.cost:'-'}}</view>
                 </view>
                 <view style="margin-top:2vw">
                     <view style="width:35vw">{{professions.year==0?'-':professions.year}}招生计划
@@ -86,97 +94,120 @@
         </view>
     </view>
 </view>
-<view catchtouchmove="catchWrapperTouchmove" class=" majorUp-wrapper {{majorUp}}">
-    <view bindtap="majorClose" style="width:100%;height:100%"></view>
-    <view class="content-font zhejiang-info-color major-bottom" wx:if="{{majorLoad}}">
+<view catchtouchmove="move" class=" majorUp-wrapper {{majorUp}}">
+    <view bindtap="majorClose" catchtouchmove="move" style="width:100%;height:100%"></view>
+    <view class="content-font threeFontColor major-bottom" wx:if="{{majorLoad}}">
         <view class="loading" style="position:absolute">
-            <image src="../../image/loading_icon1.gif"></image>
+            <image src="/image/loading_icon1.gif"></image>
         </view>
     </view>
-    <view class="content-font zhejiang-info-color major-bottom" wx:else>
-        <image bindtap="majorClose" src="../../image/icon_close_alt2.png" style="position:absolute;top:3.8vw;right:4.8vw;width:5.5vw;height:5.5vw"></image>
-        <view class="title-font zhejiang-content-color" style="line-height:1.5;width:85vw;">{{majorDetail.ProfessionName}}</view>
+    <view class="content-font threeFontColor major-bottom" wx:else>
+        <image bindtap="majorClose" src="/image/icon_close_alt2.png" style="position:absolute;top:3.8vw;right:4.8vw;width:4vw;height:4vw"></image>
+        <view class="oneFontSize fourFontColor bold textOmit" style="line-height:1.5;width:80vw;">{{majorDetail.ProfessionName}}</view>
         <view class="flex major-bottom-wrapper">
-            <view>代码:{{majorDetail.Code}}</view>
             <view>{{majorDetail.CollegeName}}</view>
         </view>
-        <view class="zhejiang-content-color" style="line-height:3">基本信息</view>
-        <view style="line-height:2.5">
-            <view class="flex biaoBorderBottom biaoBorderTop">
-                <view class="major-biao-left biaoBorderLeft biaoBorderRight" style="width:30vw">学制：</view>
-                <view class="major-biao-right">{{majorDetail.LearYear}}年</view>
-                <view class="major-biao-left biaoBorderLeft biaoBorderRight">学费：</view>
-                <view class="biaoBorderRight major-biao-right">{{majorDetail.Cost}}</view>
+        <scroll-view scrollY class="fourFontColor" style="height:54vh;margin-top:20rpx;">
+            <view class="zhejiang-content-color flex fourFontColor" style="line-height:3;justify-content:space-between;margin-top:3vw;">
+                <view>{{majorDetail.year}}招生计划</view>
             </view>
-            <view class="flex biaoBorderBottom">
-                <view class="major-biao-left biaoBorderLeft biaoBorderRight" style="width:30vw">计划：</view>
-                <view class="major-biao-right">{{majorDetail.PlanNum==0?'-':majorDetail.PlanNum}}</view>
-                <view class="major-biao-left biaoBorderLeft biaoBorderRight">概率：</view>
-                <view class="biaoBorderRight major-biao-right flex" style="justify-content:center;">{{majorDetail.Probability}}%</view>
+            <view class="fr jsb threeFontSize" style="height:84rpx;background: #FAFAFA;">
+                <view class="fr ac jc" style="width:24vw;">录取概率</view>
+                <view class="fr ac jc" style="width:24vw;">代码</view>
+                <view class="fr ac jc" style="width:24vw;">人数</view>
+                <view class="fr ac jc" style="width:24vw;">学费</view>
+                <view class="fr ac jc" style="width:24vw;">学制</view>
             </view>
-        </view>
-        <view class="zhejiang-content-color" style="line-height:3">专业历年招生统计</view>
-        <view class="flex biaoBorderTop zhuanye-fenshuxian">
-            <view class="biaoBorderLeft" style="width:13.33vw;background:#f2f2f2;text-align:center">年份</view>
-            <view class="major-biao-left">录取人数</view>
-            <view class="major-biao-left">最低分</view>
-            <view style="width:24vw;background:#f2f2f2;text-align:center">线差分</view>
-            <view class="major-biao-left" style="white-space:nowrap;">最低位次</view>
-        </view>
-        <view class="{{index==0?'biaoBorderTop':''}} flex biaoBorderBottom zhuanye-fenshuxian" style="line-height:2.5" wx:for="{{majorDetail.RecommendPFModel}}">
-            <view class="biaoBorderLeft" style="width:13.33vw;text-align:center">{{majorDetail.PlanYear-index}}</view>
-            <view style="width:18.67vw;text-align:center">{{item.eu==0?'-':item.eu}}</view>
-            <view style="width:18.67vw;text-align:center">{{item.ms==0?'-':item.ms}}</view>
-            <view style="width:24vw;text-align:center">{{item.sdf==0?'-':item.sdf}}</view>
-            <view style="width:18.67vw;text-align:center">{{item.ls==0?'-':item.ls}}</view>
-        </view>
+            <view class="fr jsb fourFontColor twoFontSize" style="height:84rpx;border-bottom: 1rpx solid #E9E9E9;">
+                <view class="fr ac jc" style="width:24vw;">{{majorDetail.Probability<=0?'-':majorDetail.Probability}}%</view>
+                <view class="fr ac jc" style="width:24vw;">{{majorDetail.Code}}</view>
+                <view class="fr ac jc" style="width:24vw;">{{majorDetail.PlanNum==0?'-':majorDetail.PlanNum}}</view>
+                <view class="fr ac jc" style="width:24vw;">{{majorDetail.Cost==0?'-':majorDetail.Cost}}</view>
+                <view class="fr ac jc" style="width:24vw;">{{majorDetail.LearYear}}</view>
+            </view>
+            <view class="flex" style="line-height:3;justify-content:space-between;margin-top:30rpx">
+                <view>专业历年招生统计</view>
+            </view>
+            <view class="fr ac jsb" style="margin-top:3vw;background: #FAFAFA;height:84rpx">
+                <view class="fr ac jc" style="width:24vw;">年份</view>
+                <view class="fr ac jc" style="width:24vw;">录取数</view>
+                <view class="fr ac jc" style="width:24vw;">最低分</view>
+                <view class="fr ac jc" style="width:24vw;">线差分</view>
+                <view class="fr ac jc" style="width:24vw;">最低位次</view>
+            </view>
+            <view>
+                <view class="fr ac jsb twoFontSize" style="height:84rpx;{{index%2!=0?'background:#FAFAFA;':''}}" wx:for="{{majorDetail.RecommendPFModel}}">
+                    <view class="fr ac jc" style="width:24vw;">{{majorDetail.PlanYear-index}}</view>
+                    <view class="fr ac jc" style="width:24vw;"> {{item.eu==0?'-':item.eu}}</view>
+                    <view class="fr ac jc" style="width:24vw;">{{item.ms==0?'-':item.ms}}</view>
+                    <view class="fr ac jc" style="width:24vw;">{{item.sdf==0?'-':item.sdf}}</view>
+                    <view class="fr ac jc" style="width:24vw;">{{item.ls==0?'-':item.ls}}</view>
+                </view>
+            </view>
+        </scroll-view>
         <view style="display:flex;justify-content:flex-end">
             <view bindtap="goMajorDetail" class="recommend-btn oneFontSize" hoverClass="btnHover" style="width:91.6vw;position:absolute;bottom:5vw;">查看完整专业详情</view>
         </view>
     </view>
 </view>
-<view catchtouchmove="catchWrapperTouchmove" class=" majorUp-wrapper {{collegeUp}}">
+<view style="width:100vw;height:100vh;background:rgba(0,0,0,0.3);position:fixed;top:0;left:0;" wx:if="{{collegeUp=='major-animate'}}"></view>
+<view catchtouchmove="move" class="majorUp-wrapper {{collegeUp}}">
     <view bindtap="collegeClose" style="width:100%;height:100%"></view>
-    <view class="content-font zhejiang-info-color major-bottom" wx:if="{{collegeLoad}}">
+    <view class="content-font threeFontColor major-bottom" wx:if="{{collegeLoad}}">
         <view class="loading" style="position:absolute">
-            <image src="../../image/loading_icon1.gif"></image>
+            <image src="/image/loading_icon1.gif"></image>
         </view>
     </view>
-    <view class="content-font zhejiang-info-color major-bottom" wx:else>
-        <image bindtap="collegeClose" src="../../image/icon_close_alt2.png" style="position:absolute;top:3.8vw;right:4.8vw;width:5.5vw;height:5.5vw"></image>
-        <view class="title-font zhejiang-content-color" style="line-height:1.5">{{collegeDetail.collegeName}}
-        <text class="zhejiang-info-color point-font">{{collegeDetail.tag}}</text>
+    <view class="content-font threeFontColor major-bottom" wx:else>
+        <image bindtap="collegeClose" src="/image/icon_close_alt2.png" style="position:absolute;top:3.8vw;right:4.8vw;width:4vw;height:4vw"></image>
+        <view class="fourFontSize fourFontColor bold" style="line-height:1.5">{{collegeDetail.collegeName}}
+          <text class="threeFontColor fiveFontSize" style="font-weight:normal;">{{collegeDetail.tag}}</text>
         </view>
-        <view class="flex major-bottom-wrapper point-font"></view>
-        <view class="zhejiang-content-color flex" style="line-height:3;justify-content:space-between">
-            <view>院校分数线</view>
-            <view class="flex">
-                <view>
-                    <view class="picker flex">
-                        <view>{{tableList[0].BatchName}}</view>
-                        <view class="image" style="margin-right:2vw"></view>
-                    </view>
-                </view>
+        <view class="flex major-bottom-wrapper fiveFontSize"></view>
+        <scroll-view scrollY class="fourFontColor" style="height:54vh;margin-top:3vw;">
+            <view class="zhejiang-content-color flex fourFontColor" style="line-height:3;justify-content:space-between;">
+                <view>{{collegeDetail.year}}招生计划</view>
             </view>
-        </view>
-        <view class="flex biaoBorderTop zhuanye-fenshuxian" style="margin-top:3vw;line-height:2.5;">
-            <view class="biaoBorderLeft" style="width:18.67vw;background:#f2f2f2;text-align:center">年份</view>
-            <view class="major-biao-left" style="width:30vw">最高分</view>
-            <view class="major-biao-left" style="width:24vw">最低分</view>
-            <view style="width:20vw;background:#f2f2f2;text-align:center" wx:if="{{cityId==1}}">选测</view>
-            <view class="major-biao-left" style="width:24vw">平均分</view>
-            <view class="major-biao-left" style="width:24vw">录取数</view>
-            <view class="major-biao-left" style="width:24vw;white-space:nowrap;">最低位次</view>
-        </view>
-        <scroll-view scrollY style="height:46vh;border-right:1px solid #e4e4e4;box-sizing:border-box;">
-            <view class="{{index==0?'biaoBorderTop':''}} flex biaoBorderBottom zhuanye-fenshuxian" style="line-height:2.5;" wx:for="{{collegeDetail.collegeInfo}}">
-                <view class="biaoBorderLeft" style="width:18.67vw;text-align:center">{{item.year}}</view>
-                <view style="width:30vw;text-align:center">{{item.maxScore==0?'-':item.maxScore}}</view>
-                <view style="width:24vw;text-align:center">{{item.minScore==0?'-':item.minScore}}</view>
-                <view style="width:20vw;text-align:center" wx:if="{{cityId==1}}">{{item.chooseLevel}}</view>
-                <view style="width:24vw;text-align:center">{{item.avgScore==0?'-':item.avgScore}}</view>
-                <view style="width:24vw;text-align:center">{{item.enterNum==0?'-':item.enterNum}}</view>
-                <view style="width:24vw;text-align:center">{{item.lowSort==0?'-':item.lowSort}}</view>
+            <view class="fr jsb threeFontSize" style="height:84rpx;background: #FAFAFA;">
+                <view class="fr ac jc" style="width:24vw;">概率</view>
+                <view class="fr ac jc" style="width:24vw;">代码</view>
+                <view class="fr ac jc" style="width:24vw;" wx:if="{{cityId==1}}">选测等级</view>
+                <view class="fr ac jc" style="width:24vw;">人数</view>
+            </view>
+            <view class="fr jsb twoFontSize" style="height:84rpx;border-bottom: 1rpx solid #E9E9E9;">
+                <view class="fr ac jc" style="width:24vw;">{{collegeDetail.pro}}%</view>
+                <view class="fr ac jc" style="width:24vw;">{{collegeDetail.code}}</view>
+                <view class="fr ac jc" style="width:24vw;line-height:40rpx;text-align:center" wx:if="{{cityId==1}}">{{collegeDetail.chooseLevel}}</view>
+                <view class="fr ac jc" style="width:24vw;">{{collegeDetail.num}}</view>
+            </view>
+            <view class="twoFontSize flex" style="line-height:3;justify-content:space-between;margin-top:30rpx">
+                <view>院校历年招生统计</view>
+            </view>
+            <view class="fr ac jsb" style="background: #FAFAFA;height:84rpx">
+                <view class="fc ac jc" style="width:24vw;">
+                    <text style="line-height:1.5">年份
+批次</text>
+                </view>
+                <view class="fr ac jc" style="width:24vw;">最高分</view>
+                <view class="fr ac jc" style="width:24vw;">最低分</view>
+                <view class="fr ac jc" style="width:24vw;" wx:if="{{cityId==1}}">选测</view>
+                <view class="fr ac jc" style="width:24vw;">平均分</view>
+                <view class="fr ac jc" style="width:24vw;">录取数</view>
+                <view class="fr ac jc" style="white-space:nowrap;width:24vw;">最低位次</view>
+            </view>
+            <view>
+                <view class="fr ac jsb twoFontSize" style="height:84rpx;{{index%2!=0?'background:#FAFAFA;':''}}" wx:for="{{collegeDetail.collegeInfo}}" wx:key="index">
+                    <view class="fr ac jc" style="width:24vw;">
+                        <text style="line-height:1.2">{{item.year}}
+{{item.batchName}}</text>
+                    </view>
+                    <view class="fr ac jc" style="width:24vw;"> {{item.maxScore==0?'-':item.maxScore}}</view>
+                    <view class="fr ac jc" style="width:24vw;">{{item.minScore==0?'-':item.minScore}}</view>
+                    <view class="fr ac jc" style="width:24vw;line-height:40rpx;text-align:center" wx:if="{{cityId==1}}">{{item.chooseLevel}}</view>
+                    <view class="fr ac jc" style="width:24vw;">{{item.avgScore==0?'-':item.avgScore}}</view>
+                    <view class="fr ac jc" style="width:24vw;">{{item.enterNum==0?'-':item.enterNum}}</view>
+                    <view class="fr ac jc" style="width:24vw;">{{item.lowSort==0?'-':item.lowSort}}</view>
+                </view>
             </view>
         </scroll-view>
         <view style="display:flex;justify-content:flex-end">
@@ -184,4 +215,5 @@
         </view>
     </view>
 </view>
-<view bindtap="baocun" class="baocun btn-color title-font" wx:if="{{baocunFlag}}">保存</view>
+<view bindtap="baocun" class="baocun btn-color title-font" wx:if="{{baocunFlag&&!share}}">保存</view>
+<view bindtap="update" class="update btn-color title-font" wx:if="{{!share}}">修改</view>

@@ -8,6 +8,9 @@ Page({
    * 页面的初始数据
    */
     data: {
+        mindVideoList: [],
+        studyVideoList: [],
+        majorVideoList: [],
         navigationHome: false,
         cepingCount: 0,
         loginFlag: false,
@@ -50,7 +53,7 @@ Page({
             multiple: 5,
             base: 39278,
             type: 2,
-            imgUrl: "/image/ceping/ksxl.png"
+            imgUrl: "/image/ceping/xxdj.png"
         }, {
             name: "学习能力测评",
             desc: "成绩提升有方法",
@@ -258,12 +261,14 @@ Page({
         var that = this;
         api.getVideoList("App/Videos/Query", "POST", type).then(function(res) {
             if (res.isSuccess && res.result.items.length > 0) {
-                res.result.items.forEach(function(ele) {
-                    ele.hits = transformCount(ele.hits);
-                });
+                // res.result.items.forEach(ele => {
+                //   ele.hits = transformCount(ele.hits)
+                // })
                 if (type == 2) {
                     that.setData({
                         majorVideoList: res.result.items
+                    }, function() {
+                        console.log(that.data);
                     });
                 } else if (type == 0) {
                     that.setData({

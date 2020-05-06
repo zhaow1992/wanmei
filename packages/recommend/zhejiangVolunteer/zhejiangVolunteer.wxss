@@ -1,0 +1,147 @@
+@import "../zjMatchMajor/zjMatchMajor.wxss";
+
+@import "../beijingVolunteer/beijingVolunteer.wxss";
+
+.shaixuan-container {
+    position: fixed;
+    top: 0;
+    left: 100vw;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    z-index: 5;
+}
+
+.shaixuan-container .shaixuan-wrap {
+    width: 100%;
+    height: 100%;
+}
+
+.shaixuan-animate {
+    animation: shaixuan 0.5s ease forwards;
+}
+
+@-webkit-keyframes shaixuan {
+    0% {
+    }
+
+    100% {
+        left: 0;
+    }
+}
+
+@keyframes shaixuan {
+    0% {
+    }
+
+    100% {
+        left: 0;
+    }
+}
+
+page {
+    background: #F8F5F4;
+    overflow: visible;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+}
+
+.info-wrapper {
+    padding: 0 2.7vw;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.item-wrapper {
+    width: 30vw;
+    margin-top: 3vw;
+    height: 12vw;
+    white-space: nowrap;
+}
+
+.icon-wrapper {
+    width: 6.4vw;
+    height: 6.4vw;
+    border-radius: 100%;
+    justify-content: space-around;
+}
+
+.icon-wrapper>image {
+    width: 4vw;
+    height: 4vw;
+}
+
+.text-wrapper {
+    margin-left: 2.7vw;
+    line-height: 1.5;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90%;
+    align-items: flex-start;
+    width: 20vw;
+}
+
+.head {
+    width: 100%;
+    height: 80rpx;
+}
+
+.tip {
+    position: fixed;
+    left: 0;
+    right: 0;
+    padding: 20rpx;
+    font-size: 24rpx;
+    color: #999999;
+    z-index: 999;
+    background: #FFFFFF;
+    box-sizing: border-box;
+    border-bottom: 1rpx solid #F8F5F4;
+}
+
+.bottomBtn {
+    height: 88rpx;
+    border-radius: 44rpx;
+    background: #fff;
+    border: 1rpx solid #e9302d;
+    color: #E9302D;
+    margin: 30rpx 0;
+}
+
+.save-btn {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 100%;
+    background-image: linear-gradient(-52deg,#E9302D 1%,#FF5053 100%);
+    box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);
+    color: #fff;
+    text-align: center;
+    position: fixed;
+    bottom: 228rpx;
+    right: 40rpx;
+    justify-content: space-around;
+    z-index: 100;
+}
+
+.drag {
+    width: 32rpx;
+    height: 32rpx;
+}
+
+.idx {
+    width: 36rpx;
+    height: 36rpx;
+    line-height: 36rpx;
+    background: #e9302d;
+    border-radius: 4rpx;
+}
+
+.itemCells {
+    margin-bottom: 8px;
+    padding-top: 34rpx;
+    padding-bottom: 24rpx;
+}

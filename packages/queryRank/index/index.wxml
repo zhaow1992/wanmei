@@ -1,69 +1,214 @@
-<view style="height:{{navStatusHeight+navCapsuleHeight}}px"></view>
-<view class="navigationCustomTopAll">
-    <view style="height:{{navStatusHeight}}px;background:#E9302D;color:white"></view>
-    <view class="navigationCustomTopMain" style="height:{{navCapsuleHeight}}px;line-height:{{navCapsuleHeight}}px">
-        <view class="navigationAllIconButton" style="display:flex;height:{{navCapsuleHeight}}px" wx:if="{{navigationHome}}">
-            <view bindtap="backIconButtonTap" class="backIconButton" wx:if="{{share==false}}">
-                <image mode="widthFix" src="/image/return.png" style="max-height:20px;padding:10rpx"></image>
+<canvas canvasId="line" style="width:{{canvas.w}}px;height:{{canvas.h}}px;position:fixed;left:100vw;height:100vh;"></canvas>
+<view style="background-image: linear-gradient(180deg, #FF6142 0%, #EF3D33 70%, #E9302D 100%);padding-bottom: 32rpx;">
+    <view style="height:{{navStatusHeight+navCapsuleHeight}}px"></view>
+    <view class="navigationCustomTopAll" style="z-index:100;background:rgba(233,48,45,{{opacity/100}});">
+        <view style="height:{{navStatusHeight}}px;color:white"></view>
+        <view class="navigationCustomTopMain" style="height:{{navCapsuleHeight}}px;line-height:{{navCapsuleHeight}}px">
+            <view class="navigationAllIconButton" style="display:flex;height:{{navCapsuleHeight}}px" wx:if="{{navigationHome}}">
+                <view bindtap="backIconButtonTap" class="backIconButton" wx:if="{{share==false}}">
+                    <image mode="widthFix" src="/image/return.png" style="max-height:20px;padding:10rpx"></image>
+                </view>
+            </view>
+            <view bindtap="toast" class="navigationText title-font fr ac jc" style="line-height:{{navCapsuleHeight}}px">
+                <view>{{navigationText}}</view>
+                <image src="../image/yiwen.png" style="width:34rpx;height:34rpx;margin-left:20rpx;"></image>
             </view>
         </view>
-        <view bindtap="toast" class="navigationText title-font fr ac jc" style="line-height:{{navCapsuleHeight}}px">
-            <view>{{navigationText}}</view>
-            <image src="../image/yiwen.png" style="width:34rpx;height:34rpx;margin-left:20rpx;"></image>
+    </view>
+    <view hidden="{{allLoading}}">
+        <view id="head">
+            <view style="width:750rpx;">
+                <view class="head fr ac jsb">
+                    <view class="fr ac" style="width: 63%;padding-left:32rpx;">
+                        <view class="fr ac jc">
+                            <picker bindchange="bindPickerChange" range="{{years}}" value="{{index}}">
+                                <view class="fourFontColor twoFontSize fr ac" style="white-space:nowrap;">
+                                    <view>{{years[index]}}</view>
+                                    <image src="/image/down_logo.png" style="width:20rpx;height:10rpx;margin:0 10rpx;"></image>
+                                </view>
+                            </picker>
+                        </view>
+                        <view class="fr ac jc" wx:if="{{subset.length>0}}">
+                            <picker bindchange="pickerSub" range="{{subset}}" value="{{subIndex}}">
+                                <view class="fourFontColor twoFontSize" style="white-space:nowrap;">
+                    {{subset[subIndex]}}
+                  </view>
+                            </picker>
+                            <image src="/image/down_logo.png" style="width:20rpx;height:10rpx;margin:0 10rpx;"></image>
+                        </view>
+                        <view class="fr ac jc" wx:if="{{jsSub.length>1||userInfo[0].Province==1}}">
+                            <picker bindchange="pickerJsSub" range="{{jsSub}}" value="{{jsSubIndex}}">
+                                <view class="fourFontColor twoFontSize" style="white-space:nowrap;">
+                    {{jsSub[jsSubIndex]}}
+                  </view>
+                            </picker>
+                            <image src="/image/down_logo.png" style="width:20rpx;height:10rpx;margin:0 10rpx;"></image>
+                        </view>
+                        <view class="fr ac jc fourFontColor twoFontSize">
+                            <input bindblur="bindblur" bindinput="input" focus="{{focus}}" maxlength="3" style="width:54rpx;text-align:center" type="number" value="{{score}}"></input>
+                            <text>分</text>
+                            <image bindtap="focusInput" src="/image/search_image.png" style="width:22rpx;height:22rpx;padding:10rpx;"></image>
+                        </view>
+                    </view>
+                    <view bindtap="search" class="btn fr ac jc twoFontSize whiteFontColor" hoverClass="btnHover" style="margin-right:30rpx;">查询</view>
+                </view>
+            </view>
+        </view>
+        <view class="twoFontSize" style="padding:32rpx;color:#fff;">
+            <view class="threeFontSize" style="background: rgba(255,255,255,0.1);box-shadow: 0 0 10rpx 4rpx rgba(0,0,0,0.03);padding:20rpx 32rpx;border-radius:16rpx;margin-bottom:32rpx;line-height:36rpx;opacity:0.8;" wx:if="{{subset.length==0&&openNewVersionYear==currectYear}}">温馨提示：{{years[index]}}年为本省首年新高考，因此当年考生位次与历年文理科位次存在较大差异，建议使用“智能推荐”为您生成最佳的填报方案。</view>
+            <view style="line-height:2;">
+                <view>位次区间：{{rankData.highestRank}}~{{rankData.lowestRank}}</view>
+                <view>同分人数：{{rankData.sameNumber}}人</view>
+                <view class="threeFontSize" style="opacity:0.8;">数据来源：{{userInfo[0].ProvinceName}}省考试院{{years[index]}}年{{subset.length==0?'模考':'分段表'}}数据</view>
+            </view>
+        </view>
+        <view style="text-align:center;">
+            <image src="{{canvasLineImg}}" style="width:{{canvas.w}}px;height:{{canvas.h}}px;"></image>
         </view>
     </view>
 </view>
-<view id="head">
-    <view style="width:750rpx;height:52rpx;background:#E9302D">
-        <view class="head fr ac jsb">
-            <view class="fr ac">
-                <view class="fr ac jc" style="width:160rpx;border-right:1rpx solid #CDCDCD;">
-                    <picker bindchange="bindPickerChange" range="{{years}}" value="{{index}}">
-                        <view class="fourFontColor twoFontSize fr ac">
-                            <view>{{years[index]}}</view>
-                            <image src="/image/down_logo.png" style="width:24rpx;height:12rpx;margin-left:10rpx;"></image>
-                        </view>
-                    </picker>
-                </view>
-                <view class="fr ac jc" style="width:160rpx;border-right:1rpx solid #CDCDCD;" wx:if="{{userInfo[0].Province!=842&&userInfo[0].Province!=843}}">
-                    <picker bindchange="pickerSub" range="{{subset}}" value="{{subIndex}}">
-                        <view class="fourFontColor twoFontSize">
-                            {{subset[subIndex]}}
-                        </view>
-                    </picker>
-                    <image src="/image/down_logo.png" style="width:24rpx;height:12rpx;margin-left:10rpx;"></image>
-                </view>
-                <view class="fr ac jc fourFontColor twoFontSize" style="width:130rpx;">
-                    <input bindinput="input" maxlength="3" style="width:100rpx;text-align:center" type="number" value="{{score}}"></input>
-                    <text>分</text>
-                    <image src="/image/search_image.png" style="width:22rpx;height:22rpx;margin-left:10rpx;"></image>
-                </view>
-            </view>
-            <view bindtap="search" class="btn fr ac jc twoFontSize whiteFontColor" hoverClass="btnHover" style="margin-right:30rpx;">查询</view>
+<view wx:if="{{allLoading}}">
+    <loading loadingType="all"></loading>
+</view>
+<view hidden="{{allLoading}}">
+    <loading loadingType="popup" wx:if="{{showLoad}}"></loading>
+    <view style="background:#E9302D;">
+        <view class="bold oneFontColor fourFontSize flex" style="padding:32rpx;background:#fff;border-top-left-radius: 16rpx;border-top-right-radius: 16rpx;">
+            <view wx:if="{{openNewVersionYear==currectYear&&openNewVersionYear==years[index]}}">历年文理等位分</view>
+            <view wx:else>历年等位分</view>
+            <image bindtap="scoreToast" src="/image/question2.png" style="width:30rpx;height:30rpx;margin-left:10rpx"></image>
         </view>
     </view>
-    <view class="fr ac threeFontSize twoFontColor" style="margin-top:70rpx;height:96rpx">
+    <block wx:if="{{openNewVersionYear==currectYear&&openNewVersionYear==years[index]}}">
+        <view class="flex flexjsaround twoFontSize threeFontColor" style="height:12.8vw;border-bottom:1rpx solid #E9E9E9;">
+            <view bindtap="swiperNav" class="{{currentTab==0?'oneFontSize fourFontColor':''}} relativeStyle" data-current="0">
+                <view>理科</view>
+                <view class="absoluteStyle" style="left:50%;transform:translate(-50%);margin-top:2.4vw;">
+                    <view class="checkedBackColor {{currentTab==0?'selectLineWH':''}} "></view>
+                </view>
+            </view>
+            <view bindtap="swiperNav" class="{{currentTab==1?'oneFontSize fourFontColor':''}} relativeStyle" data-current="1">
+                <view>文科</view>
+                <view class="absoluteStyle" style="left:50%;transform:translate(-50%);margin-top:2.4vw;">
+                    <view class="checkedBackColor {{currentTab==1?'selectLineWH':''}} "></view>
+                </view>
+            </view>
+        </view>
+        <swiper bindchange="changeSwiper" current="{{currentTab}}" style="height:300rpx">
+            <swiper-item>
+                <block wx:if="{{equivalents[0].length>0}}">
+                    <view class="fr ac threeFontSize twoFontColor" style="height:76rpx">
+                        <view class="fr ac" style="width:180rpx;padding-left:82rpx;">年份</view>
+                        <view class="fr ac" style="width:310rpx;padding-left:30rpx;">位次区间</view>
+                        <view class="fr ac" style="width:170rpx;padding-left:30rpx;">等位分</view>
+                    </view>
+                    <view class="fr ac twoFontSize oneFontColor" style="height:76rpx;" wx:for="{{equivalents[0]}}" wx:key="index">
+                        <view style="position: absolute;left: 32rpx;">
+                            <view style="width:20rpx;height:20rpx;border:4rpx solid #E9302D;border-radius:100%;"></view>
+                            <view style="width:4rpx;height:37rpx;background:#E2E2E2;position: absolute;left: 12rpx;margin-top: 6rpx;" wx:if="{{index<rankData.equivalents.length-1}}"></view>
+                        </view>
+                        <view class="fr ac" style="width:180rpx;padding-left:82rpx;">{{item.year}}</view>
+                        <view class="fr ac" style="width:310rpx;padding-left:30rpx;">{{item.highestRank}}~{{item.lowestRank}}</view>
+                        <view class="fr ac" style="width:170rpx;padding-left:30rpx;">
+                            <text wx:if="{{item.maxScore==item.minScore}}">{{item.maxScore}}</text>
+                            <text wx:else>{{item.minScore}}~{{item.maxScore}}</text>
+                        </view>
+                    </view>
+                </block>
+                <view class="flex" style="height:100%;justify-content:space-around;" wx:else>
+                    <view class="twoFontSize threeFontColor">当前位次区间无历史数据</view>
+                </view>
+            </swiper-item>
+            <swiper-item>
+                <block wx:if="{{equivalents[1].length>0}}">
+                    <view class="fr ac threeFontSize twoFontColor" style="height:76rpx">
+                        <view class="fr ac" style="width:180rpx;padding-left:82rpx;">年份</view>
+                        <view class="fr ac" style="width:310rpx;padding-left:30rpx;">位次区间</view>
+                        <view class="fr ac" style="width:170rpx;padding-left:30rpx;">等位分</view>
+                    </view>
+                    <view class="fr ac twoFontSize oneFontColor" style="height:76rpx;" wx:for="{{equivalents[1]}}" wx:key="index">
+                        <view style="position: absolute;left: 32rpx;">
+                            <view style="width:20rpx;height:20rpx;border:4rpx solid #E9302D;border-radius:100%;"></view>
+                            <view style="width:4rpx;height:37rpx;background:#E2E2E2;position: absolute;left: 12rpx;margin-top: 6rpx;" wx:if="{{index<rankData.equivalents.length-2}}"></view>
+                        </view>
+                        <view class="fr ac" style="width:180rpx;padding-left:82rpx;">{{item.year}}</view>
+                        <view class="fr ac" style="width:310rpx;padding-left:30rpx;">{{item.highestRank}}~{{item.lowestRank}}</view>
+                        <view class="fr ac" style="width:170rpx;padding-left:30rpx;">
+                            <text wx:if="{{item.maxScore==item.minScore}}">{{item.maxScore}}</text>
+                            <text wx:else>{{item.minScore}}~{{item.maxScore}}</text>
+                        </view>
+                    </view>
+                </block>
+                <view class="flex" style="height:100%;justify-content:space-around;" wx:else>
+                    <view class="twoFontSize threeFontColor">当前位次区间无历史数据</view>
+                </view>
+            </swiper-item>
+        </swiper>
+    </block>
+    <block wx:else>
+        <block wx:if="{{rankData.equivalents.length>0}}">
+            <view class="fr ac threeFontSize twoFontColor" style="height:76rpx">
+                <view class="fr ac" style="width:180rpx;padding-left:82rpx;">年份</view>
+                <view class="fr ac" style="width:310rpx;padding-left:30rpx;">位次区间</view>
+                <view class="fr ac" style="width:170rpx;padding-left:30rpx;">等位分</view>
+            </view>
+            <view class="fr ac twoFontSize oneFontColor" style="height:76rpx;" wx:for="{{rankData.equivalents}}" wx:key="index">
+                <view style="position: absolute;left: 32rpx;">
+                    <view style="width:20rpx;height:20rpx;border:4rpx solid #E9302D;border-radius:100%;"></view>
+                    <view style="width:4rpx;height:37rpx;background:#E2E2E2;position: absolute;left: 12rpx;margin-top: 6rpx;" wx:if="{{index<rankData.equivalents.length-1}}"></view>
+                </view>
+                <view class="fr ac" style="width:180rpx;padding-left:82rpx;">{{item.year}}</view>
+                <view class="fr ac" style="width:310rpx;padding-left:30rpx;">{{item.highestRank}}~{{item.lowestRank}}</view>
+                <view class="fr ac" style="width:170rpx;padding-left:30rpx;">
+                    <text wx:if="{{item.maxScore==item.minScore}}">{{item.maxScore}}</text>
+                    <text wx:else>{{item.minScore}}~{{item.maxScore}}</text>
+                </view>
+            </view>
+        </block>
+        <view class="flex" style="height:150rpx;justify-content:space-around;" wx:else>
+            <view class="twoFontSize threeFontColor">当前位次区间无历史数据</view>
+        </view>
+    </block>
+    <view class="bold oneFontColor fourFontSize flex" style="padding:32rpx;border-top:16rpx solid #F8F5F4;">
+        <view>{{userInfo[0].ProvinceName}}{{years[index]}}
+      <text wx:if="{{subset.length>0}}">{{subset[subIndex]}}</text>
+            <text wx:else>模考</text>分段表</view>
+    </view>
+    <view class="fr ac threeFontSize twoFontColor" style="height:96rpx">
         <view class="fr ac" style="width:220rpx;padding-left:30rpx;">分数</view>
         <view class="fr ac" style="width:220rpx;padding-left:30rpx;">位次区间</view>
         <view class="fr ac jc" style="width:220rpx;padding-left:30rpx;">同分人数</view>
     </view>
-</view>
-<scroll-view scrollWithAnimation scrollY scrollIntoView="score{{intoView}}" style="height:{{scrollH}}px">
-    <showLoading loadingType="local" wx:if="{{showLoading}}"></showLoading>
-    <view class="fr ac twoFontSize oneFontColor" id="score{{item.minScore}}" style="height:96rpx;background:{{index%2==0?'#FAFAFA':'white'}}" wx:if="{{!showLoading}}" wx:for="{{rankData.yfyds}}" wx:key="{{index}}">
-        <view class="fr ac" style="width:220rpx;padding-left:30rpx;">{{item.score}}</view>
-        <view class="fr ac" style="width:220rpx;padding-left:30rpx;">{{item.highestRank==item.lowestRank?item.lowestRank:item.highestRank+'~'+item.lowestRank}}</view>
-        <view class="fr ac jc" style="width:220rpx;padding-left:30rpx;">{{item.sameNumber}}</view>
+    <view style="min-height:500rpx;">
+        <showLoading loadingType="local" wx:if="{{showLoading}}"></showLoading>
+        <view class="fr ac twoFontSize oneFontColor" id="score{{item.minScore}}" style="height:96rpx;background:{{index%2==0?'#FAFAFA':'white'}}" wx:if="{{!showLoading}}" wx:for="{{rankData.yfyds}}" wx:key="index">
+            <view class="fr ac" style="width:220rpx;padding-left:30rpx;">{{item.score}}</view>
+            <view class="fr ac" style="width:220rpx;padding-left:30rpx;">{{item.highestRank==item.lowestRank?item.lowestRank:item.highestRank+'~'+item.lowestRank}}</view>
+            <view class="fr ac jc" style="width:220rpx;padding-left:30rpx;">{{item.sameNumber}}</view>
+        </view>
     </view>
-</scroll-view>
-<view catchtap="toast" catchtouchmove="ture" class="toast" wx:if="{{showToast}}">
-    <view class="drawer threeFontSize fourFontColor enlarge">
-        <view class="oneFontSize">使用说明</view>
-        <view style="margin-top:20rpx">1、位次查询结果根据2019年教育考试院发布录取位次计算；</view>
-        <view>2、在正式填报时，以教育考试院公布的高考成绩（位次）为准。</view>
-        <view catchtap="toast" class="fc ac">
-            <view style="width:2rpx;height:100rpx;background:#ffffff"></view>
-            <image src="/image/windowClose.png" style="width:50rpx;height:50rpx"></image>
+    <view catchtap="toast" catchtouchmove="ture" class="toast" wx:if="{{showToast}}">
+        <view class="drawer threeFontSize fourFontColor enlarge">
+            <view class="twoFontSize oneFontColor">使用说明</view>
+            <view class="threeFontSize" style="margin-top:20rpx">
+                <text>{{rankDescription}}</text>
+            </view>
+            <view catchtap="toast" class="fc ac">
+                <view style="width:2rpx;height:60rpx;background:#ffffff"></view>
+                <image src="/image/windowClose.png" style="width:64rpx;height:64rpx"></image>
+            </view>
+        </view>
+    </view>
+    <view catchtap="scoreToast" catchtouchmove="ture" class="toast" wx:if="{{scoreToast}}">
+        <view class="drawer threeFontSize fourFontColor enlarge" style="height:140rpx;">
+            <view class="twoFontSize oneFontColor">历年等位分</view>
+            <view class="threeFontSize" style="margin-top:20rpx">
+                <text>历年相近位次所对应的分数，可用于比较历年高考的成绩竞争情况.</text>
+            </view>
+            <view catchtap="scoreToast" class="fc ac">
+                <view style="width:2rpx;height:60rpx;background:#ffffff"></view>
+                <image src="/image/windowClose.png" style="width:64rpx;height:64rpx"></image>
+            </view>
         </view>
     </view>
 </view>

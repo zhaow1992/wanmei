@@ -1,0 +1,132 @@
+<navigationcustomtop navigationText="砍价0元购" share="{{share}}"></navigationcustomtop>
+<loading wx:if="{{showLoad}}"></loading>
+<block wx:else>
+    <view class="container">
+        <view class="banner-wrapper">
+            <image src="http://wmei-appfile.cn-bj.ufileos.com/0yg/activityLogo.png"></image>
+            <view bindtap="showRulePopup">活动规则</view>
+            <view wx:if="{{isIos}}">{{activityDetail.buyCount}} 人已参与砍价活动</view>
+            <view wx:else>{{activityDetail.buyCount}} 人已参与砍价活动</view>
+        </view>
+        <view class="logo-style-and">拼人缘，本次活动开放1000张VIP卡，手快有手慢无哦</view>
+        <view class="body-wrapper">
+            <block wx:if="{{!join}}">
+                <block wx:if="{{activityDetail.numId!=0}}">
+                    <block wx:if="{{activityDetail.status==2&&activityDetail.isActivation==true||activityDetail.status==3}}"></block>
+                    <block wx:else>
+                        <view class="flex progress-wrapper" wx:if="{{activityDetail.alreadyBargainPrice<360||activityDetail.numId==0}}">
+                            <view>
+                                <progress activeColor="#e9302d" borderRadius="10" percent="{{percent}}" strokeWidth="8" style="{{isIos?'width:90vw;':'width:60vw;'}}margin-bottom:2vw;"></progress>
+                                <view style="color:#666;" wx:if="{{isIos}}">已砍 {{activityDetail.alreadyBargainPrice}} 元 / 还剩 {{activityDetail.remainingPrice}} 元（ios暂不支持购买）</view>
+                                <view style="color:#666;" wx:else>已砍 {{activityDetail.alreadyBargainPrice}} 元 / 还剩 {{activityDetail.remainingPrice}} 元</view>
+                            </view>
+                            <view bindtap="payments" class="pay-wrapper" hoverClass="btnHover" wx:if="{{!isIos}}">{{activityDetail.remainingPrice}}元购买</view>
+                        </view>
+                        <view class="flex progress-wrapper-success" wx:else>
+                            <view>
+                                <progress activeColor="#e9302d" borderRadius="10" percent="{{percent}}" strokeWidth="8" style="width:90vw;margin-bottom:2vw;"></progress>
+                                <view class="timeStyle" style="text-align:center;margin-top:10vw;">恭喜您已砍价成功</view>
+                            </view>
+                        </view>
+                    </block>
+                </block>
+                <view class="shareBtn-wrapper">
+                    <block wx:if="{{activityDetail.numId!=0}}">
+                        <block wx:if="{{activityDetail.status==2&&activityDetail.isActivation==true||activityDetail.status==3}}">
+                            <view class="timeStyle" style="margin:2vw auto;">恭喜您已砍价成功</view>
+                            <button class="title-font btnAnimate" hoverClass="btnHover" openType="share">邀请好友参与0元购</button>
+                        </block>
+                        <block wx:else>
+                            <block wx:if="{{currentTime!='已经截止'}}">
+                                <block wx:if="{{activityDetail.alreadyBargainPrice<360||activityDetail.numId==0}}">
+                                    <button class="title-font btnAnimate indexShareButton" hoverClass="btnHover" openType="share">喊好友砍一刀</button>
+                                    <view class="timeStyle">还剩
+                    <text>{{currentTime}}</text> 结束</view>
+                                </block>
+                                <button bindtap="activationUserPermission" class="title-font btnAnimate" disabled="{{loadingBtn}}" hoverClass="btnHover" loading="{{loadingBtn}}" style="margin-bottom:5vw" wx:else>激活会员卡</button>
+                            </block>
+                            <block wx:else>
+                                <button bindgetuserinfo="getUserInfo" class="title-font btnAnimate" hoverClass="btnHover" id="button1" openType="getUserInfo" style="width:66.7vw;height:12.5vw;border-radius:100px;text-align:center;line-height:12.5vw;background:#e9302d;color:#fff;margin:auto;box-shadow: 0 5px 10px 0 rgba(233,48,45,0.3);margin-top:4.3vw;" wx:if="{{avatarUrl==''}}">我也要0元购</button>
+                                <sharebutton bind:addFormid="addFormidFunc" buttonText="我也要0元购" id="share" wx:else></sharebutton>
+                                <view class="timeStyle">砍价已超时</view>
+                            </block>
+                        </block>
+                    </block>
+                    <block wx:else>
+                        <button bindgetuserinfo="getUserInfo" class="title-font btnAnimate" disabled="{{loadingBtn}}" hoverClass="btnHover" id="button2" loading="{{loadingBtn}}" openType="getUserInfo" wx:if="{{avatarUrl==''}}">我也要0元购</button>
+                        <sharebutton bind:addFormid="addFormidFunc" buttonText="我也要0元购" id="share" wx:else></sharebutton>
+                    </block>
+                </view>
+            </block>
+            <view class="shareBtn-wrapper" wx:else>
+                <block wx:if="{{helped}}">
+                    <sharebutton bind:addFormid="addFormidFunc" buttonText="我也要0元购" id="share"></sharebutton>
+                    <view class="timeStyle" wx:if="{{upperLimit}}">您今日已达到砍价次数上限</view>
+                    <view class="timeStyle" wx:else>已帮砍价</view>
+                </block>
+                <block wx:else>
+                    <block wx:if="{{currentTime=='已经截止'||activityDetail.status==2||activityDetail.status==3||activityDetail.status==4}}">
+                        <block wx:if="{{avatarUrl==''}}">
+                            <sharebutton bind:addFormid="addFormidFunc" buttonText="我也要0元购" id="share"></sharebutton>
+                            <view class="timeStyle">砍价已结束</view>
+                        </block>
+                        <block wx:else>
+                            <sharebutton bind:addFormid="addFormidFunc" buttonText="我也要0元购" id="share"></sharebutton>
+                            <view class="timeStyle">砍价已结束</view>
+                        </block>
+                    </block>
+                    <block wx:else>
+                        <block wx:if="{{avatarUrl==''}}">
+                            <view style="position:relative;width:66.7vw;height:12.5vw;left:50%;margin-left:-33.35vw;top:4.3vw;padding-bottom:3.72vw;">
+                                <button bindgetuserinfo="getUserInfo" class="title-font btnAnimate" data-index="" hoverClass="btnHover" openType="getUserInfo">帮好友砍一刀</button>
+                            </view>
+                            <view class="timeStyle">还剩
+                  <text>{{currentTime}}</text> 结束</view>
+                        </block>
+                        <block wx:else>
+                            <view style="position:relative;width:66.7vw;height:12.5vw;left:50%;margin-left:-33.35vw;top:4.3vw;padding-bottom:3.72vw;">
+                                <button bindtap="help" class="title-font btnAnimate" disabled="{{loadingBtn}}" hoverClass="btnHover" loading="{{loadingBtn}}">帮好友砍一刀</button>
+                            </view>
+                            <view class="timeStyle">还剩
+                  <text>{{currentTime}}</text> 结束</view>
+                        </block>
+                    </block>
+                </block>
+            </view>
+            <view class="helpList-wrapper">
+                <view>砍价帮</view>
+                <view wx:if="{{friendList.length>0}}">
+                    <view class="flex friendList" style="{{index==friendList.length-1&&index<3?'':'border-bottom:1px solid #eee;'}}" wx:if="{{open==true?index<20:index<3}}" wx:for="{{friendList}}" wx:key="item">
+                        <view class="flex">
+                            <image src="{{item.avatarUrl}}"></image>
+                            <view class="title-font">{{item.username}}</view>
+                        </view>
+                        <view style="color:#999;" wx:if="{{isIos}}">砍掉 {{item.price}} 元</view>
+                        <view style="color:#999;" wx:else>砍掉 {{item.price}} 元</view>
+                    </view>
+                    <view bindtap="openBtn" class="flex openBtn" wx:if="{{friendList.length>3}}">
+                        <view class="flex">
+                            <view>{{open==true?'收起':'展开'}}</view>
+                            <image src="../../../image/{{open==true?'up_icon':'down_icon'}}.png"></image>
+                        </view>
+                    </view>
+                </view>
+                <view wx:else>
+                    <view class="flex friendList" style="border-bottom:0">快来参加活动</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <popupcomponents bargainPrice="{{bargainPrice}}" bind:addFormid="addFormidfun" bind:addFormidview="addFormidview" bind:cancelEvent="_cancelEvent" bind:confirmEvent="_confirmEvent" bind:hideTapPage="hideTapIndex" id="hide" popupContent="{{popupClass.content}}" popupType="{{popupClass.popupType}}" shareButtonText="{{popupClass.shareButtonText}}" statusText="{{popupClass.statusText}}" title="{{popupClass.title}}">
+        <view style="margin-top:5vw">
+            <sharebutton bind:addFormid="addFormidFunc" buttonText="我也要0元购" id="share" loadingBtn="{{loadingBtn}}"></sharebutton>
+        </view>
+    </popupcomponents>
+</block>
+<popupcomponents id="sendPush">
+    <image src=""></image>
+    <image src="/image/active-shareSuccess.png"></image>
+    <view class="title-font">{{sendPopupText.title}}</view>
+    <view style="color:#999;font-size:3.2vw;margin-top:2.13vw;padding:0 5vw;">{{sendPopupText.content}}</view>
+    <button bindtap="sendPush" class="title-font btnAnimate" hoverClass="btnHover" style="width:66.7vw;height:12.5vw;border-radius:100px;text-align:center;line-height:12.5vw;background:#e9302d;color:#fff;margin:auto;box-shadow: 0 5px 10px 0 rgba(233,48,45,0.3);margin-top:4.3vw;">我知道了</button>
+</popupcomponents>

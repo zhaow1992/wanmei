@@ -1,5 +1,7 @@
 var api = require("../../utils/api.js");
 
+var sensors = require("../../utils/sensors.js");
+
 var app = getApp();
 
 Page({
@@ -106,156 +108,166 @@ Page({
     },
     onLoad: function onLoad(options) {
         var that = this;
-        try {
-            var userScore = wx.getStorageSync("userScore");
-            var userInfo = wx.getStorageSync("userInfo");
-            var gaokaoScore = wx.getStorageSync("gaokaoScore");
-            that.selectComponent("#navigationcustom").setNavigationAll("一键填报", true);
-            if (userInfo) {
-                that.setData({
-                    userInfo: userInfo
+        var userScore = wx.getStorageSync("userScore");
+        var userInfo = wx.getStorageSync("userInfo");
+        var gaokaoScore = wx.getStorageSync("gaokaoScore");
+        that.selectComponent("#navigationcustom").setNavigationAll("一键填报", true);
+        if (userInfo) {
+            that.setData({
+                userInfo: userInfo
+            });
+        }
+        if (userScore) {
+            if (userScore.total == 0) {
+                wx.redirectTo({
+                    url: "../createScore/createScore?YJTBflag=YJTB"
                 });
-            }
-            if (userScore) {
-                if (userScore.total == 0) {
-                    wx.redirectTo({
-                        url: "../createScore/createScore?YJTBflag=YJTB"
-                    });
-                } else {
-                    that.setData({
-                        userScore: userScore
-                    });
-                    var scoreLine = gaokaoScore[0];
-                    switch (userScore.courseType) {
-                      case 0:
-                        scoreLine = gaokaoScore[0];
-                        break;
+            } else {
+                that.setData({
+                    userScore: userScore
+                });
+                var scoreLine = gaokaoScore[0];
+                switch (userScore.courseType) {
+                  case 0:
+                    scoreLine = gaokaoScore[0];
+                    break;
 
-                      case 1:
-                        scoreLine = gaokaoScore[1];
+                  case 1:
+                    scoreLine = gaokaoScore[1];
+                    break;
+                }
+                for (var i = 0; i < scoreLine.length; i++) {
+                    if (scoreLine[i].batch == userScore.batch) {
+                        that.setData({
+                            batchName: scoreLine[i].batchName,
+                            batch: userScore.batch
+                        });
                         break;
-                    }
-                    for (var i = 0; i < scoreLine.length; i++) {
-                        if (scoreLine[i].batch == userScore.batch) {
-                            that.setData({
-                                batchName: scoreLine[i].batchName,
-                                batch: userScore.batch
-                            });
-                            break;
-                        }
                     }
                 }
             }
-        } catch (e) {}
+        }
         var cityList = [ {
             cityName: "不限",
             cityId: -1,
             st: true
         } ];
-        try {
-            var chooseCity = wx.getStorageSync("chooseCity");
-            var chooseCityId = wx.getStorageSync("chooseCityId");
-            var cityId = wx.getStorageSync("cityId");
-            if (chooseCity && chooseCityId) {
-                for (var i = 0; i < chooseCity.length; i++) {
-                    cityList.push({
-                        cityName: chooseCity[i],
-                        cityId: chooseCityId[i],
-                        st: false
-                    });
-                }
+        var chooseCity = wx.getStorageSync("chooseCity");
+        var chooseCityId = wx.getStorageSync("chooseCityId");
+        var cityId = wx.getStorageSync("cityId");
+        if (chooseCity && chooseCityId) {
+            for (var i = 0; i < chooseCity.length; i++) {
                 cityList.push({
-                    cityName: "西藏",
-                    cityId: 858,
+                    cityName: chooseCity[i],
+                    cityId: chooseCityId[i],
                     st: false
                 });
-                that.setData({
-                    cityList: cityList,
-                    morencityList: cityList
-                });
             }
-        } catch (e) {}
+            cityList.push({
+                cityName: "西藏",
+                cityId: 858,
+                st: false
+            });
+            that.setData({
+                cityList: cityList,
+                morencityList: cityList
+            });
+        }
+        var data = {
+            SA_fillout_type: "一键填报",
+            SA_data_province: cityId.provinceName,
+            SA_data_subject: userScore.courseType == 0 ? "理科" : "文科",
+            SA_data_batch: this.data.batchName,
+            SA_majors_name: "",
+            SA_college_name: "",
+            SA_is_restrict: false,
+            SA_is_result: true
+        };
+        app.sensors.track("FilloutEnter", sensors.FilloutEnter(data));
     },
     onShow: function onShow() {
         var that = this;
-        try {
-            var gaokaoScore = wx.getStorageSync("gaokaoScore");
-            var collegeRecommendBatch = wx.getStorageSync("collegeRecommendBatch");
-            var collegeRecommendBatchGroup = wx.getStorageSync("collegeRecommendBatchGroup");
-            var userScore = wx.getStorageSync("userScore");
-            if (collegeRecommendBatch && collegeRecommendBatch != -1) {
-                if (collegeRecommendBatch != that.data.batch) {
-                    that.setData({
-                        batch: collegeRecommendBatch,
-                        createText: "点击生成志愿表",
-                        startBtnFlag: false,
-                        cir: true,
-                        loadAnimate1: false
-                    });
-                    var scoreLine = gaokaoScore[0];
-                    switch (userScore.courseType) {
-                      case 0:
-                        scoreLine = gaokaoScore[0];
-                        break;
+        var gaokaoScore = wx.getStorageSync("gaokaoScore");
+        var collegeRecommendBatch = wx.getStorageSync("collegeRecommendBatch");
+        var collegeRecommendBatchGroup = wx.getStorageSync("collegeRecommendBatchGroup");
+        var userScore = wx.getStorageSync("userScore");
+        var userInfo = wx.getStorageSync("userInfo");
+        that.setData({
+            userInfo: userInfo
+        });
+        if (collegeRecommendBatch && collegeRecommendBatch != -1) {
+            if (collegeRecommendBatch != that.data.batch) {
+                that.setData({
+                    batch: collegeRecommendBatch,
+                    createText: "点击生成志愿表",
+                    startBtnFlag: false,
+                    cir: true,
+                    loadAnimate1: false
+                });
+                var scoreLine = gaokaoScore[0];
+                switch (userScore.courseType) {
+                  case 0:
+                    scoreLine = gaokaoScore[0];
+                    break;
 
-                      case 1:
-                        scoreLine = gaokaoScore[1];
+                  case 1:
+                    scoreLine = gaokaoScore[1];
+                    break;
+                }
+                for (var i = 0; i < scoreLine.length; i++) {
+                    if (scoreLine[i].batch == collegeRecommendBatch) {
+                        that.setData({
+                            batchName: scoreLine[i].batchName
+                        });
                         break;
-                    }
-                    for (var i = 0; i < scoreLine.length; i++) {
-                        if (scoreLine[i].batch == collegeRecommendBatch) {
-                            that.setData({
-                                batchName: scoreLine[i].batchName
-                            });
-                            break;
-                        }
                     }
                 }
             }
-            if (collegeRecommendBatchGroup) {
-                if (collegeRecommendBatchGroup != that.data.GroupName) {
-                    that.setData({
-                        GroupName: collegeRecommendBatchGroup,
-                        createText: "点击生成志愿表",
-                        startBtnFlag: false,
-                        cir: true,
-                        loadAnimate1: false
-                    });
-                }
+        }
+        if (collegeRecommendBatchGroup) {
+            if (collegeRecommendBatchGroup != that.data.GroupName) {
+                that.setData({
+                    GroupName: collegeRecommendBatchGroup,
+                    createText: "点击生成志愿表",
+                    startBtnFlag: false,
+                    cir: true,
+                    loadAnimate1: false
+                });
             }
-            if (userScore) {
-                var userScoreOld = that.data.userScore;
-                if (userScoreOld.total != userScore.total || userScoreOld.chooseLevelList[0].value != userScore.chooseLevelList[0].value || userScoreOld.chooseLevelList[1].value != userScore.chooseLevelList[1].value || userScoreOld.courseType != userScore.courseType) {
-                    that.setData({
-                        userScore: userScore,
-                        batch: userScore.batch,
-                        GroupName: "",
-                        createText: "点击生成志愿表",
-                        startBtnFlag: false,
-                        cir: true,
-                        loadAnimate1: false
-                    });
-                    var _scoreLine = gaokaoScore[0];
-                    switch (userScore.courseType) {
-                      case 0:
-                        _scoreLine = gaokaoScore[0];
-                        break;
+        }
+        if (userScore) {
+            var userScoreOld = that.data.userScore;
+            console.log(userScoreOld);
+            if (userScoreOld.total != userScore.total || userScoreOld.chooseLevelList.length > 0 && userScoreOld.chooseLevelList[0].value != userScore.chooseLevelList[0].value || userScoreOld.chooseLevelList.length > 0 && userScoreOld.chooseLevelList[1].value != userScore.chooseLevelList[1].value || userScoreOld.courseType != userScore.courseType) {
+                that.setData({
+                    userScore: userScore,
+                    batch: userScore.batch,
+                    GroupName: "",
+                    createText: "点击生成志愿表",
+                    startBtnFlag: false,
+                    cir: true,
+                    loadAnimate1: false
+                });
+                var _scoreLine = gaokaoScore[0];
+                switch (userScore.courseType) {
+                  case 0:
+                    _scoreLine = gaokaoScore[0];
+                    break;
 
-                      case 1:
-                        _scoreLine = gaokaoScore[1];
+                  case 1:
+                    _scoreLine = gaokaoScore[1];
+                    break;
+                }
+                for (var i = 0; i < _scoreLine.length; i++) {
+                    if (_scoreLine[i].batch == userScore.batch) {
+                        that.setData({
+                            batchName: _scoreLine[i].batchName
+                        });
                         break;
-                    }
-                    for (var i = 0; i < _scoreLine.length; i++) {
-                        if (_scoreLine[i].batch == userScore.batch) {
-                            that.setData({
-                                batchName: _scoreLine[i].batchName
-                            });
-                            break;
-                        }
                     }
                 }
             }
-        } catch (e) {}
+        }
     },
     onUnload: function onUnload() {
         var that = this;
@@ -361,12 +373,15 @@ Page({
             });
         } else {
             cityList[0].st = false;
+            var count = 0;
             for (var i = 1; i < cityList.length; i++) {
                 var flag = !cityList[i].st;
                 if (cityId == cityList[i].cityId) {
                     cityList[i].st = flag;
                 }
+                if (cityList[i].st == false) count++;
             }
+            if (count == cityList.length - 1) cityList[0].st = true;
             that.setData({
                 showBtn: true
             });
@@ -389,11 +404,16 @@ Page({
             });
         } else {
             batchList[0].st = false;
+            var count = 0;
             for (var i = 1; i < batchList.length; i++) {
                 var flag = !batchList[i].st;
                 if (batchName == batchList[i].name) {
                     batchList[i].st = flag;
                 }
+                if (batchList[i].st == false) count++;
+            }
+            if (count == batchList.length - 1) {
+                batchList[0].st = true;
             }
             that.setData({
                 showBtn: true
@@ -464,6 +484,70 @@ Page({
             var Rank = that.data.userScore.rank;
             var YiFenYiDuanRank = 0;
             api.queryOneKeyRecommendColleges("TZY/Recommendation/DoOneClickQueryForApp", "POST", AbType, Batch, ChooseLevel, CollegeTags, Course, IsIncludeZWBX, ProvinceId, ProvinceIds, Total, Rank, YiFenYiDuanRank).then(function(res) {
+                var sheets_type = "平行志愿表";
+                if (app.globalData.isGaokaoFlag) {
+                    sheets_type = "高考志愿表";
+                }
+                var data = {
+                    SA_operation_type: "生成",
+                    SA_sheets_num: "0",
+                    SA_sheets_type: sheets_type,
+                    SA_sheets_source: "一键填报",
+                    SA_data_province: that.data.userInfo[0].ProvinceName,
+                    SA_data_batch: that.data.batchName,
+                    SA_score_value: that.data.userScore.total,
+                    SA_score_rank: that.data.userScore.rank,
+                    SA_data_subject: that.data.userScore.courseType == 1 ? "文科" : "理科",
+                    SA_line_gap: 0,
+                    SA_reliance_rate: 0,
+                    SA_colg_num: 0,
+                    SA_colg_maxnum: 0,
+                    SA_major_num: 0,
+                    SA_major_maxnum: 0,
+                    SA_vacancy_rate: 0,
+                    SA_fearture1_rate: 0,
+                    SA_fearture2_rate: 0,
+                    SA_fearture3_rate: 0,
+                    SAfearture4_rate: 0
+                };
+                app.sensors.track("VoluntSheets", sensors.VoluntSheets(data));
+                var cityArr = [];
+                that.data.cityList.forEach(function(ele) {
+                    if (ele.st == true) {
+                        cityArr.push(ele.cityName);
+                    }
+                });
+                if (cityArr.length > 1) {
+                    cityArr = cityArr.join("|");
+                } else {
+                    cityArr = cityArr[0];
+                }
+                var collegeType = [];
+                that.data.batchList.forEach(function(ele) {
+                    if (ele.st == true) {
+                        collegeType.push(ele.name);
+                    }
+                });
+                if (collegeType.length > 1) {
+                    collegeType = collegeType.join("|");
+                } else {
+                    collegeType = collegeType[0];
+                }
+                var data = {
+                    SA_fillout_type: "一键填报",
+                    SA_line_gap: 0,
+                    SA_data_batch: that.data.batchName,
+                    SA_batch_filter: "",
+                    SA_majors_name: "",
+                    SA_college_name: "",
+                    SA_score_rank_area: "",
+                    SA_province_filter: cityArr,
+                    SA_tag_filter: "",
+                    SA_type_filter: collegeType,
+                    SA_nature_filter: "",
+                    SA_other_filter: that.data.ZWHZ ? "包含(中外合作)" : "",
+                    SA_results_number: res.result.length
+                };
                 if (res.isSuccess && res.result.length > 3) {
                     that.setData({
                         createText: "正在整理志愿表"

@@ -1,0 +1,8 @@
+<template name="advance">
+    <view style="margin-left:80rpx" wx:for="{{2}}" wx:key="{{index}}">
+        <view>666</view>
+    </view>
+    <view style="margin-left:80rpx" wx:for="{{item.subset}}">
+        <view>{{item.name}} {{item.level}}</view>
+    </view>
+</template>

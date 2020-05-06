@@ -1,0 +1,17 @@
+<view class="fr jsb ac whiteColor" hoverClass="btnHover" style="height:100rpx;padding:0 4.3vw;border-bottom:1px solid #e9e9e9;" wx:if="{{zjCollege.length>0}}" wx:for="{{zjCollege}}" wx:key="index">
+    <view class="fr ac jsb" style="width:100%;">
+        <view class="fr ac">
+            <image src="/image/search.png" style="width:28rpx;height:28rpx"></image>
+            <rich-text class="twoFontSize twoFontColor" nodes="{{item.newCollegeName}}" style="margin-left:20rpx;"></rich-text>
+        </view>
+        <view class="twoFontSize threeFontColor" wx:if="{{item.st}}">已添加</view>
+        <block wx:else>
+            <view bindtap="add" class="addBtn fr ac jc whiteFontColor twoFontSize" data-index="{{index}}" wx:if="{{item.professions.length>0}}">添加</view>
+            <view class="twoFontSize threeFontColor" wx:if="{{item.professions.length==0}}">无招生计划</view>
+        </block>
+    </view>
+</view>
+<view class="fc ac" style="margin-top:50rpx;" wx:if="{{zjCollege.length==0}}">
+    <image src="/image/recommend_noFount.png" style="width:214rpx;height:214rpx;"></image>
+    <view class="threeFontColor twoFontSize" style="margin-top:20rpx;">抱歉，未找到相关内容</view>
+</view>

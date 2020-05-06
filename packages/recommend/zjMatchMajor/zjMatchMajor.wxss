@@ -1,0 +1,65 @@
+@import "../zhejiangRecommend/zhejiangRecommend.wxss";
+
+page {
+    background: #f8f5f4;
+}
+
+.score-wrapper,.collegeH-wrapper {
+    background: #fff;
+}
+
+.collegeH-wrapper {
+    padding: 32rpx;
+    margin-bottom: 16rpx;
+}
+
+.tb-btn {
+    width: 150rpx;
+    height: 50rpx;
+    text-align: center;
+    line-height: 50rpx;
+    border: 1rpx solid #ccc;
+    border-radius: 50rpx;
+    box-sizing: border-box;
+}
+
+.majorList-wrapper {
+    padding: 32rpx;
+    background: #fff;
+    margin-bottom: 16rpx;
+}
+
+.newMajor-wrapper {
+    padding: 24rpx 30rpx;
+    background: #FAFAFA;
+    border-radius: 16rpx;
+    margin-top: 20rpx;
+}
+
+.newMajor-img {
+    width: 56rpx;
+    height: 56rpx;
+    margin-right: 30rpx;
+}
+
+.major-icon {
+    width: 48rpx;
+    height: 48rpx;
+    border-radius: 100%;
+    margin-right: 20rpx;
+    justify-content: space-around;
+}
+
+.major-image {
+    width: 30rpx;
+    height: 30rpx;
+}
+
+.maj-pop-title {
+    margin-top: 40rpx;
+}
+
+.maj-pop-con {
+    margin-top: 20rpx;
+    line-height: 1.8;
+}

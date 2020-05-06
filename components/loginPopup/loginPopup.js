@@ -1,7 +1,12 @@
 var app = getApp();
 
 Component({
-    properties: {},
+    properties: {
+        wrapFlag: {
+            type: Boolean,
+            value: false
+        }
+    },
     data: {
         wrapAnimateMajor: "",
         bgOpacityMajor: 0,
@@ -20,6 +25,7 @@ Component({
         },
         _hideTap: function _hideTap() {
             var that = this;
+            if (that.data.wrapFlag) return;
             this.setData({
                 wrapAnimateMajor: "wrapAnimateOut",
                 bgOpacityMajor: 0,

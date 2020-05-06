@@ -8,9 +8,15 @@
         <view class="totalScore">
             <view class="oneFontSize">模考总分</view>
             <view class="inputBox searchView">
-                <image src="/image/search_image.png"></image>
+                <image class="editimage" src="/image/search_image.png"></image>
                 <input bindinput="SHinputScore" maxlength="3" placeholder="请输入成绩" placeholderClass="oneFontSize twoFontColor " type="number" value="{{SHscore}}"></input>
                 <text class="score oneFontSize threeFontColor">分</text>
+            </view>
+            <view class="oneFontSize" style="margin-top:20rpx">必填位次</view>
+            <view class="inputBox searchView">
+                <image class="editimage" src="/image/search_image.png"></image>
+                <input bindinput="SHinputWeici" maxlength="6" placeholder="请输入位次(非必填)" placeholderClass="oneFontSize twoFontColor " type="number" value="{{SHweici}}"></input>
+                <text class="score oneFontSize threeFontColor">位</text>
             </view>
         </view>
         <view class="testSubject">
@@ -27,7 +33,7 @@
         <view class="totalScore">
             <view class="oneFontSize">模考总分</view>
             <view class="inputBox searchView">
-                <image src="/image/search_image.png"></image>
+                <image class="editimage" src="/image/search_image.png"></image>
                 <input bindinput="traditionInputScore" maxlength="3" placeholder="请输入成绩" placeholderClass="oneFontSize twoFontColor " type="number" value="{{SHscore}}"></input>
                 <text class="score oneFontSize threeFontColor">分</text>
             </view>
@@ -61,7 +67,7 @@
         <view class="totalScore">
             <view class="oneFontSize">模考总分</view>
             <view class="inputBox searchView">
-                <image src="/image/search_image.png"></image>
+                <image class="editimage" src="/image/search_image.png"></image>
                 <input bindinput="traditionInputScore" maxlength="3" placeholder="请输入成绩" placeholderClass="oneFontSize twoFontColor" type="number" value="{{SHscore}}"></input>
                 <text class="score oneFontSize threeFontColor">分</text>
             </view>
@@ -141,9 +147,16 @@
         <view class="totalScore">
             <view class="oneFontSize">模考总分</view>
             <view class="inputBox searchView">
-                <image src="/image/search_image.png"></image>
+                <image class="editimage" src="/image/search_image.png"></image>
                 <input bindinput="SHinputScore" maxlength="3" placeholder="请输入成绩" placeholderClass="oneFontSize twoFontColor " type="number" value="{{SHscore}}"></input>
                 <text class="score oneFontSize threeFontColor">分</text>
+            </view>
+            <view class="oneFontSize" style="margin-top:20rpx">全省位次</view>
+            <view class="inputBox searchView">
+                <image class="editimage" src="/image/search_image.png"></image>
+                <input bindinput="SHinputWeici" maxlength="6" placeholder="请输入位次(非必填)" placeholderClass="oneFontSize twoFontColor " style="width:70%" type="number" value="{{SHweici}}"></input>
+                <view bindtap="intellectInput" class="oneFontColor threeFontSize txt">智能填入</view>
+                <image bindtap="toast" class="ques" src="/image/question.png" style="width:24rpx;height:24rpx;"></image>
             </view>
         </view>
         <view class="testSubject">
@@ -153,7 +166,128 @@
             </view>
         </view>
     </view>
+    <view class="setAchievement" wx:if="{{SDisShow}}">
+        <view class="title sixFontSize">今天还可更换 {{changeNumber}} 次</view>
+        <view class="threeFontColor">成绩决定推荐结果及录取概率 <text>请认真填写</text>
+        </view>
+        <view class="totalScore">
+            <view class="oneFontSize">模考总分</view>
+            <view class="inputBox searchView">
+                <image class="editimage" src="/image/search_image.png"></image>
+                <input bindinput="SHinputScore" maxlength="3" placeholder="请输入成绩" placeholderClass="oneFontSize twoFontColor " type="number" value="{{SHscore}}"></input>
+                <text class="score oneFontSize threeFontColor">分</text>
+            </view>
+            <view class="oneFontSize" style="margin-top:20rpx">全省位次</view>
+            <view class="inputBox searchView">
+                <image class="editimage" src="/image/search_image.png"></image>
+                <input bindinput="SHinputWeici" maxlength="6" placeholder="请输入位次(非必填)" placeholderClass="oneFontSize twoFontColor " style="width:70%" type="number" value="{{SHweici}}"></input>
+                <view bindtap="intellectInput" class="oneFontColor threeFontSize txt">智能填入</view>
+                <image bindtap="toast" class="ques" src="/image/question.png" style="width:24rpx;height:24rpx;"></image>
+            </view>
+        </view>
+        <view class="testSubject">
+            <view class="oneFontSize">选测科目</view>
+            <view class="ts-content flex flexjsbetween">
+                <view bindtap="SDtestSubject" class="items itemBackColor twoFontColor oneFontSize {{item.flag?'selected':''}}" data-name="{{item.name}}" wx:for="{{SDtestSubject}}" wx:key="{{index}}">{{item.name}}</view>
+            </view>
+        </view>
+    </view>
+    <view class="setAchievement" wx:if="{{BJisShow}}">
+        <view class="title sixFontSize">今天还可更换 {{changeNumber}} 次</view>
+        <view class="threeFontColor">成绩决定推荐结果及录取概率 <text>请认真填写</text>
+        </view>
+        <view class="totalScore">
+            <view class="oneFontSize">模考总分</view>
+            <view class="inputBox searchView">
+                <image class="editimage" src="/image/search_image.png"></image>
+                <input bindinput="SHinputScore" maxlength="3" placeholder="请输入成绩" placeholderClass="oneFontSize twoFontColor " type="number" value="{{SHscore}}"></input>
+                <text class="score oneFontSize threeFontColor">分</text>
+            </view>
+            <view class="oneFontSize" style="margin-top:20rpx">全市位次</view>
+            <view class="inputBox searchView">
+                <image class="editimage" src="/image/search_image.png"></image>
+                <input bindinput="SHinputWeici" maxlength="6" placeholder="请输入位次(非必填)" placeholderClass="oneFontSize twoFontColor " style="width:70%" type="number" value="{{SHweici}}"></input>
+                <view bindtap="intellectInput" class="oneFontColor threeFontSize txt">智能填入</view>
+                <image bindtap="toast" class="ques" src="/image/question.png" style="width:24rpx;height:24rpx;"></image>
+            </view>
+        </view>
+        <view class="testSubject">
+            <view class="oneFontSize">选考科目</view>
+            <view class="ts-content flex flexjsbetween">
+                <view bindtap="SDtestSubject" class="items itemBackColor twoFontColor oneFontSize {{item.flag?'selected':''}}" data-name="{{item.name}}" wx:for="{{SDtestSubject}}" wx:key="{{index}}">{{item.name}}</view>
+            </view>
+        </view>
+    </view>
+    <view class="setAchievement" wx:if="{{TJisShow}}">
+        <view class="title sixFontSize">今天还可更换 {{changeNumber}} 次</view>
+        <view class="threeFontColor">成绩决定推荐结果及录取概率 <text>请认真填写</text>
+        </view>
+        <view class="totalScore">
+            <view class="oneFontSize">模考总分</view>
+            <view class="inputBox searchView">
+                <image class="editimage" src="/image/search_image.png"></image>
+                <input bindinput="SHinputScore" maxlength="3" placeholder="请输入成绩" placeholderClass="oneFontSize twoFontColor " type="number" value="{{SHscore}}"></input>
+                <text class="score oneFontSize threeFontColor">分</text>
+            </view>
+            <view class="oneFontSize" style="margin-top:20rpx">全市位次</view>
+            <view class="inputBox searchView">
+                <image class="editimage" src="/image/search_image.png"></image>
+                <input bindinput="SHinputWeici" maxlength="6" placeholder="请输入位次(非必填)" placeholderClass="oneFontSize twoFontColor " style="width:70%" type="number" value="{{SHweici}}"></input>
+                <view bindtap="intellectInput" class="oneFontColor threeFontSize txt">智能填入</view>
+                <image bindtap="toast" class="ques" src="/image/question.png" style="width:24rpx;height:24rpx;"></image>
+            </view>
+        </view>
+        <view class="testSubject">
+            <view class="oneFontSize">选考科目</view>
+            <view class="ts-content flex flexjsbetween">
+                <view bindtap="SDtestSubject" class="items itemBackColor twoFontColor oneFontSize {{item.flag?'selected':''}}" data-name="{{item.name}}" wx:for="{{SDtestSubject}}" wx:key="{{index}}">{{item.name}}</view>
+            </view>
+        </view>
+    </view>
+    <view class="setAchievement" wx:if="{{HNisShow}}">
+        <view class="title sixFontSize">今天还可更换 {{changeNumber}} 次</view>
+        <view class="threeFontColor">成绩决定推荐结果及录取概率 <text>请认真填写</text>
+        </view>
+        <view class="totalScore">
+            <view class="oneFontSize">模考总分</view>
+            <view class="inputBox searchView">
+                <image class="editimage" src="/image/search_image.png"></image>
+                <input bindinput="SHinputScore" maxlength="3" placeholder="请输入成绩" placeholderClass="oneFontSize twoFontColor " type="number" value="{{SHscore}}"></input>
+                <text class="score oneFontSize threeFontColor">分</text>
+            </view>
+            <view class="oneFontSize" style="margin-top:20rpx">全省位次</view>
+            <view class="inputBox searchView">
+                <image class="editimage" src="/image/search_image.png"></image>
+                <input bindinput="SHinputWeici" maxlength="6" placeholder="请输入位次(非必填)" placeholderClass="oneFontSize twoFontColor " style="width:70%" type="number" value="{{SHweici}}"></input>
+                <view bindtap="intellectInput" class="oneFontColor threeFontSize txt">智能填入</view>
+                <image bindtap="toast" class="ques" src="/image/question.png" style="width:24rpx;height:24rpx;"></image>
+            </view>
+        </view>
+        <view class="testSubject">
+            <view class="oneFontSize">选考科目</view>
+            <view class="ts-content flex flexjsbetween">
+                <view bindtap="SDtestSubject" class="items itemBackColor twoFontColor oneFontSize {{item.flag?'selected':''}}" data-name="{{item.name}}" wx:for="{{SDtestSubject}}" wx:key="{{index}}">{{item.name}}</view>
+            </view>
+        </view>
+    </view>
     <view bindtap="goPay" class="finishSetting whiteFontColor oneFontSize gradientThree  textAlign" hoverClass="btnHover" wx:if="{{changeNumber===0&&userInfo.UserType==1}}">开通VIP 每天可更换10次成绩</view>
     <view class="finishSetting whiteFontColor oneFontSize gradientThree  textAlign disabled" wx:if="{{changeNumber===0&&userInfo.UserType>1}}">今日次数已用完 明天再试试吧</view>
-    <view bindtap="setScore" class="finishSetting whiteFontColor oneFontSize gradientThree  textAlign {{finishFlag?'':'disabled'}}" hoverClass="btnHover" wx:if="{{changeNumber>0}}">确认设置</view>
+    <view bindtap="setScore" class="finishSetting whiteFontColor oneFontSize gradientThree  textAlign {{finishFlag?'':'disabled'}}" hoverClass="btnHover" wx:if="{{changeNumber>0}}">确认修改</view>
 </view>
+<popup bind:hideTapPage="hideDataInfo" id="toast" showPopupFlag="{{showToast}}">
+    <image src=""></image>
+    <view></view>
+    <view class="oneFontSize oneFontColor bold" style="text-align: left;margin-left:40rpx;" wx:if="{{cityId==834||cityId==835}}">全市位次</view>
+    <view class="oneFontSize oneFontColor bold" style="text-align: left;margin-left:40rpx;" wx:else>全省位次</view>
+    <view class="fourFontColor twoFontSize fr ac jc " style="margin-top:40rpx;">
+        <view style="text-align: left">
+            <view>模考总分:{{SHscore}}</view>
+            <view style="margin-top:20rpx;">位次区间：{{rankDetail.lowestRank}}~{{rankDetail.highestRank}}</view>
+            <view style="margin-top:20rpx;">建议位次：{{rankDetail.lowestRank}}</view>
+        </view>
+    </view>
+    <view class="fr ac jc" style="margin-top:50rpx;">
+        <view bindtap="hideDataInfo" class="btnclose twoFontSize whiteFontColor fr ac jc">我知道了</view>
+    </view>
+    <view></view>
+</popup>

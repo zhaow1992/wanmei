@@ -48,7 +48,7 @@
             <view class="color:#4a4a4a;">{{collegeSingle.majorCount}}</view>
         </view>
         <block wx:if="{{collegeSingle.show}}">
-            <view bindtap="disciplineTap" class="twoFontSize " hoverClass="itemHover " id="{{index}}" style="color:#4a4a4a;height:13.07vw;" wx:for="{{college[index].instituteMajors}}" wx:for-item="major" wx:key="unique">
+            <view bindtap="disciplineTap" class="twoFontSize " data-code="{{major.majorCode}}" hoverClass="itemHover " id="{{index}}" style="color:#4a4a4a;height:13.07vw;" wx:for="{{college[index].instituteMajors}}" wx:for-item="major" wx:key="unique">
                 <view class="{{major.length>index+1?'bottomBorder':''}} flex flexjsbetween" style="margin:0  4.27vw 0 8.8vw;height:13.07vw ">
                     <view>
 					{{major.majorName}}

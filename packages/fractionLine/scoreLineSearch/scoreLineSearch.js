@@ -1,12 +1,31 @@
 Page({
     data: {
-        collegeList: []
+        collegeList: [],
+        share: false
     },
-    onLoad: function onLoad() {},
+    onLoad: function onLoad(options) {
+        if (options && options.share) {
+            this.setData({
+                share: true
+            });
+        }
+        var userInfo = wx.getStorageSync("userInfo");
+        if (userInfo) {} else {
+            this.loginPopup();
+        }
+    },
+    homeIconButtonTap: function homeIconButtonTap() {
+        wx.reLaunch({
+            url: "/pages/index/index"
+        });
+    },
     returnTap: function returnTap() {
         wx.navigateBack({
             delta: 1
         });
+    },
+    loginPopup: function loginPopup() {
+        this.selectComponent("#loginPopup")._showTap();
     },
     clearjilu: function clearjilu() {
         //清除历史记录

@@ -1,4 +1,4 @@
-@import "components/search/collegeList/collegeList.wxss";
+@import "components/search/intelligenceMajor/intelligenceMajor.wxss";
 
 .recommend-btn {
     box-shadow: 0 2px 3px 2px rgba(250,149,150,0.30);

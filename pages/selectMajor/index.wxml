@@ -1,4 +1,4 @@
-<navigationcustomtop navigationText="查专业"></navigationcustomtop>
+<navigationcustomtop navigationText="查专业" share="{{share}}"></navigationcustomtop>
 <loading wx:if="{{showLoad}}"></loading>
 <view class="whiteColor container" hidden="{{showLoad}}">
     <view id="nav">
@@ -75,7 +75,6 @@
                             <view class="flex rank-wrapper">
                                 <view class="oneFontSize oneFontColor textOmit" style="width:48vw;">{{item.professionName}}</view>
                                 <view class="flex">
-                                    <view class="twoFontSize twoFontColor" wx:if="{{item.countOfCollege>0&&isBOrZ==0}}">{{item.countOfCollege==0?'-':item.countOfCollege}}所开设院校</view>
                                     <image class="moreIcon" src="/image/openList.png"></image>
                                 </view>
                             </view>
@@ -102,7 +101,6 @@
                             <view class="flex rank-wrapper" style="margin-left:2.9vw;">
                                 <view class="oneFontSize oneFontColor textOmit" style="width:48vw;">{{item.professionName}}</view>
                                 <view class="flex">
-                                    <view class="twoFontSize twoFontColor" wx:if="{{item.countOfCollege>0&&isBOrZ==0}}">{{item.countOfCollege==0?'-':item.countOfCollege}}所开设院校</view>
                                     <image class="moreIcon" src="/image/openList.png"></image>
                                 </view>
                             </view>
@@ -120,7 +118,7 @@
                             <view class="whiteColor" id="{{item.id}}" style="margin-bottom:2.13vw;line-height:3;" wx:for="{{isBOrZ==0?majorsList.majorsBK:majorsList.majorsZK}}">
                                 <view class="bigMajor fourFontSize oneFontColor bold whiteColor listPadding">{{item.name}}</view>
                                 <navigator class="middleMajor listPadding" hoverClass="listHover" url="/packages/selectMajor/middleMajorDetail/middleMajorDetail?majorcode={{middleMajor.code}}" wx:for="{{item.listMajor}}" wx:for-item="middleMajor">
-                                    <view class="flex" style="justify-content:space-between;{{index==item.listMajor.length-1?'':'border-bottom:1px solid #E9E9E9;'}}">
+                                    <view class="flex" style="justify-content:space-between;{{index==item.listMajor.length-1?'':'border-bottom:1rpx solid #E9E9E9;'}}">
                                         <view class="oneFontSize oneFontColor">{{middleMajor.name}}</view>
                                         <view class="flex twoFontSize twoFontColor">
                                             <view>{{middleMajor.smallCount}}个专业</view>
@@ -136,3 +134,4 @@
         </swiper-item>
     </swiper>
 </view>
+<loginPopup id="loginPopup" wrapFlag="true"></loginPopup>

@@ -1,6 +1,7 @@
 {
     "pages": [
         "pages/index/index",
+        "pages/ActiveWishCome/ActiveWishCome",
         "pages/cepingIndex/cepingIndex",
         "pages/bindMobile/index",
         "pages/ImproveGKInformation/index",
@@ -15,20 +16,16 @@
         "pages/card/card",
         "pages/quickNews/quickNews",
         "pages/my/my",
-        "pages/ceping/ceping",
         "pages/cepingQuestion/cepingQuestion",
         "pages/webPage/webPage",
-        "pages/search/search",
         "pages/classRoomList/classRoomList",
         "pages/classRoomDetail/classRoomDetail",
         "pages/classRoom/classRoom",
         "pages/selectMajor/index",
         "pages/changeAchievement/changeAchievement",
-        "pages/myChooseSubject/myChooseSubject",
         "pages/globalSearch/globalSearch",
         "pages/appointSearch/appointSearch",
-        "pages/evaluationResult/evaluationResult",
-        "pages/commentSearch/commentSearch"
+        "pages/evaluationResult/evaluationResult"
     ],
     "window": {
         "navigationStyle": "custom",
@@ -68,10 +65,10 @@
         ]
     },
     "networkTimeout": {
-        "request": 10000,
-        "downloadFile": 10000,
-        "connectSocket": 10000,
-        "uploadFile": 10000
+        "request": 90000,
+        "downloadFile": 90000,
+        "connectSocket": 90000,
+        "uploadFile": 90000
     },
     "subPackages": [
         {
@@ -159,10 +156,24 @@
             "pages": [
                 "jiangsuRecommend/jiangsuRecommend",
                 "shanghaiRecommend/shanghaiRecommend",
-                "collegeRecommend/collegeRecommend",
+                "zhejiangRecommend/zhejiangRecommend",
                 "zhejiangScore/zhejiangScore",
                 "cityList/cityList",
-                "collegeType/collegeType"
+                "collegeType/collegeType",
+                "zhejiangVolunteer/zhejiangVolunteer",
+                "zjMatchMajor/zjMatchMajor",
+                "shanDongRecommend/shanDongRecommend",
+                "shanDongVolunteer/shanDongVolunteer",
+                "addMajor/addMajor",
+                "beijingRecommend/beijingRecommend",
+                "beijingVolunteer/beijingVolunteer",
+                "tianjinRecommend/tianjinRecommend",
+                "tianjinVolunteer/tianjinVolunteer",
+                "hainanRecommend/hainanRecommend",
+                "hainanVolunteer/hainanVolunteer",
+                "sdPreview/sdPreview",
+                "sdAddfilter/sdAddfilter",
+                "zjPreview/zjPreview"
             ]
         },
         {
@@ -192,7 +203,6 @@
                 "collegeResult/collegeResult",
                 "subjectForMajor/subjectForMajor",
                 "evaluation/evaluation",
-                "evaluationDesc/evaluationDesc",
                 "majorResult/majorResult",
                 "matchMajor/matchMajor",
                 "matchCollege/matchCollege",
@@ -214,6 +224,20 @@
         },
         {
             "root": "packages/collegePlan/",
+            "pages": [
+                "index/index"
+            ]
+        },
+        {
+            "root": "packages/activityBargain/",
+            "pages": [
+                "activationVIP/activationVIP",
+                "index/index",
+                "paySuccess/paySuccess"
+            ]
+        },
+        {
+            "root": "packages/news/",
             "pages": [
                 "index/index"
             ]

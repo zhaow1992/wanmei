@@ -8,7 +8,23 @@ function _interopRequireDefault(obj) {
     };
 }
 
+function _defineProperty(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+
 var app = getApp();
+
+var sensors = require("../../../utils/sensors.js");
 
 Page({
     detailTextBack: "",
@@ -60,6 +76,11 @@ Page({
     onShareAppMessage: function onShareAppMessage(res) {
         var that = this;
         if (res.from === "button") {}
+        var data = {
+            SA_share_type: "院校详情",
+            SA_share_content: "我正在看" + that.data.collegeName + "的介绍"
+        };
+        app.sensors.track("ShareClick", sensors.ShareClick(data));
         return {
             title: "我正在看" + that.data.collegeName + "的介绍",
             imageUrl: "http://bapp.wmei.cn/share/collage.png",
@@ -131,12 +152,15 @@ Page({
                 if (serverDetail.belong) {
                     collegeStrength.subordinate = serverDetail.belong;
                 }
-                if (serverDetail.educationId) {
-                    var diploma = "专科";
-                    if (serverDetail.type > 0) {
-                        diploma = "本科";
-                    }
+                var diploma = "本科";
+                if (serverDetail.educationId == 1) {
+                    diploma = "本科";
                     collegeStrength.diploma = diploma;
+                } else {
+                    {
+                        diploma = "专科";
+                        collegeStrength.diploma = diploma;
+                    }
                 }
                 if (serverDetail.classify) {
                     collegeStrength.style = serverDetail.classify;
@@ -163,19 +187,51 @@ Page({
                 wx.setNavigationBarTitle({
                     title: serverDetail.cnName
                 });
+                that.SA_provinceName = res.result.provinceName;
+                that.SA_typeId = res.result.typeId == 1 ? "本科" : "专科";
+                that.SA_tags = tags.join("|");
+                that.SA_classify = res.result.classify;
+                that.SA_quality = quality;
                 that.setData({
                     collegeName: serverDetail.cnName,
                     collegeIcon: collegeIcon,
                     collegeTerrace: tags,
                     detailText: that.detailTextBack.substring(0, 52) + " ... " + '<span style="color:#f66666;">全部</span>',
                     collegeStrength: collegeStrength
+                }, function() {
+                    that.InsertSA("院校主页");
                 });
             } else {}
         });
     },
+    InsertSA: function InsertSA(source) {
+        var _data;
+        var that = this;
+        var SA_content_type = source;
+        var SA_code = that.numId;
+        var SA_name = that.data.collegeName;
+        var SA_province = that.SA_provinceName;
+        var SA_isBen = that.SA_typeId;
+        var SA_level = that.SA_tags;
+        var SA_classify = that.SA_classify;
+        var SA_type = that.SA_quality;
+        var SA_current = SA_province == wx.getStorageSync("cityId").provinceName ? true : false;
+        var data = (_data = {
+            SA_type: SA_type,
+            SA_code: SA_code,
+            SA_name: SA_name,
+            SA_province: SA_province,
+            SA_isBen: SA_isBen,
+            SA_level: SA_level,
+            SA_classify: SA_classify
+        }, _defineProperty(_data, "SA_type", SA_type), _defineProperty(_data, "SA_current", SA_current), 
+        _defineProperty(_data, "SA_content_type", SA_content_type), _data);
+        app.sensors.track("ColgView", sensors.ColgView(data));
+    },
     //进入院校风光
     goCollegeSight: function goCollegeSight() {
         if (!app.checkOnce(this, "oneClick")) return;
+        this.InsertSA("院校照片");
         wx.navigateTo({
             url: "../collegeSight/collegeSight?collegename=" + this.data.collegeName + "&collegeid=" + this.numId
         });
@@ -183,33 +239,27 @@ Page({
     //招生简章更多
     moreChapterTap: function moreChapterTap() {
         if (!app.checkOnce(this, "oneClick")) return;
+        this.InsertSA("院校招生简章");
         wx.navigateTo({
-            url: "/packages/findUniversity/collgeAdmissionsGuide/collgeAdmissionsGuide?numId=" + this.numId + "&title=" + this.data.collegeName,
-            success: function success(res) {},
-            fail: function fail(res) {},
-            complete: function complete(res) {}
+            url: "/packages/findUniversity/collgeAdmissionsGuide/collgeAdmissionsGuide?numId=" + this.numId + "&title=" + this.data.collegeName
         });
     },
     //跳转到分数线-招生计划
     goEnrolPlan: function goEnrolPlan() {
         var that = this;
         if (!app.checkOnce(that, "oneClick")) return;
+        var level = that.data.collegeTerrace.join("|");
         wx.navigateTo({
-            url: "/packages/fractionLine/index/index?current=plan" + "&title=" + that.data.collegeName + "&collegeId=" + that.numId,
-            success: function success(res) {},
-            fail: function fail(res) {},
-            complete: function complete(res) {}
+            url: "/packages/fractionLine/index/index?source=院校主页&current=plan" + "&title=" + that.data.collegeName + "&collegeId=" + that.numId + "&level=" + level + "&classify=" + that.data.collegeStrength.style + "&type=" + that.data.collegeStrength.quality
         });
     },
     //跳转到分数线-主页
     goScoreLine: function goScoreLine() {
         var that = this;
         if (!app.checkOnce(that, "oneClick")) return;
+        var level = that.data.collegeTerrace.join("|");
         wx.navigateTo({
-            url: "/packages/fractionLine/index/index?current=score" + "&title=" + that.data.collegeName + "&collegeId=" + that.numId,
-            success: function success(res) {},
-            fail: function fail(res) {},
-            complete: function complete(res) {}
+            url: "/packages/fractionLine/index/index?source=院校主页&current=score" + "&title=" + that.data.collegeName + "&collegeId=" + that.numId + "&level=" + level + "&classify=" + that.data.collegeStrength.style + "&type=" + that.data.collegeStrength.quality
         });
     },
     catchMove: function catchMove() {},
@@ -221,11 +271,13 @@ Page({
     //FamousAlumni
     goFamousAlumni: function goFamousAlumni() {},
     moreSpecialTap: function moreSpecialTap() {
+        this.InsertSA("院校特色专业");
         wx.navigateTo({
             url: "../specialMajor/specialMajor?collegeid=" + this.numId + "&collegename=" + this.data.collegeName
         });
     },
     moreMajorTap: function moreMajorTap() {
+        this.InsertSA("院校院系专业");
         wx.navigateTo({
             url: "../collegeMajor/collegeMajor?collegeid=" + this.numId
         });
@@ -251,11 +303,9 @@ Page({
         var id = e.currentTarget.dataset.id;
         var autoOpenId = that.data.univercityCollege[id].id;
         if (!app.checkOnce(that, "oneClick")) return;
+        this.InsertSA("院校院系专业");
         wx.navigateTo({
-            url: "/packages/findUniversity/collegeMajor/collegeMajor?autoOpenId=" + autoOpenId + "&collegeid=" + this.numId,
-            success: function success(res) {},
-            fail: function fail(res) {},
-            complete: function complete(res) {}
+            url: "/packages/findUniversity/collegeMajor/collegeMajor?autoOpenId=" + autoOpenId + "&collegeid=" + this.numId
         });
     },
     //点击招生简章
@@ -266,12 +316,10 @@ Page({
         var newsId = that.data.recruitChapter[index].id;
         var name = that.data.recruitChapter[index].name;
         //recruitChapter
-                var url = "/packages/findUniversity/guideDetail/guideDetail?newsId=" + newsId + "&title=" + name;
+                that.InsertSA("院校招生简章");
+        var url = "/packages/findUniversity/guideDetail/guideDetail?newsId=" + newsId + "&title=" + name;
         wx.navigateTo({
-            url: url,
-            success: function success(res) {},
-            fail: function fail(res) {},
-            complete: function complete(res) {}
+            url: url
         });
     },
     goCollegeIntroduction: function goCollegeIntroduction() {
@@ -279,6 +327,7 @@ Page({
         if (!app.checkOnce(that, "oneClick")) {
             return;
         }
+        that.InsertSA("院校明细介绍");
         // var url = '/packages/findUniversity/collegeIntroduction/collegeIntroduction?detailText=' + that.detailTextBack + "&title=" + that.data.collegeName
                 wx.navigateTo({
             url: "/packages/findUniversity/collegeIntroduction/collegeIntroduction?detailText=" + that.detailTextBack + "&title=" + that.data.collegeName

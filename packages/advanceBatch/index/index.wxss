@@ -1,14 +1,47 @@
+.catalog {
+    margin-left: 32rpx;
+}
+
 .boxs {
     box-sizing: border-box;
 }
 
+.year {
+    margin-top: 8rpx;
+    padding-right: 32rpx;
+}
+
+.yearList {
+    top: 50rpx;
+    left: -6rpx;
+    width: 100rpx;
+    padding: 4rpx;
+    border: 1rpx solid #e9e9e9;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.05);
+    border-radius: 4px;
+}
+
+.yearList>view {
+    padding: 8rpx 4rpx;
+    border-bottom: 1rpx solid #e9e9e9;
+    font-size: 3.73vw;
+}
+
+.yearList>view:last-child {
+    border: none;
+}
+
 .search-box {
-    width: 686rpx;
     height: 68rpx;
     border-radius: 36rpx;
     background: #E8E8E8;
     margin-top: 10rpx;
     margin-left: 32rpx;
+}
+
+.clearImg {
+    right: 20rpx;
+    top: 20rpx;
 }
 
 .active {
@@ -24,7 +57,10 @@
     background: #ececec;
     height: 92rpx;
     width: 750rpx;
-    margin-top: 10rpx;
+}
+
+.br1 {
+    border-right: 1rpx solid #E2E2E2;
 }
 
 .br {
@@ -42,4 +78,361 @@
     background: #ffffff;
     min-height: 78rpx;
     width: 750rpx;
+}
+
+.previewForm {
+    position: fixed;
+    bottom: -70vh;
+    left: 0;
+    width: 100%;
+    height: 70vh;
+    padding: 40rpx;
+    border-radius: 20px 20px 0 0;
+    z-index: 100;
+    box-sizing: border-box;
+    overflow: scroll;
+}
+
+.previewForm.cur {
+    animation: previewForm .3s ease-in-out forwards;
+}
+
+.previewForm.visited {
+    animation: closePreviewAnimation .3s ease-in-out forwards;
+}
+
+@-webkit-keyframes previewForm {
+    0% {
+        bottom: -70vh;
+    }
+
+    100% {
+        bottom: 0;
+    }
+}
+
+@keyframes previewForm {
+    0% {
+        bottom: -70vh;
+    }
+
+    100% {
+        bottom: 0;
+    }
+}
+
+@-webkit-keyframes closePreviewAnimation {
+    0% {
+        bottom: 0;
+    }
+
+    100% {
+        bottom: -70vh;
+    }
+}
+
+@keyframes closePreviewAnimation {
+    0% {
+        bottom: 0;
+    }
+
+    100% {
+        bottom: -70vh;
+    }
+}
+
+.mark {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 99;
+}
+
+.mark.cur {
+    position: fixed;
+}
+
+.previewForm .header image.close {
+    width: 24rpx;
+    height: 24rpx;
+    padding: 20rpx;
+}
+
+.fill {
+    bottom: 13vw;
+    right: 6vw;
+    border: 1rpx solid #eee;
+    border-radius: 30rpx;
+    padding: 0rpx 30rpx;
+}
+
+.changeImg {
+    width: 12px;
+    height: 12px;
+}
+
+.changeImg>image {
+    width: 100%;
+    height: 100%;
+}
+
+.catalogBox {
+    padding: 15rpx 0;
+}
+
+.openList {
+    width: 14rpx;
+    height: 26rpx;
+    margin: 6rpx 0 0 14rpx;
+    transform: rotate(90deg);
+}
+
+.noVip {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.VIPpower {
+    width: 340rpx;
+    height: 300rpx;
+    margin-top: 60rpx auto 40rpx;
+}
+
+.payBtn {
+    position: fixed;
+    bottom: 50rpx;
+    left: 50%;
+    width: 94%;
+    transform: translateX(-50%);
+    border-radius: 44rpx;
+}
+
+.iosPay {
+    position: fixed;
+    bottom: 50rpx;
+    left: 50%;
+    width: 94%;
+    transform: translateX(-50%);
+    border-radius: 44rpx;
+}
+
+.cardBtn {
+    height: 80rpx;
+    border-radius: 80rpx;
+    line-height: 80rpx;
+    text-align: center;
+    border: 1rpx solid #e9302d;
+}
+
+.bindCard {
+    width: 240rpx;
+    color: #e9302d;
+    box-sizing: border-box;
+}
+
+.applyCard {
+    width: 340rpx;
+    margin: 0;
+    color: #fff;
+    background: linear-gradient(to left,#E9302D,#FF5053);
+    margin-left: 20rpx;
+    border: none;
+    padding: 0;
+}
+
+.listData {
+}
+
+.listData:last-child {
+    margin-bottom: 0;
+}
+
+.question {
+    width: 22rpx;
+    height: 22rpx;
+    margin-top: -2rpx;
+    margin-right: 2rpx;
+    vertical-align: middle;
+}
+
+.tools {
+    background: #FAFAFA;
+    line-height: 68rpx;
+    padding: 0 20rpx;
+}
+
+.majoritem {
+    padding: 0 20rpx;
+}
+
+.w45 {
+    width: 90rpx;
+}
+
+.rightitem {
+    flex: 1;
+    padding: 28rpx 0rpx;
+}
+
+.borderTopDashed {
+    border-top: 1rpx dashed #E9E9E9;
+}
+
+.planInfo {
+    margin-top: 16rpx;
+}
+
+.planInfo>view {
+    width: 26%;
+}
+
+.planInfo1 {
+    padding-left: 8%;
+}
+
+.planInfo1>view {
+    width: 37%;
+}
+
+.planInfo1>view:first-child {
+    width: 33%;
+}
+
+.planInfo1>view:last-child {
+    width: 28%;
+}
+
+.level1 {
+    padding: 25rpx 0 10rpx;
+}
+
+.level2 {
+    padding: 20rpx 0;
+}
+
+.level3 {
+    padding: 15rpx 0;
+}
+
+.line {
+    width: 100%;
+    height: 16rpx;
+    background: #f8f5f4;
+}
+
+.loadingImg,.noData {
+    width: 200rpx;
+    height: 200rpx;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.popup-wrapper {
+    width: 70vw;
+    background: #fff;
+    position: fixed;
+    top: 60vh;
+    opacity: 0;
+    left: 10vw;
+    border-radius: 12px;
+    z-index: 12;
+    padding: 5vw;
+    line-height: 1.8;
+}
+
+.popupAnimate {
+    animation: popupAnimate 0.5s ease-in-out forwards;
+    z-index: 999;
+}
+
+@-webkit-keyframes popupAnimate {
+    0% {
+    }
+
+    60% {
+        top: 40vh;
+        opacity: 0.5;
+    }
+
+    80% {
+        top: 42vh;
+        opacity: 1;
+    }
+
+    100% {
+        top: 40vh;
+        opacity: 1;
+    }
+}
+
+@keyframes popupAnimate {
+    0% {
+    }
+
+    60% {
+        top: 40vh;
+        opacity: 0.5;
+    }
+
+    80% {
+        top: 42vh;
+        opacity: 1;
+    }
+
+    100% {
+        top: 40vh;
+        opacity: 1;
+    }
+}
+
+.popupAnimateOut {
+    animation: popupAnimateOut 0.2s ease-in-out forwards;
+}
+
+@-webkit-keyframes popupAnimateOut {
+    0% {
+        top: 40vh;
+    }
+
+    100% {
+        top: 100vh;
+    }
+}
+
+@keyframes popupAnimateOut {
+    0% {
+        top: 40vh;
+    }
+
+    100% {
+        top: 100vh;
+    }
+}
+
+.closeLine {
+    position: absolute;
+    width: 2px;
+    height: 5vw;
+    background: #fff;
+    left: 50%;
+    margin-left: -1px;
+    bottom: -5vw;
+}
+
+.closeBtn {
+    position: absolute;
+    width: 8.5vw;
+    height: 8.5vw;
+    color: #fff;
+    text-align: center;
+    line-height: 8.5vw;
+    left: 50%;
+    margin-left: -4.25vw;
+    bottom: -13vw;
+    font-size: 5vw;
 }

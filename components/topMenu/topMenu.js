@@ -4,7 +4,7 @@ Component({
     properties: {
         top: {
             type: String,
-            value: app.globalData.navigationCustomStatusHeight + app.globalData.navigationCustomCapsuleHeight + 100
+            value: app.globalData.navigationCustomStatusHeight + app.globalData.navigationCustomCapsuleHeight
         },
         type: {
             type: String,
@@ -12,12 +12,17 @@ Component({
         }
     },
     data: {
-        flag: true,
-        wrapAnimate: "wrapAnimate",
         bgOpacity: 0,
-        menuAnimate: "menuAnimate"
+        top: app.globalData.navigationCustomStatusHeight + app.globalData.navigationCustomCapsuleHeight + 100
     },
     methods: {
+        showMenu: function showMenu() {
+            this.setData({
+                flag: true,
+                wrapAnimate: "wrapAnimate",
+                menuAnimate: "menuAnimate"
+            });
+        },
         hideMenu: function hideMenu(e) {
             var that = this;
             that.setData({

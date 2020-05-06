@@ -16,6 +16,9 @@ function _defineProperty(obj, key, value) {
 
 Component((_Component = {
     properties: {},
+    options: {
+        multipleSlots: true
+    },
     data: {
         flag: false,
         wrapAnimate: "",
@@ -26,6 +29,10 @@ Component((_Component = {
     frameTitle: {
         type: String,
         value: "标题"
+    },
+    custom: {
+        type: Boolean,
+        value: false
     }
 }), _defineProperty(_Component, "methods", {
     catchMove: function catchMove() {},
@@ -46,7 +53,7 @@ Component((_Component = {
             that.setData({
                 flag: false
             });
-        }, 400);
+        }, 200);
     },
     catchNone: function catchNone() {
         //阻止冒泡

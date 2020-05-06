@@ -1,5 +1,6 @@
 {
     "usingComponents": {
+        "popup": "/components/popup/popup",
         "serverfail": "/components/serverFail/serverFail",
         "bottomFrame": "../../components/bottomFrame/bottomFrame",
         "topMenu": "../../components/topMenu/topMenu",

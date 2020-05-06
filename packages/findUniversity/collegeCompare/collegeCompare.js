@@ -8,8 +8,11 @@ Page({
         this.selectComponent("#navigationcustom").setNavigationAll("院校对比", true);
     },
     goSearch: function goSearch() {
+        // wx.navigateTo({
+        //   url: '/pages/search/search?cls=zhaodaxue&flag=1&majorsearch=true',
+        // })
         wx.navigateTo({
-            url: "/pages/search/search?cls=zhaodaxue&flag=1&majorsearch=true"
+            url: "/pages/globalSearch/globalSearch?mode=college&type=compare"
         });
     },
     onShow: function onShow() {

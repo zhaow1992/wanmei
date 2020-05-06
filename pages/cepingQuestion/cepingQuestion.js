@@ -1,5 +1,7 @@
 var api = require("../../utils/api.js");
 
+var sensors = require("../../utils/sensors.js");
+
 var app = getApp();
 
 var progressWidth = 0;
@@ -32,7 +34,7 @@ Page({
         userInfo: [],
         QuestionTestTime: null,
         results: [],
-        answerNumber: [ "A", "B", "C", "D", "E", "F", "G", "H" ]
+        answerNumber: [ "A", "B", "C", "D", "E", "F" ]
     },
     getSwiperH: function getSwiperH() {
         var that = this;
@@ -51,6 +53,11 @@ Page({
                 isShare: true
             });
         }
+        var data = {
+            SA_share_type: "360测评答题",
+            SA_share_content: "我正在测[" + that.data.cepingName + "]推荐你也来测一测吧！"
+        };
+        app.sensors.track("ShareClick", sensors.ShareClick(data));
         return {
             title: "我正在测[" + that.data.cepingName + "]推荐你也来测一测吧！",
             path: "/pages/cepingIndex/cepingIndex",
@@ -70,6 +77,7 @@ Page({
         }
     },
     onLoad: function onLoad(options) {
+        var _this = this;
         var that = this;
         wx.getSystemInfo({
             success: function success(res) {
@@ -109,6 +117,11 @@ Page({
                 that.getSwiperH();
             });
             wx.hideNavigationBarLoading();
+            var data = {
+                SA_eval_name: res.result.name,
+                SA_is_finished: _this.data.reportNum == 0 ? false : true
+            };
+            app.sensors.track("EvalStart", sensors.EvalStart(data));
         });
     },
     nextAnswersMain: function nextAnswersMain(e) {
@@ -211,13 +224,30 @@ Page({
             chooseChecked: true
         });
     },
+    onUnload: function onUnload() {
+        if (this.data.isFinish) return;
+        var data = {
+            SA_eval_name: this.data.questionList.name,
+            SA_num_finished: this.data.num - 1,
+            SA_quit_name: this.data.questionList.questions[this.data.num - 1].title
+        };
+        app.sensors.track("EvalQuit", sensors.EvalQuit(data));
+    },
     //插入测评记录
     insertReport: function insertReport() {
+        var _this2 = this;
         var that = this;
         api.saveResults("MiniProgram/Evaluation/Save", "POST", that.data.cepingType, that.data.userid, that.data.answers, that.data.answers1, that.data.results).then(function(res) {
-            try {
-                wx.setStorageSync("ReportId", res.result.id);
-            } catch (e) {}
+            var data = {
+                SA_eval_name: that.data.questionList.name,
+                SA_num_finished: _this2.data.num,
+                SA_sheets_code: res.result.id
+            };
+            app.sensors.track("EvalFinish", sensors.EvalFinish(data));
+            that.setData({
+                isFinish: true
+            });
+            wx.setStorageSync("ReportId", res.result.id);
             wx.redirectTo({
                 url: "../webPage/webPage?url=" + res.result.returnUrl + "&id=" + res.result.id
             });
